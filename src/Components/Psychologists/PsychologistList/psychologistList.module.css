@@ -8,10 +8,17 @@
 
 .listElem {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .dataFetch {
   display: flex;
   flex-direction: row;
+}
+
+.listElem li{
+  flex: 1;
+  margin: 0px 15px;
+  border-bottom: 5px solid black;
+  list-style-type: none;
 }
