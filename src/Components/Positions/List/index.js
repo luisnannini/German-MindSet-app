@@ -1,8 +1,9 @@
 import React from 'react';
+import styles from './list.module.css';
 
 const List = () => {
   return (
-    <ul>
+    <ul className={styles.list}>
       <li>ID</li>
       <li>Client</li>
       <li>Professional Profile</li>
