@@ -27,12 +27,10 @@ function Positions() {
       />
       <div>
         {positions.map((position) => {
-          const client = position.client;
-          console.log(client);
           return (
             <List
               key={position._id}
-              client={this.name}
+              client={'Client Name'}
               profiles={position.professionalProfiles}
               jobDescription={position.jobDescription}
               vacancy={position.vacancy}
