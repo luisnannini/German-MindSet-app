@@ -1,15 +1,17 @@
 import React from 'react';
 import styles from './list.module.css';
 
-const List = () => {
+const List = (props) => {
   return (
     <ul className={styles.list}>
-      <li>ID</li>
-      <li>Client</li>
-      <li>Professional Profile</li>
-      <li>jobDescription</li>
-      <li>Vacancy</li>
-      <li>Is Open</li>
+      <li>{props.id}</li>
+      <li>{props.client}</li>
+      <li>{props.profiles}</li>
+      <li>{props.jobDescription}</li>
+      <li>{props.vacancy}</li>
+      <li>{props.isOpen}</li>
+      <li>{props.update}</li>
+      <li>{props.delete}</li>
     </ul>
   );
 };
