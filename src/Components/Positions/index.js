@@ -25,6 +25,24 @@ function Positions() {
         update={''}
         delete={''}
       />
+      <div>
+        {positions.map((position) => {
+          const client = position.client;
+          console.log(client);
+          return (
+            <List
+              key={position._id}
+              client={this.name}
+              profiles={position.professionalProfiles}
+              jobDescription={position.jobDescription}
+              vacancy={position.vacancy}
+              isOpen={position.isOpen}
+              update={''}
+              delete={''}
+            />
+          );
+        })}
+      </div>
     </section>
   );
 }
