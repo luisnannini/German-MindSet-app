@@ -27,7 +27,6 @@ function Positions() {
         {positions.map((position) => {
           return (
             <List
-              key={position._id}
               client={position.client.name}
               profiles={position.professionalProfiles}
               jobDescription={position.jobDescription}

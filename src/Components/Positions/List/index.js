@@ -4,7 +4,6 @@ import styles from './list.module.css';
 const List = (props) => {
   return (
     <ul className={styles.list}>
-      <li>{props.id}</li>
       <li>{props.client}</li>
       <li>{props.profiles}</li>
       <li>{props.jobDescription}</li>
