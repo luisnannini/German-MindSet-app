@@ -4,7 +4,6 @@ import styles from './list.module.css';
 const List = (props) => {
   return (
     <ul className={styles.list}>
-      <li>{props.id}</li>
       <li>{props.name}</li>
       <li>{props.phone}</li>
       <li>{props.country}</li>
@@ -13,7 +12,8 @@ const List = (props) => {
       <li>{props.address}</li>
       <li>{props.logo}</li>
       <li>{props.description}</li>
-      <li>{props.timestamps}</li>
+      <li>{props.edit}</li>
+      <li>{props.remove}</li>
     </ul>
   );
 };
