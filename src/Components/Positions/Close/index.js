@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Close = () => {
-  return <button>Close</button>;
+const Close = ({ onClick }) => {
+  return <button onClick={onClick}>Close</button>;
 };
 
 export default Close;

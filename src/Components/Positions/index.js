@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 import styles from './positions.module.css';
 import List from './List';
 import CreateButton from './CreateButton';
-// import Modal from './Modal';
+import Form from './Form';
 
 function Positions() {
   const [positions, setPositions] = useState([]);
+  const [showForm, setShowForm] = useState(false);
+
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/positions`)
       .then((response) => response.json())
@@ -41,10 +43,10 @@ function Positions() {
             );
           })}
         </div>
-        {/* <Modal /> */}
+        {showForm && <Form />}
       </div>
       <div className={styles.button}>
-        <CreateButton />
+        <CreateButton onClick={() => setShowForm(true)} />
       </div>
     </section>
   );

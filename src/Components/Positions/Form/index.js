@@ -3,15 +3,15 @@ import Input from '../Input';
 import Select from '../Select';
 import Button from '../Button';
 import Close from '../Close';
-import styles from './modal.module.css';
+import styles from './form.module.css';
 
-const Modal = () => {
+const Form = ({ onClose }) => {
   return (
     <div className={styles.container}>
-      <div className={styles.modal}>
+      <div className={styles.form}>
         <div className={styles.header}>
           <h2>Title</h2>
-          <Close />
+          <Close onClick={onClose} />
         </div>
         <div className={styles.fields}>
           <Select />
@@ -28,4 +28,4 @@ const Modal = () => {
   );
 };
 
-export default Modal;
+export default Form;
