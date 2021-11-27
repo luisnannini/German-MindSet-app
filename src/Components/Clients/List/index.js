@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './list.module.css';
 
-const clientsList = (props) => {
+const List = (props) => {
   return (
-    <ul>
+    <ul className={styles.list}>
       <li>{props.id}</li>
       <li>{props.name}</li>
       <li>{props.phone}</li>
@@ -18,4 +18,4 @@ const clientsList = (props) => {
   );
 };
 
-export default clientsList;
+export default List;
