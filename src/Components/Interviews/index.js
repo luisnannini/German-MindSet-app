@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './interviews.module.css';
 import List from './List';
+import CreateForm from './CreateForm';
 
 function Interviews() {
   const [interviews, setInterviews] = useState([]);
@@ -32,17 +33,22 @@ function Interviews() {
       <div>
         {interviews.map((interview) => {
           return (
-            <List
-              key={interview._id}
-              postulant={interview.postulant}
-              client={interview.client}
-              // application={interview.application}
-              status={interview.status}
-              date={interview.date}
-              notes={interview.notes}
-            />
+            <div>
+              <List
+                key={interview._id}
+                postulant={interview.postulant}
+                client={interview.client}
+                // application={interview.application}
+                status={interview.status}
+                date={interview.date}
+                notes={interview.notes}
+              />
+            </div>
           );
         })}
+      </div>
+      <div>
+        <CreateForm />
       </div>
     </section>
   );
