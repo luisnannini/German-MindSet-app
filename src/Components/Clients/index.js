@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import styles from './clients.module.css';
 import List from './List';
+import EditButton from './EditButton';
+import RemoveButton from './RemoveButton';
 
 function Clients() {
   const [clients, setClients] = useState([]);
@@ -16,7 +18,6 @@ function Clients() {
     <section className={styles.container}>
       <h2>Clients</h2>
       <List
-        id={'ID'}
         name={'Name'}
         phone={'Cellphone'}
         country={'Country'}
@@ -25,14 +26,14 @@ function Clients() {
         address={'Address'}
         logo={'Logo'}
         description={'Description'}
-        timestamps={'Timestamps'}
+        edit={'Edit'}
+        remove={'Remove'}
       />
       <div>
         {clients.map((client) => {
           return (
             <List
               key={client._id}
-              id={client._id}
               name={client.name}
               phone={client.phone}
               country={client.location.country}
@@ -41,7 +42,8 @@ function Clients() {
               address={client.location.address}
               logo={client.logo}
               description={client.description}
-              timestamps={client.timestamps}
+              edit={<EditButton />}
+              remove={<RemoveButton />}
             />
           );
         })}
