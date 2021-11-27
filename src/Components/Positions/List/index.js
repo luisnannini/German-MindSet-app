@@ -12,7 +12,7 @@ const List = (props) => {
       <li>{props.vacancy}</li>
       <li>{props.isOpen}</li>
       <li>{<UpdateButton />}</li>
-      <li>{<DeleteButton />}</li>
+      <li>{<DeleteButton onClick={props.onDelete} />}</li>
     </ul>
   );
 };
