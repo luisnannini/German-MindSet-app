@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+}
+
+.label {
+  color: #232F3E;
+}
+
+.input{
+  height: 3em;
+  width: 24em;
+}
