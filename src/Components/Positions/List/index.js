@@ -1,5 +1,7 @@
 import React from 'react';
 import styles from './list.module.css';
+import UpdateButton from '../UpdateButton';
+import DeleteButton from '../DeleteButton';
 
 const List = (props) => {
   return (
@@ -9,8 +11,8 @@ const List = (props) => {
       <li>{props.jobDescription}</li>
       <li>{props.vacancy}</li>
       <li>{props.isOpen}</li>
-      <li>{props.update}</li>
-      <li>{props.delete}</li>
+      <li>{<UpdateButton />}</li>
+      <li>{<DeleteButton />}</li>
     </ul>
   );
 };

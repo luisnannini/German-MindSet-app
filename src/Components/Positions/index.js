@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import styles from './positions.module.css';
 import List from './List';
-import Modal from './Modal';
+// import Modal from './Modal';
 
 function Positions() {
   const [positions, setPositions] = useState([]);
@@ -39,7 +39,7 @@ function Positions() {
           );
         })}
       </div>
-      <Modal />
+      {/* <Modal /> */}
     </section>
   );
 }
