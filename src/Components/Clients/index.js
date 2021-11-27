@@ -3,6 +3,7 @@ import styles from './clients.module.css';
 import List from './List';
 import EditButton from './EditButton';
 import RemoveButton from './RemoveButton';
+import AddButton from './AddButton';
 
 function Clients() {
   const [clients, setClients] = useState([]);
@@ -11,7 +12,6 @@ function Clients() {
       .then((response) => response.json())
       .then((response) => {
         setClients(response.data);
-        console.log(response.data);
       });
   }, []);
   return (
@@ -47,6 +47,9 @@ function Clients() {
             />
           );
         })}
+      </div>
+      <div className={styles.add}>
+        <AddButton />
       </div>
     </section>
   );
