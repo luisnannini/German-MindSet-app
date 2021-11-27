@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './interviews.module.css';
 import List from './List';
-import CreateForm from './CreateForm';
+import CreateButton from './CreateButton';
 
 function Interviews() {
   const [interviews, setInterviews] = useState([]);
@@ -48,7 +48,7 @@ function Interviews() {
         })}
       </div>
       <div>
-        <CreateForm />
+        <CreateButton />
       </div>
     </section>
   );
