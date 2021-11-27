@@ -2,10 +2,10 @@
   display: flex;
   margin: 0;
   padding: 0;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   list-style: none;
-  height: 2em;
+  height: 3em;
   border-bottom: 0.1em solid #707070;
   color: #232F3E;
   /* color: #FC6225; */
@@ -16,7 +16,8 @@
   margin: 0;
   padding: 0;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
 }
+
 
 
