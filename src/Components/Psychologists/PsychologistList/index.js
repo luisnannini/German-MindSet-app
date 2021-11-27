@@ -24,7 +24,9 @@ const PsyList = (props) => {
         <PsyElem data={psyListElem.address} />
       </li>
       <li>
-        <a href="/">edit</a>
+        <a href="/psychologists/form" key={psyListElem._id}>
+          edit
+        </a>
       </li>
       <li>
         <a href="/">delete</a>
