@@ -11,17 +11,15 @@ function Positions() {
         setPositions(response.data);
       });
   }, []);
-
   return (
     <section className={styles.container}>
       <h2>Positions</h2>
       <List
-        id={'ID'}
         client={'Client'}
         profiles={'Professional Profiles'}
         jobDescription={'Job Description'}
         vacancy={'Vacancy'}
-        isOpen={'isOpen'}
+        isOpen={'Is Open'}
         update={''}
         delete={''}
       />
@@ -30,11 +28,11 @@ function Positions() {
           return (
             <List
               key={position._id}
-              client={'Client Name'}
+              client={position.client.name}
               profiles={position.professionalProfiles}
               jobDescription={position.jobDescription}
               vacancy={position.vacancy}
-              isOpen={position.isOpen}
+              isOpen={position.isOpen ? 'Yes' : 'No'}
               update={''}
               delete={''}
             />
