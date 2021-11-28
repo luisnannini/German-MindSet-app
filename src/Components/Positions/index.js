@@ -31,6 +31,10 @@ function Positions() {
       .catch((error) => error);
   };
 
+  const closeForm = () => {
+    setShowForm(false);
+  };
+
   return (
     <section>
       <div className={styles.list}>
@@ -58,7 +62,7 @@ function Positions() {
             );
           })}
         </div>
-        {showForm && <Form />}
+        {showForm && <Form closeForm={closeForm} />}
       </div>
       <div className={styles.button}>
         <CreateButton onClick={() => setShowForm(true)} />
