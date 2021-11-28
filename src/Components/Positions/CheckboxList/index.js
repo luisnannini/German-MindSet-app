@@ -8,7 +8,14 @@ const CheckboxList = (props) => {
       {props.object.map((data) => {
         return (
           <div className={styles.checkboxContainer}>
-            <input key={data._id} type={'checkbox'} value={data._id}></input>
+            <input
+              key={data._id}
+              type={'checkbox'}
+              value={data._id}
+              onChange={props.onChange}
+              defaultValue={''}
+              defaultChecked={false}
+            ></input>
             <span>{data.name}</span>
           </div>
         );

@@ -12,7 +12,7 @@ const Form = (props) => {
   const [clients, setClients] = useState([]);
   const [profiles, setProfiles] = useState([]);
   const [clientValue, setClientValue] = useState('');
-  const [profilesValue, setProfilesValue] = useState([]);
+  let [profilesValue, setProfilesValue] = useState([]);
   const [jobDescriptionValue, setJobDescriptionValue] = useState('');
   const [vacancyValue, setVacancyValue] = useState('');
   const [isOpenValue, setIsOpenValue] = useState(false);
@@ -35,7 +35,14 @@ const Form = (props) => {
   };
 
   const onChangeProfilesValue = (event) => {
-    setProfilesValue(event.target.value);
+    const profile = event.target.value;
+    if (event.target.checked) {
+      if (!profilesValue.includes(profile)) profilesValue.push(profile);
+    }
+    if (!event.target.checked) {
+      profilesValue = profilesValue.filter((fil) => fil !== profile);
+    }
+    setProfilesValue(profilesValue);
   };
 
   const onChangeJobDescriptionValue = (event) => {
@@ -47,7 +54,7 @@ const Form = (props) => {
   };
 
   const onChangeIsOpenValue = (event) => {
-    setIsOpenValue(event.target.value);
+    setIsOpenValue(event.target.checked);
   };
 
   return (
