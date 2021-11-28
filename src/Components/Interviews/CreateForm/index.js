@@ -30,7 +30,7 @@ const CreateForm = (props) => {
       </div>
       <div className={styles.buttons}>
         <button className={styles.cancel} onClick={props.closeCreateForm}>
-          Cancel
+          Cancel interview
         </button>
         <button className={styles.confirm} onClick={props.confirmCreateForm}>
           Confirm
