@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.containerDiv {
+  display: flex;
+  flex-direction: row;
+}
+
+.container label, .container input {
+  padding: 10px;
+  font-size: 10px;
+}
+
+.container label {
+  width: 50px;
+  text-align: right;
+}
+
+.container input {
+  height: 5px;
+}
