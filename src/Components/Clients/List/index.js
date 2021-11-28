@@ -1,5 +1,7 @@
 import React from 'react';
 import styles from './list.module.css';
+import EditButton from '../EditButton';
+import RemoveButton from '../RemoveButton';
 
 const List = (props) => {
   return (
@@ -12,8 +14,8 @@ const List = (props) => {
       <li>{props.address}</li>
       <li>{props.logo}</li>
       <li>{props.description}</li>
-      <li>{props.edit}</li>
-      <li>{props.remove}</li>
+      <li>{<EditButton />}</li>
+      <li>{<RemoveButton onClick={props.onRemove} />}</li>
     </ul>
   );
 };

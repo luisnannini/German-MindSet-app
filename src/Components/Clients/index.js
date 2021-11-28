@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import styles from './clients.module.css';
 import List from './List';
-import EditButton from './EditButton';
-import RemoveButton from './RemoveButton';
 import AddButton from './AddButton';
 import Form from './Form';
 
 function Clients() {
   const [clients, setClients] = useState([]);
+  const [openForm, setOpenForm] = useState(false);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/clients`)
@@ -16,6 +15,21 @@ function Clients() {
         setClients(response.data);
       });
   }, []);
+
+  const removeClient = async (id) => {
+    await fetch(`${process.env.REACT_APP_API}/positions/${id}`, {
+      method: 'DELETE'
+    })
+      .then((response) => {
+        if (response.status !== 204) {
+          return response.json().then(({ message }) => {
+            throw new Error(message);
+          });
+        }
+        return response.json(`Id: ${id}`);
+      })
+      .catch((error) => error);
+  };
 
   return (
     <section className={styles.container}>
@@ -45,14 +59,15 @@ function Clients() {
               address={client.location.address}
               logo={client.logo}
               description={client.description}
-              edit={<EditButton />}
-              remove={<RemoveButton />}
+              edit={''}
+              onRemove={() => removeClient(client._id)}
             />
           );
         })}
       </div>
       <div className={styles.add}>
-        <AddButton onClick />
+        <AddButton onClick={() => setOpenForm(!openForm)} />
+        {openForm ? <Form openForm={openForm} setOpenForm={setOpenForm} /> : null}
       </div>
     </section>
   );
