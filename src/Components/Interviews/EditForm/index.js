@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './editform.module.css';
-import Inputs from '../Inputs';
+import Input from '../Inputs';
 
 const EditForm = (props) => {
   if (!props.show) {
@@ -10,7 +10,15 @@ const EditForm = (props) => {
     <div className={styles.form}>
       <h2>Edit</h2>
       <div>
-        <Inputs />
+        <h3>Postulant</h3>
+        <label>First Name</label>
+        <Input
+        // name="firstName"
+        // value={firstNameValue}
+        // placeholder="First Name"
+        // onChange={onChangeFirstName}
+        // required
+        />
       </div>
       <div className={styles.buttons}>
         <button className={styles.cancel} onClick={props.closeEditForm}>
