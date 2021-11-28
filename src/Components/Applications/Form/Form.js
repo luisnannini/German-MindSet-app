@@ -1,12 +1,32 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 const Form = (props) => {
   if (props.show == false) {
     return null;
   }
+  const [position, setPosition] = useState([]);
+  const [postulant, setPostulant] = useState([]);
+  const [interview, setInterview] = useState([]);
   const [positionValue, setPositionValue] = useState('');
   const [postulantValue, setPostulantValue] = useState('');
   const [interviewValue, setInterviewValue] = useState('');
   const [resultValue, setResultValue] = useState('');
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_API}/positions`)
+      .then((response) => response.json())
+      .then((response) => {
+        setPosition(response.data);
+      });
+    fetch(`${process.env.REACT_APP_API}/postulants`)
+      .then((response) => response.json())
+      .then((response) => {
+        setPostulant(response.data);
+      });
+    fetch(`${process.env.REACT_APP_API}/interviews`)
+      .then((response) => response.json())
+      .then((response) => {
+        setInterview(response.data);
+      });
+  }, []);
   const onChangePosition = (input) => {
     setPositionValue(input.target.value);
   };
@@ -54,45 +74,45 @@ const Form = (props) => {
   return (
     <form onSubmit={onSubmit}>
       <div>
-        <label>ID Position:</label>
-        <input
-          className="input"
-          value={positionValue}
-          onChange={onChangePosition}
-          placeholder="ID Position"
-          pattern="[a-zA-Z0-9]{24}"
-          title="ID must be 24 number/letters"
-          required
-        ></input>
+        <label>Position:</label>
+        <select onChange={onChangePosition}>
+          {position.map((data) => {
+            return (
+              <option key={data._id} value={data._id}>
+                {data.jobDescription}
+              </option>
+            );
+          })}
+        </select>
       </div>
       <div>
-        <label>ID Postulant:</label>
-        <input
-          className="input"
-          value={postulantValue}
-          onChange={onChangePostulant}
-          placeholder="ID Postulant"
-          pattern="[a-zA-Z0-9]{24}"
-          title="ID must be 24 number/letters"
-          required
-        ></input>
+        <label>Postulant:</label>
+        <select onChange={onChangePostulant}>
+          {postulant.map((data) => {
+            return (
+              <option key={data._id} value={data._id}>
+                {data.firstName + ' ' + data.lastName}
+              </option>
+            );
+          })}
+        </select>
       </div>
       <div>
         <label>ID Interview:</label>
-        <input
-          className="input"
-          value={interviewValue}
-          onChange={onChangeInterview}
-          placeholder="ID Interview"
-          pattern="[a-zA-Z0-9]{24}"
-          title="ID must be 24 number/letters"
-          required
-        ></input>
+        <select onChange={onChangeInterview}>
+          {interview.map((data) => {
+            return (
+              <option key={data._id} value={data._id}>
+                {data._id}
+              </option>
+            );
+          })}
+        </select>
       </div>
       <div>
         <label>Result:</label>
         <input
-          className="input"
+          class_id="input"
           value={resultValue}
           onChange={onChangeResult}
           placeholder="Result"
