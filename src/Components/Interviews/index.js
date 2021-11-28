@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import styles from './interviews.module.css';
 import List from './List';
 import CreateButton from './CreateButton';
+import CreateForm from './CreateForm';
 
 function Interviews() {
   const [interviews, setInterviews] = useState([]);
+  const [showCreateForm, setShowCreateForm] = useState(false);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/interviews`)
@@ -14,9 +16,22 @@ function Interviews() {
       });
   }, []);
 
+  const closeCreateForm = () => {
+    setShowCreateForm(false);
+  };
+
+  const confirmCreateForm = () => {
+    console.log('confirm');
+  };
+
   return (
     <section className={styles.container}>
-      <h2>Interviews</h2>
+      <CreateForm
+        show={showCreateForm}
+        closeCreateForm={closeCreateForm}
+        confirmCreateForm={confirmCreateForm}
+      />
+      <h1>Interviews</h1>
       <ul className={styles.list1}>
         <li>Postulant</li>
         <li>Client</li>
@@ -48,7 +63,7 @@ function Interviews() {
         })}
       </div>
       <div>
-        <CreateButton />
+        <CreateButton onClick={() => setShowCreateForm(true)} />
       </div>
     </section>
   );
