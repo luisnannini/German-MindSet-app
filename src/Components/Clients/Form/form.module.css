@@ -1,17 +1,4 @@
-.container {
-    flex: 1;
+.form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    margin: 50px 50px;
-  }
-
-  .hiddenError {
-      display: none;
-  }
-
-  input {
-      display: flex;
-      border-radius: 2px;
-      width: 50%;
-  }
+}
