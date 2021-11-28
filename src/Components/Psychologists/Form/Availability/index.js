@@ -1,3 +1,5 @@
+import styles from './availability.module.css';
+
 const availability = (props) => {
   const days = {
     monday: {
@@ -43,7 +45,6 @@ const availability = (props) => {
     avail = props.data;
   }
   const monday = avail.monday;
-  console.log(monday);
   const tuesday = avail.tuesday;
   const wednesday = avail.wednesday;
   const thursday = avail.thursday;
@@ -53,11 +54,13 @@ const availability = (props) => {
 
   return (
     <section>
+      <h2 className={styles.container}>Availability</h2>
       <div>
         <p>Monday</p>
         <input
           id="monday-availability"
           name="monday-availability"
+          day="monday"
           type="checkbox"
           defaultChecked={monday.availability}
           required
@@ -87,6 +90,7 @@ const availability = (props) => {
           id="tuesday-availability"
           name="tuesday-availability"
           type="checkbox"
+          day="tuesday"
           defaultChecked={tuesday.availability}
           required
         />
@@ -113,6 +117,7 @@ const availability = (props) => {
         <p>Wednesday</p>
         <input
           id="wednesday-availability"
+          day="wednesday"
           name="wednesday-availability"
           type="checkbox"
           defaultChecked={wednesday.availability}
@@ -142,6 +147,7 @@ const availability = (props) => {
         <input
           id="thursday-availability"
           name="thursday-availability"
+          day="thursday"
           type="checkbox"
           defaultChecked={thursday.availability}
           required
@@ -170,6 +176,7 @@ const availability = (props) => {
         <input
           id="friday-availability"
           name="friday-availability"
+          day="friday"
           type="checkbox"
           defaultChecked={friday.availability}
           required
@@ -198,6 +205,7 @@ const availability = (props) => {
         <input
           id="saturday-availability"
           name="saturday-availability"
+          day="saturday"
           type="checkbox"
           defaultChecked={saturday.availability}
           required
@@ -226,6 +234,7 @@ const availability = (props) => {
         <input
           id="sunday-availability"
           name="sunday-availability"
+          day="sunday"
           type="checkbox"
           defaultChecked={sunday.availability}
           required

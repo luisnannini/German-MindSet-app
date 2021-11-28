@@ -10,3 +10,29 @@
     visibility: hidden;
     color:red;
 }
+
+.form {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #ffffff;
+  margin: 15% auto;
+  border: 0.1em solid #888888;
+  width: 70%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  height: 5em;
+  background-color: #232f3e;
+  padding-bottom: 1em;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  margin-top: 3em;
+}
