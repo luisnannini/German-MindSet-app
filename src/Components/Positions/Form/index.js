@@ -11,6 +11,11 @@ import Checkbox from '../Checkbox';
 const Form = (props) => {
   const [clients, setClients] = useState([]);
   const [profiles, setProfiles] = useState([]);
+  const [clientValue, setClientValue] = useState('');
+  const [profilesValue, setProfilesValue] = useState([]);
+  const [jobDescriptionValue, setJobDescriptionValue] = useState('');
+  const [vacancyValue, setVacancyValue] = useState('');
+  const [isOpenValue, setIsOpenValue] = useState(false);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/clients`)
@@ -24,6 +29,27 @@ const Form = (props) => {
         setProfiles(response.data);
       });
   }, []);
+
+  const onChangeClientValue = (event) => {
+    setClientValue(event.target.value);
+  };
+
+  const onChangeProfilesValue = (event) => {
+    setProfilesValue(event.target.value);
+  };
+
+  const onChangeJobDescriptionValue = (event) => {
+    setJobDescriptionValue(event.target.value);
+  };
+
+  const onChangeVacancyValue = (event) => {
+    setVacancyValue(event.target.value);
+  };
+
+  const onChangeIsOpenValue = (event) => {
+    setIsOpenValue(event.target.value);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.form}>
@@ -33,13 +59,13 @@ const Form = (props) => {
         </div>
         <div className={styles.fields}>
           <div className={styles.columns}>
-            <Select object={clients} label={'Clients'} />
-            <Input label={'Job Description'} />
-            <Input label={'Vacancy'} />
-            <Checkbox label={'Is Open?'} type={'checkbox'} />
+            <Select object={clients} label={'Clients'} onChange={onChangeClientValue} />
+            <Input label={'Job Description'} onChange={onChangeJobDescriptionValue} />
+            <Input label={'Vacancy'} onChange={onChangeVacancyValue} />
+            <Checkbox label={'Is Open?'} type={'checkbox'} onChange={onChangeIsOpenValue} />
           </div>
           <div className={styles.columns}>
-            <CheckboxList object={profiles} label={'Profiles'} />
+            <CheckboxList object={profiles} label={'Profiles'} onChange={onChangeProfilesValue} />
           </div>
         </div>
         <div className={styles.button}>
