@@ -1,28 +1,13 @@
 import React from 'react';
 import styles from './editbutton.module.css';
 import edit from './edit.png';
-import EditForm from '../EditForm';
 
-const EditButton = () => {
-  const showForm = () => {
-    console.log('form');
-  };
-
+const EditButton = ({ onClick }) => {
   return (
-    <div>
-      <button className={styles.button}>
-        <img
-          src={edit}
-          alt="Edit"
-          onClick={() => {
-            showForm();
-          }}
-        />
-      </button>
-    </div>
+    <button className={styles.button}>
+      <img src={edit} alt="Edit" onClick={onClick} />
+    </button>
   );
 };
-
-<EditForm />;
 
 export default EditButton;
