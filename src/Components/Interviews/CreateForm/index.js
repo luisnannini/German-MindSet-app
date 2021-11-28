@@ -10,11 +10,41 @@ const CreateForm = (props) => {
   const [dateValue, setDateValue] = useState('');
   const [notesValue, setNotesValue] = useState('');
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        firstName: firstNameValue,
+        lastName: lastNameValue,
+        name: nameValue,
+        status: statusValue,
+        date: dateValue,
+        notes: notesValue
+      })
+    };
+
+    const url = `${process.env.REACT_APP_API}/interviews/`;
+
+    fetch(url, options).then((response) => {
+      if (response.status !== 200 && response.status !== 201) {
+        return response.json().then(({ message }) => {
+          throw new Error(message);
+        });
+      }
+      return response.json();
+    });
+  };
+
   if (!props.show) {
     return null;
   }
   return (
-    <div className={styles.form}>
+    <form className={styles.form} onSubmit={onSubmit}>
       <h2>Create Interview</h2>
       <h3>Postulant</h3>
       <div className={styles.formDiv}>
@@ -71,7 +101,6 @@ const CreateForm = (props) => {
           onChange={(e) => {
             setDateValue(e.target.value);
           }}
-          required
         />
         <label>Notes</label>
         <Input
@@ -87,11 +116,11 @@ const CreateForm = (props) => {
         <button className={styles.cancel} onClick={props.closeCreateForm}>
           Cancel
         </button>
-        <button className={styles.confirm} onClick={props.confirmCreateForm}>
+        <button type="submit" className={styles.confirm}>
           Confirm
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 
