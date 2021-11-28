@@ -4,6 +4,7 @@
   flex-direction: column;
   width: 500px;
   height: 150px;
+  top: 30%;
   background-color: #fff;
   z-index: 1;
 }

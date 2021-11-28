@@ -45,11 +45,13 @@ const List = (props) => {
         <li>{props.status}</li>
         <li>{props.date}</li>
         <li>{props.notes}</li>
+        <li className={styles.buttons}>
+          <EditButton onClick={() => setShowEditForm(true)} />
+        </li>
+        <li className={styles.buttons}>
+          <RemoveButton onClick={() => setShowRemoveModal(true)} />
+        </li>
       </ul>
-      <div className={styles.buttons}>
-        <EditButton onClick={() => setShowEditForm(true)} />
-        <RemoveButton onClick={() => setShowRemoveModal(true)} />
-      </div>
     </div>
   );
 };
