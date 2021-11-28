@@ -1,14 +1,12 @@
 import React from 'react';
 import styles from './createbutton.module.css';
-import CreateForm from '../CreateForm';
 import create from './create.png';
 
-const CreateButton = (props) => {
+const CreateButton = ({ onClick }) => {
   return (
-    <div>
-      <img className={styles.createButton} src={create}></img>
-      <CreateForm />
-    </div>
+    <button className={styles.createButton}>
+      <img src={create} onClick={onClick}></img>
+    </button>
   );
 };
 
