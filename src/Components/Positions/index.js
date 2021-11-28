@@ -16,6 +16,23 @@ function Positions() {
       });
   }, []);
 
+  const createPosition = async (positions) => {
+    await fetch(`${process.env.REACT_APP_API}/positions`, {
+      method: 'POST',
+      body: JSON.stringify(positions),
+      header: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+        if (response.status !== 200) return new Error(JSON.stringify(response.json()));
+        return response.status(200).json();
+      })
+      .catch((error) => {
+        return error;
+      });
+  };
+
   const deletePosition = async (id) => {
     await fetch(`${process.env.REACT_APP_API}/positions/${id}`, {
       method: 'DELETE'
@@ -62,7 +79,7 @@ function Positions() {
             );
           })}
         </div>
-        {showForm && <Form closeForm={closeForm} />}
+        {showForm && <Form closeForm={closeForm} createPosition={createPosition} />}
       </div>
       <div className={styles.button}>
         <CreateButton onClick={() => setShowForm(true)} />

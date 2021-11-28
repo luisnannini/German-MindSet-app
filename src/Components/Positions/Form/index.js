@@ -57,6 +57,14 @@ const Form = (props) => {
     setIsOpenValue(event.target.checked);
   };
 
+  const positions = {
+    client: clientValue,
+    jobDescription: jobDescriptionValue,
+    vacancy: vacancyValue,
+    professionalProfiles: profilesValue,
+    isOpen: isOpenValue
+  };
+  console.log(positions);
   return (
     <div className={styles.container}>
       <div className={styles.form}>
@@ -76,7 +84,7 @@ const Form = (props) => {
           </div>
         </div>
         <div className={styles.button}>
-          <Button />
+          <Button onClick={() => props.createPosition(positions)} label={'Create'} />
         </div>
       </div>
     </div>
