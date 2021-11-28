@@ -5,11 +5,11 @@ const CheckboxList = (props) => {
   return (
     <div className={styles.container}>
       <label>{props.label}</label>
-      {props.object.map((date) => {
+      {props.object.map((data) => {
         return (
           <div className={styles.checkboxContainer}>
-            <input key={date._id} type={'checkbox'} value={date._id}></input>
-            <span>{date.name}</span>
+            <input key={data._id} type={'checkbox'} value={data._id}></input>
+            <span>{data.name}</span>
           </div>
         );
       })}
