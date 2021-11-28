@@ -4,9 +4,11 @@ import List from './List';
 import EditButton from './EditButton';
 import RemoveButton from './RemoveButton';
 import AddButton from './AddButton';
+import Form from './Form';
 
 function Clients() {
   const [clients, setClients] = useState([]);
+
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/clients`)
       .then((response) => response.json())
@@ -14,6 +16,7 @@ function Clients() {
         setClients(response.data);
       });
   }, []);
+
   return (
     <section className={styles.container}>
       <h2>Clients</h2>
@@ -26,8 +29,8 @@ function Clients() {
         address={'Address'}
         logo={'Logo'}
         description={'Description'}
-        edit={'Edit'}
-        remove={'Remove'}
+        edit={''}
+        remove={''}
       />
       <div>
         {clients.map((client) => {
@@ -49,7 +52,7 @@ function Clients() {
         })}
       </div>
       <div className={styles.add}>
-        <AddButton />
+        <AddButton onClick />
       </div>
     </section>
   );
