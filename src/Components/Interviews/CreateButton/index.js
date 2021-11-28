@@ -5,7 +5,7 @@ import create from './create.png';
 const CreateButton = ({ onClick }) => {
   return (
     <button className={styles.createButton}>
-      <img src={create} onClick={onClick}></img>
+      <img src={create} alt="Create" onClick={onClick} />
     </button>
   );
 };
