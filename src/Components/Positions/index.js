@@ -3,6 +3,7 @@ import styles from './positions.module.css';
 import List from './List';
 import CreateButton from './CreateButton';
 import Form from './Form';
+import Modal from './Modal';
 
 function Positions() {
   const [positions, setPositions] = useState([]);
@@ -16,10 +17,10 @@ function Positions() {
       });
   }, []);
 
-  const createPosition = async (positions) => {
+  const createPosition = async (data) => {
     await fetch(`${process.env.REACT_APP_API}/positions`, {
       method: 'POST',
-      body: JSON.stringify(positions),
+      body: JSON.stringify(data),
       header: {
         'Content-Type': 'application/json'
       }
@@ -80,6 +81,7 @@ function Positions() {
           })}
         </div>
         {showForm && <Form closeForm={closeForm} createPosition={createPosition} />}
+        <Modal />
       </div>
       <div className={styles.button}>
         <CreateButton onClick={() => setShowForm(true)} />
