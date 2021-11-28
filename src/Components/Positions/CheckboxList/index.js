@@ -1,15 +1,15 @@
 import React from 'react';
 import styles from './checkboxList.module.css';
 
-const CheckboxList = ({ object, label }) => {
+const CheckboxList = (props) => {
   return (
     <div className={styles.container}>
-      <label>{label}</label>
-      {object.map((profile) => {
+      <label>{props.label}</label>
+      {props.object.map((date) => {
         return (
           <div className={styles.checkboxContainer}>
-            <input key={profile._id} type={'checkbox'} value={profile._id}></input>
-            <span>{profile.name}</span>
+            <input key={date._id} type={'checkbox'} value={date._id}></input>
+            <span>{date.name}</span>
           </div>
         );
       })}

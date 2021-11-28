@@ -7,7 +7,7 @@ import Close from '../Close';
 import styles from './form.module.css';
 import CheckboxList from '../CheckboxList';
 
-const Form = ({ closeForm }) => {
+const Form = (props) => {
   const [clients, setClients] = useState([]);
   const [profiles, setProfiles] = useState([]);
 
@@ -28,7 +28,7 @@ const Form = ({ closeForm }) => {
       <div className={styles.form}>
         <div className={styles.header}>
           <h2>Title</h2>
-          <Close onClick={closeForm} />
+          <Close onClick={props.closeForm} />
         </div>
         <div className={styles.fields}>
           <Select object={clients} label={'Clients'} />

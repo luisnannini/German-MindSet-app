@@ -14,13 +14,14 @@
   ;
 }
 
-h2 {
+.list h2 {
   margin: 1em 0em 2em 1em;
   font-size: 2em;
+  color: #232F3E;
 }
 
 .button {
- display: flex;
- justify-content:flex-end;
- margin: 5em 5em;
+  display: flex;
+  justify-content:flex-end;
+  margin: 5em 5em;
 }
