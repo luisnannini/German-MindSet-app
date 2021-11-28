@@ -24,13 +24,21 @@
   color: #232F3E;
 }
 
-.form label, .form input {
+.form label {
   padding: 10px;
   font-size: 10px;
+  width: 50px;
+  text-align: right;
 }
 
 .form input {
-  height: 5px;
+  height: 20px;
+  font-size: 10px;
+}
+
+.formDiv {
+  display: flex;
+  flex-direction: row;
 }
 
 .divform {
