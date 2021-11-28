@@ -2,10 +2,17 @@ import { useEffect, useState } from 'react';
 import styles from './psychologists.module.css';
 import PsyList from './PsychologistList';
 import Button from './Button';
+import Modal from './PsychologistList/PsychologistOptions/Modal';
 const field = 'Psychologists';
 
 function Psychologists() {
   const [psychologists, savePsychologists] = useState([]);
+
+  const [modal, changeModal] = useState(false);
+
+  const modalOpen = () => {
+    changeModal(!modal);
+  };
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/psychologists`)
@@ -25,7 +32,8 @@ function Psychologists() {
           return <PsyList name={psy} key={psy._id} />;
         })}
       </div>
-      <Button name={'ADD'} />
+      <Button action={modalOpen} name={'ADD'} />
+      <Modal visible={modal} condition={'add'} />
     </section>
   );
 }
