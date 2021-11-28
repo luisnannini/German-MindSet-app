@@ -20,17 +20,9 @@ function Interviews() {
     setShowCreateForm(false);
   };
 
-  const confirmCreateForm = () => {
-    console.log('confirm');
-  };
-
   return (
     <section className={styles.container}>
-      <CreateForm
-        show={showCreateForm}
-        closeCreateForm={closeCreateForm}
-        confirmCreateForm={confirmCreateForm}
-      />
+      <CreateForm show={showCreateForm} closeCreateForm={closeCreateForm} />
       <h1>Interviews</h1>
       <ul className={styles.list1}>
         <li>Postulant</li>
@@ -50,6 +42,7 @@ function Interviews() {
           return (
             <div>
               <List
+                href={`/interviews/form?id=${interview.id}`}
                 key={interview._id}
                 postulant={interview.postulant}
                 client={interview.client}
