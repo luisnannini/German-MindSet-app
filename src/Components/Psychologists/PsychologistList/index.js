@@ -1,5 +1,6 @@
 import PsyElem from './PsychologistElem';
 import styles from './psychologistList.module.css';
+import Options from './PsychologistOptions';
 
 const PsyList = (props) => {
   const psyListElem = props.name;
@@ -23,14 +24,7 @@ const PsyList = (props) => {
       <li>
         <PsyElem data={psyListElem.address} />
       </li>
-      <li>
-        <a href="/psychologists/form" key={psyListElem._id}>
-          edit
-        </a>
-      </li>
-      <li>
-        <a href="/">delete</a>
-      </li>
+      <Options key={psyListElem} data={psyListElem} />
     </ul>
   );
 };

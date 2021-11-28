@@ -1,7 +1,63 @@
 import styles from './form.module.css';
+import Button from '../Button';
 import Availability from './Availability';
 
-const index = () => {
+const index = (props) => {
+  const data = {
+    _id: 'jorge',
+    firstName: '',
+    lastName: '',
+    username: '',
+    password: '',
+    email: '',
+    phone: '',
+    address: '',
+    availability: {
+      monday: {
+        availability: false,
+        from: '',
+        to: ''
+      },
+      tuesday: {
+        availability: false,
+        from: '',
+        to: ''
+      },
+      wednesday: {
+        availability: false,
+        from: '',
+        to: ''
+      },
+      thursday: {
+        availability: false,
+        from: '',
+        to: ''
+      },
+      friday: {
+        availability: false,
+        from: '',
+        to: ''
+      },
+      saturday: {
+        availability: false,
+        from: '',
+        to: ''
+      },
+      sunday: {
+        availability: false,
+        from: '',
+        to: ''
+      }
+    }
+  };
+  let psy = {};
+
+  if (!props.data) {
+    psy = data;
+  } else {
+    psy = props.data;
+  }
+  console.log(props);
   return (
     <div className={styles.container}>
       <h2>Form</h2>
@@ -11,10 +67,10 @@ const index = () => {
             id="firstName"
             name="firstName"
             placeholder="Psychologist First Name"
+            value={psy.firstName}
             type="text"
             required
             pattern="[A-Za-z ]*"
-            title="Enter a valid first name"
           />
         </div>
         <span className={styles.hiddenError}>Invalid First Name</span>
@@ -23,10 +79,10 @@ const index = () => {
             id="lastName"
             name="lastName"
             placeholder="Psychologist Last Name"
+            value={psy.lastName}
             type="text"
             required
             pattern="[A-Za-z ]*"
-            title="Enter a valid last name"
           />
         </div>
         <span className={styles.hiddenError}>Invalid Last Name</span>
@@ -35,10 +91,10 @@ const index = () => {
             id="username"
             name="username"
             placeholder="Psychologist Username"
+            value={psy.username}
             type="text"
             required
             pattern="[A-Za-z ]*"
-            title="Enter a valid username, only letters"
           />
         </div>
         <span className={styles.hiddenError}>Invalid Username</span>
@@ -46,6 +102,7 @@ const index = () => {
           <input
             id="password"
             name="password"
+            value={psy.password}
             placeholder="Psychologist Password"
             type="text"
             required
@@ -57,10 +114,10 @@ const index = () => {
             id="email"
             name="email"
             placeholder="Psychologist Email"
+            value={psy.email}
             type="text"
             required
             pattern="^[^@]+@[^@]+\.[a-zA-Z]{2,}$"
-            title="Enter a valid email format"
           />
         </div>
         <span className={styles.hiddenError}>Invalid E-Mail</span>
@@ -69,10 +126,10 @@ const index = () => {
             id="phone"
             name="phone"
             placeholder="Psychologist Phone"
+            value={psy.phone}
             type="phone"
             required
             pattern="^[0-9,$]"
-            title="Enter a valid phone number"
           />
         </div>
         <span className={styles.hiddenError}>Invalid Phone Number</span>
@@ -80,6 +137,7 @@ const index = () => {
           <input
             id="address"
             name="address"
+            value={psy.address}
             placeholder="Psychologist Address"
             type="text"
             required
@@ -87,7 +145,8 @@ const index = () => {
         </div>
         <span className={styles.hiddenError}>Invalid Address</span>
         <h2 className={styles.container}>Availability</h2>
-        <Availability />
+        <Availability data={psy.availability} />
+        <Button name={'CONFIRM'} />
       </form>
     </div>
   );

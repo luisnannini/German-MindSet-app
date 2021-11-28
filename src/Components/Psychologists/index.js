@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './psychologists.module.css';
 import PsyList from './PsychologistList';
+import Button from './Button';
 const field = 'Psychologists';
 
 function Psychologists() {
@@ -21,10 +22,10 @@ function Psychologists() {
       </div>
       <div>
         {psychologists.map((psy) => {
-          console.log(psy);
           return <PsyList name={psy} key={psy._id} />;
         })}
       </div>
+      <Button name={'ADD'} />
     </section>
   );
 }
