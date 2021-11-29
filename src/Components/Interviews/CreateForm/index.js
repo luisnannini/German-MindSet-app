@@ -1,14 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './createform.module.css';
 import Input from '../Inputs';
+import SelectPostulant from '../SelectPostulant';
+import SelectClient from '../SelectClient';
 
 const CreateForm = (props) => {
-  const [firstNameValue, setFirstNameValue] = useState('');
-  const [lastNameValue, setLastNameValue] = useState('');
-  const [nameValue, setNameValue] = useState('');
+  const [postulants, setPostulants] = useState([]);
+  const [postulantValue, setPostulantValue] = useState('');
+  const [clients, setClients] = useState([]);
+  const [clientValue, setClientValue] = useState('');
   const [statusValue, setStatusValue] = useState('');
   const [dateValue, setDateValue] = useState('');
   const [notesValue, setNotesValue] = useState('');
+
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_API}/clients`)
+      .then((response) => response.json())
+      .then((response) => {
+        setClients(response.data);
+      });
+    fetch(`${process.env.REACT_APP_API}/postulants`)
+      .then((response) => response.json())
+      .then((response) => {
+        setPostulants(response.data);
+      });
+  }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -19,9 +35,8 @@ const CreateForm = (props) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        firstName: firstNameValue,
-        lastName: lastNameValue,
-        name: nameValue,
+        postulant: postulantValue,
+        client: clientValue,
         status: statusValue,
         date: dateValue,
         notes: notesValue
@@ -40,6 +55,16 @@ const CreateForm = (props) => {
     });
   };
 
+  const onChangeClientValue = (event) => {
+    console.log(clientValue);
+    setClientValue(event.target.value);
+  };
+
+  const onChangePostulantValue = (event) => {
+    console.log(postulantValue);
+    setPostulantValue(event.target.value);
+  };
+
   if (!props.show) {
     return null;
   }
@@ -48,39 +73,11 @@ const CreateForm = (props) => {
       <h2>Create Interview</h2>
       <h3>Postulant</h3>
       <div className={styles.formDiv}>
-        <label>First Name</label>
-        <Input
-          name="firstName"
-          value={firstNameValue}
-          placeholder="First Name"
-          onChange={(e) => {
-            setFirstNameValue(e.target.value);
-          }}
-          required
-        />
-        <label>Last Name</label>
-        <Input
-          name="lastName"
-          value={lastNameValue}
-          placeholder="Last Name"
-          onChange={(e) => {
-            setLastNameValue(e.target.value);
-          }}
-          required
-        />
+        <SelectPostulant object={postulants} onChange={onChangePostulantValue} />
       </div>
       <h3>Client</h3>
       <div className={styles.formDiv}>
-        <label>Name</label>
-        <Input
-          name="name"
-          value={nameValue}
-          placeholder="Name"
-          onChange={(e) => {
-            setNameValue(e.target.value);
-          }}
-          required
-        />
+        <SelectClient object={clients} onChange={onChangeClientValue} />
         <label>Status</label>
         <Input
           name="status"
