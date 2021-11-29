@@ -5,7 +5,12 @@ const Checkbox = (props) => {
   return (
     <div className={styles.container}>
       <label className={styles.label}>{props.label}</label>
-      <input type={'checkbox'} className={styles.checkbox} onChange={props.onChange}></input>
+      <input
+        type={'checkbox'}
+        className={styles.checkbox}
+        onChange={props.onChange}
+        checked={props.value}
+      ></input>
     </div>
   );
 };

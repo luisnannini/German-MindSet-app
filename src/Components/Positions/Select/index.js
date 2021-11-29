@@ -5,8 +5,8 @@ const Select = (props) => {
   return (
     <div className={styles.container}>
       <label className={styles.label}>{props.label}</label>
-      <select className={styles.select} onChange={props.onChange}>
-        <option value="" selected disabled hidden>
+      <select value={props.value} className={styles.select} onChange={props.onChange}>
+        <option value="" disabled hidden>
           {props.placeholder}
         </option>
         {props.object.map((data) => {

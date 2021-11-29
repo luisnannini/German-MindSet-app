@@ -29,11 +29,14 @@ const Form = (props) => {
           return response.json();
         })
         .then((response) => {
-          setClientValue(response.data[0].client);
-          setProfilesValue(response.data[0].professionalProfiles);
+          setClientValue(response.data[0].client._id);
+          setProfilesValue(response.data[0].professionalProfiles._id);
+          // eslint-disable-next-line no-undef
+          console.log(response.data[0].professionalProfiles._id);
           setJobDescriptionValue(response.data[0].jobDescription);
           setVacancyValue(response.data[0].vacancy);
           setIsOpenValue(response.data[0].isOpen);
+          console.log(response.data[0].isOpen);
         })
         .catch((error) => {
           error;
@@ -149,10 +152,12 @@ const Form = (props) => {
             <Select
               object={profiles}
               label={'Profiles'}
+              value={profilesValue}
               onChange={onChangeProfilesValue}
               placeholder={'Select a Profile'}
             />
             <Input
+              className={styles.input}
               label={'Vacancy'}
               value={vacancyValue}
               onChange={onChangeVacancyValue}
