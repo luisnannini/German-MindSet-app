@@ -65,14 +65,21 @@ const Form = () => {
     };
     const url = `${process.env.REACT_APP_API}/clients/`;
 
-    fetch(url, options).then((response) => {
-      if (response.status !== 200 && response.status !== 201) {
-        return response.json().then(({ message }) => {
-          throw new Error(message);
-        });
-      }
-      return response.json();
-    });
+    fetch(url, options)
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201) {
+          return response.json().then(({ message }) => {
+            throw new Error(message);
+          });
+        }
+        return response.json();
+      })
+      .then(() => {
+        window.location.href = `${window.location.origin}/clients`;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
