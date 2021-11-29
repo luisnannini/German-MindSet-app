@@ -6,6 +6,7 @@ import ListHeader from './ListHeader';
 import CreateButton from './CreateButton';
 import ConfirmModal from './ConfirmModal';
 import CreateModal from './CreateModal';
+import UpdateModal from './UpdateModal';
 
 function Sessions() {
   const [Sessions, setSessions] = useState([]);
@@ -14,6 +15,10 @@ function Sessions() {
     session: {}
   });
   const [ShowCreateModal, setShowCreateModal] = useState(false);
+  const [ShowUpdateModal, setShowUpdateModal] = useState({
+    show: false,
+    id: ''
+  });
 
   useEffect(() => {
     getSessions();
@@ -51,6 +56,22 @@ function Sessions() {
     setShowCreateModal(false);
   }
 
+  function updateSession(updatedSession) {
+    fetch(`${process.env.REACT_APP_API}/sessions/${updatedSession.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(updatedSession)
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response.data);
+        getSessions();
+      });
+    setShowUpdateModal({ show: false });
+  }
+
   return (
     <div className={styles.container}>
       {ShowConfirmModal.show && (
@@ -61,6 +82,13 @@ function Sessions() {
       )}
       {ShowCreateModal && (
         <CreateModal onCancel={() => setShowCreateModal(false)} onCreate={createSession} />
+      )}
+      {ShowUpdateModal.show && (
+        <UpdateModal
+          onCancel={() => setShowUpdateModal(false)}
+          onUpdate={updateSession}
+          session={ShowUpdateModal.session}
+        />
       )}
       <section>
         <Header />
