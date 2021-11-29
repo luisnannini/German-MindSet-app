@@ -2,46 +2,36 @@ import './postulants-Items.module.css';
 
 import Item from './Item';
 
-function Items({ postulants }) {
-  const propertiesIterator = (element) => {
-    for (let elementKey in element) {
-      if (typeof elementKey === 'object') {
-        return <Item type="object" postulantKey={element[elementKey]} rowType="body" />;
-      }
-      return (
-        <Item
-          postulantKey={element[elementKey]}
-          key={elementKey}
-          tableType="head"
-          dataType="notObject"
-        />
-      );
-    }
-  };
-  /* {
-    elemento1: {
-      subElemento1:123
-      subElement2:234
-    }
-    elemento2: 123123
-  } */
+function Items({ postulants, onDelete, openForm, setModal }) {
+  //toda la fila es el tr
   return (
-    <table>
-      <thead>
-        <tr>
-          {postulants[0]
-            ? Object.keys(postulants[0]).map((postulantKey) => {
-                return <Item dataType="notObject" rowType="head" postulantKey={postulantKey} />;
-              })
-            : ''}
-        </tr>
-      </thead>
-      <tbody>
-        {postulants.map((postulant) => {
-          return <tr>{propertiesIterator(postulant)}</tr>;
-        })}
-      </tbody>
-    </table>
+    <>
+      <table>
+        <thead>
+          <tr>
+            {postulants[0]
+              ? Object.keys(postulants[0]).map((postulantKey) => {
+                  return <th>{postulantKey}</th>;
+                })
+              : ''}
+          </tr>
+        </thead>
+        <tbody>
+          {postulants.map((postulant) => {
+            // postulant es un tr (fila)
+            return (
+              <Item
+                postulant={postulant}
+                key={postulant._id}
+                onDelete={onDelete}
+                setModal={setModal}
+                openForm={openForm}
+              />
+            );
+          })}
+        </tbody>
+      </table>
+    </>
   );
 }
 
