@@ -3,16 +3,14 @@ import { useState, useEffect } from 'react';
 import Input from '../Input';
 import Select from '../Select';
 import Button from '../Button';
-import Close from '../Close';
 import styles from './form.module.css';
-import CheckboxList from '../CheckboxList';
 import Checkbox from '../Checkbox';
 
 const Form = (props) => {
   const [clients, setClients] = useState([]);
   const [profiles, setProfiles] = useState([]);
   const [clientValue, setClientValue] = useState('');
-  let [profilesValue, setProfilesValue] = useState([]);
+  const [profilesValue, setProfilesValue] = useState('');
   const [jobDescriptionValue, setJobDescriptionValue] = useState('');
   const [vacancyValue, setVacancyValue] = useState('');
   const [isOpenValue, setIsOpenValue] = useState(false);
@@ -60,14 +58,7 @@ const Form = (props) => {
   };
 
   const onChangeProfilesValue = (event) => {
-    const profile = event.target.value;
-    if (event.target.checked) {
-      if (!profilesValue.includes(profile)) profilesValue.push(profile);
-    }
-    if (!event.target.checked) {
-      profilesValue = profilesValue.filter((fil) => fil !== profile);
-    }
-    setProfilesValue(profilesValue);
+    setProfilesValue(event.target.value);
   };
 
   const onChangeJobDescriptionValue = (event) => {
@@ -139,19 +130,13 @@ const Form = (props) => {
               label={'Clients'}
               value={clientValue}
               onChange={onChangeClientValue}
+              placeholder={'Select a Client'}
             />
             <Input
               label={'Job Description'}
               value={jobDescriptionValue}
               onChange={onChangeJobDescriptionValue}
               placeholder={'Write a job description'}
-            />
-            <Input
-              label={'Vacancy'}
-              value={vacancyValue}
-              onChange={onChangeVacancyValue}
-              placeholder={'Set the number of vacancies'}
-              type={'number'}
             />
             <Checkbox
               label={'Is Open?'}
@@ -161,7 +146,19 @@ const Form = (props) => {
             />
           </div>
           <div className={styles.columns}>
-            <CheckboxList object={profiles} label={'Profiles'} onChange={onChangeProfilesValue} />
+            <Select
+              object={profiles}
+              label={'Profiles'}
+              onChange={onChangeProfilesValue}
+              placeholder={'Select a Profile'}
+            />
+            <Input
+              label={'Vacancy'}
+              value={vacancyValue}
+              onChange={onChangeVacancyValue}
+              placeholder={'Set the number of vacancies'}
+              type={'number'}
+            />
           </div>
         </div>
         <div className={styles.button}>

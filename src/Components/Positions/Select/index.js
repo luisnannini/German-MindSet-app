@@ -7,7 +7,7 @@ const Select = (props) => {
       <label className={styles.label}>{props.label}</label>
       <select className={styles.select} onChange={props.onChange}>
         <option value="" selected disabled hidden>
-          Select a Client
+          {props.placeholder}
         </option>
         {props.object.map((data) => {
           return (

@@ -85,7 +85,7 @@ function Positions() {
           return (
             <ul key={position._id}>
               <li>{position.client.name}</li>
-              <li>{position.professionalProfiles}</li>
+              <li>{position.professionalProfiles.name}</li>
               <li>{position.jobDescription}</li>
               <li>{position.vacancy}</li>
               <li>{position.isOpen ? 'Yes' : 'No'}</li>
