@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 const Form = (props) => {
-  if (props.show == false) {
+  if (props.showForm == false) {
     return null;
   }
   const [position, setPosition] = useState([]);

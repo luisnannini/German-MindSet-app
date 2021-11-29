@@ -1,0 +1,21 @@
+table, th, td {
+  border:1px solid black;
+}
+.container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.img {
+  cursor: pointer;
+}

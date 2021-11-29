@@ -1,5 +1,6 @@
 import './Modal.css';
 import Form from '../Form/Form.js';
+import Remove from '../Remove/Remove.js';
 const Modal = (props) => {
   if (props.show == false) {
     return null;
@@ -14,6 +15,11 @@ const Modal = (props) => {
           </span>
         </div>
         <Form onClose={props.onClose} showForm={props.showForm} />
+        <Remove
+          showRemove={props.showRemove}
+          onClose={props.onClose}
+          removeConfirm={props.removeConfirm}
+        />
       </div>
     </div>
   );
