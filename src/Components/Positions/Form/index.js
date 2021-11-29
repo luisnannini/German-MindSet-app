@@ -57,17 +57,35 @@ const Form = (props) => {
     setIsOpenValue(event.target.checked);
   };
 
-  const positions = {
-    client: clientValue,
-    jobDescription: jobDescriptionValue,
-    vacancy: vacancyValue,
-    professionalProfiles: profilesValue,
-    isOpen: isOpenValue
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        client: clientValue,
+        jobDescription: jobDescriptionValue,
+        vacancy: vacancyValue,
+        professionalProfiles: profilesValue,
+        isOpen: isOpenValue
+      })
+    };
+    const url = `${process.env.REACT_APP_API}/positions/`;
+
+    fetch(url, options).then((response) => {
+      if (response.status !== 200 && response.status !== 201) {
+        return response.json().then(({ message }) => {
+          throw new Error(message);
+        });
+      }
+      return response.json();
+    });
   };
-  console.log(positions);
   return (
     <div className={styles.container}>
-      <div className={styles.form}>
+      <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.header}>
           <h2>Create a Position</h2>
           <Close onClick={props.closeForm} />
@@ -84,9 +102,9 @@ const Form = (props) => {
           </div>
         </div>
         <div className={styles.button}>
-          <Button onClick={() => props.createPosition(positions)} label={'Create'} />
+          <Button type={'submit'} label={'Create'} />
         </div>
-      </div>
+      </form>
     </div>
   );
 };
