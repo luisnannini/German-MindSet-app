@@ -1,7 +1,8 @@
 .container {
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 90%;
+  margin: 0 auto;
 }
 
 .form {
@@ -9,7 +10,7 @@
   flex-direction: column;
   justify-content: space-between;
   background-color: #FFFFFF;
-  margin: 15% auto;
+  margin: 5% auto;
   border: 0.1em solid #888888;
   width: 70%;
 }
@@ -37,14 +38,12 @@
   display: flex;
   justify-content: center;
   align-self: center;
+  margin-bottom: 1em;
 }
 
-.header h2 {
+.title {
   color: #FFFFFF;
-}
-
-button {
-  margin: 0.8em 0 3em 0
+  margin: 1.2em 0 0 1em;
 }
 
 select, input {

@@ -71,8 +71,8 @@ function Positions() {
         onConfirm={deletePosition}
       />
       <div className={styles.container}>
-        <h2>Positions</h2>
-        <ul className={styles.list}>
+        <h2 className={styles.title}>Positions</h2>
+        <ul className={styles.listHeader}>
           <li>Client</li>
           <li>Profiles</li>
           <li>Job Description</li>
@@ -83,7 +83,7 @@ function Positions() {
         </ul>
         {positions.map((position) => {
           return (
-            <ul className={styles.list} key={position._id}>
+            <ul key={position._id}>
               <li>{position.client.name}</li>
               <li>{position.professionalProfiles}</li>
               <li>{position.jobDescription}</li>

@@ -32,7 +32,7 @@ const Form = (props) => {
         })
         .then((response) => {
           setClientValue(response.data[0].client);
-          setProfilesValue(response.data[0].profiles);
+          setProfilesValue(response.data[0].professionalProfiles);
           setJobDescriptionValue(response.data[0].jobDescription);
           setVacancyValue(response.data[0].vacancy);
           setIsOpenValue(response.data[0].isOpen);
@@ -130,22 +130,42 @@ const Form = (props) => {
     <div className={styles.container}>
       <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.header}>
-          <h2>Create a Position</h2>
-          <Close onClick={props.onCancel} />
+          <h2 className={styles.title}>Create a Position</h2>
         </div>
         <div className={styles.fields}>
           <div className={styles.columns}>
-            <Select object={clients} label={'Clients'} onChange={onChangeClientValue} />
-            <Input label={'Job Description'} onChange={onChangeJobDescriptionValue} />
-            <Input label={'Vacancy'} onChange={onChangeVacancyValue} />
-            <Checkbox label={'Is Open?'} type={'checkbox'} onChange={onChangeIsOpenValue} />
+            <Select
+              object={clients}
+              label={'Clients'}
+              value={clientValue}
+              onChange={onChangeClientValue}
+            />
+            <Input
+              label={'Job Description'}
+              value={jobDescriptionValue}
+              onChange={onChangeJobDescriptionValue}
+              placeholder={'Write a job description'}
+            />
+            <Input
+              label={'Vacancy'}
+              value={vacancyValue}
+              onChange={onChangeVacancyValue}
+              placeholder={'Set the number of vacancies'}
+              type={'number'}
+            />
+            <Checkbox
+              label={'Is Open?'}
+              type={'checkbox'}
+              value={isOpenValue}
+              onChange={onChangeIsOpenValue}
+            />
           </div>
           <div className={styles.columns}>
             <CheckboxList object={profiles} label={'Profiles'} onChange={onChangeProfilesValue} />
           </div>
         </div>
         <div className={styles.button}>
-          <Button type={'submit'} label={'Create'} onClick={onSubmit} />
+          <Button type={'submit'} label={'Confirm'} onClick={onSubmit} />
         </div>
       </form>
     </div>

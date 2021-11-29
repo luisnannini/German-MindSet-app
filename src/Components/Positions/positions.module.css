@@ -14,7 +14,7 @@
   ;
 }
 
-.list h2 {
+.title {
   margin: 1em 0em 2em 1em;
   font-size: 2em;
   color: #232F3E;
@@ -26,7 +26,7 @@
   margin: 5em 5em;
 }
 
-.list {
+ul {
   display: flex;
   margin: 0;
   padding: 0;
@@ -36,13 +36,17 @@
   height: 3em;
   border-bottom: 0.1em solid #707070;
   color: #232F3E;
-  /* color: #FC6225; */
 }
 
-.list li {
+ul li {
   flex: 1;
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: space-around;
+}
+
+.listHeader {
+  color: #FC6225;
+  font-size: 1.2em;
 }
