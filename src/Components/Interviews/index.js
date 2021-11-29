@@ -32,7 +32,7 @@ function Interviews() {
         <li>First Name</li>
         <li>Last Name</li>
         <li>Name</li>
-        <li>Applications</li>
+        <li>ID</li>
         <li>Status</li>
         <li>Date</li>
         <li>Notes</li>
