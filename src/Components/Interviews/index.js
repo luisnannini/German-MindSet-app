@@ -32,6 +32,7 @@ function Interviews() {
         <li>First Name</li>
         <li>Last Name</li>
         <li>Name</li>
+        <li>Applications</li>
         <li>Status</li>
         <li>Date</li>
         <li>Notes</li>
@@ -46,7 +47,7 @@ function Interviews() {
                 key={interview._id}
                 postulant={interview.postulant}
                 client={interview.client}
-                // application={interview.application}
+                application={interview.application}
                 status={interview.status}
                 date={interview.date}
                 notes={interview.notes}
