@@ -74,14 +74,18 @@ const Form = (props) => {
     };
     const url = `${process.env.REACT_APP_API}/positions/`;
 
-    fetch(url, options).then((response) => {
-      if (response.status !== 200 && response.status !== 201) {
-        return response.json().then(({ message }) => {
-          throw new Error(message);
-        });
-      }
-      return response.json();
-    });
+    fetch(url, options)
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201) {
+          return response.json().then(({ message }) => {
+            throw new Error(message);
+          });
+        }
+        return response.json();
+      })
+      .then(() => {
+        window.location.href = '/positions';
+      });
   };
   return (
     <div className={styles.container}>

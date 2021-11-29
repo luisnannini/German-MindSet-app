@@ -4,13 +4,13 @@ import Close from '../Close';
 import Button from '../Button';
 import styles from './modal.module.css';
 
-const Form = (props) => {
+const Modal = (props) => {
   return (
     <div className={styles.container}>
       <div className={styles.modal}>
         <div className={styles.header}>
           <h3>Title</h3>
-          <Close onClick={props.closeForm} />
+          <Close onClick={props.closeModal} />
         </div>
         <div className={styles.message}>Are you sure you want to delete this position?</div>
         <div className={styles.button}>
@@ -21,4 +21,4 @@ const Form = (props) => {
   );
 };
 
-export default Form;
+export default Modal;

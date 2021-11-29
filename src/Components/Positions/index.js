@@ -9,6 +9,7 @@ import Modal from './Modal';
 function Positions() {
   const [positions, setPositions] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/positions`)
@@ -37,6 +38,10 @@ function Positions() {
     setShowForm(false);
   };
 
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <section>
       <div className={styles.list}>
@@ -60,13 +65,13 @@ function Positions() {
                 vacancy={position.vacancy}
                 isOpen={position.isOpen ? 'Yes' : 'No'}
                 update={''}
-                onDelete={() => deletePosition(position._id)}
+                onDelete={() => setShowModal(true)}
               />
             );
           })}
         </div>
         {showForm && <Form closeForm={closeForm} />}
-        {/* <Modal /> */}
+        {showModal && <Modal closeModal={closeModal} />}
       </div>
       <div className={styles.button}>
         <CreateButton onClick={() => setShowForm(true)} />
