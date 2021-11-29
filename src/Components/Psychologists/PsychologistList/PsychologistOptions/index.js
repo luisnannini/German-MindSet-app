@@ -31,33 +31,26 @@ const Options = (props) => {
       })
       .catch((error) => error);
   };
-  /*const deletePosition = async (id) => {
-    await fetch(`${process.env.REACT_APP_API}/positions/${id}`, {
-      method: 'DELETE'
-    })
-      .then((response) => {
-        if (response.status !== 204) {
-          return response.json().then(({ message }) => {
-            throw new Error(message);
-          });
-        }
-        return response.json(`Id: ${id}`);
-      })
-      .catch((error) => error);
-  };*/
 
   return (
     <>
       <li>
-        <Button action={modalOpen} name={'edit'} />
+        <Button action={modalOpen} name={'edit'} data={psy} />
       </li>
       <li>
-        <Button action={() => deletePsychologists(id)} name={'delete'} />
+        <Button action={modalOpenDel} name={'delete'} />
       </li>
       <Modal visible={modal} psy={props.data} />
-      <ModalOther visible={modalDel} psy={props.data} type={'delete'} />
+      <ModalOther
+        visible={modalDel}
+        psy={psy}
+        action={() => deletePsychologists(id)}
+        type={'delete'}
+      />
     </>
   );
 };
 
 export default Options;
+
+//

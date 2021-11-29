@@ -23,107 +23,6 @@ const index = (props) => {
     data.availability.sunday
   ]);*/
 
-  const modalOpenOther = () => {
-    console.log(!modalOther);
-    changeModalOther(!modalOther);
-  };
-
-  const onChangeFirstNameValue = (event) => {
-    console.log(event.target.value);
-    setFirstName(event.target.value);
-  };
-  const onChangeLastNameValue = (event) => {
-    setLastName(event.target.value);
-  };
-  const onChangeUsernameValue = (event) => {
-    setUsername(event.target.value);
-  };
-  const onChangePasswordValue = (event) => {
-    setPassword(event.target.value);
-  };
-  const onChangeEmailValue = (event) => {
-    setEmail(event.target.value);
-  };
-  const onChangePhoneValue = (event) => {
-    setPhone(event.target.value);
-  };
-  const onChangeAddressValue = (event) => {
-    setAddress(event.target.value);
-  }; /*
-  const onChangeSetAvailable = (event) => {
-    const checked = event.target.checked;
-    if (checked) {
-      available.map((day) => {
-        if(event.target.day ==)
-      })
-    }
-  };
-*/
-  const createPsychologist = (psy) => {
-    console.log(psy);
-    fetch(`${process.env.REACT_APP_API}/psychologists`, {
-      method: 'POST',
-      body: JSON.stringify(psy),
-      header: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then((response) => {
-        if (response.status !== 200) return new Error(JSON.stringify(response.json()));
-        return response.status(200).json();
-      })
-      .catch((error) => {
-        return error;
-      });
-  };
-
-  const psychologist = {
-    _id: '',
-    firstName: firstName,
-    lastName: lastName,
-    username: username,
-    password: password,
-    email: email,
-    phone: phone,
-    address: address,
-    availability: {
-      monday: {
-        availability: false,
-        from: '',
-        to: ''
-      },
-      tuesday: {
-        availability: false,
-        from: '',
-        to: ''
-      },
-      wednesday: {
-        availability: false,
-        from: '',
-        to: ''
-      },
-      thursday: {
-        availability: false,
-        from: '',
-        to: ''
-      },
-      friday: {
-        availability: false,
-        from: '',
-        to: ''
-      },
-      saturday: {
-        availability: false,
-        from: '',
-        to: ''
-      },
-      sunday: {
-        availability: false,
-        from: '',
-        to: ''
-      }
-    }
-  };
   const data = {
     _id: '',
     firstName: '',
@@ -171,6 +70,168 @@ const index = (props) => {
       }
     }
   };
+
+  const modalOpenOther = () => {
+    console.log(!modalOther);
+    changeModalOther(!modalOther);
+  };
+
+  const onChangeFirstNameValue = (event) => {
+    setFirstName(event.target.value);
+  };
+  const onChangeLastNameValue = (event) => {
+    setLastName(event.target.value);
+  };
+  const onChangeUsernameValue = (event) => {
+    setUsername(event.target.value);
+  };
+  const onChangePasswordValue = (event) => {
+    setPassword(event.target.value);
+  };
+  const onChangeEmailValue = (event) => {
+    setEmail(event.target.value);
+  };
+  const onChangePhoneValue = (event) => {
+    setPhone(event.target.value);
+  };
+  const onChangeAddressValue = (event) => {
+    setAddress(event.target.value);
+  }; /*
+  const onChangeSetAvailable = (event) => {
+    const checked = event.target.checked;
+    if (checked) {
+      available.map((day) => {
+        if(event.target.day ==)
+      })
+    }
+  };
+*/
+  const psychologistFetch = () => {
+    fetch(`${process.env.REACT_APP_API}/psychologists/${props._id}`).then((response) => {
+      setFirstName(response.firstName);
+      setLastName(response.lastName);
+      setUsername(response.username);
+      setPassword(response.password);
+      setEmail(response.email);
+      setPhone(response.phone);
+      setAddress(response.address);
+    });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const options = {
+      method: 'POST',
+      header: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        firstName: firstName,
+        lastName: lastName,
+        username: username,
+        password: password,
+        email: email,
+        phone: phone,
+        address: address,
+        availability: {
+          monday: {
+            availability: false,
+            from: '',
+            to: ''
+          },
+          tuesday: {
+            availability: false,
+            from: '',
+            to: ''
+          },
+          wednesday: {
+            availability: false,
+            from: '',
+            to: ''
+          },
+          thursday: {
+            availability: false,
+            from: '',
+            to: ''
+          },
+          friday: {
+            availability: false,
+            from: '',
+            to: ''
+          },
+          saturday: {
+            availability: false,
+            from: '',
+            to: ''
+          },
+          sunday: {
+            availability: false,
+            from: '',
+            to: ''
+          }
+        }
+      })
+    };
+
+    fetch(`${process.env.REACT_APP_API}/psychologists/`, options).then((response) => {
+      if (response.status !== 200 && response.status !== 201) {
+        return response.json().then(({ message }) => {
+          console.log(message);
+          throw new Error(message);
+        });
+      }
+      return response.json().then(() => {
+        window.location.href = `${window.location.origin}/psychologists/`;
+      });
+    });
+  };
+
+  const psychologist = {
+    firstName: firstName,
+    lastName: lastName,
+    username: username,
+    password: password,
+    email: email,
+    phone: phone,
+    address: address,
+    availability: {
+      monday: {
+        availability: false,
+        from: '',
+        to: ''
+      },
+      tuesday: {
+        availability: false,
+        from: '',
+        to: ''
+      },
+      wednesday: {
+        availability: false,
+        from: '',
+        to: ''
+      },
+      thursday: {
+        availability: false,
+        from: '',
+        to: ''
+      },
+      friday: {
+        availability: false,
+        from: '',
+        to: ''
+      },
+      saturday: {
+        availability: false,
+        from: '',
+        to: ''
+      },
+      sunday: {
+        availability: false,
+        from: '',
+        to: ''
+      }
+    }
+  };
   let psy = {};
 
   if (!props.data) {
@@ -178,19 +239,18 @@ const index = (props) => {
   } else {
     psy = props.data;
   }
+
   return (
     <div className={styles.container}>
       <h2 className={styles.header}>Form</h2>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={onSubmit}>
         <div>
           <h2>PERSONAL DATA</h2>
           <div className={styles.fields}>
             <input
-              id="firstName"
               name="firstName"
               placeholder="Psychologist First Name"
               onChange={onChangeFirstNameValue}
-              value={psy.firstName}
               type="text"
               required
               pattern="[A-Za-z ]*"
@@ -199,10 +259,8 @@ const index = (props) => {
           <span className={styles.hiddenError}>Invalid First Name</span>
           <div className={styles.fields}>
             <input
-              id="lastName"
               name="lastName"
               placeholder="Psychologist Last Name"
-              value={psy.lastName}
               onChange={onChangeLastNameValue}
               type="text"
               required
@@ -212,10 +270,8 @@ const index = (props) => {
           <span className={styles.hiddenError}>Invalid Last Name</span>
           <div className={styles.fields}>
             <input
-              id="username"
               name="username"
               placeholder="Psychologist Username"
-              value={psy.username}
               onChange={onChangeUsernameValue}
               type="text"
               required
@@ -225,23 +281,19 @@ const index = (props) => {
           <span className={styles.hiddenError}>Invalid Username</span>
           <div className={styles.fields}>
             <input
-              id="password"
               name="password"
-              value={psy.password}
               onChange={onChangePasswordValue}
               placeholder="Psychologist Password"
-              type="text"
+              type="password"
               required
             />
           </div>
           <span className={styles.hiddenError}>Invalid Password</span>
           <div className={styles.fields}>
             <input
-              id="email"
               name="email"
               placeholder="Psychologist Email"
               onChange={onChangeEmailValue}
-              value={psy.email}
               type="text"
               required
               pattern="^[^@]+@[^@]+\.[a-zA-Z]{2,}$"
@@ -250,22 +302,17 @@ const index = (props) => {
           <span className={styles.hiddenError}>Invalid E-Mail</span>
           <div className={styles.fields}>
             <input
-              id="phone"
               name="phone"
               placeholder="Psychologist Phone"
-              value={psy.phone}
               onChange={onChangePhoneValue}
               type="phone"
               required
-              pattern="^[0-9,$]"
             />
           </div>
           <span className={styles.hiddenError}>Invalid Phone Number</span>
           <div className={styles.fields}>
             <input
-              id="address"
               name="address"
-              value={psy.address}
               onChange={onChangeAddressValue}
               placeholder="Psychologist Address"
               type="text"
@@ -275,8 +322,8 @@ const index = (props) => {
           <span className={styles.hiddenError}>Invalid Address</span>
         </div>
         <Availability data={psy.availability} />
+        <button name={'CONFIRM'} type={'submit'} />
       </form>
-      <Button name={'CONFIRM'} action={() => createPsychologist(psychologist)} />
     </div>
   );
 };

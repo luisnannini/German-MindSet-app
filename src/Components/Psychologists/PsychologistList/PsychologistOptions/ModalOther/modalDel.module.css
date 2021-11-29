@@ -57,3 +57,10 @@ select,
 input {
   margin: 0.8em 0;
 }
+
+.redButton {
+  background-color: red;
+}
+.greenButton {
+  background-color: green;
+}
