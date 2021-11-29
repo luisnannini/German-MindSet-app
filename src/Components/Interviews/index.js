@@ -3,14 +3,12 @@ import styles from './interviews.module.css';
 import CreateButton from './CreateButton';
 import CreateForm from './CreateForm';
 import EditButton from './EditButton';
-import EditForm from './EditForm';
 import RemoveButton from './RemoveButton';
 import RemoveModal from './RemoveModal';
 
 function Interviews() {
   const [interviews, setInterviews] = useState([]);
   const [showCreateForm, setShowCreateForm] = useState(false);
-  const [showEditForm, setShowEditForm] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [selectedInterview, setSelectedInterview] = useState(undefined);
 
@@ -31,8 +29,12 @@ function Interviews() {
     setShowCreateForm(false);
   };
 
-  const closeEditForm = () => {
-    setShowEditForm(false);
+  const showForm = (interview) => {
+    if (interview) {
+      window.location.href = `interviews/form?id=${interview._id}`;
+    } else {
+      window.location.href = `interviews/`;
+    }
   };
 
   const closeRemoveModal = () => {
@@ -87,7 +89,7 @@ function Interviews() {
             <li>{interview.date}</li>
             <li>{interview.notes}</li>
             <li className={styles.buttons}>
-              <EditButton key={interview._id} onClick={() => setShowEditForm(true)} />
+              <EditButton onClick={() => showForm(interview)} />
             </li>
             <li className={styles.buttons}>
               <RemoveButton
@@ -97,7 +99,6 @@ function Interviews() {
                 }}
               />
             </li>
-            <EditForm show={showEditForm} closeEditForm={closeEditForm} />
             <RemoveModal
               show={showRemoveModal}
               confirmRemoveModal={confirmRemoveModal}
