@@ -41,7 +41,7 @@ const List = (props) => {
         <li>{props.postulant.firstName}</li>
         <li>{props.postulant.lastName}</li>
         <li>{props.client.name}</li>
-        {/* <li>{props.application.id}</li> */}
+        <li>{props.application._id}</li>
         <li>{props.status}</li>
         <li>{props.date}</li>
         <li>{props.notes}</li>
