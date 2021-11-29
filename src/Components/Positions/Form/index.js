@@ -55,8 +55,11 @@ const Form = (props) => {
     setIsOpenValue(event.target.checked);
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = (event) => {
+    event.preventDefault();
+    const params = new URLSearchParams(window.location.search);
+    const positionId = params.get('id');
+    let url;
     const options = {
       method: 'POST',
       headers: {
@@ -70,7 +73,14 @@ const Form = (props) => {
         isOpen: isOpenValue
       })
     };
-    const url = `${process.env.REACT_APP_API}/positions/`;
+
+    if (positionId) {
+      options.method = 'PUT';
+      url = `${process.env.REACT_APP_API}/positions/${positionId}`;
+    } else {
+      options.method = 'POST';
+      url = `${process.env.REACT_APP_API}/positions`;
+    }
 
     fetch(url, options)
       .then((response) => {
@@ -83,8 +93,12 @@ const Form = (props) => {
       })
       .then(() => {
         window.location.href = '/positions';
+      })
+      .catch((error) => {
+        error;
       });
   };
+
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={onSubmit}>
@@ -104,7 +118,7 @@ const Form = (props) => {
           </div>
         </div>
         <div className={styles.button}>
-          <Button type={'submit'} label={'Create'} />
+          <Button type={'submit'} label={'Create'} onClick={onSubmit} />
         </div>
       </form>
     </div>
