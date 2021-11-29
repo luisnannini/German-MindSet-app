@@ -85,15 +85,21 @@ const CreateForm = (props) => {
   return (
     <form className={styles.form} onSubmit={onSubmit}>
       <h2>Create Interview</h2>
-      <h3>Postulant</h3>
-      <div className={styles.formDiv}>
-        <SelectPostulant object={postulants} onChange={onChangePostulantValue} />
+      <div className={styles.formDiv1}>
+        <div className={styles.formDiv2}>
+          <h3>Postulant</h3>
+          <SelectPostulant object={postulants} onChange={onChangePostulantValue} />
+        </div>
+        <div className={styles.formDiv2}>
+          <h3>Client</h3>
+          <SelectClient object={clients} onChange={onChangeClientValue} />
+        </div>
+        <div className={styles.formDiv2}>
+          <h3>Application</h3>
+          <SelectApplication object={applications} onChange={onChangeApplicationValue} />
+        </div>
       </div>
-      <h3>Client</h3>
-      <div className={styles.formDiv}>
-        <SelectClient object={clients} onChange={onChangeClientValue} />
-        <h3>Applications</h3>
-        <SelectApplication object={applications} onChange={onChangeApplicationValue} />
+      <div className={styles.formDiv1}>
         <label>Status</label>
         <Input
           name="status"
@@ -104,8 +110,6 @@ const CreateForm = (props) => {
           }}
           required
         />
-      </div>
-      <div className={styles.formDiv}>
         <label>Date</label>
         <Input
           name="date"
@@ -115,6 +119,8 @@ const CreateForm = (props) => {
             setDateValue(e.target.value);
           }}
         />
+      </div>
+      <div className={styles.formDiv2}>
         <label>Notes</label>
         <Input
           name="notes"
