@@ -5,6 +5,9 @@ const SelectPostulant = (props) => {
   return (
     <div className={styles.container}>
       <select className={styles.select} onChange={props.onChange}>
+        <option value="0" selected="selected">
+          Postulant Name
+        </option>
         {props.object.map((data) => {
           return (
             <option key={data._id} value={data._id}>
