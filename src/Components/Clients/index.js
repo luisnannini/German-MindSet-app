@@ -2,12 +2,10 @@ import { useEffect, useState } from 'react';
 import styles from './clients.module.css';
 import List from './List';
 import AddButton from './AddButton';
-import Form from './Form';
 import Modal from './Modal';
 
 function Clients() {
   const [clients, setClients] = useState([]);
-  const [openForm, setOpenForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -17,6 +15,11 @@ function Clients() {
         setClients(response.data);
       });
   }, []);
+
+  const handleDelete = (event, client) => {
+    event.stopPropagation();
+    setShowModal(true);
+  };
 
   const showForm = (client) => {
     if (client) {

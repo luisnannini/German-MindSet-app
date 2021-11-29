@@ -108,6 +108,7 @@ const Form = () => {
             onChange={onChangePhoneInput}
             type="number"
             required
+            pattern="[0-9]"
             title="Enter a valid phone number"
           ></input>
         </div>
