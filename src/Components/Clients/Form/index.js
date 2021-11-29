@@ -131,10 +131,11 @@ function Form() {
     <section className={styles.container}>
       <form className={styles.form} onSubmit={onSubmit}>
         <h2>Clients Form</h2>
+        <label>Name</label>
         <Input
           name="name"
           value={nameValue}
-          placeholder="Client name"
+          placeholder="Insert Client name..."
           onChange={onChangeNameInput}
           type="text"
           required
@@ -142,10 +143,11 @@ function Form() {
           title="Enter a valid name"
           disable={isLoading}
         />
+        <label>Phone Number</label>
         <Input
           name="phone"
           value={phoneValue}
-          placeholder="Client phone"
+          placeholder="Insert Client phone..."
           onChange={onChangePhoneInput}
           type="number"
           required
@@ -153,10 +155,11 @@ function Form() {
           title="Enter a valid phone number"
           disable={isLoading}
         />
+        <label>Country</label>
         <Input
           name="country"
           value={countryValue}
-          placeholder="Client country"
+          placeholder="Insert Client country..."
           onChange={onChangeCountryInput}
           type="text"
           required
@@ -164,10 +167,11 @@ function Form() {
           title="Enter a valid country"
           disable={isLoading}
         />
+        <label>State</label>
         <Input
           name="state"
           value={stateValue}
-          placeholder="Client state"
+          placeholder="Insert Client state..."
           onChange={onChangeStateInput}
           type="text"
           pattern="[A-Za-z ]*"
@@ -175,10 +179,11 @@ function Form() {
           required
           disable={isLoading}
         />
+        <label>City</label>
         <Input
           name="city"
           value={cityValue}
-          placeholder="Client city"
+          placeholder="Insert Client city..."
           onChange={onChangeCityInput}
           type="text"
           required
@@ -186,28 +191,31 @@ function Form() {
           title="Enter a valid city"
           disable={isLoading}
         />
+        <label>Address</label>
         <Input
           name="address"
           value={addressValue}
-          placeholder="Client address"
+          placeholder="Insert Client address..."
           onChange={onChangeAddressInput}
           type="address"
           required
           title="Enter a valid address"
           disable={isLoading}
         />
+        <label>Logo</label>
         <Input
           name="logo"
           value={logoValue}
-          placeholder="Client logo"
+          placeholder="Insert Client logo..."
           onChange={onChangeLogoInput}
           type="text"
           disable={isLoading}
         />
+        <label>Description</label>
         <Input
           name="description"
           value={descriptionValue}
-          placeholder="Client description"
+          placeholder="Insert Client description..."
           onChange={onChangeDescriptionInput}
           type="text"
           disable={isLoading}

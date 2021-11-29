@@ -15,11 +15,19 @@
     padding: 20px 20px;
     background-color: #232F3E;
     color: #fff;
+    margin-top: 0;
   }
 
   .form Input {
     width: 40%;
     align-self: center;
+  }
+
+  .form label {
+    align-self: flex-start;
+    margin-left: 30%;
+    font-weight: bold;
+    font-size: 15px;
   }
 
   .button {
@@ -35,6 +43,10 @@
     font-weight: bold;
     border-radius: 4px;
     cursor: pointer;
+  }
+
+  .button:hover {
+    background-color: #232F3E;
   }
 
   .error {

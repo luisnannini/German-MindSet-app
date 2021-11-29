@@ -92,7 +92,7 @@ function Clients() {
             <th>Address</th>
             <th>Logo</th>
             <th>Description</th>
-            <th>Action</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>

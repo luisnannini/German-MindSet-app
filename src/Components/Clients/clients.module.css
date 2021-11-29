@@ -60,11 +60,11 @@
 }
 
 .delete {
-  border: 1px solid #FC6225;
+  border: 1px solid;
   width: 60px;
   height: 25px;
-  border-radius: 3px;
-  background-color: #232F3E;
-  color: #FC6225;
+  border-radius: 4px;
+  background-color: #FC6225;
+  color: #fff;
   cursor: pointer;
 }
