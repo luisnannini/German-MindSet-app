@@ -3,6 +3,7 @@ import Footer from '../Footer/index';
 import Admins from '../Admins/index';
 import Applications from '../Applications/index';
 import Clients from '../Clients/index';
+import Form from '../Clients/Form';
 import Interviews from '../Interviews/index';
 import Positions from '../Positions/index';
 import Postulants from '../Postulants/index';
@@ -11,7 +12,6 @@ import Psychologists from '../Psychologists/index';
 import Sessions from '../Sessions/index';
 import Home from '../Home/index';
 import styles from './layout.module.css';
-import Form from '../Clients/Form';
 
 function Layout() {
   let currentScreen = <Home />;

@@ -3,10 +3,12 @@ import styles from './clients.module.css';
 import List from './List';
 import AddButton from './AddButton';
 import Form from './Form';
+import Modal from './Modal';
 
 function Clients() {
   const [clients, setClients] = useState([]);
   const [openForm, setOpenForm] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/clients`)
@@ -15,6 +17,14 @@ function Clients() {
         setClients(response.data);
       });
   }, []);
+
+  const showForm = (client) => {
+    if (client) {
+      window.location.href = `clients/form?id=${client._id}`;
+    } else {
+      window.location.href = `clients/form`;
+    }
+  };
 
   const removeClient = (id) => {
     fetch(`${process.env.REACT_APP_API}/clients/${id}`, {
@@ -66,8 +76,7 @@ function Clients() {
         })}
       </div>
       <div className={styles.add}>
-        <AddButton onClick={() => setOpenForm(!openForm)} />
-        {openForm ? <Form openForm={openForm} setOpenForm={setOpenForm} /> : null}
+        <AddButton onClick={() => showForm()} />
       </div>
     </section>
   );
