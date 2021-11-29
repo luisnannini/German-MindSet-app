@@ -3,12 +3,15 @@ import styles from './createform.module.css';
 import Input from '../Inputs';
 import SelectPostulant from '../SelectPostulant';
 import SelectClient from '../SelectClient';
+import SelectApplication from '../SelectApplication';
 
 const CreateForm = (props) => {
-  const [postulants, setPostulants] = useState([]);
-  const [postulantValue, setPostulantValue] = useState('');
   const [clients, setClients] = useState([]);
   const [clientValue, setClientValue] = useState('');
+  const [postulants, setPostulants] = useState([]);
+  const [postulantValue, setPostulantValue] = useState('');
+  const [applications, setApplications] = useState([]);
+  const [applicationValue, setApplicationValue] = useState('');
   const [statusValue, setStatusValue] = useState('');
   const [dateValue, setDateValue] = useState('');
   const [notesValue, setNotesValue] = useState('');
@@ -24,6 +27,11 @@ const CreateForm = (props) => {
       .then((response) => {
         setPostulants(response.data);
       });
+    fetch(`${process.env.REACT_APP_API}/applications`)
+      .then((response) => response.json())
+      .then((response) => {
+        setApplications(response.data);
+      });
   }, []);
 
   const onSubmit = (e) => {
@@ -37,6 +45,7 @@ const CreateForm = (props) => {
       body: JSON.stringify({
         postulant: postulantValue,
         client: clientValue,
+        application: applicationValue,
         status: statusValue,
         date: dateValue,
         notes: notesValue
@@ -65,6 +74,11 @@ const CreateForm = (props) => {
     setPostulantValue(event.target.value);
   };
 
+  const onChangeApplicationValue = (event) => {
+    console.log(applicationValue);
+    setApplicationValue(event.target.value);
+  };
+
   if (!props.show) {
     return null;
   }
@@ -78,6 +92,8 @@ const CreateForm = (props) => {
       <h3>Client</h3>
       <div className={styles.formDiv}>
         <SelectClient object={clients} onChange={onChangeClientValue} />
+        <h3>Applications</h3>
+        <SelectApplication object={applications} onChange={onChangeApplicationValue} />
         <label>Status</label>
         <Input
           name="status"
@@ -94,7 +110,7 @@ const CreateForm = (props) => {
         <Input
           name="date"
           value={dateValue}
-          placeholder="Date"
+          placeholder="yyyy-mm-dd"
           onChange={(e) => {
             setDateValue(e.target.value);
           }}
