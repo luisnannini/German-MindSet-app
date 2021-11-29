@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Input from '../Input';
 import styles from './form.module.css';
 
-const Form = () => {
+function Form() {
   const [nameValue, setNameValue] = useState('');
   const [phoneValue, setPhoneValue] = useState('');
   const [countryValue, setCountryValue] = useState('');
@@ -10,6 +11,36 @@ const Form = () => {
   const [addressValue, setAddressValue] = useState('');
   const [logoValue, setLogoValue] = useState('');
   const [descriptionValue, setDescriptionValue] = useState('');
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const clientId = params.get('id');
+    if (clientId) {
+      fetch(`${process.env.REACT_APP_API}/clients?_id=${clientId}`)
+        .then((response) => {
+          if (response.status !== 200) {
+            return response.json().then(({ message }) => {
+              throw new Error(message);
+            });
+          }
+          return response.json();
+        })
+        .then((response) => {
+          setNameValue(response.data[0].name);
+          setPhoneValue(response.data[0].phone);
+          setCountryValue(response.data[0].location.country);
+          setStateValue(response.data[0].location.state);
+          setCityValue(response.data[0].location.city);
+          setAddressValue(response.data[0].location.address);
+          setLogoValue(response.data[0].logo);
+          setDescriptionValue(response.data[0].description);
+        })
+        .catch((error) => {
+          setError(error.toString());
+        });
+    }
+  });
 
   const onChangeNameInput = (event) => {
     setNameValue(event.target.value);
@@ -43,10 +74,13 @@ const Form = () => {
     setDescriptionValue(event.target.value);
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = (event) => {
+    event.preventDefault();
+    const params = new URLSearchParams(window.location.search);
+    const clientId = params.get('id');
+
+    let url;
     const options = {
-      method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -63,7 +97,14 @@ const Form = () => {
         description: descriptionValue
       })
     };
-    const url = `${process.env.REACT_APP_API}/clients/`;
+
+    if (clientId) {
+      options.method = 'PUT';
+      url = `${process.env.REACT_APP_API}/clients/${clientId}`;
+    } else {
+      options.method = 'POST';
+      url = `${process.env.REACT_APP_API}/clients`;
+    }
 
     fetch(url, options)
       .then((response) => {
@@ -75,122 +116,97 @@ const Form = () => {
         return response.json();
       })
       .then(() => {
-        window.location.href = `${window.location.origin}/clients`;
+        window.location.href = '/clients';
       })
       .catch((error) => {
-        console.log(error);
+        setError(error.toString());
       });
   };
 
   return (
-    <div className={styles.form}>
-      <h2>Clients Form</h2>
-      <form className={styles.formContainer} onSubmit={onSubmit}>
-        <div className={styles.group}>
-          <label>Name</label>
-          <input
-            name="name"
-            value={nameValue}
-            placeholder="Client name"
-            onChange={onChangeNameInput}
-            type="text"
-            required
-            pattern="[A-Za-z ]*"
-            title="Enter a valid name"
-          ></input>
-        </div>
-        <div className={styles.group}>
-          <label>Phone Number</label>
-          <input
-            name="phone"
-            value={phoneValue}
-            placeholder="Client phone"
-            onChange={onChangePhoneInput}
-            type="number"
-            required
-            pattern="[0-9]"
-            title="Enter a valid phone number"
-          ></input>
-        </div>
-        <div className={styles.group}>
-          <label>Country</label>
-          <input
-            name="country"
-            value={countryValue}
-            placeholder="Client country"
-            onChange={onChangeCountryInput}
-            type="text"
-            required
-            pattern="[A-Za-z ]*"
-            title="Enter a valid country"
-          ></input>
-        </div>
-        <div className={styles.group}>
-          <label>State</label>
-          <input
-            name="state"
-            value={stateValue}
-            placeholder="Client state"
-            onChange={onChangeStateInput}
-            type="text"
-            pattern="[A-Za-z ]*"
-            title="Enter a valid state"
-            required
-          ></input>
-        </div>
-        <div className={styles.group}>
-          <label>City</label>
-          <input
-            name="city"
-            value={cityValue}
-            placeholder="Client city"
-            onChange={onChangeCityInput}
-            type="text"
-            required
-            pattern="[A-Za-z ]*"
-            title="Enter a valid city"
-          ></input>
-        </div>
-        <div className={styles.group}>
-          <label>Address</label>
-          <input
-            name="address"
-            value={addressValue}
-            placeholder="Client address"
-            onChange={onChangeAddressInput}
-            type="address"
-            required
-            title="Enter a valid address"
-          ></input>
-        </div>
-        <div className={styles.group}>
-          <label>Logo</label>
-          <input
-            name="logo"
-            value={logoValue}
-            placeholder="Client logo"
-            onChange={onChangeLogoInput}
-            type="text"
-          ></input>
-        </div>
-        <div className={styles.group}>
-          <label>Description</label>
-          <input
-            name="description"
-            value={descriptionValue}
-            placeholder="Client description"
-            onChange={onChangeDescriptionInput}
-            type="text"
-          ></input>
-        </div>
-        <div className={styles.btn}>
-          <button type="submit" className={styles.submit}>
-            SAVE
-          </button>
-        </div>
+    <section className={styles.container}>
+      <form className={styles.form} onSubmit={onSubmit}>
+        <h2>Clients Form</h2>
+        <Input
+          name="name"
+          value={nameValue}
+          placeholder="Client name"
+          onChange={onChangeNameInput}
+          type="text"
+          required
+          pattern="[A-Za-z ]*"
+          title="Enter a valid name"
+        />
+        <Input
+          name="phone"
+          value={phoneValue}
+          placeholder="Client phone"
+          onChange={onChangePhoneInput}
+          type="number"
+          required
+          pattern="[0-9]"
+          title="Enter a valid phone number"
+        />
+        <Input
+          name="country"
+          value={countryValue}
+          placeholder="Client country"
+          onChange={onChangeCountryInput}
+          type="text"
+          required
+          pattern="[A-Za-z ]*"
+          title="Enter a valid country"
+        />
+        <Input
+          name="state"
+          value={stateValue}
+          placeholder="Client state"
+          onChange={onChangeStateInput}
+          type="text"
+          pattern="[A-Za-z ]*"
+          title="Enter a valid state"
+          required
+        />
+        <Input
+          name="city"
+          value={cityValue}
+          placeholder="Client city"
+          onChange={onChangeCityInput}
+          type="text"
+          required
+          pattern="[A-Za-z ]*"
+          title="Enter a valid city"
+        />
+        <Input
+          name="address"
+          value={addressValue}
+          placeholder="Client address"
+          onChange={onChangeAddressInput}
+          type="address"
+          required
+          title="Enter a valid address"
+        />
+        <Input
+          name="logo"
+          value={logoValue}
+          placeholder="Client logo"
+          onChange={onChangeLogoInput}
+          type="text"
+        />
+        <Input
+          name="description"
+          value={descriptionValue}
+          placeholder="Client description"
+          onChange={onChangeDescriptionInput}
+          type="text"
+        />
+        <button type="submit" className={styles.button}>
+          Save
+        </button>
+        <div className={styles.error}>{error}</div>
       </form>
-    </div>
+    </section>
   );
-};
+}
 
 export default Form;
