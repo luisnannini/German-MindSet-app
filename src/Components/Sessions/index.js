@@ -24,10 +24,22 @@ function Sessions() {
       });
   }
 
+  function deleteSession() {
+    setShowConfirmModal({ show: false });
+    fetch(`${process.env.REACT_APP_API}/sessions/${ShowConfirmModal.id}`, {
+      method: 'DELETE'
+    }).then(() => {
+      getSessions();
+    });
+  }
+
   return (
     <div className={styles.container}>
       {ShowConfirmModal.show && (
-        <ConfirmModal onClose={() => setShowConfirmModal({ show: false, id: '' })} />
+        <ConfirmModal
+          onClose={() => setShowConfirmModal({ show: false, id: '' })}
+          onDelete={deleteSession}
+        />
       )}
       <section>
         <Header />
