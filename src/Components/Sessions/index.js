@@ -109,6 +109,7 @@ function Sessions() {
                   status={session.status}
                   date={session.date}
                   onDelete={() => setShowConfirmModal({ show: true, id: session._id })}
+                  onEdit={() => setShowUpdateModal({ show: true, session: session })}
                 />
               );
             })}
