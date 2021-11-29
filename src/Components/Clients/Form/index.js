@@ -12,8 +12,10 @@ function Form() {
   const [logoValue, setLogoValue] = useState('');
   const [descriptionValue, setDescriptionValue] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const params = new URLSearchParams(window.location.search);
     const clientId = params.get('id');
     if (clientId) {
@@ -40,7 +42,7 @@ function Form() {
           setError(error.toString());
         });
     }
-  });
+  }, []);
 
   const onChangeNameInput = (event) => {
     setNameValue(event.target.value);
@@ -76,6 +78,7 @@ function Form() {
 
   const onSubmit = (event) => {
     event.preventDefault();
+    setLoading(true);
     const params = new URLSearchParams(window.location.search);
     const clientId = params.get('id');
 
@@ -120,7 +123,8 @@ function Form() {
       })
       .catch((error) => {
         setError(error.toString());
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -136,6 +140,7 @@ function Form() {
           required
           pattern="[A-Za-z ]*"
           title="Enter a valid name"
+          disable={isLoading}
         />
         <Input
           name="phone"
@@ -146,6 +151,7 @@ function Form() {
           required
           pattern="[0-9]"
           title="Enter a valid phone number"
+          disable={isLoading}
         />
         <Input
           name="country"
@@ -156,6 +162,7 @@ function Form() {
           required
           pattern="[A-Za-z ]*"
           title="Enter a valid country"
+          disable={isLoading}
         />
         <Input
           name="state"
@@ -166,6 +173,7 @@ function Form() {
           pattern="[A-Za-z ]*"
           title="Enter a valid state"
           required
+          disable={isLoading}
         />
         <Input
           name="city"
@@ -176,6 +184,7 @@ function Form() {
           required
           pattern="[A-Za-z ]*"
           title="Enter a valid city"
+          disable={isLoading}
         />
         <Input
           name="address"
@@ -185,6 +194,7 @@ function Form() {
           type="address"
           required
           title="Enter a valid address"
+          disable={isLoading}
         />
         <Input
           name="logo"
@@ -192,6 +202,7 @@ function Form() {
           placeholder="Client logo"
           onChange={onChangeLogoInput}
           type="text"
+          disable={isLoading}
         />
         <Input
           name="description"
@@ -199,8 +210,9 @@ function Form() {
           placeholder="Client description"
           onChange={onChangeDescriptionInput}
           type="text"
+          disable={isLoading}
         />
-        <button type="submit" className={styles.button}>
+        <button disable={isLoading} type="submit" className={styles.button}>
           Save
         </button>
         <div className={styles.error}>{error}</div>
