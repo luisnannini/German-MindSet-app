@@ -16,7 +16,7 @@ function Clients() {
       <h2>Clients</h2>
       <div>
         {clients.map((client) => {
-          return <div key={client._id}>{client.email}</div>;
+          return <div key={client._id}>{client.name}</div>;
         })}
       </div>
     </section>
