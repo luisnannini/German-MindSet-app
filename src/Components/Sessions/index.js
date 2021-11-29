@@ -3,9 +3,14 @@ import styles from './sessions.module.css';
 import Header from './Header';
 import Session from './Session';
 import ListHeader from './ListHeader';
+import ConfirmModal from './ConfirmModal';
 
 function Sessions() {
   const [Sessions, setSessions] = useState([]);
+  const [ShowConfirmModal, setShowConfirmModal] = useState({
+    show: false,
+    session: {}
+  });
 
   useEffect(() => {
     getSessions();
@@ -21,6 +26,9 @@ function Sessions() {
 
   return (
     <div className={styles.container}>
+      {ShowConfirmModal.show && (
+        <ConfirmModal onClose={() => setShowConfirmModal({ show: false, id: '' })} />
+      )}
       <section>
         <Header />
         <table>
@@ -39,6 +47,7 @@ function Sessions() {
                   }
                   status={session.status}
                   date={session.date}
+                  onDelete={() => setShowConfirmModal({ show: true, id: session._id })}
                 />
               );
             })}
