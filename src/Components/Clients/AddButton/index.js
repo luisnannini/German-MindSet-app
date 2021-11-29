@@ -3,9 +3,9 @@ import add from './add.png';
 
 const AddButton = ({ onClick }) => {
   return (
-    <a href="/clients/form">
+    <button>
       <img onClick={onClick} src={add}></img>
-    </a>
+    </button>
   );
 };
 

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import styles from './form.module.css';
-import Input from '../Input';
 
-const Form = (props) => {
+const Form = () => {
   const [nameValue, setNameValue] = useState('');
   const [phoneValue, setPhoneValue] = useState('');
   const [countryValue, setCountryValue] = useState('');
@@ -12,9 +11,40 @@ const Form = (props) => {
   const [logoValue, setLogoValue] = useState('');
   const [descriptionValue, setDescriptionValue] = useState('');
 
+  const onChangeNameInput = (event) => {
+    setNameValue(event.target.value);
+  };
+
+  const onChangePhoneInput = (event) => {
+    setPhoneValue(event.target.value);
+  };
+
+  const onChangeCountryInput = (event) => {
+    setCountryValue(event.target.value);
+  };
+
+  const onChangeStateInput = (event) => {
+    setStateValue(event.target.value);
+  };
+
+  const onChangeCityInput = (event) => {
+    setCityValue(event.target.value);
+  };
+
+  const onChangeAddressInput = (event) => {
+    setAddressValue(event.target.value);
+  };
+
+  const onChangeLogoInput = (event) => {
+    setLogoValue(event.target.value);
+  };
+
+  const onChangeDescriptionInput = (event) => {
+    setDescriptionValue(event.target.value);
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
-
     const options = {
       method: 'POST',
       headers: {
@@ -23,16 +53,17 @@ const Form = (props) => {
       body: JSON.stringify({
         name: nameValue,
         phone: phoneValue,
-        country: countryValue,
-        state: stateValue,
-        city: cityValue,
-        address: addressValue,
+        location: {
+          country: countryValue,
+          state: stateValue,
+          city: cityValue,
+          address: addressValue
+        },
         logo: logoValue,
         description: descriptionValue
       })
     };
-
-    const url = `${process.env.REACT_APP_API}/clients`;
+    const url = `${process.env.REACT_APP_API}/clients/`;
 
     fetch(url, options).then((response) => {
       if (response.status !== 200 && response.status !== 201) {
@@ -45,114 +76,112 @@ const Form = (props) => {
   };
 
   return (
-    <form className={styles.form} onSubmit={onSubmit}>
+    <div className={styles.form}>
       <h2>Clients Form</h2>
-      <div className={styles.formContainer}>
-        <label>Name</label>
-        <Input
-          name="name"
-          value={nameValue}
-          placeholder="Client name"
-          onChange={(e) => {
-            setNameValue(e.target.value);
-          }}
-          type="text"
-          required
-          pattern="[A-Za-z ]*"
-          title="Enter a valid name"
-        />
-        <label>Phone Number</label>
-        <Input
-          name="phone"
-          value={phoneValue}
-          placeholder="Client phone"
-          onChange={(e) => {
-            setPhoneValue(e.target.value);
-          }}
-          type="phone"
-          required
-          pattern="^[0-9,$]"
-          title="Enter a valid phone number"
-        />
-        <label>Country</label>
-        <Input
-          name="country"
-          value={countryValue}
-          placeholder="Client country"
-          onChange={(e) => {
-            setCountryValue(e.target.value);
-          }}
-          type="text"
-          required
-          pattern="[A-Za-z ]*"
-          title="Enter a valid country"
-        />
-        <label>State</label>
-        <Input
-          name="state"
-          value={stateValue}
-          placeholder="Client state"
-          onChange={(e) => {
-            setStateValue(e.target.value);
-          }}
-          type="text"
-          pattern="[A-Za-z ]*"
-          title="Enter a valid state"
-          required
-        />
-        <label>City</label>
-        <Input
-          name="city"
-          value={cityValue}
-          placeholder="Client city"
-          onChange={(e) => {
-            setCityValue(e.target.value);
-          }}
-          type="text"
-          required
-          pattern="[A-Za-z ]*"
-          title="Enter a valid city"
-        />
-        <label>Address</label>
-        <Input
-          name="address"
-          value={addressValue}
-          placeholder="Client address"
-          onChange={(e) => {
-            setAddressValue(e.target.value);
-          }}
-          type="address"
-          required
-          pattern="^[0-9,$], [A-Za-z ]"
-          title="Enter a valid address"
-        />
-        <label>Logo</label>
-        <Input
-          name="logo"
-          value={logoValue}
-          placeholder="Client logo"
-          onChange={(e) => {
-            setLogoValue(e.target.value);
-          }}
-          type="text"
-        />
-        <label>Description</label>
-        <Input
-          name="description"
-          value={descriptionValue}
-          placeholder="Client description"
-          onChange={(e) => {
-            setDescriptionValue(e.target.value);
-          }}
-          type="text"
-        />
-      </div>
-      <div className={styles.btn}>
-        <button type="submit" className={styles.submit}>
-          SAVE
-        </button>
-      </div>
-    </form>
+      <form className={styles.formContainer} onSubmit={onSubmit}>
+        <div className={styles.group}>
+          <label>Name</label>
+          <input
+            name="name"
+            value={nameValue}
+            placeholder="Client name"
+            onChange={onChangeNameInput}
+            type="text"
+            required
+            pattern="[A-Za-z ]*"
+            title="Enter a valid name"
+          ></input>
+        </div>
+        <div className={styles.group}>
+          <label>Phone Number</label>
+          <input
+            name="phone"
+            value={phoneValue}
+            placeholder="Client phone"
+            onChange={onChangePhoneInput}
+            type="phone"
+            required
+            title="Enter a valid phone number"
+          ></input>
+        </div>
+        <div className={styles.group}>
+          <label>Country</label>
+          <input
+            name="country"
+            value={countryValue}
+            placeholder="Client country"
+            onChange={onChangeCountryInput}
+            type="text"
+            required
+            pattern="[A-Za-z ]*"
+            title="Enter a valid country"
+          ></input>
+        </div>
+        <div className={styles.group}>
+          <label>State</label>
+          <input
+            name="state"
+            value={stateValue}
+            placeholder="Client state"
+            onChange={onChangeStateInput}
+            type="text"
+            pattern="[A-Za-z ]*"
+            title="Enter a valid state"
+            required
+          ></input>
+        </div>
+        <div className={styles.group}>
+          <label>City</label>
+          <input
+            name="city"
+            value={cityValue}
+            placeholder="Client city"
+            onChange={onChangeCityInput}
+            type="text"
+            required
+            pattern="[A-Za-z ]*"
+            title="Enter a valid city"
+          ></input>
+        </div>
+        <div className={styles.group}>
+          <label>Address</label>
+          <input
+            name="address"
+            value={addressValue}
+            placeholder="Client address"
+            onChange={onChangeAddressInput}
+            type="address"
+            required
+            title="Enter a valid address"
+          ></input>
+        </div>
+        <div className={styles.group}>
+          <label>Logo</label>
+          <input
+            name="logo"
+            value={logoValue}
+            placeholder="Client logo"
+            onChange={onChangeLogoInput}
+            type="text"
+          ></input>
+        </div>
+        <div className={styles.group}>
+          <label>Description</label>
+          <input
+            name="description"
+            value={descriptionValue}
+            placeholder="Client description"
+            onChange={onChangeDescriptionInput}
+            type="text"
+          ></input>
+        </div>
+        <div className={styles.btn}>
+          <button type="submit" className={styles.submit}>
+            SAVE
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

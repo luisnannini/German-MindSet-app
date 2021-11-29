@@ -16,8 +16,8 @@ function Clients() {
       });
   }, []);
 
-  const removeClient = async (id) => {
-    await fetch(`${process.env.REACT_APP_API}/positions/${id}`, {
+  const removeClient = (id) => {
+    fetch(`${process.env.REACT_APP_API}/clients/${id}`, {
       method: 'DELETE'
     })
       .then((response) => {

@@ -15,7 +15,7 @@ const List = (props) => {
       <li>{props.logo}</li>
       <li>{props.description}</li>
       <li>{<EditButton />}</li>
-      <li>{<RemoveButton onClick={props.onRemove} />}</li>
+      <li>{<RemoveButton action={props.onRemove} />}</li>
     </ul>
   );
 };

@@ -2,3 +2,12 @@
     display: flex;
     flex-direction: column;
 }
+
+.group {
+    display: flex;
+    flex-direction: column;
+}
+
+.group input {
+    width: 150vh;
+}
