@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import styles from './positions.module.css';
-import List from './List';
 import CreateButton from './CreateButton';
+import UpdateButton from './UpdateButton';
+import DeleteButton from './DeleteButton';
 import Form from './Form';
 import HeaderList from './HeaderList';
 import Modal from './Modal';
@@ -10,6 +11,7 @@ function Positions() {
   const [positions, setPositions] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [selectedPosition, setSelectedPosition] = useState(undefined);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/positions`)
@@ -19,8 +21,14 @@ function Positions() {
       });
   }, []);
 
-  const deletePosition = async (id) => {
-    await fetch(`${process.env.REACT_APP_API}/positions/${id}`, {
+  const handleDelete = (event, position) => {
+    event.stopPropagation();
+    setSelectedPosition(position._id);
+    setShowModal(true);
+  };
+
+  const deletePosition = async () => {
+    await fetch(`${process.env.REACT_APP_API}/positions/${selectedPosition}`, {
       method: 'DELETE'
     })
       .then((response) => {
@@ -29,7 +37,7 @@ function Positions() {
             throw new Error(message);
           });
         }
-        return response.json(`Id: ${id}`);
+        return response.json();
       })
       .catch((error) => error);
   };
@@ -44,34 +52,42 @@ function Positions() {
 
   return (
     <section>
-      <div className={styles.list}>
+      <Modal
+        show={showModal}
+        title="Delete a Position"
+        message="Are you sure you want to delete this session?"
+        onCancel={closeModal}
+        onConfirm={deletePosition}
+      />
+      <Form show={showForm} onCancel={closeForm} />
+      <div className={styles.container}>
         <h2>Positions</h2>
-        <HeaderList
-          client={'Client'}
-          profiles={'Professional Profiles'}
-          jobDescription={'Job Description'}
-          vacancy={'Vacancy'}
-          isOpen={'Is Open'}
-          color={''}
-        />
-        <div>
-          {positions.map((position) => {
-            return (
-              <List
-                key={position._id}
-                client={position.client.name}
-                profiles={position.professionalProfiles}
-                jobDescription={position.jobDescription}
-                vacancy={position.vacancy}
-                isOpen={position.isOpen ? 'Yes' : 'No'}
-                update={''}
-                onDelete={() => setShowModal(true)}
-              />
-            );
-          })}
-        </div>
-        {showForm && <Form closeForm={closeForm} />}
-        {showModal && <Modal closeModal={closeModal} />}
+        <ul className={styles.list}>
+          <li>Client</li>
+          <li>Profiles</li>
+          <li>Job Description</li>
+          <li>Vacancy</li>
+          <li>Is Open</li>
+          <li></li>
+          <li></li>
+        </ul>
+        {positions.map((position) => {
+          return (
+            <ul className={styles.list} key={position._id}>
+              <li>{position.client.name}</li>
+              <li>{position.professionalProfiles}</li>
+              <li>{position.jobDescription}</li>
+              <li>{position.vacancy}</li>
+              <li>{position.isOpen ? 'Yes' : 'No'}</li>
+              <li>
+                <UpdateButton />
+              </li>
+              <li>
+                <DeleteButton onClick={(event) => handleDelete(event, position)} />
+              </li>
+            </ul>
+          );
+        })}
       </div>
       <div className={styles.button}>
         <CreateButton onClick={() => setShowForm(true)} />

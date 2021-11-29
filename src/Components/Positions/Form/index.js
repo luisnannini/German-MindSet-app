@@ -17,18 +17,20 @@ const Form = (props) => {
   const [vacancyValue, setVacancyValue] = useState('');
   const [isOpenValue, setIsOpenValue] = useState(false);
 
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/clients`)
-      .then((response) => response.json())
-      .then((response) => {
-        setClients(response.data);
-      });
-    fetch(`${process.env.REACT_APP_API}/profiles`)
-      .then((response) => response.json())
-      .then((response) => {
-        setProfiles(response.data);
-      });
-  }, []);
+  if (!props.show) {
+    return null;
+  }
+
+  fetch(`${process.env.REACT_APP_API}/clients`)
+    .then((response) => response.json())
+    .then((response) => {
+      setClients(response.data);
+    });
+  fetch(`${process.env.REACT_APP_API}/profiles`)
+    .then((response) => response.json())
+    .then((response) => {
+      setProfiles(response.data);
+    });
 
   const onChangeClientValue = (event) => {
     setClientValue(event.target.value);
@@ -92,7 +94,7 @@ const Form = (props) => {
       <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.header}>
           <h2>Create a Position</h2>
-          <Close onClick={props.closeForm} />
+          <Close onClick={props.onCancel} />
         </div>
         <div className={styles.fields}>
           <div className={styles.columns}>
