@@ -44,8 +44,18 @@ function Clients() {
       .catch((error) => error);
   };
 
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <section className={styles.container}>
+      <Modal
+        show={showModal}
+        title="Are you sure you want to remove this client?"
+        onCancel={closeModal}
+        onConfirm={removeClient}
+      />
       <h2>Clients</h2>
       <List
         name={'Name'}
