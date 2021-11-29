@@ -52,7 +52,7 @@ const Form = () => {
       },
       body: JSON.stringify({
         name: nameValue,
-        phone: phoneValue,
+        phone: parseInt(phoneValue, 10),
         location: {
           country: countryValue,
           state: stateValue,
@@ -106,7 +106,7 @@ const Form = () => {
             value={phoneValue}
             placeholder="Client phone"
             onChange={onChangePhoneInput}
-            type="phone"
+            type="number"
             required
             title="Enter a valid phone number"
           ></input>
