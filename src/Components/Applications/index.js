@@ -7,7 +7,8 @@ function Applications() {
   const [applications, setApplications] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showForm, setShowForm] = useState(false);
-  const [showEdit, setShowEdit] = useState(false);
+  const [showUpdate, setShowUpdate] = useState(false);
+  const [updateId, setUpdateId] = useState('');
   const [showRemove, setShowRemove] = useState(false);
   const [removeId, setRemoveId] = useState('');
   useEffect(() => {
@@ -21,9 +22,16 @@ function Applications() {
   const removeReq = (id) => {
     setRemoveId(id);
     setShowForm(false);
-    setShowEdit(false);
+    setShowUpdate(false);
     setShowModal(true);
     setShowRemove(true);
+  };
+  const updateReq = (id) => {
+    setUpdateId(id);
+    setShowModal(true);
+    setShowUpdate(true);
+    setShowForm(false);
+    setShowRemove(false);
   };
   const remove = async (id) => {
     await fetch(`${process.env.REACT_APP_API}/applications/${id}`, {
@@ -35,7 +43,7 @@ function Applications() {
             throw new Error(message);
           });
         }
-        return response.json(`Id: ${id}`);
+        //return response.json(`Id: ${id}`);
       })
       .then(() => {
         window.location.href = `${window.location.origin}/applications`;
@@ -51,33 +59,24 @@ function Applications() {
         onClick={() => {
           setShowModal(true);
           setShowForm(true);
-          setShowEdit(false);
+          setShowUpdate(false);
           setShowRemove(false);
         }}
       >
         Add Application
       </button>
-      <Table
-        applications={applications}
-        onClickEdit={() => {
-          setShowModal(true);
-          setShowEdit(true);
-          setShowForm(false);
-          setShowRemove(false);
-        }}
-        removeReq={removeReq}
-        //editReq={editReq}
-      />
+      <Table applications={applications} updateReq={updateReq} removeReq={removeReq} />
       <Modal
         onClose={() => {
           setShowModal(false);
           setShowForm(false);
-          setShowEdit(false);
+          setShowUpdate(false);
           setShowRemove(false);
         }}
         show={showModal}
         showForm={showForm}
-        showEdit={showEdit}
+        showUpdate={showUpdate}
+        updateId={updateId}
         showRemove={showRemove}
         removeConfirm={() => remove(removeId)}
       />

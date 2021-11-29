@@ -1,7 +1,7 @@
 import edit from './edit.png';
 import remove from './remove.png';
 
-const Table = ({ applications, onClickEdit, editReq, removeReq }) => {
+const Table = ({ applications, updateReq, removeReq }) => {
   return (
     <table className="table">
       <thead className="table-head">
@@ -24,14 +24,7 @@ const Table = ({ applications, onClickEdit, editReq, removeReq }) => {
             {/* <td>{app.interview._id}</td> */}
             <td>{app.result}</td>
             <td>
-              <img
-                src={edit}
-                alt="Edit"
-                onClick={() => {
-                  onClickEdit;
-                  editReq(app._id);
-                }}
-              />
+              <img src={edit} alt="Edit" onClick={() => updateReq(app._id)} />
             </td>
             <td>
               <img src={remove} alt="Remove" onClick={() => removeReq(app._id)} />

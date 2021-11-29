@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-const Form = (props) => {
-  if (props.showForm == false) {
+const Update = (props) => {
+  if (props.showUpdate == false) {
     return null;
   }
   const [position, setPosition] = useState([]);
@@ -39,9 +39,12 @@ const Form = (props) => {
   const onChangeResult = (input) => {
     setResultValue(input.target.value);
   };
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const url = `${process.env.REACT_APP_API}/applications`;
+  const onSubmit = (id) => {
+    //id.preventDefault();
+    console.log(id);
+    const url = `${process.env.REACT_APP_API}/applications/${id}`;
+    //const url = `${process.env.REACT_APP_API}/applications/`;
+    console.log(url);
     const options = {
       headers: {
         'Content-Type': 'application/json'
@@ -52,7 +55,7 @@ const Form = (props) => {
         interview: interviewValue,
         result: resultValue
       }),
-      method: 'POST'
+      method: 'PUT'
     };
 
     fetch(url, options)
@@ -64,17 +67,16 @@ const Form = (props) => {
         }
         return response.json();
       })
-      .then(() => {
-        window.location.href = '/applications';
-        //window.location.href = `${window.location.origin}/applications`;
-      })
+      //.then(() => {
+      //   window.location.href = `${window.location.origin}/applications`;
+      // })
       .catch((error) => {
         console.log(error);
       });
   };
   return (
-    <form onSubmit={onSubmit}>
-      <h2>Create Application</h2>
+    <form onSubmit={() => onSubmit(props.updateId)}>
+      <h2>Update Application</h2>
       <div>
         <label>Position:</label>
         <select onChange={onChangePosition}>
@@ -122,9 +124,9 @@ const Form = (props) => {
         ></input>
       </div>
       <button onClick={props.onClose}>Cancel</button>
-      <button type="submit">Submit</button>
+      <button type="submit">Update</button>
     </form>
   );
 };
 
-export default Form;
+export default Update;
