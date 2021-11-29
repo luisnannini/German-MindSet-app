@@ -13,7 +13,7 @@ const RemoveModal = (props) => {
         <button className={styles.cancel} onClick={props.closeRemoveModal}>
           Cancel
         </button>
-        <button className={styles.confirm} onClick={props.confirmEditForm}>
+        <button className={styles.confirm} onClick={props.confirmRemoveModal}>
           Confirm
         </button>
       </div>
