@@ -43,7 +43,6 @@ function Interviews() {
           return (
             <div>
               <List
-                href={`/interviews/form?id=${interview.id}`}
                 key={interview._id}
                 postulant={interview.postulant}
                 client={interview.client}
