@@ -27,17 +27,27 @@ function Positions() {
     setShowModal(true);
   };
 
-  const deletePosition = async () => {
-    await fetch(`${process.env.REACT_APP_API}/positions/${selectedPosition}`, {
-      method: 'DELETE'
-    })
+  const deletePosition = () => {
+    fetch(`${process.env.REACT_APP_API}/positions/${selectedPosition}`, { method: 'DELETE' })
       .then((response) => {
         if (response.status !== 204) {
           return response.json().then(({ message }) => {
             throw new Error(message);
           });
         }
-        return response.json();
+        return fetch(`${process.env.REACT_APP_API}/positions`)
+          .then((response) => {
+            if (response.status !== 200) {
+              return response.json().then(({ message }) => {
+                throw new Error(message);
+              });
+            }
+            return response.json();
+          })
+          .then((response) => {
+            setPositions(response.data);
+            closeModal();
+          });
       })
       .catch((error) => error);
   };
