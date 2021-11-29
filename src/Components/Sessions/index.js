@@ -3,7 +3,9 @@ import styles from './sessions.module.css';
 import Header from './Header';
 import Session from './Session';
 import ListHeader from './ListHeader';
+import CreateButton from './CreateButton';
 import ConfirmModal from './ConfirmModal';
+import CreateModal from './CreateModal';
 
 function Sessions() {
   const [Sessions, setSessions] = useState([]);
@@ -11,6 +13,7 @@ function Sessions() {
     show: false,
     session: {}
   });
+  const [ShowCreateModal, setShowCreateModal] = useState(false);
 
   useEffect(() => {
     getSessions();
@@ -41,6 +44,7 @@ function Sessions() {
           onDelete={deleteSession}
         />
       )}
+      {ShowCreateModal && <CreateModal onCancel={() => setShowCreateModal(false)} />}
       <section>
         <Header />
         <table>
@@ -66,6 +70,9 @@ function Sessions() {
           </tbody>
         </table>
       </section>
+      <>
+        <CreateButton onCreate={() => setShowCreateModal(true)} />
+      </>
     </div>
   );
 }
