@@ -3,6 +3,7 @@ import styles from './positions.module.css';
 import List from './List';
 import CreateButton from './CreateButton';
 import Form from './Form';
+import HeaderList from './HeaderList';
 import Modal from './Modal';
 
 function Positions() {
@@ -40,12 +41,13 @@ function Positions() {
     <section>
       <div className={styles.list}>
         <h2>Positions</h2>
-        <List
+        <HeaderList
           client={'Client'}
           profiles={'Professional Profiles'}
           jobDescription={'Job Description'}
           vacancy={'Vacancy'}
           isOpen={'Is Open'}
+          color={''}
         />
         <div>
           {positions.map((position) => {
