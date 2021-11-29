@@ -29,3 +29,34 @@
   width: 92px;
   list-style: none;
 }
+
+.list {
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  border-bottom: 0.1em solid #c7c7c7;
+  color: #232F3E;
+}
+
+.list li {
+  width: 80px;
+  margin-left: 10px;
+  list-style: none;
+  font-weight: bold;
+  font-size: 10px;
+}
+
+.buttons button {
+  width: 30px;
+  border-style: none;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  float: right;
+  margin: 0;
+  padding: 0;
+}
