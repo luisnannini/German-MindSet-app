@@ -3,13 +3,10 @@ import styles from './positions.module.css';
 import CreateButton from './CreateButton';
 import UpdateButton from './UpdateButton';
 import DeleteButton from './DeleteButton';
-import Form from './Form';
-import HeaderList from './HeaderList';
 import Modal from './Modal';
 
 function Positions() {
   const [positions, setPositions] = useState([]);
-  const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [selectedPosition, setSelectedPosition] = useState(undefined);
 
@@ -52,8 +49,12 @@ function Positions() {
       .catch((error) => error);
   };
 
-  const closeForm = () => {
-    setShowForm(false);
+  const showForm = (position) => {
+    if (position) {
+      window.location.href = `positions/form?id=${position._id}`;
+    } else {
+      window.location.href = `positions/form`;
+    }
   };
 
   const closeModal = () => {
@@ -69,7 +70,6 @@ function Positions() {
         onCancel={closeModal}
         onConfirm={deletePosition}
       />
-      <Form show={showForm} onCancel={closeForm} />
       <div className={styles.container}>
         <h2>Positions</h2>
         <ul className={styles.list}>
@@ -90,7 +90,7 @@ function Positions() {
               <li>{position.vacancy}</li>
               <li>{position.isOpen ? 'Yes' : 'No'}</li>
               <li>
-                <UpdateButton />
+                <UpdateButton onClick={() => showForm(position)} />
               </li>
               <li>
                 <DeleteButton onClick={(event) => handleDelete(event, position)} />
@@ -100,7 +100,7 @@ function Positions() {
         })}
       </div>
       <div className={styles.button}>
-        <CreateButton onClick={() => setShowForm(true)} />
+        <CreateButton onClick={() => showForm()} />
       </div>
     </section>
   );

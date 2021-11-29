@@ -17,10 +17,6 @@ const Form = (props) => {
   const [vacancyValue, setVacancyValue] = useState('');
   const [isOpenValue, setIsOpenValue] = useState(false);
 
-  if (!props.show) {
-    return null;
-  }
-
   fetch(`${process.env.REACT_APP_API}/clients`)
     .then((response) => response.json())
     .then((response) => {
