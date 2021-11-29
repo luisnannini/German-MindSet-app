@@ -36,6 +36,21 @@ function Sessions() {
     });
   }
 
+  function createSession(session) {
+    fetch(`${process.env.REACT_APP_API}/sessions`, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(session)
+    })
+      .then((response) => response.json())
+      .then(() => {
+        getSessions();
+      });
+    setShowCreateModal(false);
+  }
+
   return (
     <div className={styles.container}>
       {ShowConfirmModal.show && (
@@ -44,7 +59,9 @@ function Sessions() {
           onDelete={deleteSession}
         />
       )}
-      {ShowCreateModal && <CreateModal onCancel={() => setShowCreateModal(false)} />}
+      {ShowCreateModal && (
+        <CreateModal onCancel={() => setShowCreateModal(false)} onCreate={createSession} />
+      )}
       <section>
         <Header />
         <table>
