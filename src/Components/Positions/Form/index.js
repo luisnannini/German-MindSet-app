@@ -17,16 +17,43 @@ const Form = (props) => {
   const [vacancyValue, setVacancyValue] = useState('');
   const [isOpenValue, setIsOpenValue] = useState(false);
 
-  fetch(`${process.env.REACT_APP_API}/clients`)
-    .then((response) => response.json())
-    .then((response) => {
-      setClients(response.data);
-    });
-  fetch(`${process.env.REACT_APP_API}/profiles`)
-    .then((response) => response.json())
-    .then((response) => {
-      setProfiles(response.data);
-    });
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const positionId = params.get('id');
+    if (positionId) {
+      fetch(`${process.env.REACT_APP_API}/positions?_id=${positionId}`)
+        .then((response) => {
+          if (response.status !== 200) {
+            return response.json().then(({ message }) => {
+              throw new Error(message);
+            });
+          }
+          return response.json();
+        })
+        .then((response) => {
+          setClientValue(response.data[0].client);
+          setProfilesValue(response.data[0].profiles);
+          setJobDescriptionValue(response.data[0].jobDescription);
+          setVacancyValue(response.data[0].vacancy);
+          setIsOpenValue(response.data[0].isOpen);
+        })
+        .catch((error) => {
+          error;
+        });
+    }
+
+    fetch(`${process.env.REACT_APP_API}/clients`)
+      .then((response) => response.json())
+      .then((response) => {
+        setClients(response.data);
+      });
+
+    fetch(`${process.env.REACT_APP_API}/profiles`)
+      .then((response) => response.json())
+      .then((response) => {
+        setProfiles(response.data);
+      });
+  }, []);
 
   const onChangeClientValue = (event) => {
     setClientValue(event.target.value);
