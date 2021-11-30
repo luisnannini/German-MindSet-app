@@ -69,21 +69,17 @@ const CreateForm = (props) => {
   };
 
   const onChangeClientValue = (event) => {
-    console.log(clientValue);
     setClientValue(event.target.value);
   };
 
   const onChangePostulantValue = (event) => {
-    console.log(postulantValue);
     setPostulantValue(event.target.value);
   };
 
   const onChangeApplicationValue = (event) => {
-    console.log(applicationValue);
     setApplicationValue(event.target.value);
   };
 
-  // ADD VALIDATIONS
   const [messageDate, setMessageDate] = useState('');
   const [errorDate, setErrorDate] = useState(null);
   const [messageStatus, setMessageStatus] = useState('');
