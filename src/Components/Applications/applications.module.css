@@ -1,6 +1,9 @@
 table, th, td {
   border:1px solid black;
 }
+td {
+  align-self: center;
+}
 .container {
   flex: 1;
   display: flex;

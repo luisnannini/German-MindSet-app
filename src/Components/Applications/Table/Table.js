@@ -11,7 +11,7 @@ const Table = ({ applications, updateReq, removeReq }) => {
           <th>Postulant</th>
           <th>ID Interview</th>
           <th>Result</th>
-          <th></th>
+          {/* <th></th> */}
           <th></th>
         </tr>
       </thead>
@@ -25,9 +25,9 @@ const Table = ({ applications, updateReq, removeReq }) => {
             </td>
             <td>{app.interview._id}</td>
             <td>{app.result}</td>
-            <td>
+            {/* <td>
               <img src={edit} alt="Edit" onClick={() => updateReq(app._id)} />
-            </td>
+            </td> */}
             <td>
               <img src={remove} alt="Remove" onClick={() => removeReq(app._id)} />
             </td>
