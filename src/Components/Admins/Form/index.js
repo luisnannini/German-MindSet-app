@@ -22,7 +22,8 @@ const Form = () => {
           }
           return response.json();
         })
-        .then(() => {
+        .then((response) => {
+          console.log(response);
           // TODO
           // setFullNameValue();
           // setUsernameValue();

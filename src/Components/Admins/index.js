@@ -27,7 +27,7 @@ function Admins() {
     setLoading(true);
     fetch(`${process.env.REACT_APP_API}/admins/${selectedAdmin}`, { method: 'DELETE' })
       .then((response) => {
-        if (response.status !== 200) {
+        if (response.status !== 204) {
           return response.json().then(({ message }) => {
             throw new Error(message);
           });
