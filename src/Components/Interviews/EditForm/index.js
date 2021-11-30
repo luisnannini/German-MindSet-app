@@ -5,7 +5,9 @@ import SelectPostulant from '../SelectPostulant';
 import SelectApplication from '../SelectApplication';
 import Input from '../Inputs';
 
-const EditForm = (props) => {
+function EditForm(props) {
+  const [interviews, setInterviews] = useState([]);
+  const [selectedInterview, setSelectedInterview] = useState(undefined);
   const [clients, setClients] = useState([]);
   const [clientValue, setClientValue] = useState('');
   const [postulants, setPostulants] = useState([]);
@@ -17,6 +19,11 @@ const EditForm = (props) => {
   const [notesValue, setNotesValue] = useState('');
 
   useEffect(() => {
+    fetch(`${process.env.REACT_APP_API}/interviews`)
+      .then((response) => response.json())
+      .then((response) => {
+        setInterviews(response.data);
+      });
     fetch(`${process.env.REACT_APP_API}/clients`)
       .then((response) => response.json())
       .then((response) => {
@@ -34,6 +41,34 @@ const EditForm = (props) => {
       });
   }, []);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const interviewId = params.get('id');
+    if (interviewId) {
+      fetch(`${process.env.REACT_APP_API}/interviews?_id=${interviewId}`)
+        .then((response) => {
+          if (response.status !== 200) {
+            return response.json().then(({ message }) => {
+              throw new Error(message);
+            });
+          }
+          return response.json();
+        })
+        .then((response) => {
+          setPostulantValue(response.data[0].postulant?._id);
+          setClientValue(response.data[0].client?._id);
+          setApplicationValue(response.data[0].application?._id);
+          setDateValue(response.data[0].date);
+          setStatusValue(response.data[0].status);
+          setNotesValue(response.data[0].notes);
+        })
+        .catch((error) => error);
+    }
+  }, []);
+
+  console.log(postulantValue);
+  console.log(clientValue);
+
   const onChangeClientValue = (event) => {
     console.log(clientValue);
     setClientValue(event.target.value);
@@ -49,8 +84,11 @@ const EditForm = (props) => {
     setApplicationValue(event.target.value);
   };
 
-  const confirmEditForm = (interview) => {
-    interview.preventDefault();
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const params = new URLSearchParams(window.location.search);
+    const interviewId = params.get('id');
+
     const options = {
       method: 'PUT',
       headers: {
@@ -66,36 +104,45 @@ const EditForm = (props) => {
       })
     };
 
-    const url = `${process.env.REACT_APP_API}/interviews/${interview}`;
-
-    fetch(url, options).then((response) => {
-      if (response.status !== 200 && response.status !== 201) {
-        return response.json().then(({ message }) => {
-          throw new Error(message);
-        });
-      }
-      return response.json();
-    });
+    fetch(`${process.env.REACT_APP_API}/interviews/${interviewId}`, options)
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201) {
+          return response.json().then(({ message }) => {
+            throw new Error(message);
+          });
+        }
+        return response.json();
+      })
+      .then(() => {
+        window.location.href = '/interview';
+        window.location.reload();
+      })
+      .catch((error) => error);
   };
 
-  if (!props.show) {
-    return null;
-  }
   return (
-    <form className={styles.form}>
+    <form key={props._id} className={styles.form}>
       <h2>Edit Interview</h2>
       <div className={styles.formDiv1}>
         <div className={styles.formDiv2}>
           <h3>Postulant</h3>
-          <SelectPostulant object={postulants} onChange={onChangePostulantValue} />
+          <SelectPostulant
+            value={postulantValue}
+            object={postulants}
+            onChange={onChangePostulantValue}
+          />
         </div>
         <div className={styles.formDiv2}>
           <h3>Client</h3>
-          <SelectClient object={clients} onChange={onChangeClientValue} />
+          <SelectClient value={clientValue} object={clients} onChange={onChangeClientValue} />
         </div>
         <div className={styles.formDiv2}>
           <h3>Application</h3>
-          <SelectApplication object={applications} onChange={onChangeApplicationValue} />
+          <SelectApplication
+            value={applicationValue}
+            object={applications}
+            onChange={onChangeApplicationValue}
+          />
         </div>
       </div>
       <div className={styles.formDiv1}>
@@ -110,6 +157,7 @@ const EditForm = (props) => {
           required
         />
         <label>Date</label>
+        <p>yyyy-mm-dd</p>
         <Input
           name="date"
           value={dateValue}
@@ -117,6 +165,7 @@ const EditForm = (props) => {
           onChange={(e) => {
             setDateValue(e.target.value);
           }}
+          required
         />
       </div>
       <div className={styles.formDiv2}>
@@ -131,15 +180,12 @@ const EditForm = (props) => {
         />
       </div>
       <div className={styles.buttons}>
-        <button className={styles.cancel} onClick={props.closeEditForm}>
-          Cancel
-        </button>
-        <button className={styles.confirm} onClick={confirmEditForm}>
+        <button type="submit" className={styles.confirm} onClick={onSubmit}>
           Confirm
         </button>
       </div>
     </form>
   );
-};
+}
 
 export default EditForm;
