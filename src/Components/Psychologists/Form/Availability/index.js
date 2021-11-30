@@ -62,6 +62,7 @@ const availability = (props) => {
           day="monday"
           type="checkbox"
           defaultChecked={monday.availability}
+          onChange={props.action}
         />
         <input
           name="monday-from"
@@ -85,6 +86,7 @@ const availability = (props) => {
           type="checkbox"
           day="tuesday"
           defaultChecked={tuesday.availability}
+          onChange={props.action}
         />
         <input
           name="tuesday-from"
@@ -108,6 +110,7 @@ const availability = (props) => {
           name="wednesday-availability"
           type="checkbox"
           defaultChecked={wednesday.availability}
+          onChange={props.action}
         />
         <input
           name="wednesday-from"
@@ -131,6 +134,7 @@ const availability = (props) => {
           day="thursday"
           type="checkbox"
           defaultChecked={thursday.availability}
+          onChange={props.action}
         />
         <input
           name="thursday-from"
@@ -154,6 +158,7 @@ const availability = (props) => {
           day="friday"
           type="checkbox"
           defaultChecked={friday.availability}
+          onChange={props.action}
         />
         <input
           name="friday-from"
@@ -177,6 +182,7 @@ const availability = (props) => {
           day="saturday"
           type="checkbox"
           defaultChecked={saturday.availability}
+          onChange={props.action}
         />
         <input
           name="saturday-from"
@@ -200,6 +206,7 @@ const availability = (props) => {
           day="sunday"
           type="checkbox"
           defaultChecked={sunday.availability}
+          onChange={props.action}
         />
         <input
           name="sunday-from"

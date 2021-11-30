@@ -27,6 +27,7 @@ const Options = (props) => {
             throw new Error(message);
           });
         }
+        modalOpenDel();
         return response.json(`Id: ${id}`);
       })
       .catch((error) => error);
@@ -45,6 +46,7 @@ const Options = (props) => {
         visible={modalDel}
         psy={psy}
         action={() => deletePsychologists(id)}
+        close={modalOpenDel}
         type={'delete'}
       />
     </>

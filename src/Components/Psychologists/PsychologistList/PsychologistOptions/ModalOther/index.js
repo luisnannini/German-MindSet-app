@@ -13,7 +13,7 @@ const Modal = (props) => {
           </div>
           <div className={styles.header}>
             <Button class={styles.greenButton} action={props.action} name={'Confirm'} />
-            <Button class={styles.redButton} name={'Cancel'} />
+            <Button class={styles.redButton} action={props.close} name={'Cancel'} />
           </div>
         </div>
       </div>

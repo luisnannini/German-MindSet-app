@@ -1,27 +1,88 @@
 import styles from './form.module.css';
-import Button from '../Button';
 import Availability from './Availability';
-import ModalOther from '../PsychologistList/PsychologistOptions/ModalOther';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import availability from './Availability';
 
 const index = (props) => {
-  const [modalOther, changeModalOther] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
-  /*let [available, setAvailable] = useState([
-    data.availability.monday,
-    data.availability.tuesday,
-    data.availability.wednesday,
-    data.availability.thursday,
-    data.availability.friday,
-    data.availability.saturday,
-    data.availability.sunday
-  ]);*/
+  const [firstNameForm, setFirstName] = useState('');
+  const [lastNameForm, setLastName] = useState('');
+  const [usernameForm, setUsername] = useState('');
+  const [passwordForm, setPassword] = useState('');
+  const [emailForm, setEmail] = useState('');
+  const [phoneForm, setPhone] = useState('');
+  const [addressForm, setAddress] = useState('');
+
+  const [mondayBool, setMondayBool] = useState('false');
+  const [mondayFrom, setMondayFrom] = useState('');
+  const [mondayTo, setMondayTo] = useState('');
+
+  const [tuesdayBool, setTuesdayBool] = useState('false');
+  const [tuesdayFrom, setTuesdayFrom] = useState('');
+  const [tuesdayTo, setTuesdayTo] = useState('');
+
+  const [wednesdayBool, setWednesdayBool] = useState('false');
+  const [wednesdayFrom, setWednesdayFrom] = useState('');
+  const [wednesdayTo, setWednesdayTo] = useState('');
+
+  const [thursdayBool, setThursdayBool] = useState('false');
+  const [thursdayFrom, setThursdayFrom] = useState('');
+  const [thursdayTo, setThursdayTo] = useState('');
+
+  const [fridayBool, setFridayBool] = useState('false');
+  const [fridayFrom, setFridayFrom] = useState('');
+  const [fridayTo, setFridayTo] = useState('');
+
+  const [saturdayBool, setSaturdayBool] = useState('false');
+  const [saturdayFrom, setSaturdayFrom] = useState('');
+  const [saturdayTo, setSaturdayTo] = useState('');
+
+  const [sundayBool, setSundayBool] = useState('false');
+  const [sundayFrom, setSundayFrom] = useState('');
+  const [sundayTo, setSundayTo] = useState('');
+
+  const [availabilityForm, setAvailability] = useState({
+    monday: {
+      availability: mondayBool,
+      from: mondayFrom,
+      to: mondayTo
+    },
+    tuesday: {
+      availability: tuesdayBool,
+      from: tuesdayFrom,
+      to: tuesdayTo
+    },
+    wednesday: {
+      availability: wednesdayBool,
+      from: wednesdayFrom,
+      to: wednesdayTo
+    },
+    thursday: {
+      availability: thursdayBool,
+      from: thursdayFrom,
+      to: thursdayTo
+    },
+    friday: {
+      availability: fridayBool,
+      from: fridayFrom,
+      to: fridayTo
+    },
+    saturday: {
+      availability: saturdayBool,
+      from: saturdayFrom,
+      to: saturdayTo
+    },
+    sunday: {
+      availability: sundayBool,
+      from: sundayFrom,
+      to: sundayTo
+    }
+  });
+
+  useEffect(() => {
+    if (props.psy) {
+      return setFirstName(props.psy.firstName);
+    }
+  }, []);
 
   const data = {
     _id: '',
@@ -71,9 +132,56 @@ const index = (props) => {
     }
   };
 
-  const modalOpenOther = () => {
-    console.log(!modalOther);
-    changeModalOther(!modalOther);
+  const onChangeMondayBool = (param) => {
+    setMondayBool(param);
+  };
+  const onChangeTuesdayBool = (param) => {
+    setTuesdayBool(param);
+  };
+  const onChangeWednesdayBool = (param) => {
+    setWednesdayBool(param);
+  };
+  const onChangeThursdayBool = (param) => {
+    setThursdayBool(param);
+  };
+  const onChangeFridayBool = (param) => {
+    setFridayBool(param);
+  };
+  const onChangeSaturdayBool = (param) => {
+    setSaturdayBool(param);
+  };
+  const onChangeSundayBool = (param) => {
+    setSundayBool(param);
+  };
+
+  const changeDayAvail = (event) => {
+    const param = event.target.name;
+    console.log(param);
+    switch (param) {
+      case 'monday-availability':
+        onChangeMondayBool(event.target.checked);
+        break;
+      case 'tuesday-availability':
+        onChangeTuesdayBool(event.target.checked);
+        break;
+      case 'wednesday-availability':
+        onChangeWednesdayBool(event.target.checked);
+        break;
+      case 'thursday-availability':
+        onChangeThursdayBool(event.target.checked);
+        break;
+      case 'friday-availability':
+        onChangeFridayBool(event.target.checked);
+        break;
+      case 'saturday-availability':
+        onChangeSaturdayBool(event.target.checked);
+        break;
+      case 'sunday-availability':
+        onChangeSundayBool(event.target.checked);
+        break;
+      default:
+        break;
+    }
   };
 
   const onChangeFirstNameValue = (event) => {
@@ -96,26 +204,6 @@ const index = (props) => {
   };
   const onChangeAddressValue = (event) => {
     setAddress(event.target.value);
-  }; /*
-  const onChangeSetAvailable = (event) => {
-    const checked = event.target.checked;
-    if (checked) {
-      available.map((day) => {
-        if(event.target.day ==)
-      })
-    }
-  };
-*/
-  const psychologistFetch = () => {
-    fetch(`${process.env.REACT_APP_API}/psychologists/${props._id}`).then((response) => {
-      setFirstName(response.firstName);
-      setLastName(response.lastName);
-      setUsername(response.username);
-      setPassword(response.password);
-      setEmail(response.email);
-      setPhone(response.phone);
-      setAddress(response.address);
-    });
   };
 
   const onSubmit = (e) => {
@@ -126,53 +214,62 @@ const index = (props) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        firstName: firstName,
-        lastName: lastName,
-        username: username,
-        password: password,
-        email: email,
-        phone: phone,
-        address: address,
-        availability: {
-          monday: {
-            availability: false,
-            from: '',
-            to: ''
-          },
-          tuesday: {
-            availability: false,
-            from: '',
-            to: ''
-          },
-          wednesday: {
-            availability: false,
-            from: '',
-            to: ''
-          },
-          thursday: {
-            availability: false,
-            from: '',
-            to: ''
-          },
-          friday: {
-            availability: false,
-            from: '',
-            to: ''
-          },
-          saturday: {
-            availability: false,
-            from: '',
-            to: ''
-          },
-          sunday: {
-            availability: false,
-            from: '',
-            to: ''
-          }
-        }
+        firstName: firstNameForm,
+        lastName: lastNameForm,
+        username: usernameForm,
+        password: passwordForm,
+        email: emailForm,
+        phone: phoneForm,
+        address: addressForm,
+        availability: availabilityForm
       })
     };
-
+    console.log({
+      firstName: firstNameForm,
+      lastName: lastNameForm,
+      username: usernameForm,
+      password: passwordForm,
+      email: emailForm,
+      phone: phoneForm,
+      address: addressForm,
+      availability: {
+        monday: {
+          availability: mondayBool,
+          from: mondayFrom,
+          to: mondayTo
+        },
+        tuesday: {
+          availability: tuesdayBool,
+          from: tuesdayFrom,
+          to: tuesdayTo
+        },
+        wednesday: {
+          availability: wednesdayBool,
+          from: wednesdayFrom,
+          to: wednesdayTo
+        },
+        thursday: {
+          availability: thursdayBool,
+          from: thursdayFrom,
+          to: thursdayTo
+        },
+        friday: {
+          availability: fridayBool,
+          from: fridayFrom,
+          to: fridayTo
+        },
+        saturday: {
+          availability: saturdayBool,
+          from: saturdayFrom,
+          to: saturdayTo
+        },
+        sunday: {
+          availability: sundayBool,
+          from: sundayFrom,
+          to: sundayTo
+        }
+      }
+    });
     fetch(`${process.env.REACT_APP_API}/psychologists/`, options).then((response) => {
       if (response.status !== 200 && response.status !== 201) {
         return response.json().then(({ message }) => {
@@ -180,58 +277,12 @@ const index = (props) => {
           throw new Error(message);
         });
       }
-      return response.json().then(() => {
+      return response.json().finally(() => {
         window.location.href = `${window.location.origin}/psychologists/`;
       });
     });
   };
 
-  const psychologist = {
-    firstName: firstName,
-    lastName: lastName,
-    username: username,
-    password: password,
-    email: email,
-    phone: phone,
-    address: address,
-    availability: {
-      monday: {
-        availability: false,
-        from: '',
-        to: ''
-      },
-      tuesday: {
-        availability: false,
-        from: '',
-        to: ''
-      },
-      wednesday: {
-        availability: false,
-        from: '',
-        to: ''
-      },
-      thursday: {
-        availability: false,
-        from: '',
-        to: ''
-      },
-      friday: {
-        availability: false,
-        from: '',
-        to: ''
-      },
-      saturday: {
-        availability: false,
-        from: '',
-        to: ''
-      },
-      sunday: {
-        availability: false,
-        from: '',
-        to: ''
-      }
-    }
-  };
   let psy = {};
 
   if (!props.data) {
@@ -321,7 +372,7 @@ const index = (props) => {
           </div>
           <span className={styles.hiddenError}>Invalid Address</span>
         </div>
-        <Availability data={psy.availability} />
+        <Availability data={psy.availability} field={setAvailability} action={changeDayAvail} />
         <button name={'CONFIRM'} type={'submit'} />
       </form>
     </div>
