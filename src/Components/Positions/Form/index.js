@@ -127,7 +127,13 @@ const Form = () => {
       .then(() => {
         setShowSuccessModal(true);
         setSuccess('You request was successful!');
-        window.location.href = '/positions';
+      })
+      .then(() => {
+        setTimeout(function () {
+          if (setShowSuccessModal) {
+            window.location.href = '/positions';
+          }
+        }, 2000);
       })
       .catch((error) => {
         setShowErrorModal(true);
