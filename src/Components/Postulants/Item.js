@@ -23,7 +23,7 @@ function Item({ postulant, onDelete, setModal, openForm }) {
       <Button
         title="Delete"
         onClick={
-          () =>
+          () => {
             setModal({
               // muestra el modal y le pasa la funcion para sus botones
               id: postulant._id,
@@ -32,7 +32,8 @@ function Item({ postulant, onDelete, setModal, openForm }) {
               state: true,
               action: onDelete,
               type: 'confirm'
-            }) // logro mostrar el modal
+            });
+          } // logro mostrar el modal
         }
       />
     </tr>

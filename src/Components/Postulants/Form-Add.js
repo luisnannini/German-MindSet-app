@@ -2,8 +2,6 @@ import style from './postulants-Form.module.css';
 import { useEffect, useState } from 'react';
 import Button from './Button';
 import Modal from './Modal';
-import FormItem from './FormItem.js';
-import AddTerciaryStudy from './AddTerciaryStudy.js';
 
 function Form() {
   const [modal, setModal] = useState({ state: false });

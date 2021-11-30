@@ -3,95 +3,19 @@ import { useEffect, useState } from 'react';
 import Items from './Items.js';
 import Button from './Button';
 import Modal from './Modal';
-import FormAdd from './Form-Add.js';
 import FormUpdate from './Form-Update.js';
 
 function Postulants() {
   const [listPostulants, setListPostulants] = useState([]);
   const [formPostulants, setFormPostulants] = useState([]);
-  const [formState, setFormState] = useState(false);
   const [modal, setModal] = useState({ state: false });
   const params = new URLSearchParams(window.location.search);
   let id = params.get('id');
 
-  const postulantTemplate = {
-    contactRange: {
-      from: '',
-      to: ''
-    },
-    studies: {
-      primaryStudies: {
-        startDate: '',
-        endDate: '',
-        school: ''
-      },
-      secondaryStudies: {
-        startDate: '',
-        endDate: '',
-        school: ''
-      },
-      tertiaryStudies: [
-        {
-          startDate: '',
-          endDate: '',
-          description: '',
-          institute: ''
-        }
-      ],
-      universityStudies: [
-        {
-          startDate: '',
-          endDate: '',
-          description: '',
-          institute: ''
-        }
-      ],
-      informalStudies: [
-        {
-          startDate: '',
-          endDate: '',
-          description: '',
-          institute: ''
-        }
-      ]
-    },
-    _id: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    address: '',
-    birthday: '',
-    available: '',
-    phone: '',
-    profiles: [
-      {
-        profileId: {
-          _id: '',
-          name: ''
-        }
-      }
-    ],
-    workExperience: [
-      {
-        company: '',
-        startDate: '',
-        endDate: '',
-        description: ''
-      },
-      {
-        company: '',
-        startDate: '',
-        endDate: '',
-        description: undefined
-      }
-    ],
-    createdAt: '',
-    updatedAt: ''
-  };
+  const url = `${process.env.REACT_APP_API}/postulants`;
 
   const getPostulants = async () => {
-    const responseRaw = await fetch(`${process.env.REACT_APP_API}/postulants`);
+    const responseRaw = await fetch(url);
     const responseJson = await responseRaw.json();
     return responseJson.data;
   };
@@ -118,24 +42,16 @@ function Postulants() {
   }, []);
 
   const confirmDelete = async (id) => {
-    /* const responseRaw = await fetch(`${process.env.REACT_APP_API}/postulants/${id}`, {
+    const responseRaw = await fetch(`${url}?id=${id}`, {
       method: 'DELETE'
     });
-    const responseJson = await responseRaw.json(); */
-    setModal({ title: 'Deleted', state: true, message: 'Deletion successfully' });
+    setModal({ title: 'Deleted', state: true, message: 'Update successfull' });
   };
 
-  if (id) {
+  if (id && formPostulants[0]) {
     return (
-      <FormUpdate
-        postulant={formPostulants.find((postulant) => postulant._id === id)}
-        id={id}
-        postulantTemplate={postulantTemplate}
-      />
+      <FormUpdate postulant={formPostulants.find((postulant) => postulant._id === id)} id={id} />
     );
-  }
-  if (formState) {
-    return <FormAdd />;
   }
   return (
     <section className={styles.container}>

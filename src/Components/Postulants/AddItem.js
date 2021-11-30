@@ -1,9 +1,9 @@
 import 'postulants-AddItem.module.css';
 
 function AddItem() {
-  state = {
+  /* state = {
     title: ''
-  };
+  }; */
   const onSubmit = () => {
     console.log('asd');
   };
