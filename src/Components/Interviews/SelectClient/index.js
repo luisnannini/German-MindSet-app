@@ -4,10 +4,8 @@ import styles from './selectclient.module.css';
 const SelectClient = (props) => {
   return (
     <div className={styles.container}>
-      <select className={styles.select} onChange={props.onChange}>
-        <option value="0" selected="selected">
-          Client Name
-        </option>
+      <select className={styles.select} value={props.value} onChange={props.onChange}>
+        <option value="0">Client Name</option>
         {props.object.map((data) => {
           return (
             <option key={data._id} value={data._id}>
