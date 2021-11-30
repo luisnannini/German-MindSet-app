@@ -4,6 +4,7 @@ import SelectClient from '../SelectClient';
 import SelectPostulant from '../SelectPostulant';
 import SelectApplication from '../SelectApplication';
 import Input from '../Inputs';
+import Modal from '../Modal';
 
 function EditForm(props) {
   const [interviews, setInterviews] = useState([]);
@@ -16,6 +17,7 @@ function EditForm(props) {
   const [statusValue, setStatusValue] = useState('');
   const [dateValue, setDateValue] = useState('');
   const [notesValue, setNotesValue] = useState('');
+  const [showSuccessUpdate, setShowSuccessUpdate] = useState(false);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/interviews`)
@@ -107,7 +109,14 @@ function EditForm(props) {
         return response.json();
       })
       .then(() => {
-        window.location.href = '/interviews';
+        setShowSuccessUpdate(true);
+      })
+      .then(() => {
+        setTimeout(function () {
+          if (setShowSuccessUpdate) {
+            window.location.href = '/interviews';
+          }
+        }, 2000);
       })
       .catch((error) => error);
   };
@@ -134,6 +143,11 @@ function EditForm(props) {
 
   return (
     <form key={props._id} className={styles.form} onSubmit={onSubmit}>
+      <Modal
+        show={showSuccessUpdate}
+        title="Successful"
+        message={'Interview Updated successfully'}
+      />
       <h2>Edit Interview</h2>
       <div className={styles.formDiv1}>
         <div className={styles.formDiv2}>

@@ -5,12 +5,14 @@ import CreateForm from './CreateForm';
 import EditButton from './EditButton';
 import RemoveButton from './RemoveButton';
 import RemoveModal from './RemoveModal';
+import Modal from './Modal';
 
 function Interviews() {
   const [interviews, setInterviews] = useState([]);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [selectedInterview, setSelectedInterview] = useState(undefined);
+  const [showSuccessDelete, setShowSuccessDelete] = useState(false);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/interviews`)
@@ -59,13 +61,22 @@ function Interviews() {
         }
       })
       .then(() => {
-        window.location.href = '/interviews';
+        setShowRemoveModal(false);
+        setShowSuccessDelete(true);
+      })
+      .then(() => {
+        setTimeout(function () {
+          if (setShowSuccessDelete) {
+            window.location.href = '/interviews';
+          }
+        }, 2000);
       })
       .catch((error) => error);
   };
 
   return (
     <div className={styles.container}>
+      <Modal show={showSuccessDelete} title="Successful" message={'Interview deleted'} />
       <h1>Interviews</h1>
       <ul className={styles.list1}>
         <li>Postulant</li>
@@ -86,7 +97,7 @@ function Interviews() {
           <ul className={styles.list} key={interview._id}>
             <li>{interview.postulant.firstName}</li>
             <li>{interview.postulant.lastName}</li>
-            <li>{interview.client.name}</li>
+            {/* <li>{interview.client.name}</li> */}
             <li>{interview.application.result}</li>
             <li>{interview.status}</li>
             <li>{interview.date.replace('T00:00:00.000Z', '')}</li>
@@ -110,11 +121,8 @@ function Interviews() {
           </ul>
         );
       })}
-
       <CreateForm show={showCreateForm} closeCreateForm={closeCreateForm} />
-      <div>
-        <CreateButton onClick={() => setShowCreateForm(true)} />
-      </div>
+      <CreateButton onClick={() => setShowCreateForm(true)} />
     </div>
   );
 }

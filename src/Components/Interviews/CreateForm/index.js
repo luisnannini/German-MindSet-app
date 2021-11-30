@@ -4,6 +4,7 @@ import Input from '../Inputs';
 import SelectPostulant from '../SelectPostulant';
 import SelectClient from '../SelectClient';
 import SelectApplication from '../SelectApplication';
+import Modal from '../Modal';
 
 const CreateForm = (props) => {
   const [clients, setClients] = useState([]);
@@ -15,6 +16,7 @@ const CreateForm = (props) => {
   const [statusValue, setStatusValue] = useState('');
   const [dateValue, setDateValue] = useState('');
   const [notesValue, setNotesValue] = useState('');
+  const [showSuccessCreate, setShowSuccessCreate] = useState(false);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/clients`)
@@ -64,8 +66,16 @@ const CreateForm = (props) => {
         return response.json();
       })
       .then(() => {
-        window.location.href = '/interviews';
-      });
+        setShowSuccessCreate(true);
+      })
+      .then(() => {
+        setTimeout(function () {
+          if (setShowSuccessCreate) {
+            window.location.href = '/interviews';
+          }
+        }, 2000);
+      })
+      .catch((error) => error);
   };
 
   const onChangeClientValue = (event) => {
@@ -106,6 +116,11 @@ const CreateForm = (props) => {
   }
   return (
     <form className={styles.form} onSubmit={onSubmit}>
+      <Modal
+        show={showSuccessCreate}
+        title="Successful"
+        message={'Interview Created successfully'}
+      />
       <h2>Create Interview</h2>
       <div className={styles.formDiv1}>
         <div className={styles.formDiv2}>
