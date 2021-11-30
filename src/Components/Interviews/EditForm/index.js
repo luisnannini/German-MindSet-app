@@ -7,7 +7,6 @@ import Input from '../Inputs';
 
 function EditForm(props) {
   const [interviews, setInterviews] = useState([]);
-  const [selectedInterview, setSelectedInterview] = useState(undefined);
   const [clients, setClients] = useState([]);
   const [clientValue, setClientValue] = useState('');
   const [postulants, setPostulants] = useState([]);
@@ -116,8 +115,29 @@ function EditForm(props) {
       .catch((error) => error);
   };
 
+  // ADD VALIDATIONS
+  const [messageDate, setMessageDate] = useState('');
+  const [errorDate, setErrorDate] = useState(null);
+  const [messageStatus, setMessageStatus] = useState('');
+  const [errorStatus, setErrorStatus] = useState(null);
+
+  function handleChangeDate(event) {
+    const value = event.target.value;
+    if (value.includes('T00:00:00.000Z')) setErrorDate('Date must be yyyy-mm-dd');
+    else setErrorDate(null);
+    setMessageDate(value);
+  }
+
+  function handleChangeStatus(event) {
+    const value = event.target.value;
+    if (value !== 'failed' && value !== 'successful' && value !== 'assigned') {
+      setErrorStatus('Status must be assigned, successful or failed');
+    } else setErrorStatus(null);
+    setMessageStatus(value);
+  }
+
   return (
-    <form key={props._id} className={styles.form}>
+    <form key={props._id} className={styles.form} onSubmit={onSubmit}>
       <h2>Edit Interview</h2>
       <div className={styles.formDiv1}>
         <div className={styles.formDiv2}>
@@ -149,6 +169,7 @@ function EditForm(props) {
           placeholder="Status"
           onChange={(e) => {
             setStatusValue(e.target.value);
+            handleChangeStatus(e);
           }}
           required
         />
@@ -160,9 +181,24 @@ function EditForm(props) {
           placeholder="yyyy-mm-dd"
           onChange={(e) => {
             setDateValue(e.target.value);
+            handleChangeDate(e);
           }}
           required
         />
+      </div>
+      <div>
+        <label
+          style={{ color: 'red', width: '200px', textAlign: 'center', padding: '0px 20px' }}
+          htmlFor="messageStatus"
+        >
+          {errorStatus}
+        </label>
+        <label
+          style={{ color: 'red', width: '200px', textAlign: 'center', float: 'right' }}
+          htmlFor="messageDate"
+        >
+          {errorDate}
+        </label>
       </div>
       <div className={styles.formDiv2}>
         <label>Notes</label>

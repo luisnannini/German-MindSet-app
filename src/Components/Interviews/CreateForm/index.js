@@ -83,6 +83,28 @@ const CreateForm = (props) => {
     setApplicationValue(event.target.value);
   };
 
+  // ADD VALIDATIONS
+  const [messageDate, setMessageDate] = useState('');
+  const [errorDate, setErrorDate] = useState(null);
+  const [messageStatus, setMessageStatus] = useState('');
+  const [errorStatus, setErrorStatus] = useState(null);
+
+  function handleChangeDate(event) {
+    const value = event.target.value;
+    if (!value.match(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/))
+      setErrorDate('Date must be yyyy-mm-dd');
+    else setErrorDate(null);
+    setMessageDate(value);
+  }
+
+  function handleChangeStatus(event) {
+    const value = event.target.value;
+    if (value !== 'failed' && value !== 'successful' && value !== 'assigned') {
+      setErrorStatus('Status must be assigned, successful or failed');
+    } else setErrorStatus(null);
+    setMessageStatus(value);
+  }
+
   if (!props.show) {
     return null;
   }
@@ -111,6 +133,7 @@ const CreateForm = (props) => {
           placeholder="Status"
           onChange={(e) => {
             setStatusValue(e.target.value);
+            handleChangeStatus(e);
           }}
           required
         />
@@ -121,9 +144,24 @@ const CreateForm = (props) => {
           placeholder="yyyy-mm-dd"
           onChange={(e) => {
             setDateValue(e.target.value);
+            handleChangeDate(e);
           }}
           required
         />
+      </div>
+      <div className={styles.formDivError}>
+        <label
+          style={{ color: 'red', width: '200px', padding: '0px 20px' }}
+          htmlFor="messageStatus"
+        >
+          {errorStatus}
+        </label>
+        <label
+          style={{ color: 'red', width: '200px', padding: '0px 20px', float: 'right' }}
+          htmlFor="messageDate"
+        >
+          {errorDate}
+        </label>
       </div>
       <div className={styles.formDiv2}>
         <label>Notes</label>
