@@ -64,7 +64,7 @@ const CreateForm = (props) => {
         return response.json();
       })
       .then(() => {
-        window.location.reload();
+        window.location.href = '/interviews';
       });
   };
 

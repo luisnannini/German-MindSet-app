@@ -58,6 +58,9 @@ function Interviews() {
           });
         }
       })
+      .then(() => {
+        window.location.href = '/interview';
+      })
       .catch((error) => error);
   };
 

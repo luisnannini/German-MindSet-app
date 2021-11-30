@@ -114,8 +114,7 @@ function EditForm(props) {
         return response.json();
       })
       .then(() => {
-        window.location.href = '/interview';
-        window.location.reload();
+        window.location.href = '/interviews';
       })
       .catch((error) => error);
   };
