@@ -18,6 +18,9 @@ function Layout() {
     case '/admins':
       currentScreen = <Admins />;
       break;
+    case '/admins/form':
+      currentScreen = <AdminsForm />;
+      break;
     case '/applications':
       currentScreen = <Applications />;
       break;
