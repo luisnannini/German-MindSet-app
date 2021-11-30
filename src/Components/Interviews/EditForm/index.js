@@ -146,13 +146,9 @@ function EditForm(props) {
     setMessageDate(value);
   }
 
-  function handleChangeStatus(event) {
-    const value = event.target.value;
-    if (value !== 'failed' && value !== 'successful' && value !== 'assigned') {
-      setErrorStatus('Status must be assigned, successful or failed');
-    } else setErrorStatus(null);
-    setMessageStatus(value);
-  }
+  const onChangeStatusValue = (event) => {
+    setStatusValue(event.target.value);
+  };
 
   return (
     <form key={props._id} className={styles.form} onSubmit={onSubmit}>
@@ -187,16 +183,12 @@ function EditForm(props) {
       </div>
       <div className={styles.formDiv1}>
         <label>Status</label>
-        <Input
-          name="status"
-          value={statusValue}
-          placeholder="Status"
-          onChange={(e) => {
-            setStatusValue(e.target.value);
-            handleChangeStatus(e);
-          }}
-          required
-        />
+        <select onChange={onChangeStatusValue} style={{ fontSize: '10px', height: '25px' }}>
+          <option selected value="0"></option>
+          <option value="failed">Failed</option>
+          <option value="assigned">Assigned</option>
+          <option value="successful">Successful </option>
+        </select>
         <label>Date</label>
         <p>yyyy-mm-dd</p>
         <Input

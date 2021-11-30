@@ -100,6 +100,10 @@ const CreateForm = (props) => {
     setApplicationValue(event.target.value);
   };
 
+  const onChangeStatusValue = (event) => {
+    setStatusValue(event.target.value);
+  };
+
   const [messageDate, setMessageDate] = useState('');
   const [errorDate, setErrorDate] = useState(null);
   const [messageStatus, setMessageStatus] = useState('');
@@ -149,16 +153,12 @@ const CreateForm = (props) => {
       </div>
       <div className={styles.formDiv1}>
         <label>Status</label>
-        <Input
-          name="status"
-          value={statusValue}
-          placeholder="Status"
-          onChange={(e) => {
-            setStatusValue(e.target.value);
-            handleChangeStatus(e);
-          }}
-          required
-        />
+        <select onChange={onChangeStatusValue} style={{ fontSize: '10px', height: '25px' }}>
+          <option selected value="0"></option>
+          <option value="failed">Failed</option>
+          <option value="assigned">Assigned</option>
+          <option value="successful">Successful </option>
+        </select>
         <label>Date</label>
         <Input
           name="date"
