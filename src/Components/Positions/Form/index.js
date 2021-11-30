@@ -1,11 +1,10 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import { React, useState, useEffect } from 'react';
+import styles from './form.module.css';
+import Modal from '../Modal';
 import Input from '../Input';
 import Select from '../Select';
 import Button from '../Button';
-import styles from './form.module.css';
 import Checkbox from '../Checkbox';
-import Modal from '../Modal';
 
 const Form = (props) => {
   const [clients, setClients] = useState([]);
@@ -152,6 +151,7 @@ const Form = (props) => {
               value={clientValue}
               onChange={onChangeClientValue}
               placeholder={'Select a Client'}
+              required
             />
             <Input
               label={'Job Description'}
@@ -173,6 +173,7 @@ const Form = (props) => {
               value={profilesValue}
               onChange={onChangeProfilesValue}
               placeholder={'Select a Profile'}
+              required
             />
             <Input
               className={styles.input}
@@ -181,6 +182,7 @@ const Form = (props) => {
               onChange={onChangeVacancyValue}
               placeholder={'Set the number of vacancies'}
               type={'number'}
+              min={1}
             />
           </div>
         </div>

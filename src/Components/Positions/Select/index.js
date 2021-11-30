@@ -5,7 +5,12 @@ const Select = (props) => {
   return (
     <div className={styles.container}>
       <label className={styles.label}>{props.label}</label>
-      <select value={props.value} className={styles.select} onChange={props.onChange}>
+      <select
+        value={props.value}
+        className={styles.select}
+        onChange={props.onChange}
+        required={props.required}
+      >
         <option value="" disabled hidden>
           {props.placeholder}
         </option>

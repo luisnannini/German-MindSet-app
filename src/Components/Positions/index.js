@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import styles from './positions.module.css';
+import Modal from './Modal';
 import CreateButton from './CreateButton';
 import UpdateButton from './UpdateButton';
 import DeleteButton from './DeleteButton';
-import Modal from './Modal';
 
 function Positions() {
   const [positions, setPositions] = useState([]);
