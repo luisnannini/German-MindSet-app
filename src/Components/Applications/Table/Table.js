@@ -9,7 +9,7 @@ const Table = ({ applications, updateReq, removeReq }) => {
           <th>ID</th>
           <th>ID Position</th>
           <th>ID Postulant</th>
-          {/* <th>ID Interview</th> */}
+          <th>ID Interview</th>
           <th>Result</th>
           <th></th>
           <th></th>
@@ -19,9 +19,11 @@ const Table = ({ applications, updateReq, removeReq }) => {
         {applications.map((app) => (
           <tr key={app._id}>
             <td>{app._id}</td>
-            <td>{app.positions._id}</td>
-            <td>{app.postulants._id}</td>
-            {/* <td>{app.interview._id}</td> */}
+            <td>{app.positions.jobDescription}</td>
+            <td>
+              {app.postulants.firstName} {app.postulants.lastName}
+            </td>
+            <td>{app.interview._id}</td>
             <td>{app.result}</td>
             <td>
               <img src={edit} alt="Edit" onClick={() => updateReq(app._id)} />
