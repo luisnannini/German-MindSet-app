@@ -23,11 +23,9 @@ const Form = () => {
           return response.json();
         })
         .then((response) => {
-          console.log(response);
-          // TODO
-          // setFullNameValue();
-          // setUsernameValue();
-          // setPasswordValue();
+          setFullNameValue(response.data[0].name);
+          setUsernameValue(response.data[0].username);
+          setPasswordValue(response.data[0].password);
         })
         .catch((error) => {
           console.log(error);
@@ -72,7 +70,6 @@ const Form = () => {
   };
 
   const submitAdmin = (e) => {
-    // Llega bien
     e.preventDefault();
     setLoading(true);
     const params = new URLSearchParams(window.location.search);
@@ -122,6 +119,7 @@ const Form = () => {
         <label>Full Name</label>
         <input
           type="text"
+          value={fullNameValue}
           placeholder="Full name"
           onChange={onChangeFullNameValue}
           required
@@ -130,6 +128,7 @@ const Form = () => {
         <label>Username</label>
         <input
           type="text"
+          value={usernameValue}
           placeholder="Username"
           onChange={onChangeUsernameValue}
           required
@@ -138,6 +137,7 @@ const Form = () => {
         <label>Password</label>
         <input
           type="password"
+          value={passwordValue}
           placeholder="Password"
           onChange={onChangePasswordValue}
           required

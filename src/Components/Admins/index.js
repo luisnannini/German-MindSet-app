@@ -80,7 +80,7 @@ function Admins() {
               <td>{admin.name}</td>
               <td>{admin.username}</td>
               <td>
-                <button>Edit</button>
+                <button onClick={() => showForm(admin)}>Edit</button>
               </td>
               <td>
                 <button onClick={(event) => handleDelete(event, admin)}>Delete</button>
