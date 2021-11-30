@@ -70,6 +70,7 @@ const availability = (props) => {
           type="number"
           pattern="^[0-9,$]"
           title="Enter a valid time range, EX: 1500"
+          onChange={props.from}
         />
         <input
           name="monday-to"
@@ -77,6 +78,7 @@ const availability = (props) => {
           type="number"
           pattern="^[0-9,$]"
           title="Enter a valid time range, EX: 1500"
+          onChange={props.to}
         />
       </div>
       <div>
@@ -94,6 +96,7 @@ const availability = (props) => {
           type="number"
           pattern="^[0-9,$]"
           title="Enter a valid time range, EX: 1500"
+          onChange={props.from}
         />
         <input
           name="tuesday-to"
@@ -101,6 +104,7 @@ const availability = (props) => {
           type="number"
           pattern="^[0-9,$]"
           title="Enter a valid time range, EX: 1500"
+          onChange={props.to}
         />
       </div>
       <div>
@@ -118,6 +122,7 @@ const availability = (props) => {
           type="number"
           pattern="^[0-9,$]"
           title="Enter a valid time range, EX: 1500"
+          onChange={props.from}
         />
         <input
           name="wednesday-to"
@@ -125,6 +130,7 @@ const availability = (props) => {
           type="number"
           pattern="^[0-9,$]"
           title="Enter a valid time range, EX: 1500"
+          onChange={props.to}
         />
       </div>
       <div>
@@ -142,6 +148,7 @@ const availability = (props) => {
           type="number"
           pattern="^[0-9,$]"
           title="Enter a valid time range, EX: 1500"
+          onChange={props.from}
         />
         <input
           name="thursday-to"
@@ -149,6 +156,7 @@ const availability = (props) => {
           type="number"
           pattern="^[0-9,$]"
           title="Enter a valid time range, EX: 1500"
+          onChange={props.to}
         />
       </div>
       <div>
@@ -166,6 +174,7 @@ const availability = (props) => {
           type="number"
           pattern="^[0-9,$]"
           title="Enter a valid time range, EX: 1500"
+          onChange={props.from}
         />
         <input
           name="friday-to"
@@ -173,6 +182,7 @@ const availability = (props) => {
           type="number"
           pattern="^[0-9,$]"
           title="Enter a valid time range, EX: 1500"
+          onChange={props.to}
         />
       </div>
       <div>
@@ -190,6 +200,7 @@ const availability = (props) => {
           type="number"
           pattern="^[0-9,$]"
           title="Enter a valid time range, EX: 1500"
+          onChange={props.from}
         />
         <input
           name="saturday-to"
@@ -197,6 +208,7 @@ const availability = (props) => {
           type="number"
           pattern="^[0-9,$]"
           title="Enter a valid time range, EX: 1500"
+          onChange={props.to}
         />
       </div>
       <div>
@@ -214,6 +226,7 @@ const availability = (props) => {
           type="number"
           pattern="^[0-9,$]"
           title="Enter a valid time range, EX: 1500"
+          onChange={props.from}
         />
         <input
           name="sunday-to"
@@ -221,6 +234,7 @@ const availability = (props) => {
           type="number"
           pattern="^[0-9,$]"
           title="Enter a valid time range, EX: 1500"
+          onChange={props.to}
         />
       </div>
     </section>

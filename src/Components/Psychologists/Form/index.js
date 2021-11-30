@@ -131,7 +131,7 @@ const index = (props) => {
       }
     }
   };
-
+  // days available
   const onChangeMondayBool = (param) => {
     setMondayBool(param);
   };
@@ -183,6 +183,113 @@ const index = (props) => {
         break;
     }
   };
+  // hour-from available
+
+  const onChangeMondayFrom = (param) => {
+    setMondayFrom(param);
+  };
+  const onChangeTuesdayFrom = (param) => {
+    setTuesdayFrom(param);
+  };
+  const onChangeWednesdayFrom = (param) => {
+    setWednesdayFrom(param);
+  };
+  const onChangeThursdayFrom = (param) => {
+    setThursdayFrom(param);
+  };
+  const onChangeFridayFrom = (param) => {
+    setFridayFrom(param);
+  };
+  const onChangeSaturdayFrom = (param) => {
+    setSaturdayFrom(param);
+  };
+  const onChangeSundayFrom = (param) => {
+    setSundayFrom(param);
+  };
+
+  const changeHourAvailFrom = (event) => {
+    const param = event.target.name;
+    console.log(param);
+    switch (param) {
+      case 'monday-from':
+        onChangeMondayFrom(event.target.value);
+        break;
+      case 'tuesday-from':
+        onChangeTuesdayFrom(event.target.value);
+        break;
+      case 'wednesday-from':
+        onChangeWednesdayFrom(event.target.value);
+        break;
+      case 'thursday-from':
+        onChangeThursdayFrom(event.target.value);
+        break;
+      case 'friday-from':
+        onChangeFridayFrom(event.target.value);
+        break;
+      case 'saturday-from':
+        onChangeSaturdayFrom(event.target.value);
+        break;
+      case 'sunday-from':
+        onChangeSundayFrom(event.target.value);
+        break;
+      default:
+        break;
+    }
+  };
+
+  // hour-to available
+
+  const onChangeMondayTo = (param) => {
+    setMondayTo(param);
+  };
+  const onChangeTuesdayTo = (param) => {
+    setTuesdayTo(param);
+  };
+  const onChangeWednesdayTo = (param) => {
+    setWednesdayTo(param);
+  };
+  const onChangeThursdayTo = (param) => {
+    setThursdayTo(param);
+  };
+  const onChangeFridayTo = (param) => {
+    setFridayTo(param);
+  };
+  const onChangeSaturdayTo = (param) => {
+    setSaturdayTo(param);
+  };
+  const onChangeSundayTo = (param) => {
+    setSundayTo(param);
+  };
+
+  const changeHourAvailTo = (event) => {
+    const param = event.target.name;
+    console.log(param);
+    switch (param) {
+      case 'monday-to':
+        onChangeMondayTo(event.target.value);
+        break;
+      case 'tuesday-to':
+        onChangeTuesdayTo(event.target.value);
+        break;
+      case 'wednesday-to':
+        onChangeWednesdayTo(event.target.value);
+        break;
+      case 'thursday-to':
+        onChangeThursdayTo(event.target.value);
+        break;
+      case 'friday-to':
+        onChangeFridayTo(event.target.value);
+        break;
+      case 'saturday-to':
+        onChangeSaturdayTo(event.target.value);
+        break;
+      case 'sunday-to':
+        onChangeSundayTo(event.target.value);
+        break;
+      default:
+        break;
+    }
+  };
 
   const onChangeFirstNameValue = (event) => {
     setFirstName(event.target.value);
@@ -224,52 +331,6 @@ const index = (props) => {
         availability: availabilityForm
       })
     };
-    console.log({
-      firstName: firstNameForm,
-      lastName: lastNameForm,
-      username: usernameForm,
-      password: passwordForm,
-      email: emailForm,
-      phone: phoneForm,
-      address: addressForm,
-      availability: {
-        monday: {
-          availability: mondayBool,
-          from: mondayFrom,
-          to: mondayTo
-        },
-        tuesday: {
-          availability: tuesdayBool,
-          from: tuesdayFrom,
-          to: tuesdayTo
-        },
-        wednesday: {
-          availability: wednesdayBool,
-          from: wednesdayFrom,
-          to: wednesdayTo
-        },
-        thursday: {
-          availability: thursdayBool,
-          from: thursdayFrom,
-          to: thursdayTo
-        },
-        friday: {
-          availability: fridayBool,
-          from: fridayFrom,
-          to: fridayTo
-        },
-        saturday: {
-          availability: saturdayBool,
-          from: saturdayFrom,
-          to: saturdayTo
-        },
-        sunday: {
-          availability: sundayBool,
-          from: sundayFrom,
-          to: sundayTo
-        }
-      }
-    });
     fetch(`${process.env.REACT_APP_API}/psychologists/`, options).then((response) => {
       if (response.status !== 200 && response.status !== 201) {
         return response.json().then(({ message }) => {
@@ -372,7 +433,13 @@ const index = (props) => {
           </div>
           <span className={styles.hiddenError}>Invalid Address</span>
         </div>
-        <Availability data={psy.availability} field={setAvailability} action={changeDayAvail} />
+        <Availability
+          data={psy.availability}
+          field={setAvailability}
+          action={changeDayAvail}
+          from={changeHourAvailFrom}
+          to={changeHourAvailTo}
+        />
         <button name={'CONFIRM'} type={'submit'} />
       </form>
     </div>
