@@ -59,7 +59,7 @@ function Interviews() {
         }
       })
       .then(() => {
-        window.location.href = '/interview';
+        window.location.href = '/interviews';
       })
       .catch((error) => error);
   };
