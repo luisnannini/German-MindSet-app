@@ -95,7 +95,7 @@ function EditForm(props) {
         client: clientValue,
         application: applicationValue,
         status: statusValue,
-        date: dateValue,
+        date: dateValue.replace('T00:00:00.000Z', ''),
         notes: notesValue
       })
     };
@@ -177,7 +177,7 @@ function EditForm(props) {
         <p>yyyy-mm-dd</p>
         <Input
           name="date"
-          value={dateValue.replace('T00:00:00.000Z', '')}
+          value={dateValue}
           placeholder="yyyy-mm-dd"
           onChange={(e) => {
             setDateValue(e.target.value);
