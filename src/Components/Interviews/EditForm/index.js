@@ -26,22 +26,26 @@ function EditForm(props) {
       .then((response) => response.json())
       .then((response) => {
         setInterviews(response.data);
-      });
+      })
+      .catch((error) => error);
     fetch(`${process.env.REACT_APP_API}/clients`)
       .then((response) => response.json())
       .then((response) => {
         setClients(response.data);
-      });
+      })
+      .catch((error) => error);
     fetch(`${process.env.REACT_APP_API}/postulants`)
       .then((response) => response.json())
       .then((response) => {
         setPostulants(response.data);
-      });
+      })
+      .catch((error) => error);
     fetch(`${process.env.REACT_APP_API}/applications`)
       .then((response) => response.json())
       .then((response) => {
         setApplications(response.data);
-      });
+      })
+      .catch((error) => error);
   }, []);
 
   useEffect(() => {

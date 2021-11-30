@@ -25,17 +25,20 @@ const CreateForm = (props) => {
       .then((response) => response.json())
       .then((response) => {
         setClients(response.data);
-      });
+      })
+      .catch((error) => error);
     fetch(`${process.env.REACT_APP_API}/postulants`)
       .then((response) => response.json())
       .then((response) => {
         setPostulants(response.data);
-      });
+      })
+      .catch((error) => error);
     fetch(`${process.env.REACT_APP_API}/applications`)
       .then((response) => response.json())
       .then((response) => {
         setApplications(response.data);
-      });
+      })
+      .catch((error) => error);
   }, []);
 
   const onSubmit = (e) => {

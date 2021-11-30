@@ -19,7 +19,8 @@ function Interviews() {
       .then((response) => response.json())
       .then((response) => {
         setInterviews(response.data);
-      });
+      })
+      .catch((error) => error);
   }, []);
 
   const handleDelete = (event, interview) => {
