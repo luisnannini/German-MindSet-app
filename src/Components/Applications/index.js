@@ -16,7 +16,8 @@ function Applications() {
       .then((response) => response.json())
       .then((response) => {
         setApplications(response.data);
-      });
+      })
+      .catch((error) => error);
   }, []);
 
   const removeReq = (id) => {
@@ -43,7 +44,7 @@ function Applications() {
             throw new Error(message);
           });
         }
-        //return response.json(`Id: ${id}`);
+        return response.json(`Id: ${id}`);
       })
       .then(() => {
         window.location.href = `${window.location.origin}/applications`;

@@ -15,17 +15,20 @@ const Form = (props) => {
       .then((response) => response.json())
       .then((response) => {
         setPosition(response.data);
-      });
+      })
+      .catch((error) => error);
     fetch(`${process.env.REACT_APP_API}/postulants`)
       .then((response) => response.json())
       .then((response) => {
         setPostulant(response.data);
-      });
+      })
+      .catch((error) => error);
     fetch(`${process.env.REACT_APP_API}/interviews`)
       .then((response) => response.json())
       .then((response) => {
         setInterview(response.data);
-      });
+      })
+      .catch((error) => error);
   }, []);
   const onChangePosition = (input) => {
     setPositionValue(input.target.value);
@@ -66,10 +69,9 @@ const Form = (props) => {
       })
       .then(() => {
         window.location.href = '/applications';
-        //window.location.href = `${window.location.origin}/applications`;
       })
       .catch((error) => {
-        console.log(error);
+        return error;
       });
   };
   return (
@@ -78,6 +80,9 @@ const Form = (props) => {
       <div>
         <label>Position:</label>
         <select onChange={onChangePosition}>
+          <option value="" disabled hidden>
+            Select an option
+          </option>
           {position.map((data) => {
             return (
               <option key={data._id} value={data._id}>
