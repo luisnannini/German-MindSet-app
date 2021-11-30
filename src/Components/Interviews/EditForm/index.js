@@ -66,9 +66,6 @@ function EditForm(props) {
     }
   }, []);
 
-  console.log(postulantValue);
-  console.log(clientValue);
-
   const onChangeClientValue = (event) => {
     console.log(clientValue);
     setClientValue(event.target.value);
