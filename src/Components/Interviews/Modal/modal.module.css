@@ -3,7 +3,7 @@
   top: 40%;
   left: 40%;
   width: 200px;
-  height: 100px;
+  height: 90px;
   background-color: #fff;
   border: 3px solid #232F3E;
   z-index: 1;
@@ -13,5 +13,5 @@
   padding: 10px;
   text-align: center;
   color: #FC6225;
-  font-size: 20px;
+  font-size: 15px;
 }
