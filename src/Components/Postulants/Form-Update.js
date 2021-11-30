@@ -1,94 +1,96 @@
 import style from './postulants-Form.module.css';
 import { useState } from 'react';
-import Button from './Button';
 import Modal from './Modal';
+import PrimaryStudies from './PrimaryStudies';
+import SecondaryStudies from './SecondaryStudies';
+import TertiaryStudies from './TertiaryStudies';
+import UniversityStudies from './UniversityStudies';
+import InformalStudies from './InformalStudies';
+import FirstName from './FirstName';
+import LastName from './LastName';
+import Email from './Email';
+import Password from './Password';
+import Address from './Address';
+import Birthday from './Birthday';
+import Available from './Available';
+import Phone from './Phone';
+import CreatedAt from './CreatedAt';
+import UpdatedAt from './UpdatedAt';
+import Profiles from './Profiles';
+import WorkExperience from './WorkExperience';
+import ContactRange from './ContactRange';
 import { v4 as uuidv4 } from 'uuid';
 
-function Form({ postulant, id, postulantTemplate }) {
+function Form({ postulant, template, id }) {
   const [modal, setModal] = useState({ state: false });
-  const [contactRange, setContactRange] = useState(postulant.contactRange);
-  const [primaryStudies, setPrimaryStudies] = useState(postulant.studies.primaryStudies);
-  const [secondaryStudies, setSecondaryStudies] = useState(postulant.studies.secondaryStudies);
-  const [tertiaryStudies, setTertiaryStudies] = useState(
-    postulant.studies.tertiaryStudies.map((tertiaryStudy) => {
-      tertiaryStudy.id = uuidv4();
-      return tertiaryStudy;
-    })
-  );
-  const [universityStudies, setuniversityStudies] = useState(
-    postulant.studies.universityStudies.map((universityStudy) => {
-      universityStudy.id = uuidv4();
-      return universityStudy;
-    })
-  );
-  const [informalStudies, setInformalStudies] = useState(
-    postulant.studies.informalStudies.map((informalStudy) => {
-      informalStudy.id = uuidv4();
-      return informalStudy;
-    })
-  );
-  const [singleKeys, setSingleKeys] = useState({
-    id: postulant._id,
-    firstName: postulant.firstName,
-    lastName: postulant.lastName,
-    email: postulant.email,
-    password: postulant.password,
-    address: postulant.address,
-    birthday: postulant.birthday,
-    available: postulant.available,
-    phone: postulant.phone,
-    createdAt: postulant.createdAt
-  });
-  const [profiles, setProfiles] = useState(
-    postulant.profiles.map((profile) => {
-      profile.id = uuidv4();
-      return profile;
-    })
-  );
-  const [workExperience, setWorkExperience] = useState(
-    postulant.workExperience.map((work) => {
-      work.id = uuidv4();
-      return work;
-    })
-  );
+  const [loadForm, setLoadForm] = useState();
 
+  postulant.studies.tertiaryStudies.map((ts) => {
+    ts.id = uuidv4();
+  });
+  postulant.studies.universityStudies.map((us) => {
+    us.id = uuidv4();
+  });
+  postulant.studies.informalStudies.map((is) => {
+    is.id = uuidv4();
+  });
+  postulant.profiles.map((profile) => {
+    profile.id = uuidv4();
+  });
+  postulant.workExperience.map((we) => {
+    we.id = uuidv4();
+  });
+
+  const collectData = (data, property) => {
+    /*     console.log(data, property);
+     */ template.id = id;
+    if (property === 'contactRange') template.contactRange = data;
+    if (property === 'primaryStudies') template.studies.primaryStudies = data;
+    if (property === 'secondaryStudies') template.studies.secondaryStudies = data;
+    if (property === 'tertiaryStudies') template.studies.tertiaryStudies = data;
+    if (property === 'universityStudies') template.studies.universityStudies = data;
+    if (property === 'informalStudies') template.studies.informalStudies = data;
+    if (property === 'firstName') template.firstName = data;
+    if (property === 'lastName') template.lastName = data;
+    if (property === 'email') template.email = data;
+    if (property === 'password') template.password = data;
+    if (property === 'address') template.address = data;
+    if (property === 'birthday') template.birthday = data;
+    if (property === 'available') template.available = data;
+    if (property === 'phone') template.phone = data;
+    if (property === 'createdAt') template.createdAt = data;
+    if (property === 'updatedAt') template.updatedAt = data;
+    if (property === 'profiles') template.profiles = data;
+    if (property === 'workExperience') template.workExperience = data;
+  };
   const submit = async (e) => {
+    let error = false;
     e.preventDefault();
-    console.log({
-      contactRange,
-      studies: {
-        primaryStudies,
-        secondaryStudies,
-        tertiaryStudies,
-        universityStudies,
-        informalStudies
-      },
-      ...singleKeys,
-      profiles,
-      workExperience
-    });
-    try {
+    /*     console.log(template);
+     */ try {
       const responseRaw = await fetch(`${process.env.REACT_APP_API}/postulants?id=${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          id,
-          contactRange,
-          studies: {
-            primaryStudies,
-            secondaryStudies,
-            tertiaryStudies,
-            universityStudies,
-            informalStudies
-          },
-          ...singleKeys,
-          profiles,
-          workExperience
-        })
+        body: JSON.stringify(template)
       });
+      if (responseRaw.status !== 200 && responseRaw.status !== 201) {
+        error = true;
+        console.log('error');
+      }
       const responseJson = await responseRaw.json();
+      if (error) {
+        setModal({
+          title: 'Updated',
+          state: true,
+          message: responseJson.message,
+          action: () => {
+            setModal({ state: false });
+          }
+        });
+        return;
+      }
       setModal({
         title: 'Updated',
         state: true,
@@ -110,342 +112,30 @@ function Form({ postulant, id, postulantTemplate }) {
         <div>
           <h3>Studies</h3>
           <div className={style.inputSection}>
-            <div>
-              <h4>Primary studies</h4>
-              <input
-                defaultValue={postulant.studies.primaryStudies.startDate}
-                placeholder="Start date"
-                onChange={({ target: { value } }) =>
-                  setPrimaryStudies({ ...primaryStudies, startDate: value })
-                }
-              />
-              <input
-                defaultValue={postulant.studies.primaryStudies.endDate}
-                placeholder="End date"
-                onChange={({ target: { value } }) =>
-                  setPrimaryStudies({ ...primaryStudies, endDate: value })
-                }
-              />
-              <input
-                defaultValue={postulant.studies.primaryStudies.school}
-                placeholder="School"
-                onChange={({ target: { value } }) =>
-                  setPrimaryStudies({ ...primaryStudies, school: value })
-                }
-              />
-            </div>
-            <div>
-              <h4>Secundary studies</h4>
-              <input
-                defaultValue={postulant.studies.secondaryStudies.startDate}
-                placeholder="Start date"
-                onChange={({ target: { value } }) =>
-                  setSecondaryStudies({ ...secondaryStudies, startDate: value })
-                }
-              />
-              <input
-                defaultValue={postulant.studies.secondaryStudies.endDate}
-                placeholder="End date"
-                onChange={({ target: { value } }) =>
-                  setSecondaryStudies({ ...secondaryStudies, endDate: value })
-                }
-              />
-              <input
-                defaultValue={postulant.studies.secondaryStudies.school}
-                placeholder="School"
-                onChange={({ target: { value } }) =>
-                  setSecondaryStudies({ ...secondaryStudies, school: value })
-                }
-              />
-            </div>
-            <div>
-              <h4>Tertiary studies</h4>
-              {postulant.studies.tertiaryStudies.map((tertiaryStudy, index) => {
-                return (
-                  <div key={tertiaryStudy.id}>
-                    <input
-                      defaultValue={tertiaryStudy.startDate}
-                      placeholder="Start date"
-                      onChange={({ target: { value } }) => {
-                        tertiaryStudies[index].startDate = value; //no se puede encontrar el indice de un array a través de un objeto
-                        setTertiaryStudies([...tertiaryStudies]);
-                      }}
-                    />
-                    <input
-                      defaultValue={tertiaryStudy.endDate}
-                      placeholder="End date"
-                      onChange={({ target: { value } }) => {
-                        tertiaryStudies[index].endDate = value; //no se puede encontrar el indice de un array a través de un objeto
-                        setTertiaryStudies([...tertiaryStudies]);
-                      }}
-                    />
-                    <textarea
-                      defaultValue={tertiaryStudy.description}
-                      placeholder="Description"
-                      onChange={({ target: { value } }) => {
-                        tertiaryStudies[index].description = value; //no se puede encontrar el indice de un array a través de un objeto
-                        setTertiaryStudies([...tertiaryStudies]);
-                      }}
-                    ></textarea>
-                    <input
-                      defaultValue={tertiaryStudy.institute}
-                      placeholder="Institute"
-                      onChange={({ target: { value } }) => {
-                        tertiaryStudies[index].institute = value; //no se puede encontrar el indice de un array a través de un objeto
-                        setTertiaryStudies([...tertiaryStudies]);
-                      }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-            <div>
-              <h4>University studies</h4>
-              {postulant.studies.universityStudies.map((universityStudy, index) => {
-                return (
-                  <div key={universityStudy.id}>
-                    <input
-                      defaultValue={universityStudy.startDate}
-                      placeholder="Start date"
-                      onChange={({ target: { value } }) => {
-                        universityStudies[index].startDate = value; //no se puede encontrar el indice de un array a través de un objeto
-                        setuniversityStudies([...universityStudies]);
-                      }}
-                    />
-                    <input
-                      defaultValue={universityStudy.endDate}
-                      placeholder="End date"
-                      onChange={({ target: { value } }) => {
-                        universityStudies[index].endDate = value; //no se puede encontrar el indice de un array a través de un objeto
-                        setuniversityStudies([...universityStudies]);
-                      }}
-                    />
-                    <textarea
-                      defaultValue={universityStudy.description}
-                      placeholder="Description"
-                      onChange={({ target: { value } }) => {
-                        universityStudies[index].description = value; //no se puede encontrar el indice de un array a través de un objeto
-                        setuniversityStudies([...universityStudies]);
-                      }}
-                    ></textarea>
-                    <input
-                      defaultValue={universityStudy.institute}
-                      placeholder="Institute"
-                      onChange={({ target: { value } }) => {
-                        universityStudies[index].institute = value; //no se puede encontrar el indice de un array a través de un objeto
-                        setuniversityStudies([...universityStudies]);
-                      }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-            <div>
-              <h4>Informal studies</h4>
-              {postulant.studies.informalStudies.map((informalStudy, index) => {
-                return (
-                  <div key={informalStudy.id}>
-                    <input
-                      defaultValue={informalStudy.startDate}
-                      placeholder="Start date"
-                      onChange={({ target: { value } }) => {
-                        informalStudies[index].startDate = value; //no se puede encontrar el indice de un array a través de un objeto
-                        setInformalStudies([...informalStudies]);
-                      }}
-                    />
-                    <input
-                      defaultValue={informalStudy.endDate}
-                      placeholder="End date"
-                      onChange={({ target: { value } }) => {
-                        informalStudies[index].endDate = value; //no se puede encontrar el indice de un array a través de un objeto
-                        setInformalStudies([...informalStudies]);
-                      }}
-                    />
-                    <textarea
-                      defaultValue={informalStudy.description}
-                      placeholder="Description"
-                      onChange={({ target: { value } }) => {
-                        informalStudies[index].description = value; //no se puede encontrar el indice de un array a través de un objeto
-                        setInformalStudies([...informalStudies]);
-                      }}
-                    ></textarea>
-                    <input
-                      defaultValue={informalStudy.institute}
-                      placeholder="Institute"
-                      onChange={({ target: { value } }) => {
-                        informalStudies[index].institute = value; //no se puede encontrar el indice de un array a través de un objeto
-                        setInformalStudies([...informalStudies]);
-                      }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
+            <PrimaryStudies postulant={postulant} collectData={collectData} />
+            <SecondaryStudies postulant={postulant} collectData={collectData} />
+            <TertiaryStudies postulant={postulant} collectData={collectData} />
+            <UniversityStudies postulant={postulant} collectData={collectData} />
+            <InformalStudies postulant={postulant} collectData={collectData} />
           </div>
         </div>
-        <div>
-          <h3>Contact range</h3>
-          <input
-            defaultValue={postulant.contactRange.from}
-            placeholder="From"
-            onChange={(e) => setContactRange({ ...contactRange, from: e.target.value })}
-          />
-          <input
-            defaultValue={postulant.contactRange.to}
-            placeholder="To"
-            onChange={(e) => setContactRange({ ...contactRange, to: e.target.value })}
-          />
-        </div>
+        <ContactRange postulant={postulant} collectData={collectData} />
         <div className={style.container}>
-          <div>
-            <h3>First name</h3>
-            <input
-              defaultValue={postulant.firstName}
-              placeholder="First name"
-              onChange={(e) => setSingleKeys({ ...singleKeys, firstName: e.target.value })}
-            />
-          </div>
-          <div>
-            <h3>Last name</h3>
-            <input
-              defaultValue={postulant.lastName}
-              placeholder="Last name"
-              onChange={(e) => setSingleKeys({ ...singleKeys, lastName: e.target.value })}
-            />
-          </div>
-          <div>
-            <h3>Email</h3>
-            <input
-              defaultValue={postulant.email}
-              placeholder="Email"
-              onChange={(e) => setSingleKeys({ ...singleKeys, email: e.target.value })}
-            />
-          </div>
-          <div>
-            <h3>Password</h3>
-            <input
-              defaultValue={postulant.password}
-              placeholder="Password"
-              onChange={(e) => setSingleKeys({ ...singleKeys, password: e.target.value })}
-            />
-          </div>
-          <div>
-            <h3>Address</h3>
-            <input
-              defaultValue={postulant.address}
-              placeholder="Address"
-              onChange={(e) => setSingleKeys({ ...singleKeys, address: e.target.value })}
-            />
-          </div>
-          <div>
-            <h3>Birthday</h3>
-            <input
-              defaultValue={postulant.birthday}
-              placeholder="Birthday"
-              onChange={(e) => setSingleKeys({ ...singleKeys, birthday: e.target.value })}
-            />
-          </div>
-          <div>
-            <h3>Available</h3>
-            <input
-              type="checkbox"
-              defaultValue={postulant.available}
-              placeholder="Available"
-              onChange={(e) => setSingleKeys({ ...singleKeys, available: e.target.checked })}
-            />
-          </div>
-          <div>
-            <h3>Phone</h3>
-            <input
-              defaultValue={postulant.phone}
-              placeholder="Phone"
-              onChange={(e) => setSingleKeys({ ...singleKeys, phone: e.target.value })}
-            />
-          </div>
-          <div>
-            <h3>Created at:</h3>
-            <input
-              defaultValue={postulant.createdAt}
-              placeholder="Created at:"
-              onChange={(e) => setSingleKeys({ ...singleKeys, createdAt: e.target.value })}
-            />
-          </div>
-          <div>
-            <h3>Updated at:</h3>
-            <input
-              defaultValue={postulant.updatedAt}
-              placeholder="Updated at:"
-              onChange={(e) => setSingleKeys({ ...singleKeys, updatedAt: e.target.value })}
-            />
-          </div>
+          <FirstName postulant={postulant} collectData={collectData} />
+          <LastName postulant={postulant} collectData={collectData} />
+          <Email postulant={postulant} collectData={collectData} />
+          <Password postulant={postulant} collectData={collectData} />
+          <Address postulant={postulant} collectData={collectData} />
+          <Birthday postulant={postulant} collectData={collectData} />
+          <Available postulant={postulant} collectData={collectData} />
+          <Phone postulant={postulant} collectData={collectData} />
+          <CreatedAt postulant={postulant} collectData={collectData} />
+          <UpdatedAt postulant={postulant} collectData={collectData} />
         </div>
-        <div>
-          <h3>Profiles</h3>
-          {postulant.profiles.map((profile, index) => {
-            return (
-              <div key={profile.id}>
-                <input
-                  placeholder="Id"
-                  defaultValue={profile._id}
-                  onChange={({ target: { value } }) => {
-                    profiles[index]._id = value; //no se puede encontrar el indice de un array a través de un objeto
-                    setProfiles([...profiles]);
-                  }}
-                />
-                <input
-                  placeholder="Name"
-                  defaultValue={profile.name}
-                  onChange={({ target: { value } }) => {
-                    profiles[index].name = value; //no se puede encontrar el indice de un array a través de un objeto
-                    setProfiles([...profiles]);
-                  }}
-                />
-              </div>
-            );
-          })}
-        </div>
-        <div>
-          <h3>Work experience</h3>
-          {postulant.workExperience.map((work, index) => {
-            return (
-              <div key={work.id}>
-                <input
-                  defaultValue={work.company}
-                  placeholder="Company"
-                  onChange={({ target: { value } }) => {
-                    workExperience[index].company = value; //no se puede encontrar el indice de un array a través de un objeto
-                    setWorkExperience([...workExperience]);
-                  }}
-                />
-                <input
-                  defaultValue={work.startDate}
-                  placeholder="Start date"
-                  onChange={({ target: { value } }) => {
-                    workExperience[index].startDate = value; //no se puede encontrar el indice de un array a través de un objeto
-                    setWorkExperience([...workExperience]);
-                  }}
-                />
-                <input
-                  defaultValue={work.endDate}
-                  placeholder="End date"
-                  onChange={({ target: { value } }) => {
-                    workExperience[index].endDate = value; //no se puede encontrar el indice de un array a través de un objeto
-                    setWorkExperience([...workExperience]);
-                  }}
-                />
-                <textarea
-                  defaultValue={work.description}
-                  placeholder="Description"
-                  onChange={({ target: { value } }) => {
-                    workExperience[index].description = value; //no se puede encontrar el indice de un array a través de un objeto
-                    setWorkExperience([...workExperience]);
-                  }}
-                ></textarea>
-              </div>
-            );
-          })}
-        </div>
-        <Button title="Save" onClick={submit} />
+        <Profiles postulant={postulant} collectData={collectData} />
+        <WorkExperience postulant={postulant} collectData={collectData} />
+
+        <button onClick={submit}>Save</button>
       </form>
       {modal.state && <Modal modal={modal} setModal={setModal} />}
     </section>

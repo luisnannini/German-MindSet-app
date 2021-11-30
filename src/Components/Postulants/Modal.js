@@ -1,33 +1,39 @@
 import style from './postulants-Modal.module.css';
-import Button from './Button';
 
-const Modal = ({ setModal, modal, modal: { title, state, message, action, type, id } }) => {
-  if (type === 'confirm') {
+const Modal = ({ modal, forwardState, closeModal }) => {
+  if (modal.type === 'confirm') {
     return (
       <div className={style.modalBackground}>
         <div className={style.modal}>
-          <h2>{title}</h2>
-          <p>{message}</p>
+          <h2>{modal.title}</h2>
+          <p>{modal.message}</p>
           <div>
-            <Button onClick={() => setModal({ ...modal, state: !state })} title="Cancel" />
-            <Button onClick={() => action(id)} title="Ok" />
+            <button onClick={() => closeModal({ state: !modal.state })} title="Cancel">
+              Cancel
+            </button>
+            <button onClick={() => modal.action(modal.actionParam)} title="Ok">
+              Ok
+            </button>
           </div>
         </div>
       </div>
     );
-  } else
-    return (
-      <div className={state ? style.modalBackground : style.hide}>
-        <div className={style.modal}>
-          <h2>{title}</h2>
-          <p>{message}</p>
-          <Button
-            onClick={() => (action ? action() : setModal({ ...modal, state: !state }))}
-            title="Ok"
-          />
-        </div>
+  }
+  return (
+    <div className={style.modalBackground}>
+      <div className={style.modal}>
+        <h2>{modal.title}</h2>
+        <p>{modal.message}</p>
+        <button
+          onClick={() =>
+            modal.action ? modal.action(modal.actionParam) : closeModal({ state: !modal.state })
+          }
+        >
+          Ok
+        </button>
       </div>
-    );
+    </div>
+  );
 };
 
 export default Modal;

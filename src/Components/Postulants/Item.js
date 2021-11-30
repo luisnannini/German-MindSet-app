@@ -1,7 +1,28 @@
 import style from './postulants-Item.module.css';
-import Button from './Button';
+import { useEffect, useState } from 'react';
+import Modal from './Modal';
 
-function Item({ postulant, onDelete, setModal, openForm }) {
+//si se clickea el delete, sólo se re-renderiza Item
+function Item({ postulant, fetch, setForm }) {
+  const url = `${process.env.REACT_APP_API}/postulants`;
+  const [modalState, setModalState] = useState({ state: false });
+
+  const confirmDelete = async (id) => {
+    //al apretar confirm en el modal
+    /* try {
+      await fetch(`${url}?id=${234234}`, {
+        method: 'DELETE'
+      });
+      //fetch();
+      setModalState({ title: 'Deleted', state: true, message: 'Deletion successfull' });
+    } catch (error) {
+      console.log(error);
+      setModalState({ title: 'Error', state: true, message: 'Error deleting' });
+    } */
+    console.log('asd');
+    setModalState({ title: 'Deleted', state: true, message: 'Deletion successfull' });
+  };
+
   return (
     <tr>
       {Object.keys(postulant).map((postulantKey) => {
@@ -14,28 +35,27 @@ function Item({ postulant, onDelete, setModal, openForm }) {
         }
         return <td>{postulant[postulantKey]}</td>;
       })}
-      <Button
-        title="Edit"
-        onClick={() =>
-          (window.location.href = `${window.location.origin}/postulants?id=${postulant._id}`)
-        }
-      />
-      <Button
-        title="Delete"
-        onClick={
-          () => {
-            setModal({
-              // muestra el modal y le pasa la funcion para sus botones
-              id: postulant._id,
+      <td>
+        <button onClick={() => setForm(postulant._id)}>Edit</button>
+      </td>
+      <td>
+        <button
+          onClick={() =>
+            setModalState({
+              //se pasa el mensaje y la accion de 'OK'
+              actionParam: postulant._id,
+              state: !modalState.state,
               title: 'Delete',
               message: 'Are you sure?',
-              state: true,
-              action: onDelete,
+              action: confirmDelete,
               type: 'confirm'
-            });
-          } // logro mostrar el modal
-        }
-      />
+            })
+          }
+        >
+          Delete
+        </button>
+        {modalState.state && <Modal modal={modalState} closeModal={setModalState} />}
+      </td>
     </tr>
   );
 }
