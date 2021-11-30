@@ -54,14 +54,18 @@ const CreateForm = (props) => {
 
     const url = `${process.env.REACT_APP_API}/interviews/`;
 
-    fetch(url, options).then((response) => {
-      if (response.status !== 200 && response.status !== 201) {
-        return response.json().then(({ message }) => {
-          throw new Error(message);
-        });
-      }
-      return response.json();
-    });
+    fetch(url, options)
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201) {
+          return response.json().then(({ message }) => {
+            throw new Error(message);
+          });
+        }
+        return response.json();
+      })
+      .then(() => {
+        window.location.reload();
+      });
   };
 
   const onChangeClientValue = (event) => {
@@ -88,15 +92,15 @@ const CreateForm = (props) => {
       <div className={styles.formDiv1}>
         <div className={styles.formDiv2}>
           <h3>Postulant</h3>
-          <SelectPostulant object={postulants} onChange={onChangePostulantValue} />
+          <SelectPostulant object={postulants} onChange={onChangePostulantValue} required />
         </div>
         <div className={styles.formDiv2}>
           <h3>Client</h3>
-          <SelectClient object={clients} onChange={onChangeClientValue} />
+          <SelectClient object={clients} onChange={onChangeClientValue} required />
         </div>
         <div className={styles.formDiv2}>
           <h3>Application</h3>
-          <SelectApplication object={applications} onChange={onChangeApplicationValue} />
+          <SelectApplication object={applications} onChange={onChangeApplicationValue} required />
         </div>
       </div>
       <div className={styles.formDiv1}>
@@ -118,6 +122,7 @@ const CreateForm = (props) => {
           onChange={(e) => {
             setDateValue(e.target.value);
           }}
+          required
         />
       </div>
       <div className={styles.formDiv2}>
