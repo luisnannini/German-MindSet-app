@@ -17,6 +17,8 @@ const CreateForm = (props) => {
   const [dateValue, setDateValue] = useState('');
   const [notesValue, setNotesValue] = useState('');
   const [showSuccessCreate, setShowSuccessCreate] = useState(false);
+  const [showErrorCreate, setShowErrorCreate] = useState(false);
+  const [errorCreate, setErrorCreate] = useState(false);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/clients`)
@@ -75,7 +77,15 @@ const CreateForm = (props) => {
           }
         }, 2000);
       })
-      .catch((error) => error);
+      .catch((error) => {
+        setShowErrorCreate(true);
+        setErrorCreate(error.toString());
+        setTimeout(function () {
+          if (setShowErrorCreate) {
+            setShowErrorCreate(false);
+          }
+        }, 1000);
+      });
   };
 
   const onChangeClientValue = (event) => {
@@ -121,6 +131,7 @@ const CreateForm = (props) => {
         title="Successful"
         message={'Interview Created successfully'}
       />
+      <Modal show={showErrorCreate} title="Error" message={errorCreate} />
       <h2>Create Interview</h2>
       <div className={styles.formDiv1}>
         <div className={styles.formDiv2}>

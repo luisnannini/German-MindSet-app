@@ -18,6 +18,8 @@ function EditForm(props) {
   const [dateValue, setDateValue] = useState('');
   const [notesValue, setNotesValue] = useState('');
   const [showSuccessUpdate, setShowSuccessUpdate] = useState(false);
+  const [showErrorUpdate, setShowErrorUpdate] = useState(false);
+  const [errorUpdate, setErrorUpdate] = useState(false);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/interviews`)
@@ -63,7 +65,10 @@ function EditForm(props) {
           setStatusValue(response.data[0].status);
           setNotesValue(response.data[0].notes);
         })
-        .catch((error) => error);
+        .catch((error) => {
+          setShowErrorUpdate(true);
+          setErrorUpdate(error.toString());
+        });
     }
   }, []);
 
@@ -118,7 +123,15 @@ function EditForm(props) {
           }
         }, 2000);
       })
-      .catch((error) => error);
+      .catch((error) => {
+        setShowErrorUpdate(true);
+        setErrorUpdate(error.toString());
+        setTimeout(function () {
+          if (setShowErrorUpdate) {
+            setShowErrorUpdate(false);
+          }
+        }, 1000);
+      });
   };
 
   const [messageDate, setMessageDate] = useState('');
@@ -148,6 +161,7 @@ function EditForm(props) {
         title="Successful"
         message={'Interview Updated successfully'}
       />
+      <Modal show={showErrorUpdate} title="Error" message={errorUpdate} />
       <h2>Edit Interview</h2>
       <div className={styles.formDiv1}>
         <div className={styles.formDiv2}>
