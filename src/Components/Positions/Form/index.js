@@ -5,6 +5,7 @@ import Select from '../Select';
 import Button from '../Button';
 import styles from './form.module.css';
 import Checkbox from '../Checkbox';
+import Modal from '../Modal';
 
 const Form = (props) => {
   const [clients, setClients] = useState([]);
@@ -14,6 +15,10 @@ const Form = (props) => {
   const [jobDescriptionValue, setJobDescriptionValue] = useState('');
   const [vacancyValue, setVacancyValue] = useState('');
   const [isOpenValue, setIsOpenValue] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -39,7 +44,8 @@ const Form = (props) => {
           console.log(response.data[0].isOpen);
         })
         .catch((error) => {
-          error;
+          setShowErrorModal(true);
+          setError(error.toString());
         });
     }
 
@@ -113,15 +119,27 @@ const Form = (props) => {
         return response.json();
       })
       .then(() => {
+        setShowSuccessModal(true);
+        setSuccess('You request was successful!');
         window.location.href = '/positions';
       })
       .catch((error) => {
-        error;
+        setShowErrorModal(true);
+        setError(error.toString());
       });
+  };
+
+  const closeModal = () => {
+    setShowErrorModal(false);
+    setShowSuccessModal(false);
+    setError('');
+    setSuccess('');
   };
 
   return (
     <div className={styles.container}>
+      <Modal show={showErrorModal} title="ERROR" message={error} onCancel={closeModal} />
+      <Modal show={showSuccessModal} title="Successful" message={success} onCancel={closeModal} />
       <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.header}>
           <h2 className={styles.title}>Create a Position</h2>
