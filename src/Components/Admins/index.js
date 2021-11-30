@@ -1,41 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import styles from './admins.module.css';
-import Button from './Button';
 import Modal from './Modal';
 
 function Admins() {
-  const [modal, changeModal] = useState(false);
   const [admins, setAdmins] = useState([]);
   const [selectedAdmin, setSelectedAdmin] = useState(undefined);
+  const [showModal, setShowModal] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/admins`)
+      .then((response) => response.json())
       .then((response) => {
-        if (response.status !== 200) {
-          return response.json().then(({ message }) => {
-            throw new Error(message);
-          });
-        }
-        return response.json();
+        setAdmins(response.data);
       })
-      .then((response) => setAdmins(response.data))
-      .catch((error) => error.toString());
+      .catch((error) => console.log(error));
   }, []);
-
-  const openModal = () => {
-    changeModal(!modal);
-  };
 
   const handleDelete = (event, admin) => {
     event.stopPropagation();
     setSelectedAdmin(admin._id);
-    openModal();
+    setShowModal(true);
   };
 
   const deleteAdmin = () => {
+    setLoading(true);
     fetch(`${process.env.REACT_APP_API}/admins/${selectedAdmin}`, { method: 'DELETE' })
       .then((response) => {
-        if (response.status !== 204) {
+        if (response.status !== 200) {
           return response.json().then(({ message }) => {
             throw new Error(message);
           });
@@ -51,16 +43,30 @@ function Admins() {
           })
           .then((response) => {
             setAdmins(response.data);
-            openModal();
+            setShowModal(false);
           });
       })
-      .catch((error) => error.toString());
+      .catch((error) => console.log(error))
+      .finally(() => setLoading(false));
+  };
+
+  const showForm = (admin) => {
+    if (admin) {
+      window.location.href = `admins/form?id=${admin._id}`;
+    } else {
+      window.location.href = `admins/form`;
+    }
   };
 
   return (
     <section className={styles.container}>
-      <Modal visible={modal} cancel={openModal} confirm={deleteAdmin} />
-      <h2>administrators</h2>
+      <Modal
+        show={showModal}
+        isLoading={isLoading}
+        onCancel={() => setShowModal(false)}
+        onConfirm={deleteAdmin}
+      />
+      <h2>Administrators</h2>
       <table>
         <thead>
           <tr>
@@ -74,16 +80,16 @@ function Admins() {
               <td>{admin.name}</td>
               <td>{admin.username}</td>
               <td>
-                <Button name={'edit'} />
+                <button>Edit</button>
               </td>
               <td>
-                <Button name={'delete'} action={handleDelete} />
+                <button onClick={(event) => handleDelete(event, admin)}>Delete</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <button>Add</button>
+      <button onClick={() => showForm()}>Add</button>
     </section>
   );
 }
