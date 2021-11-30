@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
+import { FaPlusCircle } from 'react-icons/fa';
 import styles from './sessions.module.css';
-import Header from './Header';
 import Session from './Session';
-import ListHeader from './ListHeader';
-import CreateButton from './CreateButton';
 import ConfirmModal from './ConfirmModal';
 import CreateModal from './CreateModal';
 import UpdateModal from './UpdateModal';
@@ -28,6 +26,7 @@ function Sessions() {
     fetch(`${process.env.REACT_APP_API}/sessions`)
       .then((response) => response.json())
       .then((response) => {
+        console.log(response.data);
         setSessions(response.data);
       });
   }
@@ -91,16 +90,29 @@ function Sessions() {
         />
       )}
       <section>
-        <Header />
+        <h2>Sessions</h2>
         <table>
-          <ListHeader />
+          <thead>
+            <tr>
+              <th>Postulant</th>
+              <th>Psychologist</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Actions</th>
+              <th></th>
+            </tr>
+          </thead>
           <tbody>
             {Sessions.map((session) => {
               return (
                 <Session
                   key={session._id}
                   id={session._id}
-                  postulant={`${session.postulant.firstName} ${session.postulant.lastName}`}
+                  postulant={
+                    session.postulant
+                      ? `${session.postulant.firstName} ${session.postulant.lastName}`
+                      : 'Unassigned'
+                  }
                   psychologist={
                     session.psychologist
                       ? `${session.psychologist.firstName} ${session.psychologist.lastName}`
@@ -117,7 +129,9 @@ function Sessions() {
         </table>
       </section>
       <>
-        <CreateButton onCreate={() => setShowCreateModal(true)} />
+        <button className={styles.addButton} onClick={() => setShowCreateModal(true)}>
+          <FaPlusCircle />
+        </button>
       </>
     </div>
   );

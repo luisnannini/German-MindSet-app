@@ -1,4 +1,4 @@
-import styles from './sessions.module.css';
+import styles from './updateModal.module.css';
 import { useEffect, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 

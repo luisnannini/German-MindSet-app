@@ -1,6 +1,6 @@
 import { FaTrash } from 'react-icons/fa';
 import { FaPen } from 'react-icons/fa';
-import styles from './sessions.module.css';
+import styles from './session.module.css';
 
 const Session = ({ postulant, psychologist, status, date, onDelete, onEdit }) => {
   return (
