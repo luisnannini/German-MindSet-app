@@ -66,7 +66,7 @@ function Profiles() {
       <Modal
         show={showModal}
         title="Delete a Profile"
-        message="Are you sure you want to delete this session?"
+        message="Are you sure you want to delete this profile?"
         onCancel={closeModal}
         onConfirm={deleteProfile}
       />

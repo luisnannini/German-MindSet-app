@@ -1,0 +1,54 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 90%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 5% auto;
+  width: 70%;
+  border: 0.1em solid #888888;
+  background-color: #FFFFFF;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 1em;
+  height: 5em;
+  background-color: #232F3E;
+}
+
+.fields {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 3em;
+}
+
+.columns {
+  margin: 0 3em
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  margin-bottom: 1em;
+}
+
+.title {
+  margin: 1.2em 0 0 1em;
+  color: #FFFFFF;
+}
+
+select, input {
+  margin: 0.8em 0;
+}
+
+
+
