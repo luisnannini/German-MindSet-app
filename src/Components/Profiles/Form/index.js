@@ -73,7 +73,13 @@ const Form = () => {
       .then(() => {
         setShowSuccessModal(true);
         setSuccess('You request was successful!');
-        window.location.href = '/profiles';
+      })
+      .then(() => {
+        setTimeout(function () {
+          if (setShowSuccessModal) {
+            window.location.href = '/profiles';
+          }
+        }, 2000);
       })
       .catch((error) => {
         setShowErrorModal(true);
