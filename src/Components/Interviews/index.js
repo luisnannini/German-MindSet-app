@@ -89,7 +89,7 @@ function Interviews() {
             <li>{interview.client.name}</li>
             <li>{interview.application.result}</li>
             <li>{interview.status}</li>
-            <li>{interview.date}</li>
+            <li>{interview.date.replace('T00:00:00.000Z', '')}</li>
             <li>{interview.notes}</li>
             <li className={styles.buttons}>
               <EditButton onClick={() => showForm(interview)} />
