@@ -66,7 +66,7 @@ function Positions() {
       <Modal
         show={showModal}
         title="Delete a Position"
-        message="Are you sure you want to delete this session?"
+        message="Are you sure you want to delete this position?"
         onCancel={closeModal}
         onConfirm={deletePosition}
       />

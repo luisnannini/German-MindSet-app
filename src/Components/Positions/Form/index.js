@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import Modal from '../Modal';
 import Input from '../Input';
@@ -6,7 +6,7 @@ import Select from '../Select';
 import Button from '../Button';
 import Checkbox from '../Checkbox';
 
-const Form = (props) => {
+const Form = () => {
   const [clients, setClients] = useState([]);
   const [profiles, setProfiles] = useState([]);
   const [clientValue, setClientValue] = useState('');
@@ -18,11 +18,13 @@ const Form = (props) => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [title, setTitle] = useState('Create a Position');
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const positionId = params.get('id');
     if (positionId) {
+      setTitle('Update a Position');
       fetch(`${process.env.REACT_APP_API}/positions?_id=${positionId}`)
         .then((response) => {
           if (response.status !== 200) {
@@ -35,12 +37,9 @@ const Form = (props) => {
         .then((response) => {
           setClientValue(response.data[0].client._id);
           setProfilesValue(response.data[0].professionalProfiles._id);
-          // eslint-disable-next-line no-undef
-          console.log(response.data[0].professionalProfiles._id);
           setJobDescriptionValue(response.data[0].jobDescription);
           setVacancyValue(response.data[0].vacancy);
           setIsOpenValue(response.data[0].isOpen);
-          console.log(response.data[0].isOpen);
         })
         .catch((error) => {
           setShowErrorModal(true);
@@ -141,7 +140,7 @@ const Form = (props) => {
       <Modal show={showSuccessModal} title="Successful" message={success} onCancel={closeModal} />
       <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.header}>
-          <h2 className={styles.title}>Create a Position</h2>
+          <h2 className={styles.title}>{title}</h2>
         </div>
         <div className={styles.fields}>
           <div className={styles.columns}>
