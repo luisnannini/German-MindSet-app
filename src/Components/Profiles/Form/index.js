@@ -25,7 +25,7 @@ const Form = () => {
           return response.json();
         })
         .then((response) => {
-          setProfileValue(response.data[0].professionalProfiles._id);
+          setProfileValue(response.data[0].name);
         })
         .catch((error) => {
           setShowErrorModal(true);
@@ -103,6 +103,8 @@ const Form = () => {
               value={profileValue}
               onChange={onChangeProfileValue}
               placeholder={'Write a new profile'}
+              required
+              pattern="[A-Za-z ]*"
             />
           </div>
         </div>
