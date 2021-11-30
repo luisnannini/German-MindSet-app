@@ -97,7 +97,7 @@ function Interviews() {
           <ul className={styles.list} key={interview._id}>
             <li>{interview.postulant.firstName}</li>
             <li>{interview.postulant.lastName}</li>
-            {/* <li>{interview.client.name}</li> */}
+            <li>{interview.client.name}</li>
             <li>{interview.application.result}</li>
             <li>{interview.status}</li>
             <li>{interview.date.replace('T00:00:00.000Z', '')}</li>
