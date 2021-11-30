@@ -79,9 +79,9 @@ const Form = (props) => {
       <h2>Create Application</h2>
       <div>
         <label>Position:</label>
-        <select onChange={onChangePosition}>
-          <option value="" disabled hidden>
-            Select an option
+        <select onChange={onChangePosition} required>
+          <option disabled hidden selected>
+            - Select an option -
           </option>
           {position.map((data) => {
             return (
@@ -94,7 +94,10 @@ const Form = (props) => {
       </div>
       <div>
         <label>Postulant:</label>
-        <select onChange={onChangePostulant}>
+        <select onChange={onChangePostulant} required>
+          <option disabled hidden selected>
+            - Select an option -
+          </option>
           {postulant.map((data) => {
             return (
               <option key={data._id} value={data._id}>
@@ -106,7 +109,10 @@ const Form = (props) => {
       </div>
       <div>
         <label>ID Interview:</label>
-        <select onChange={onChangeInterview}>
+        <select onChange={onChangeInterview} required>
+          <option disabled hidden selected>
+            - Select an option -
+          </option>
           {interview.map((data) => {
             return (
               <option key={data._id} value={data._id}>
