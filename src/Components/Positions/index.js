@@ -83,7 +83,7 @@ function Positions() {
         </ul>
         {positions.map((position) => {
           return (
-            <ul key={position._id}>
+            <ul key={position._id} className={styles.list}>
               <li>{position.client.name}</li>
               <li>{position.professionalProfiles.name}</li>
               <li>{position.jobDescription}</li>

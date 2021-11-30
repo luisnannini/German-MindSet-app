@@ -1,5 +1,5 @@
 import React from 'react';
-import Close from '../Close';
+import ExitButton from '../ExitButton';
 import Button from '../Button';
 import styles from './modal.module.css';
 
@@ -11,8 +11,8 @@ const Modal = (props) => {
     <div className={styles.container}>
       <div className={styles.modal}>
         <div className={styles.header}>
-          <h3>{props.title}</h3>
-          <Close onClick={props.onCancel} />
+          <h3 className={styles.title}>{props.title}</h3>
+          <ExitButton onClick={props.onCancel} />
         </div>
         <div className={styles.message}>{props.message}</div>
         <div className={styles.button}>

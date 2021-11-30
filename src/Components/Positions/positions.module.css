@@ -26,27 +26,32 @@
   margin: 5em 5em;
 }
 
-ul {
+.list, .listHeader {
   display: flex;
-  margin: 0;
-  padding: 0;
   justify-content: space-between;
   align-items: center;
-  list-style: none;
+  margin: 0;
+  padding: 0;
   height: 3em;
   border-bottom: 0.1em solid #707070;
+  list-style: none;
+}
+
+.list li {
+  flex: 1;
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
   color: #232F3E;
 }
 
-ul li {
+.listHeader li {
   flex: 1;
-  margin: 0;
-  padding: 0;
   display: flex;
   justify-content: space-around;
-}
-
-.listHeader {
+  margin: 0;
+  padding: 0;
   color: #FC6225;
   font-size: 1.2em;
 }
