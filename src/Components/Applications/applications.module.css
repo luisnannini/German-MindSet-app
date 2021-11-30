@@ -1,13 +1,6 @@
 table, th, td {
   border:1px solid black;
 }
-.section {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-}
 .container {
   flex: 1;
   display: flex;
@@ -23,7 +16,10 @@ table, th, td {
   0px 100px 80px rgba(0, 0, 0, 0.07)
   ;
 }
-
+.header {
+  display: flex;
+  justify-content: space-between;
+}
 .title {
   margin: 1em 0em 2em 1em;
   font-size: 2em;

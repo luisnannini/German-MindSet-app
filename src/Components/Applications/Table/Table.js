@@ -7,8 +7,8 @@ const Table = ({ applications, updateReq, removeReq }) => {
       <thead className="table-head">
         <tr>
           <th>ID</th>
-          <th>ID Position</th>
-          <th>ID Postulant</th>
+          <th>Position</th>
+          <th>Postulant</th>
           <th>ID Interview</th>
           <th>Result</th>
           <th></th>

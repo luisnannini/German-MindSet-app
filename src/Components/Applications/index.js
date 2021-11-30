@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import styles from './applications.css';
+import styles from './applications.module.css';
 import Table from './Table/Table.js';
 import Modal from './Modal/Modal.js';
 
@@ -53,18 +53,20 @@ function Applications() {
 
   return (
     <section className={styles.container}>
-      <h2>Applications</h2>
-      <button
-        className="add-button"
-        onClick={() => {
-          setShowModal(true);
-          setShowForm(true);
-          setShowUpdate(false);
-          setShowRemove(false);
-        }}
-      >
-        Add Application
-      </button>
+      <div className={styles.header}>
+        <h2 className={styles.title}>Applications</h2>
+        <button
+          className={styles.button}
+          onClick={() => {
+            setShowModal(true);
+            setShowForm(true);
+            setShowUpdate(false);
+            setShowRemove(false);
+          }}
+        >
+          Add Application
+        </button>
+      </div>
       <Table applications={applications} updateReq={updateReq} removeReq={removeReq} />
       <Modal
         onClose={() => {
