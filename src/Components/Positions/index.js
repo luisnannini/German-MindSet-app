@@ -9,12 +9,18 @@ function Positions() {
   const [positions, setPositions] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedPosition, setSelectedPosition] = useState(undefined);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/positions`)
       .then((response) => response.json())
       .then((response) => {
         setPositions(response.data);
+      })
+      .catch((error) => {
+        setShowErrorModal(true);
+        setError(error.toString());
       });
   }, []);
 
@@ -46,7 +52,10 @@ function Positions() {
             closeModal();
           });
       })
-      .catch((error) => error);
+      .catch((error) => {
+        setShowErrorModal(true);
+        setError(error.toString());
+      });
   };
 
   const showForm = (position) => {
@@ -59,6 +68,7 @@ function Positions() {
 
   const closeModal = () => {
     setShowModal(false);
+    setShowErrorModal(false);
   };
 
   return (
@@ -70,6 +80,7 @@ function Positions() {
         onCancel={closeModal}
         onConfirm={deletePosition}
       />
+      <Modal show={showErrorModal} title="Error" message={error} onCancel={closeModal} />
       <div className={styles.container}>
         <h2 className={styles.title}>Positions</h2>
         <ul className={styles.listHeader}>

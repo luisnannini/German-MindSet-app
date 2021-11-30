@@ -51,12 +51,20 @@ const Form = () => {
       .then((response) => response.json())
       .then((response) => {
         setClients(response.data);
+      })
+      .catch((error) => {
+        setShowErrorModal(true);
+        setError(error.toString());
       });
 
     fetch(`${process.env.REACT_APP_API}/profiles`)
       .then((response) => response.json())
       .then((response) => {
         setProfiles(response.data);
+      })
+      .catch((error) => {
+        setShowErrorModal(true);
+        setError(error.toString());
       });
   }, []);
 
@@ -130,13 +138,11 @@ const Form = () => {
   const closeModal = () => {
     setShowErrorModal(false);
     setShowSuccessModal(false);
-    setError('');
-    setSuccess('');
   };
 
   return (
     <div className={styles.container}>
-      <Modal show={showErrorModal} title="ERROR" message={error} onCancel={closeModal} />
+      <Modal show={showErrorModal} title="Error" message={error} onCancel={closeModal} />
       <Modal show={showSuccessModal} title="Successful" message={success} onCancel={closeModal} />
       <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.header}>
