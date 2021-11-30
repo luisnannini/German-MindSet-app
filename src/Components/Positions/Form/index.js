@@ -163,6 +163,7 @@ const Form = () => {
               value={jobDescriptionValue}
               onChange={onChangeJobDescriptionValue}
               placeholder={'Write a job description'}
+              required
             />
             <Checkbox
               label={'Is Open?'}
@@ -186,6 +187,7 @@ const Form = () => {
               value={vacancyValue}
               onChange={onChangeVacancyValue}
               placeholder={'Set the number of vacancies'}
+              required
               type={'number'}
               min={1}
             />
