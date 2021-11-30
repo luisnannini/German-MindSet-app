@@ -90,7 +90,7 @@ const Form = () => {
 
   return (
     <div className={styles.container}>
-      <Modal show={showErrorModal} title="ERROR" message={error} onCancel={closeModal} />
+      <Modal show={showErrorModal} title="Error" message={error} onCancel={closeModal} />
       <Modal show={showSuccessModal} title="Successful" message={success} onCancel={closeModal} />
       <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.header}>

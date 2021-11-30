@@ -9,12 +9,18 @@ function Profiles() {
   const [profiles, setProfiles] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState(undefined);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/profiles`)
       .then((response) => response.json())
       .then((response) => {
         setProfiles(response.data);
+      })
+      .catch((error) => {
+        setShowErrorModal(true);
+        setError(error.toString());
       });
   }, []);
 
@@ -46,7 +52,10 @@ function Profiles() {
             closeModal();
           });
       })
-      .catch((error) => error);
+      .catch((error) => {
+        setShowErrorModal(true);
+        setError(error.toString());
+      });
   };
 
   const showForm = (profile) => {
@@ -59,6 +68,7 @@ function Profiles() {
 
   const closeModal = () => {
     setShowModal(false);
+    setShowErrorModal(false);
   };
 
   return (
@@ -70,6 +80,7 @@ function Profiles() {
         onCancel={closeModal}
         onConfirm={deleteProfile}
       />
+      <Modal show={showErrorModal} title="Error" message={error} onCancel={closeModal} />
       <div className={styles.container}>
         <h2 className={styles.title}>Profiles</h2>
         <ul className={styles.listHeader}>
