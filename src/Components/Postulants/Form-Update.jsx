@@ -108,6 +108,7 @@ function Form({ postulant, template, id }) {
             <div>
               <h3>Primary Studies</h3>
               <ObjectFormInput
+                postulant={postulant.studies}
                 collectData={collectData}
                 dataName="primaryStudies"
                 defaultValue={{ startDate: '', endDate: '', school: '' }}
@@ -116,6 +117,7 @@ function Form({ postulant, template, id }) {
             <div>
               <h3>Secondary Studies</h3>
               <ObjectFormInput
+                postulant={postulant.studies}
                 collectData={collectData}
                 dataName="secondaryStudies"
                 defaultValue={{ startDate: '', endDate: '', school: '' }}
