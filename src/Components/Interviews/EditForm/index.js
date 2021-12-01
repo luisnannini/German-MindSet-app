@@ -187,7 +187,11 @@ function EditForm(props) {
       </div>
       <div className={styles.formDiv1}>
         <label>Status</label>
-        <select onChange={onChangeStatusValue} style={{ fontSize: '10px', height: '25px' }}>
+        <select
+          onChange={onChangeStatusValue}
+          value={statusValue}
+          style={{ fontSize: '10px', height: '25px' }}
+        >
           <option selected value="0"></option>
           <option value="failed">Failed</option>
           <option value="assigned">Assigned</option>
