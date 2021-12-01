@@ -1,21 +1,17 @@
 import style from './postulants-Form.module.css';
 import { useState } from 'react';
 import Modal from './Modal';
-import TertiaryStudies from './TertiaryStudies';
-import UniversityStudies from './UniversityStudies';
-import InformalStudies from './InformalStudies';
 import PrimitiveFormInput from './PrimitiveFormInput';
 import ObjectFormInput from './ObjectFormInput';
-
+import ArrayFormInput from './ArrayFormInput';
 import Profiles from './Profiles';
-import WorkExperience from './WorkExperience';
 
 import { v4 as uuidv4 } from 'uuid';
 
 function Form({ postulant, template, id }) {
   const [modal, setModal] = useState({ state: false });
 
-  postulant.studies.tertiaryStudies.map((ts) => {
+  /*  postulant.studies.tertiaryStudies.map((ts) => {
     ts.id = uuidv4();
   });
   postulant.studies.universityStudies.map((us) => {
@@ -29,7 +25,7 @@ function Form({ postulant, template, id }) {
   });
   postulant.workExperience.map((we) => {
     we.id = uuidv4();
-  });
+  }); */
 
   const collectData = (data, property) => {
     template.id = id;
@@ -51,7 +47,6 @@ function Form({ postulant, template, id }) {
     if (property === 'updatedAt') template.updatedAt = data;
     if (property === 'profiles') template.profiles = data;
     if (property === 'workExperience') template.workExperience = data;
-    console.log(template);
   };
   const submit = async (e) => {
     let error = false;
@@ -125,15 +120,45 @@ function Form({ postulant, template, id }) {
             </div>
             <div>
               <h3>Tertiary Studies</h3>
-              <TertiaryStudies postulant={postulant} collectData={collectData} />
+              <ArrayFormInput
+                postulant={postulant.studies}
+                collectData={collectData}
+                dataName="tertiaryStudies"
+                defaultValue={{
+                  startDate: '',
+                  endDate: '',
+                  description: '',
+                  institute: ''
+                }}
+              />
             </div>
             <div>
               <h3>University Studies</h3>
-              <UniversityStudies postulant={postulant} collectData={collectData} />
+              <ArrayFormInput
+                postulant={postulant}
+                collectData={collectData}
+                dataName="universityStudies"
+                defaultValue={{
+                  startDate: '',
+                  endDate: '',
+                  description: '',
+                  institute: ''
+                }}
+              />
             </div>
             <div>
               <h3>Informal Studies</h3>
-              <InformalStudies postulant={postulant} collectData={collectData} />
+              <ArrayFormInput
+                postulant={postulant}
+                collectData={collectData}
+                dataName="informalStudies"
+                defaultValue={{
+                  startDate: '',
+                  endDate: '',
+                  description: '',
+                  institute: ''
+                }}
+              />
             </div>
           </div>
           <div>
@@ -226,7 +251,17 @@ function Form({ postulant, template, id }) {
         </div>
         <div>
           <h2>Work Experience</h2>
-          <WorkExperience postulant={postulant} collectData={collectData} />
+          <ArrayFormInput
+            postulant={postulant}
+            collectData={collectData}
+            dataName="workExperience"
+            defaultValue={{
+              company: '',
+              startDate: '',
+              endDate: '',
+              description: ''
+            }}
+          />
         </div>
         <button onClick={(e) => submit(e)}>Save</button>
       </form>

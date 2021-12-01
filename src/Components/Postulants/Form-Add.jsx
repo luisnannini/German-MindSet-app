@@ -3,11 +3,8 @@ import { useState } from 'react';
 import Modal from './Modal';
 import ObjectFormInput from './ObjectFormInput';
 import PrimitiveFormInput from './PrimitiveFormInput';
-import TertiaryStudies from './TertiaryStudies';
-import UniversityStudies from './UniversityStudies';
-import InformalStudies from './InformalStudies';
+import ArrayFormInput from './ArrayFormInput';
 import Profiles from './Profiles';
-import WorkExperience from './WorkExperience';
 
 import { v4 as uuidv4 } from 'uuid';
 function Form() {
@@ -183,15 +180,42 @@ function Form() {
             </div>
             <div>
               <h3>Tertiary Studies</h3>
-              <TertiaryStudies collectData={collectData} />
+              <ArrayFormInput
+                collectData={collectData}
+                dataName="tertiaryStudies"
+                defaultValue={{
+                  startDate: '',
+                  endDate: '',
+                  description: '',
+                  institute: ''
+                }}
+              />
             </div>
             <div>
               <h3>University Studies</h3>
-              <UniversityStudies collectData={collectData} />
+              <ArrayFormInput
+                collectData={collectData}
+                dataName="universityStudies"
+                defaultValue={{
+                  startDate: '',
+                  endDate: '',
+                  description: '',
+                  institute: ''
+                }}
+              />
             </div>
             <div>
-              <h3>University Studies</h3>
-              <InformalStudies collectData={collectData} />
+              <h3>Informal Studies</h3>
+              <ArrayFormInput
+                collectData={collectData}
+                dataName="informalStudies"
+                defaultValue={{
+                  startDate: '',
+                  endDate: '',
+                  description: '',
+                  institute: ''
+                }}
+              />
             </div>
           </div>
         </div>
@@ -251,7 +275,16 @@ function Form() {
         </div>
         <div>
           <h2>Work Experience</h2>
-          <WorkExperience collectData={collectData} />
+          <ArrayFormInput
+            collectData={collectData}
+            dataName="workExperience"
+            defaultValue={{
+              company: '',
+              startDate: '',
+              endDate: '',
+              description: ''
+            }}
+          />
         </div>
         <button onClick={(e) => submit(e)}>Add</button>
       </form>

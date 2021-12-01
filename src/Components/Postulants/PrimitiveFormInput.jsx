@@ -14,6 +14,7 @@ const PrimitiveFormInputs = ({ postulant, collectData, dataName }) => {
       <input
         type={typeof input === 'boolean' ? 'checkbox' : 'text'}
         defaultValue={input}
+        checked={input}
         placeholder={dataName.toUpperCase()}
         onChange={(e) => sendData(e.target.value)}
       />
