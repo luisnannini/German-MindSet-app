@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 const Available = ({ postulant, collectData }) => {
-  const [available, setAvailable] = useState(postulant.available);
+  const [available, setAvailable] = useState(postulant ? postulant.available : '');
 
   const sendData = (data) => {
     collectData(data, 'available');
@@ -14,7 +14,7 @@ const Available = ({ postulant, collectData }) => {
       <h3>Available</h3>
       <input
         type="checkbox"
-        defaultValue={postulant.available}
+        defaultValue={available}
         placeholder="Available"
         onChange={(e) => sendData(e.target.checked)}
       />

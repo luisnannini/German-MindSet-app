@@ -2,19 +2,24 @@ import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 const TertiaryStudies = ({ postulant, collectData, id }) => {
-  const [tertiaryStudies, setTertiaryStudies] = useState(postulant.studies.tertiaryStudies);
+  const template = [
+    {
+      startDate: '',
+      endDate: '',
+      description: '',
+      institute: '',
+      id: uuidv4()
+    }
+  ];
+  const [tertiaryStudies, setTertiaryStudies] = useState(
+    postulant ? postulant.studies.tertiaryStudies : [template]
+  );
   const sendData = (data) => {
     collectData(data, 'tertiaryStudies');
     setTertiaryStudies(data);
   };
   useEffect(() => sendData(tertiaryStudies), []);
-  const template = {
-    startDate: '',
-    endDate: '',
-    description: '',
-    institute: '',
-    id: uuidv4()
-  };
+
   return (
     <div>
       <h4>Tertiary studies</h4>

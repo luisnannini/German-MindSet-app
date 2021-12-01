@@ -1,18 +1,21 @@
 import { useState, useEffect } from 'react';
 
-const WorkExperience = ({ postulant, collectData, id }) => {
-  const [workExperience, setWorkExperience] = useState(postulant.workExperience);
-  const sendData = (data) => {
-    collectData(data, 'workExperience');
-    setWorkExperience(data);
-  };
-  useEffect(() => sendData(workExperience), []);
+const WorkExperience = ({ postulant, collectData }) => {
   const template = {
     company: '',
     startDate: '',
     endDate: '',
     description: ''
   };
+  const [workExperience, setWorkExperience] = useState(
+    postulant ? postulant.workExperience : [template]
+  );
+  const sendData = (data) => {
+    collectData(data, 'workExperience');
+    setWorkExperience(data);
+  };
+  useEffect(() => sendData(workExperience), []);
+
   return (
     <div>
       <h3>Work experience</h3>

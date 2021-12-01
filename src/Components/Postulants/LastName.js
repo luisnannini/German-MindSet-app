@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 const LastName = ({ postulant, collectData }) => {
-  const [lastName, setLastName] = useState(postulant.lastName);
+  const [lastName, setLastName] = useState(postulant ? postulant.lastName : '');
 
   const sendData = (data) => {
     collectData(data, 'lastName');
@@ -13,7 +13,7 @@ const LastName = ({ postulant, collectData }) => {
     <div>
       <h3>Last name</h3>
       <input
-        defaultValue={postulant.lastName}
+        defaultValue={lastName}
         placeholder="Last name"
         onChange={(e) => sendData(e.target.value)}
       />

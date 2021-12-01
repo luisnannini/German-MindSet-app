@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 const Password = ({ postulant, collectData }) => {
-  const [password, setPassword] = useState(postulant.password);
+  const [password, setPassword] = useState(postulant ? postulant.password : '');
 
   const sendData = (data) => {
     collectData(data, 'password');
@@ -13,7 +13,7 @@ const Password = ({ postulant, collectData }) => {
     <div>
       <h3>Password</h3>
       <input
-        defaultValue={postulant.password}
+        defaultValue={password}
         placeholder="Password"
         onChange={(e) => sendData(e.target.value)}
       />

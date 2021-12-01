@@ -64,8 +64,8 @@ function Form({ postulant, template, id }) {
   };
   const submit = async (e) => {
     let error = false;
+    let status;
     e.preventDefault();
-    console.log(template);
     /* try {
       const responseRaw = await fetch(`${process.env.REACT_APP_API}/postulants?id=${id}`, {
         method: 'PUT',
@@ -75,18 +75,15 @@ function Form({ postulant, template, id }) {
         body: JSON.stringify(template)
       });
       if (responseRaw.status !== 200 && responseRaw.status !== 201) {
+        status = responseRaw.status + ' ' + responseRaw.statusText;
         error = true;
-        console.log('error');
       }
       const responseJson = await responseRaw.json();
       if (error) {
         setModal({
-          title: 'Updated',
+          title: 'An error ocurred',
           state: true,
           message: responseJson.message,
-          action: () => {
-            setModal({ state: false });
-          }
         });
         return;
       }

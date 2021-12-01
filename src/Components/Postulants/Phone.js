@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 const Phone = ({ postulant, collectData }) => {
-  const [phone, setPhone] = useState(postulant.phone);
+  const [phone, setPhone] = useState(postulant ? postulant.phone : '');
 
   const sendData = (data) => {
     collectData(data, 'phone');
@@ -12,11 +12,7 @@ const Phone = ({ postulant, collectData }) => {
   return (
     <div>
       <h3>Phone</h3>
-      <input
-        defaultValue={postulant.phone}
-        placeholder="Phone"
-        onChange={(e) => sendData(e.target.value)}
-      />
+      <input defaultValue={phone} placeholder="Phone" onChange={(e) => sendData(e.target.value)} />
     </div>
   );
 };

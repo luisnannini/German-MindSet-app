@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 
 const PrimaryStudies = ({ postulant, collectData }) => {
-  const [primaryStudies, setPrimaryStudies] = useState(postulant.studies.primaryStudies);
+  const [primaryStudies, setPrimaryStudies] = useState(
+    postulant ? postulant.studies.primaryStudies : { startDate: '', endDate: '', school: '' }
+  );
   const sendData = (data) => {
     collectData(data, 'primaryStudies');
     setPrimaryStudies(data);

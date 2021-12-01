@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 const Address = ({ postulant, collectData }) => {
-  const [address, setAddress] = useState(postulant.address);
+  const [address, setAddress] = useState(postulant ? postulant.address : '');
 
   const sendData = (data) => {
     collectData(data, 'address');
@@ -13,7 +13,7 @@ const Address = ({ postulant, collectData }) => {
     <div>
       <h3>Address</h3>
       <input
-        defaultValue={postulant.address}
+        defaultValue={address}
         placeholder="Address"
         onChange={(e) => sendData(e.target.value)}
       />

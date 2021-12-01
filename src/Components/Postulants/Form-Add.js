@@ -1,17 +1,76 @@
 import style from './postulants-Form.module.css';
-import { useEffect, useState } from 'react';
-import Button from './Button';
+import { useState } from 'react';
 import Modal from './Modal';
+import PrimaryStudies from './PrimaryStudies';
+import SecondaryStudies from './SecondaryStudies';
+import TertiaryStudies from './TertiaryStudies';
+import UniversityStudies from './UniversityStudies';
+import InformalStudies from './InformalStudies';
+import FirstName from './FirstName';
+import LastName from './LastName';
+import Email from './Email';
+import Password from './Password';
+import Address from './Address';
+import Birthday from './Birthday';
+import Available from './Available';
+import Phone from './Phone';
+import CreatedAt from './CreatedAt';
+import UpdatedAt from './UpdatedAt';
+import Profiles from './Profiles';
+import WorkExperience from './WorkExperience';
+import ContactRange from './ContactRange';
 
+import { v4 as uuidv4 } from 'uuid';
 function Form() {
   const [modal, setModal] = useState({ state: false });
-  const [contactRange, setContactRange] = useState({});
-  const [primaryStudies, setPrimaryStudies] = useState({});
-  const [secundaryStudies, setSecundaryStudies] = useState({});
-  const [tertiaryStudies, setTertiaryStudies] = useState({});
-  const [universityStudies, setUniversityStudies] = useState({});
-  const [informalStudies, setInformalStudies] = useState({});
-  const [singleKeys, setSingleKeys] = useState({
+
+  const template = {
+    contactRange: {
+      from: '',
+      to: ''
+    },
+    studies: {
+      primaryStudies: {
+        startDate: '',
+        endDate: '',
+        school: ''
+      },
+      secondaryStudies: {
+        startDate: '',
+        endDate: '',
+        school: ''
+      },
+      tertiaryStudies: [
+        {
+          startDate: '',
+          endDate: '',
+          description: '',
+          institute: ''
+        }
+      ],
+      universityStudies: [
+        {
+          startDate: '',
+          description: '',
+          institute: ''
+        },
+        {
+          startDate: '',
+          endDate: '',
+          description: '',
+          institute: ''
+        }
+      ],
+      informalStudies: [
+        {
+          startDate: '',
+          endDate: '',
+          description: '',
+          institute: ''
+        }
+      ]
+    },
+    _id: '',
     firstName: '',
     lastName: '',
     email: '',
@@ -20,350 +79,129 @@ function Form() {
     birthday: '',
     available: '',
     phone: '',
+    profiles: [
+      {
+        profileId: '',
+        name: ''
+      }
+    ],
+    workExperience: [
+      {
+        company: '',
+        startDate: '',
+        endDate: '',
+        description: ''
+      },
+      {
+        company: '',
+        startDate: '',
+        endDate: '',
+        description: ''
+      }
+    ],
     createdAt: '',
     updatedAt: ''
-  });
-  const [profiles, setProfiles] = useState({ profileId: { id: '', name: '' } });
-  const [workExperience, setWorkExperience] = useState([]);
+  };
 
   const submit = async (e) => {
+    let error = false;
+    let status;
     e.preventDefault();
-    console.log({
-      contactRange,
-      studies: {
-        primaryStudies,
-        secondaryStudies: secundaryStudies,
-        tertiaryStudies: Array.from(tertiaryStudies),
-        universityStudies: Array.from(universityStudies),
-        informalStudies: Array.from(informalStudies)
-      },
-      ...singleKeys,
-      profiles: Array.from(informalStudies),
-      workExperience
-    });
+    console.log(template);
     try {
       const responseRaw = await fetch(`${process.env.REACT_APP_API}/postulants`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          contactRange,
-          studies: {
-            primaryStudies,
-            secondaryStudies: secundaryStudies,
-            tertiaryStudies: Array.from(tertiaryStudies),
-            universityStudies: Array.from(universityStudies),
-            informalStudies: Array.from(informalStudies)
-          },
-          ...singleKeys,
-          profiles: Array.from(informalStudies),
-          workExperience
-        })
+        body: JSON.stringify(template)
       });
+      if (responseRaw.status !== 200 && responseRaw.status !== 201) {
+        status = responseRaw.status + ' ' + responseRaw.statusText;
+        error = true;
+      }
       const responseJson = await responseRaw.json();
-      console.log(responseJson);
+      if (error) {
+        setModal({
+          title: status,
+          state: true,
+          message: responseJson.message
+        });
+        return;
+      }
+      setModal({
+        title: 'Postulant added',
+        state: true,
+        message: responseJson.message
+      });
     } catch (error) {
+      setModal({
+        title: 'Postulant added',
+        state: true,
+        message: error.message
+      });
       console.log(error);
     }
+  };
+
+  const collectData = (data, property) => {
+    if (property === 'contactRange') template.contactRange = data;
+    if (property === 'primaryStudies') template.studies.primaryStudies = data;
+    if (property === 'secondaryStudies') template.studies.secondaryStudies = data;
+    if (property === 'tertiaryStudies') template.studies.tertiaryStudies = data;
+    if (property === 'universityStudies') template.studies.universityStudies = data;
+    if (property === 'informalStudies') template.studies.informalStudies = data;
+    if (property === 'firstName') template.firstName = data;
+    if (property === 'lastName') template.lastName = data;
+    if (property === 'email') template.email = data;
+    if (property === 'password') template.password = data;
+    if (property === 'address') template.address = data;
+    if (property === 'birthday') template.birthday = data;
+    if (property === 'available') template.available = data;
+    if (property === 'phone') template.phone = data;
+    if (property === 'createdAt') template.createdAt = data;
+    if (property === 'updatedAt') template.updatedAt = data;
+    if (property === 'profiles') template.profiles = data;
+    if (property === 'workExperience') template.workExperience = data;
   };
 
   return (
     <section className={style.section}>
       <div className={style.formHeader}></div>
+      <h1>Add postulant</h1>
+      <button onClick={() => (window.location.href = `${window.location.origin}/postulants`)}>
+        List
+      </button>
       <form>
         <div>
           <h3>Studies</h3>
           <div className={style.inputSection}>
-            <div>
-              <h4>Primary studies</h4>
-              <input
-                placeholder="Start date"
-                onChange={({ target: { value } }) => {
-                  setPrimaryStudies({ ...primaryStudies, startDate: value });
-                }}
-              />
-              <input
-                placeholder="End date"
-                onChange={({ target: { value } }) => {
-                  setPrimaryStudies({ ...primaryStudies, endDate: value });
-                }}
-              />
-              <input
-                placeholder="School"
-                onChange={({ target: { value } }) => {
-                  setPrimaryStudies({ ...primaryStudies, school: value });
-                }}
-              />
-            </div>
-
-            <div>
-              <h4>Secundary studies</h4>
-              <input
-                placeholder="Start date"
-                onChange={({ target: { value } }) => {
-                  setSecundaryStudies({ ...secundaryStudies, startDate: value });
-                }}
-              />
-              <input
-                placeholder="End date"
-                onChange={({ target: { value } }) => {
-                  setSecundaryStudies({ ...secundaryStudies, endDate: value });
-                }}
-              />
-              <input
-                placeholder="School"
-                onChange={({ target: { value } }) => {
-                  setSecundaryStudies({ ...secundaryStudies, school: value });
-                }}
-              />
-            </div>
-
-            <div>
-              <h4>Tertiary studies</h4>
-              <input
-                placeholder="Start date"
-                onChange={({ target: { value } }) => {
-                  setTertiaryStudies({ ...tertiaryStudies, startDate: value });
-                }}
-              />
-              <input
-                placeholder="End date"
-                onChange={({ target: { value } }) => {
-                  setTertiaryStudies({ ...tertiaryStudies, endDate: value });
-                }}
-              />
-              <textarea
-                placeholder="Description"
-                onChange={({ target: { value } }) => {
-                  setTertiaryStudies({ ...tertiaryStudies, description: value });
-                }}
-              ></textarea>
-              <input
-                placeholder="Institute"
-                onChange={({ target: { value } }) => {
-                  setTertiaryStudies({ ...tertiaryStudies, institute: value });
-                }}
-              />
-            </div>
-
-            <div>
-              <h4>University studies</h4>
-              <input
-                placeholder="Start date"
-                onChange={({ target: { value } }) => {
-                  setUniversityStudies({ ...universityStudies, startDate: value });
-                }}
-              />
-              <input
-                placeholder="End date"
-                onChange={({ target: { value } }) => {
-                  setUniversityStudies({ ...universityStudies, endDate: value });
-                }}
-              />
-              <textarea
-                placeholder="Description"
-                onChange={({ target: { value } }) => {
-                  setUniversityStudies({ ...universityStudies, description: value });
-                }}
-              ></textarea>
-              <input
-                placeholder="Institute"
-                onChange={({ target: { value } }) => {
-                  setUniversityStudies({ ...universityStudies, institute: value });
-                }}
-              />
-            </div>
-
-            <div>
-              <h4>Informal studies</h4>
-              <input
-                placeholder="Start date"
-                onChange={({ target: { value } }) => {
-                  setInformalStudies({ ...informalStudies, startDate: value });
-                }}
-              />
-              <input
-                placeholder="End date"
-                onChange={({ target: { value } }) => {
-                  setInformalStudies({ ...informalStudies, endDate: value });
-                }}
-              />
-              <textarea
-                placeholder="Description"
-                onChange={({ target: { value } }) => {
-                  setInformalStudies({ ...informalStudies, description: value });
-                }}
-              ></textarea>
-              <input
-                placeholder="Institute"
-                onChange={({ target: { value } }) => {
-                  setInformalStudies({ ...informalStudies, institute: value });
-                }}
-              />
-            </div>
+            <PrimaryStudies collectData={collectData} />
+            <SecondaryStudies collectData={collectData} />
+            <TertiaryStudies collectData={collectData} />
+            <UniversityStudies collectData={collectData} />
+            <InformalStudies collectData={collectData} />
           </div>
         </div>
-
-        <div>
-          <h3>Contact range</h3>
-          <input
-            placeholder="From"
-            onChange={({ target: { value } }) => {
-              setContactRange({ ...contactRange, from: value });
-            }}
-          />
-          <input
-            placeholder="To"
-            onChange={({ target: { value } }) => {
-              setContactRange({ ...contactRange, to: value });
-            }}
-          />
-        </div>
-
+        <ContactRange collectData={collectData} />
         <div className={style.container}>
-          <div>
-            <h3>First name</h3>
-            <input
-              placeholder="First name"
-              onChange={({ target: { value } }) => {
-                setSingleKeys({ ...singleKeys, firstName: value });
-              }}
-            />
-          </div>
-
-          <div>
-            <h3>Last name</h3>
-            <input
-              placeholder="Last name"
-              onChange={({ target: { value } }) => {
-                setSingleKeys({ ...singleKeys, lastName: value });
-              }}
-            />
-          </div>
-
-          <div>
-            <h3>Email</h3>
-            <input
-              placeholder="Email"
-              onChange={({ target: { value } }) => {
-                setSingleKeys({ ...singleKeys, email: value });
-              }}
-            />
-          </div>
-
-          <div>
-            <h3>Password</h3>
-            <input
-              placeholder="Password"
-              onChange={({ target: { value } }) => {
-                setSingleKeys({ ...singleKeys, password: value });
-              }}
-            />
-          </div>
-
-          <div>
-            <h3>Address</h3>
-            <input
-              placeholder="Address"
-              onChange={({ target: { value } }) => {
-                setSingleKeys({ ...singleKeys, address: value });
-              }}
-            />
-          </div>
-
-          <div>
-            <h3>Birthday</h3>
-            <input
-              placeholder="Birthday"
-              onChange={({ target: { value } }) => {
-                setSingleKeys({ ...singleKeys, birthday: value });
-              }}
-            />
-          </div>
-
-          <div>
-            <h3>Available</h3>
-            <input
-              type="checkbox"
-              placeholder="Available"
-              onChange={({ target: { checked } }) => {
-                setSingleKeys({ ...singleKeys, available: checked });
-              }}
-            />
-          </div>
-
-          <div>
-            <h3>Phone</h3>
-            <input
-              placeholder="Phone"
-              onChange={({ target: { value } }) => {
-                setSingleKeys({ ...singleKeys, phone: value });
-              }}
-            />
-          </div>
-
-          <div>
-            <h3>Created at:</h3>
-            <input
-              placeholder="Created at:"
-              onChange={({ target: { value } }) => {
-                setSingleKeys({ ...singleKeys, createdAt: value });
-              }}
-            />
-          </div>
-
-          <div>
-            <h3>Updated at:</h3>
-            <input
-              placeholder="Updated at:"
-              onChange={({ target: { value } }) => {
-                setSingleKeys({ ...singleKeys, updatedAt: value });
-              }}
-            />
-          </div>
+          <FirstName collectData={collectData} />
+          <LastName collectData={collectData} />
+          <Email collectData={collectData} />
+          <Password collectData={collectData} />
+          <Address collectData={collectData} />
+          <Birthday collectData={collectData} />
+          <Available collectData={collectData} />
+          <Phone collectData={collectData} />
+          <CreatedAt collectData={collectData} />
+          <UpdatedAt collectData={collectData} />
         </div>
+        <Profiles collectData={collectData} />
+        <WorkExperience collectData={collectData} />
 
-        <div>
-          <h3>Profiles</h3>
-          <input
-            placeholder="Id"
-            onChange={({ target: { value } }) => {
-              setProfiles({ ...profiles, profileId: { ...profiles.profileId, id: value } });
-            }}
-          />
-          <input placeholder="Name" />
-        </div>
-
-        <div>
-          <h3>Work experience</h3>
-          <input
-            placeholder="Institute"
-            onChange={({ target: { value } }) => {
-              setWorkExperience({ ...workExperience, institute: value });
-            }}
-          />
-          <input
-            placeholder="Start date"
-            onChange={({ target: { value } }) => {
-              setWorkExperience({ ...workExperience, startDate: value });
-            }}
-          />
-          <input
-            placeholder="End date"
-            onChange={({ target: { value } }) => {
-              setWorkExperience({ ...workExperience, EndDate: value });
-            }}
-          />
-          <textarea
-            placeholder="Description"
-            onChange={({ target: { value } }) => {
-              setWorkExperience({ ...workExperience, description: value });
-            }}
-          ></textarea>
-        </div>
-        <Button title="Add" onClick={(e) => submit(e)} />
+        <button onClick={(e) => submit(e)}>Add</button>
       </form>
+      {modal.state && <Modal modal={modal} setModal={setModal} />}
     </section>
   );
 }

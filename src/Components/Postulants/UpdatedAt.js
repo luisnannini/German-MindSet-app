@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 const UpdatedAt = ({ postulant, collectData }) => {
-  const [updatedAt, setUpdatedAt] = useState(postulant.updatedAt);
+  const [updatedAt, setUpdatedAt] = useState(postulant ? postulant.updatedAt : '');
 
   const sendData = (data) => {
     collectData(data, 'updatedAt');
@@ -13,7 +13,7 @@ const UpdatedAt = ({ postulant, collectData }) => {
     <div>
       <h3>Updated at:</h3>
       <input
-        defaultValue={postulant.updatedAt}
+        defaultValue={updatedAt}
         placeholder="Updated at:"
         onChange={(e) => sendData(e.target.value)}
       />

@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 
 const ContactRange = ({ postulant, collectData }) => {
-  const [contactRange, setContactRange] = useState(postulant.contactRange);
+  const [contactRange, setContactRange] = useState(
+    postulant ? postulant.contactRange : { from: '', to: '' }
+  );
   const sendData = (data) => {
     collectData(data, 'contactRange');
     setContactRange(data);
@@ -12,12 +14,12 @@ const ContactRange = ({ postulant, collectData }) => {
     <div>
       <h3>Contact range</h3>
       <input
-        defaultValue={postulant.contactRange.from}
+        defaultValue={contactRange.from}
         placeholder="From"
         onChange={(e) => sendData({ ...contactRange, from: e.target.value })}
       />
       <input
-        defaultValue={postulant.contactRange.to}
+        defaultValue={contactRange.to}
         placeholder="To"
         onChange={(e) => sendData({ ...contactRange, to: e.target.value })}
       />

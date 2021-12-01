@@ -2,17 +2,17 @@ import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 const Profiles = ({ postulant, collectData }) => {
-  console.log(postulant.profiles[1]);
-  const [profiles, setProfiles] = useState(postulant.profiles);
+  const template = {
+    profileId: { _id: '', name: '' },
+    id: uuidv4()
+  };
+  const [profiles, setProfiles] = useState(postulant ? postulant.profles : [template]);
   const sendData = (data) => {
     collectData(data, 'profiles');
     setProfiles(data);
   };
   useEffect(() => sendData(profiles), []);
-  const template = {
-    profileId: { _id: '', name: '' },
-    id: uuidv4()
-  };
+
   return (
     <div>
       <h3>Profiles</h3>
