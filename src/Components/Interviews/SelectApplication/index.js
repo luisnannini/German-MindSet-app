@@ -3,14 +3,14 @@ import styles from './selectapplication.module.css';
 
 const SelectApplication = (props) => {
   return (
-    <form className={styles.container}>
+    <div className={styles.container}>
       <select
         className={styles.select}
         value={props.value}
         onChange={props.onChange}
         required={props.required}
       >
-        <option value="0">Id</option>
+        <option value="">Id</option>
         {props.object.map((data) => {
           return (
             <option key={data._id} value={data._id}>
@@ -19,7 +19,7 @@ const SelectApplication = (props) => {
           );
         })}
       </select>
-    </form>
+    </div>
   );
 };
 

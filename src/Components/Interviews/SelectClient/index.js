@@ -3,14 +3,14 @@ import styles from './selectclient.module.css';
 
 const SelectClient = (props) => {
   return (
-    <form className={styles.container}>
+    <div className={styles.container}>
       <select
         className={styles.select}
         value={props.value}
         onChange={props.onChange}
         required={props.required}
       >
-        <option value="0">Client Name</option>
+        <option value="">Client Name</option>
         {props.object.map((data) => {
           return (
             <option key={data._id} value={data._id}>
@@ -19,7 +19,7 @@ const SelectClient = (props) => {
           );
         })}
       </select>
-    </form>
+    </div>
   );
 };
 
