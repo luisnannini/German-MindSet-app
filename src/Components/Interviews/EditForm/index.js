@@ -195,7 +195,9 @@ function EditForm(props) {
           <option selected value="0"></option>
           <option value="failed">Failed</option>
           <option value="assigned">Assigned</option>
-          <option value="successful">Successful </option>
+          <option value="successful">Successful</option>
+          <option value="cancelled">Cancelled</option>
+          <option value="confirmed">Confirmed</option>
         </select>
         <label>Date</label>
         <p>yyyy-mm-dd</p>
