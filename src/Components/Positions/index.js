@@ -10,7 +10,9 @@ function Positions() {
   const [showModal, setShowModal] = useState(false);
   const [selectedPosition, setSelectedPosition] = useState(undefined);
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/positions`)
@@ -48,9 +50,18 @@ function Positions() {
             return response.json();
           })
           .then((response) => {
+            setShowModal(false);
             setPositions(response.data);
-            closeModal();
+            setShowSuccessModal(true);
+            setSuccess('You request was successful!');
           });
+      })
+      .then(() => {
+        setTimeout(function () {
+          if (setShowSuccessModal) {
+            window.location.href = '/positions';
+          }
+        }, 2000);
       })
       .catch((error) => {
         setShowErrorModal(true);
@@ -69,6 +80,7 @@ function Positions() {
   const closeModal = () => {
     setShowModal(false);
     setShowErrorModal(false);
+    setShowSuccessModal(false);
   };
 
   return (
@@ -80,6 +92,7 @@ function Positions() {
         onCancel={closeModal}
         onConfirm={deletePosition}
       />
+      <Modal show={showSuccessModal} title="Successful" message={success} onCancel={closeModal} />
       <Modal show={showErrorModal} title="Error" message={error} onCancel={closeModal} />
       <div className={styles.container}>
         <h2 className={styles.title}>Positions</h2>
