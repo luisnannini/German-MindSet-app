@@ -179,7 +179,6 @@ const CreateForm = (props) => {
           onChange={(e) => {
             setNotesValue(e.target.value);
           }}
-          required
         />
       </div>
       <div className={styles.buttons}>

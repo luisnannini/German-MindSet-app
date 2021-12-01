@@ -3,7 +3,7 @@ import styles from './selectclient.module.css';
 
 const SelectClient = (props) => {
   return (
-    <div className={styles.container}>
+    <form className={styles.container}>
       <select
         className={styles.select}
         value={props.value}
@@ -19,7 +19,7 @@ const SelectClient = (props) => {
           );
         })}
       </select>
-    </div>
+    </form>
   );
 };
 

@@ -164,11 +164,17 @@ function EditForm(props) {
             value={postulantValue}
             object={postulants}
             onChange={onChangePostulantValue}
+            required
           />
         </div>
         <div className={styles.formDiv2}>
           <h3>Client</h3>
-          <SelectClient value={clientValue} object={clients} onChange={onChangeClientValue} />
+          <SelectClient
+            value={clientValue}
+            object={clients}
+            onChange={onChangeClientValue}
+            required
+          />
         </div>
         <div className={styles.formDiv2}>
           <h3>Application</h3>
@@ -176,6 +182,7 @@ function EditForm(props) {
             value={applicationValue}
             object={applications}
             onChange={onChangeApplicationValue}
+            required
           />
         </div>
       </div>
