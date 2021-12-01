@@ -43,6 +43,7 @@ function Form() {
         })
         .finally(() => setLoading(false));
     }
+    setLoading(false);
   }, []);
 
   const onChangeNameInput = (event) => {
@@ -80,6 +81,7 @@ function Form() {
   const onSubmit = (event) => {
     event.preventDefault();
     setLoading(true);
+
     const params = new URLSearchParams(window.location.search);
     const clientId = params.get('id');
 

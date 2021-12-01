@@ -118,7 +118,7 @@ function Clients() {
         </tbody>
       </table>
       <div className={styles.error}>{error}</div>
-      <AddButton disabled={isLoading} onClick={() => showForm()} />
+      <AddButton onClick={() => showForm()} />
     </section>
   );
 }
