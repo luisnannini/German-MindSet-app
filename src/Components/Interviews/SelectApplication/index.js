@@ -4,7 +4,12 @@ import styles from './selectapplication.module.css';
 const SelectApplication = (props) => {
   return (
     <div className={styles.container}>
-      <select className={styles.select} value={props.value} onChange={props.onChange}>
+      <select
+        className={styles.select}
+        value={props.value}
+        onChange={props.onChange}
+        required={props.required}
+      >
         <option value="0">Id</option>
         {props.object.map((data) => {
           return (
