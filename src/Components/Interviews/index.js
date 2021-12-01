@@ -44,6 +44,11 @@ function Interviews() {
     setShowRemoveModal(false);
   };
 
+  const closeModalSuccess = () => {
+    setShowSuccessDelete(false);
+    window.location.href = '/interviews';
+  };
+
   const confirmRemoveModal = () => {
     const url = `${process.env.REACT_APP_API}/interviews/${selectedInterview}`;
 
@@ -64,19 +69,17 @@ function Interviews() {
         setShowRemoveModal(false);
         setShowSuccessDelete(true);
       })
-      .then(() => {
-        setTimeout(function () {
-          if (setShowSuccessDelete) {
-            window.location.href = '/interviews';
-          }
-        }, 2000);
-      })
       .catch((error) => error);
   };
 
   return (
     <div className={styles.container}>
-      <Modal show={showSuccessDelete} title="Successful" message={'Interview deleted'} />
+      <Modal
+        show={showSuccessDelete}
+        title="Successful"
+        message={'Interview deleted'}
+        onCancel={closeModalSuccess}
+      />
       <h1>Interviews</h1>
       <ul className={styles.list1}>
         <li>Postulant</li>

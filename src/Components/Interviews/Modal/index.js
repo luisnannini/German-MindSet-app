@@ -7,6 +7,9 @@ const Modal = (props) => {
   }
   return (
     <div className={styles.message}>
+      <button type="button" onClick={props.onCancel}>
+        x
+      </button>
       <p>{props.message}</p>
     </div>
   );

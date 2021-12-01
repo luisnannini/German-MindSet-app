@@ -81,6 +81,17 @@ function EditForm(props) {
     setApplicationValue(event.target.value);
   };
 
+  const closeModalSuccess = () => {
+    setShowSuccessUpdate(false);
+    setShowErrorUpdate(false);
+    window.location.href = '/interviews';
+  };
+
+  const closeModalError = () => {
+    setShowSuccessUpdate(false);
+    setShowErrorUpdate(false);
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
     const params = new URLSearchParams(window.location.search);
@@ -113,21 +124,9 @@ function EditForm(props) {
       .then(() => {
         setShowSuccessUpdate(true);
       })
-      .then(() => {
-        setTimeout(function () {
-          if (setShowSuccessUpdate) {
-            window.location.href = '/interviews';
-          }
-        }, 2000);
-      })
       .catch((error) => {
         setShowErrorUpdate(true);
         setErrorUpdate(error.toString());
-        setTimeout(function () {
-          if (setShowErrorUpdate) {
-            setShowErrorUpdate(false);
-          }
-        }, 1000);
       });
   };
 
@@ -135,7 +134,7 @@ function EditForm(props) {
 
   function handleChangeDate(event) {
     const value = event.target.value;
-    if (value.includes('T00:00:00.000Z')) setErrorDate('Date must be yyyy-mm-dd');
+    if (!value || value.includes('T00:00:00.000Z')) setErrorDate('Date must be yyyy-mm-dd');
     else setErrorDate(null);
   }
 
@@ -149,8 +148,14 @@ function EditForm(props) {
         show={showSuccessUpdate}
         title="Successful"
         message={'Interview Updated successfully'}
+        onCancel={closeModalSuccess}
       />
-      <Modal show={showErrorUpdate} title="Error" message={errorUpdate} />
+      <Modal
+        show={showErrorUpdate}
+        title="Error"
+        message={errorUpdate}
+        onCancel={closeModalError}
+      />
       <h2>Edit Interview</h2>
       <div className={styles.formDiv1}>
         <div className={styles.formDiv2}>
@@ -197,9 +202,11 @@ function EditForm(props) {
           required
         />
       </div>
-      <label className={styles.formLabel} htmlFor="messageDate">
-        {errorDate}
-      </label>
+      <div>
+        <label className={styles.formLabel} htmlFor="messageDate">
+          {errorDate}
+        </label>
+      </div>
       <div className={styles.formDiv2}>
         <h3>Notes</h3>
         <Input

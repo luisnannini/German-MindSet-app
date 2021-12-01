@@ -15,3 +15,10 @@
   color: #FC6225;
   font-size: 15px;
 }
+
+.message button {
+  float: right;
+  border-style: none;
+  background-color: #fff;
+  color: #232F3E;
+}

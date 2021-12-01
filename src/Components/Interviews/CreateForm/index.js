@@ -73,22 +73,19 @@ const CreateForm = (props) => {
       .then(() => {
         setShowSuccessCreate(true);
       })
-      .then(() => {
-        setTimeout(function () {
-          if (setShowSuccessCreate) {
-            window.location.href = '/interviews';
-          }
-        }, 2000);
-      })
       .catch((error) => {
         setShowErrorCreate(true);
         setErrorCreate(error.toString());
-        setTimeout(function () {
-          if (setShowErrorCreate) {
-            setShowErrorCreate(false);
-          }
-        }, 1000);
       });
+  };
+
+  const closeModalSuccess = () => {
+    setShowSuccessCreate(false);
+    window.location.href = '/interviews';
+  };
+
+  const closeModalError = () => {
+    setShowErrorCreate(false);
   };
 
   const onChangeClientValue = (event) => {
@@ -125,8 +122,14 @@ const CreateForm = (props) => {
         show={showSuccessCreate}
         title="Successful"
         message={'Interview Created successfully'}
+        onCancel={closeModalSuccess}
       />
-      <Modal show={showErrorCreate} title="Error" message={errorCreate} />
+      <Modal
+        show={showErrorCreate}
+        title="Error"
+        message={errorCreate}
+        onCancel={closeModalError}
+      />
       <h2>Create Interview</h2>
       <div className={styles.formDiv1}>
         <div className={styles.formDiv2}>
@@ -144,7 +147,7 @@ const CreateForm = (props) => {
       </div>
       <div className={styles.formDiv1}>
         <h3>Status</h3>
-        <select className={styles.select} onChange={onChangeStatusValue}>
+        <select className={styles.select} onChange={onChangeStatusValue} required>
           <option selected value="0"></option>
           <option value="failed">Failed</option>
           <option value="assigned">Assigned</option>
@@ -176,6 +179,7 @@ const CreateForm = (props) => {
           onChange={(e) => {
             setNotesValue(e.target.value);
           }}
+          required
         />
       </div>
       <div className={styles.buttons}>
