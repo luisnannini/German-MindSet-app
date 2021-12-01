@@ -40,7 +40,8 @@ function Form() {
         })
         .catch((error) => {
           setError(error.toString());
-        });
+        })
+        .finally(() => setLoading(false));
     }
   }, []);
 
@@ -141,7 +142,7 @@ function Form() {
           required
           pattern="[A-Za-z ]*"
           title="Enter a valid name"
-          disable={isLoading}
+          disabled={isLoading}
         />
         <label>Phone Number</label>
         <Input
@@ -153,7 +154,7 @@ function Form() {
           required
           pattern="[0-9]"
           title="Enter a valid phone number"
-          disable={isLoading}
+          disabled={isLoading}
         />
         <label>Country</label>
         <Input
@@ -165,7 +166,7 @@ function Form() {
           required
           pattern="[A-Za-z ]*"
           title="Enter a valid country"
-          disable={isLoading}
+          disabled={isLoading}
         />
         <label>State</label>
         <Input
@@ -177,7 +178,7 @@ function Form() {
           pattern="[A-Za-z ]*"
           title="Enter a valid state"
           required
-          disable={isLoading}
+          disabled={isLoading}
         />
         <label>City</label>
         <Input
@@ -189,7 +190,7 @@ function Form() {
           required
           pattern="[A-Za-z ]*"
           title="Enter a valid city"
-          disable={isLoading}
+          disabled={isLoading}
         />
         <label>Address</label>
         <Input
@@ -200,7 +201,7 @@ function Form() {
           type="address"
           required
           title="Enter a valid address"
-          disable={isLoading}
+          disabled={isLoading}
         />
         <label>Logo</label>
         <Input
@@ -209,7 +210,7 @@ function Form() {
           placeholder="Insert Client logo..."
           onChange={onChangeLogoInput}
           type="text"
-          disable={isLoading}
+          disabled={isLoading}
         />
         <label>Description</label>
         <Input
@@ -218,9 +219,9 @@ function Form() {
           placeholder="Insert Client description..."
           onChange={onChangeDescriptionInput}
           type="text"
-          disable={isLoading}
+          disabled={isLoading}
         />
-        <button disable={isLoading} type="submit" className={styles.button}>
+        <button disabled={isLoading} type="submit" className={styles.button}>
           Save
         </button>
         <div className={styles.error}>{error}</div>
