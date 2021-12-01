@@ -22,7 +22,6 @@ const TertiaryStudies = ({ postulant, collectData, id }) => {
 
   return (
     <div>
-      <h4>Tertiary studies</h4>
       {tertiaryStudies.map((tertiaryStudy, index) => {
         return (
           <div key={tertiaryStudy.id}>

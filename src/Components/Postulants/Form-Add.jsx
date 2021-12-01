@@ -2,22 +2,12 @@ import style from './postulants-Form.module.css';
 import { useState } from 'react';
 import Modal from './Modal';
 import ObjectFormInput from './ObjectFormInput';
-import SecondaryStudies from './SecondaryStudies';
+import PrimitiveFormInput from './PrimitiveFormInput';
 import TertiaryStudies from './TertiaryStudies';
 import UniversityStudies from './UniversityStudies';
 import InformalStudies from './InformalStudies';
-import FirstName from './FirstName';
-import LastName from './LastName';
-import Email from './Email';
-import Password from './Password';
-import Address from './Address';
-import Available from './Available';
-import Phone from './Phone';
-import CreatedAt from './CreatedAt';
-import UpdatedAt from './UpdatedAt';
 import Profiles from './Profiles';
 import WorkExperience from './WorkExperience';
-import ContactRange from './ContactRange';
 
 import { v4 as uuidv4 } from 'uuid';
 function Form() {
@@ -76,7 +66,7 @@ function Form() {
     password: '',
     address: '',
     birthday: '',
-    available: '',
+    available: true,
     phone: '',
     profiles: [
       {
@@ -173,29 +163,96 @@ function Form() {
       </button>
       <form>
         <div>
-          <h3>Studies</h3>
+          <h2>Studies</h2>
           <div className={style.inputSection}>
-            <SecondaryStudies collectData={collectData} />
-            <TertiaryStudies collectData={collectData} />
-            <UniversityStudies collectData={collectData} />
-            <InformalStudies collectData={collectData} />
+            <div>
+              <h3>Primary Studies</h3>
+              <ObjectFormInput
+                collectData={collectData}
+                dataName="primaryStudies"
+                defaultValue={{ startDate: '', endDate: '', school: '' }}
+              />
+            </div>
+            <div>
+              <h3>Secondary Studies</h3>
+              <ObjectFormInput
+                collectData={collectData}
+                dataName="secondaryStudies"
+                defaultValue={{ startDate: '', endDate: '', school: '' }}
+              />
+            </div>
+            <div>
+              <h3>Tertiary Studies</h3>
+              <TertiaryStudies collectData={collectData} />
+            </div>
+            <div>
+              <h3>University Studies</h3>
+              <UniversityStudies collectData={collectData} />
+            </div>
+            <div>
+              <h3>University Studies</h3>
+              <InformalStudies collectData={collectData} />
+            </div>
           </div>
         </div>
-        <ContactRange collectData={collectData} />
-        <div className={style.container}>
-          <FirstName collectData={collectData} />
-          <LastName collectData={collectData} />
-          <Email collectData={collectData} />
-          <Password collectData={collectData} />
-          <Address collectData={collectData} />
-          <Available collectData={collectData} />
-          <Phone collectData={collectData} />
-          <CreatedAt collectData={collectData} />
-          <UpdatedAt collectData={collectData} />
+        <div>
+          <h2>Contact Range</h2>
+          <ObjectFormInput
+            collectData={collectData}
+            dataName="contactRange"
+            defaultValue={{ from: '', to: '' }}
+          />
         </div>
-        <Profiles collectData={collectData} />
-        <WorkExperience collectData={collectData} />
-
+        <div className={style.container}>
+          <div>
+            <h2>First Name</h2>
+            <PrimitiveFormInput collectData={collectData} dataName="firstName" />
+          </div>
+          <div>
+            <h2>Last Name</h2>
+            <PrimitiveFormInput collectData={collectData} dataName="lastName" />
+          </div>
+          <div>
+            <h2>Email</h2>
+            <PrimitiveFormInput collectData={collectData} dataName="email" />
+          </div>
+          <div>
+            <h2>Password</h2>
+            <PrimitiveFormInput collectData={collectData} dataName="password" />
+          </div>
+          <div>
+            <h2>Address</h2>
+            <PrimitiveFormInput collectData={collectData} dataName="address" />
+          </div>
+          <div>
+            <h2>Birthday</h2>
+            <PrimitiveFormInput collectData={collectData} dataName="birthday" />
+          </div>
+          <div>
+            <h2>Available</h2>
+            <PrimitiveFormInput collectData={collectData} dataName="available" />
+          </div>
+          <div>
+            <h2>Phone</h2>
+            <PrimitiveFormInput collectData={collectData} dataName="phone" />
+          </div>
+          <div>
+            <h2>Created At</h2>
+            <PrimitiveFormInput collectData={collectData} dataName="createdAt" />
+          </div>
+          <div>
+            <h2>Updated At</h2>
+            <PrimitiveFormInput collectData={collectData} dataName="updatedAt" />
+          </div>
+        </div>
+        <div>
+          <h2>Profiles</h2>
+          <Profiles collectData={collectData} />
+        </div>
+        <div>
+          <h2>Work Experience</h2>
+          <WorkExperience collectData={collectData} />
+        </div>
         <button onClick={(e) => submit(e)}>Add</button>
       </form>
       {modal.state && <Modal modal={modal} setModal={setModal} />}

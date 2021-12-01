@@ -15,7 +15,6 @@ const Profiles = ({ postulant, collectData }) => {
 
   return (
     <div>
-      <h3>Profiles</h3>
       {profiles.map((profile, index) => {
         return (
           <div key={profile.id}>

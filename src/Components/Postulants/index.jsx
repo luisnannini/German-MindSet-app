@@ -1,14 +1,12 @@
 import styles from './postulants.module.css';
 import { useEffect, useState } from 'react';
-import Items from './Items.js';
-import Button from './Button';
-import FormUpdate from './Form-Update.js';
+import Items from './Items.jsx';
+import FormUpdate from './Form-Update.jsx';
 
 function Postulants() {
   const [postulants, setPostulants] = useState([]);
   const [formId, setFormId] = useState();
   /*   const params = new URLSearchParams(window.location.search); */
-  console.log('asd');
   /*   let id = params.get('id'); */
   const url = `${process.env.REACT_APP_API}/postulants`;
 
@@ -70,7 +68,7 @@ function Postulants() {
     password: '',
     address: '',
     birthday: '',
-    available: '',
+    available: true,
     phone: '',
     profiles: [
       {

@@ -7,15 +7,13 @@ const ObjectFormInputs = ({ postulant, collectData, dataName, defaultValue }) =>
     setInput(data);
   };
   useEffect(() => sendData(input), []);
-  console.log(Object.values(input)[0]);
   return (
     <div>
-      <h4>{dataName.toUpperCase()}</h4>
       {Object.keys(input).map((inputKey, index) => {
         return (
           <input
             defaultValue={input[inputKey]}
-            placeholder={inputKey}
+            placeholder={inputKey.toUpperCase()}
             onChange={({ target: { value } }) =>
               sendData({ ...input, [Object.keys(input)[index]]: value })
             }

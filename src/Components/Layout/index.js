@@ -6,7 +6,7 @@ import Clients from '../Clients/index';
 import Interviews from '../Interviews/index';
 import Positions from '../Positions/index';
 import Postulants from '../Postulants/index';
-import PostulantsAddForm from '../Postulants/Form-Add.js';
+import PostulantsAddForm from '../Postulants/Form-Add';
 import Profiles from '../Profiles/index';
 import Psychologists from '../Psychologists/index';
 import Sessions from '../Sessions/index';

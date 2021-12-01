@@ -20,7 +20,6 @@ const InformalStudies = ({ postulant, collectData }) => {
 
   return (
     <div>
-      <h4>Informal studies</h4>
       {informalStudies.map((informalStudy, index) => {
         return (
           <div key={informalStudy.id}>

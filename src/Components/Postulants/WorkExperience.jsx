@@ -18,7 +18,6 @@ const WorkExperience = ({ postulant, collectData }) => {
 
   return (
     <div>
-      <h3>Work experience</h3>
       {workExperience.map((work, index) => {
         return (
           <div key={work.id}>
