@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 const UniversityStudies = ({ postulant, collectData, id }) => {
   const [universityStudies, setUniversityStudies] = useState(postulant.studies.universityStudies);
@@ -7,11 +8,17 @@ const UniversityStudies = ({ postulant, collectData, id }) => {
     setUniversityStudies(data);
   };
   useEffect(() => sendData(universityStudies), []);
-
+  const template = {
+    startDate: '',
+    endDate: '',
+    description: '',
+    institute: '',
+    id: uuidv4()
+  };
   return (
     <div>
       <h4>University studies</h4>
-      {postulant.studies.universityStudies.map((universityStudy, index) => {
+      {universityStudies.map((universityStudy, index) => {
         return (
           <div key={universityStudy.id}>
             <input
@@ -49,6 +56,14 @@ const UniversityStudies = ({ postulant, collectData, id }) => {
           </div>
         );
       })}
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          setUniversityStudies([...universityStudies, template]);
+        }}
+      >
+        Add
+      </button>
     </div>
   );
 };
