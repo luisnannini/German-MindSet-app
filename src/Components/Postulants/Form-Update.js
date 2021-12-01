@@ -1,24 +1,14 @@
 import style from './postulants-Form.module.css';
 import { useState } from 'react';
 import Modal from './Modal';
-import PrimaryStudies from './PrimaryStudies';
-import SecondaryStudies from './SecondaryStudies';
 import TertiaryStudies from './TertiaryStudies';
 import UniversityStudies from './UniversityStudies';
 import InformalStudies from './InformalStudies';
-import FirstName from './FirstName';
-import LastName from './LastName';
-import Email from './Email';
-import Password from './Password';
-import Address from './Address';
-import Birthday from './Birthday';
-import Available from './Available';
-import Phone from './Phone';
-import CreatedAt from './CreatedAt';
-import UpdatedAt from './UpdatedAt';
+import PrimitiveFormInput from './PrimitiveFormInput';
+import ObjectFormInput from './ObjectFormInput';
+
 import Profiles from './Profiles';
 import WorkExperience from './WorkExperience';
-import ContactRange from './ContactRange';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -61,10 +51,12 @@ function Form({ postulant, template, id }) {
     if (property === 'updatedAt') template.updatedAt = data;
     if (property === 'profiles') template.profiles = data;
     if (property === 'workExperience') template.workExperience = data;
+    console.log(template);
   };
   const submit = async (e) => {
     let error = false;
     let status;
+    console.log(template);
     e.preventDefault();
     /* try {
       const responseRaw = await fetch(`${process.env.REACT_APP_API}/postulants?id=${id}`, {
@@ -96,6 +88,11 @@ function Form({ postulant, template, id }) {
         }
       });
     } catch (error) {
+      setModal({
+        title: 'Failed to fetch',
+        state: true,
+        message: error.message
+      });
       console.log(error);
     } */
   };
@@ -103,34 +100,64 @@ function Form({ postulant, template, id }) {
   return (
     <section className={style.section}>
       <div className={style.formHeader}></div>
-      <h1>{`Edit ${id}`}</h1>
+      <h1 className={style.textCenter}>{`Edit ${id}`}</h1>
       <form>
         <div>
-          <h3>Studies</h3>
+          <h3 className={style.textCenter}>Studies</h3>
           <div className={style.inputSection}>
-            <PrimaryStudies postulant={postulant} collectData={collectData} />
-            <SecondaryStudies postulant={postulant} collectData={collectData} />
+            <ObjectFormInput
+              postulant={postulant.studies}
+              collectData={collectData}
+              dataName="primaryStudies"
+              defaultValue={{ startDate: '', endDate: '', school: '' }}
+            />
+            <ObjectFormInput
+              postulant={postulant.studies}
+              collectData={collectData}
+              dataName="secondaryStudies"
+              defaultValue={{ startDate: '', endDate: '', school: '' }}
+            />
             <TertiaryStudies postulant={postulant} collectData={collectData} />
             <UniversityStudies postulant={postulant} collectData={collectData} />
             <InformalStudies postulant={postulant} collectData={collectData} />
           </div>
+          <ObjectFormInput
+            postulant={postulant}
+            collectData={collectData}
+            dataName="contactRange"
+            defaultValue={{ from: '', to: '' }}
+          />
         </div>
-        <ContactRange postulant={postulant} collectData={collectData} />
         <div className={style.container}>
-          <FirstName postulant={postulant} collectData={collectData} />
-          <LastName postulant={postulant} collectData={collectData} />
-          <Email postulant={postulant} collectData={collectData} />
-          <Password postulant={postulant} collectData={collectData} />
-          <Address postulant={postulant} collectData={collectData} />
-          <Birthday postulant={postulant} collectData={collectData} />
-          <Available postulant={postulant} collectData={collectData} />
-          <Phone postulant={postulant} collectData={collectData} />
-          <CreatedAt postulant={postulant} collectData={collectData} />
-          <UpdatedAt postulant={postulant} collectData={collectData} />
+          <PrimitiveFormInput
+            postulant={postulant}
+            collectData={collectData}
+            dataName="firstName"
+          />
+          <PrimitiveFormInput postulant={postulant} collectData={collectData} dataName="lastName" />
+          <PrimitiveFormInput postulant={postulant} collectData={collectData} dataName="email" />
+          <PrimitiveFormInput postulant={postulant} collectData={collectData} dataName="password" />
+          <PrimitiveFormInput postulant={postulant} collectData={collectData} dataName="address" />
+          <PrimitiveFormInput postulant={postulant} collectData={collectData} dataName="birthday" />
+          <PrimitiveFormInput
+            postulant={postulant}
+            collectData={collectData}
+            dataName="available"
+          />
+          <PrimitiveFormInput postulant={postulant} collectData={collectData} dataName="phone" />
+          <PrimitiveFormInput
+            postulant={postulant}
+            collectData={collectData}
+            dataName="createdAt"
+          />
+          <PrimitiveFormInput
+            postulant={postulant}
+            collectData={collectData}
+            dataName="updatedAt"
+          />
         </div>
         <Profiles postulant={postulant} collectData={collectData} />
         <WorkExperience postulant={postulant} collectData={collectData} />
-
         <button onClick={(e) => submit(e)}>Save</button>
       </form>
       {modal.state && <Modal modal={modal} setModal={setModal} />}

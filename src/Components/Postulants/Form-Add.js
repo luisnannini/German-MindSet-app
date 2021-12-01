@@ -1,7 +1,7 @@
 import style from './postulants-Form.module.css';
 import { useState } from 'react';
 import Modal from './Modal';
-import PrimaryStudies from './PrimaryStudies';
+import ObjectFormInput from './ObjectFormInput';
 import SecondaryStudies from './SecondaryStudies';
 import TertiaryStudies from './TertiaryStudies';
 import UniversityStudies from './UniversityStudies';
@@ -11,7 +11,6 @@ import LastName from './LastName';
 import Email from './Email';
 import Password from './Password';
 import Address from './Address';
-import Birthday from './Birthday';
 import Available from './Available';
 import Phone from './Phone';
 import CreatedAt from './CreatedAt';
@@ -136,7 +135,7 @@ function Form() {
       });
     } catch (error) {
       setModal({
-        title: 'Postulant added',
+        title: 'Failed to fetch',
         state: true,
         message: error.message
       });
@@ -168,7 +167,7 @@ function Form() {
   return (
     <section className={style.section}>
       <div className={style.formHeader}></div>
-      <h1>Add postulant</h1>
+      <h1 className={style.textCenter}>Add postulant</h1>
       <button onClick={() => (window.location.href = `${window.location.origin}/postulants`)}>
         List
       </button>
@@ -176,7 +175,6 @@ function Form() {
         <div>
           <h3>Studies</h3>
           <div className={style.inputSection}>
-            <PrimaryStudies collectData={collectData} />
             <SecondaryStudies collectData={collectData} />
             <TertiaryStudies collectData={collectData} />
             <UniversityStudies collectData={collectData} />
@@ -190,7 +188,6 @@ function Form() {
           <Email collectData={collectData} />
           <Password collectData={collectData} />
           <Address collectData={collectData} />
-          <Birthday collectData={collectData} />
           <Available collectData={collectData} />
           <Phone collectData={collectData} />
           <CreatedAt collectData={collectData} />

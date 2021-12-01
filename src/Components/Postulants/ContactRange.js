@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 
-const ContactRange = ({ postulant, collectData }) => {
+const ContactRange = ({ postulant, collectData, defaultValue }) => {
   const [contactRange, setContactRange] = useState(
-    postulant ? postulant.contactRange : { from: '', to: '' }
+    postulant ? postulant.contactRange : defaultValue
   );
   const sendData = (data) => {
     collectData(data, 'contactRange');

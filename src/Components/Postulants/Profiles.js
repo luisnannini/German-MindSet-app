@@ -6,7 +6,7 @@ const Profiles = ({ postulant, collectData }) => {
     profileId: { _id: '', name: '' },
     id: uuidv4()
   };
-  const [profiles, setProfiles] = useState(postulant ? postulant.profles : [template]);
+  const [profiles, setProfiles] = useState(postulant ? postulant.profiles : [template]);
   const sendData = (data) => {
     collectData(data, 'profiles');
     setProfiles(data);
