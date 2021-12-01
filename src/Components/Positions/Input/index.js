@@ -13,6 +13,7 @@ const Input = (props) => {
         value={props.value}
         required={props.required}
         min={props.min}
+        step={props.step}
       ></input>
     </div>
   );

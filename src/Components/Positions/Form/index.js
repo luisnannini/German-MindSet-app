@@ -135,9 +135,8 @@ const Form = () => {
       });
   };
 
-  const closeModal = () => {
+  const closeErrorModal = () => {
     setShowErrorModal(false);
-    setShowSuccessModal(false);
   };
 
   const closeSuccessModal = () => {
@@ -146,12 +145,18 @@ const Form = () => {
 
   return (
     <div className={styles.container}>
-      <Modal show={showErrorModal} title="Error" message={error} onCancel={closeModal} />
       <Modal
         show={showSuccessModal}
         title="Successful"
         message={success}
         onCancel={closeSuccessModal}
+        hideButton={true}
+      />
+      <Modal
+        show={showErrorModal}
+        title="Error"
+        message={error}
+        onCancel={closeErrorModal}
         hideButton={true}
       />
       <form className={styles.form} onSubmit={onSubmit}>
@@ -200,6 +205,7 @@ const Form = () => {
               required
               type={'number'}
               min={1}
+              step={1}
             />
           </div>
         </div>

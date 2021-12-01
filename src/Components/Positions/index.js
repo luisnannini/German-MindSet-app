@@ -76,10 +76,6 @@ function Positions() {
     setShowSuccessModal(false);
   };
 
-  const closeSuccessModal = () => {
-    setShowSuccessModal(false);
-  };
-
   return (
     <section>
       <Modal
@@ -93,10 +89,16 @@ function Positions() {
         show={showSuccessModal}
         title="Successful"
         message={success}
-        onCancel={closeSuccessModal}
+        onCancel={closeModal}
         hideButton={true}
       />
-      <Modal show={showErrorModal} title="Error" message={error} onCancel={closeModal} />
+      <Modal
+        show={showErrorModal}
+        title="Error"
+        message={error}
+        onCancel={closeModal}
+        hideButton={true}
+      />
       <div className={styles.container}>
         <h2 className={styles.title}>Positions</h2>
         <ul className={styles.listHeader}>
