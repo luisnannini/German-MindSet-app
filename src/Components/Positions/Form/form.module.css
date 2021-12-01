@@ -46,7 +46,7 @@
   color: #FFFFFF;
 }
 
-select, input {
+.form select, .form input {
   margin: 0.8em 0;
 }
 
