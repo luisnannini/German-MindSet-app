@@ -7,12 +7,16 @@ const WorkExperience = ({ postulant, collectData, id }) => {
     setWorkExperience(data);
   };
   useEffect(() => sendData(workExperience), []);
-  console.log(postulant.workExperience, workExperience);
-
+  const template = {
+    company: '',
+    startDate: '',
+    endDate: '',
+    description: ''
+  };
   return (
     <div>
       <h3>Work experience</h3>
-      {postulant.workExperience.map((work, index) => {
+      {workExperience.map((work, index) => {
         return (
           <div key={work.id}>
             <input
@@ -50,6 +54,14 @@ const WorkExperience = ({ postulant, collectData, id }) => {
           </div>
         );
       })}
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          setWorkExperience([...workExperience, template]);
+        }}
+      >
+        Add
+      </button>
     </div>
   );
 };

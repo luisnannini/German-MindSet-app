@@ -19,11 +19,11 @@ import UpdatedAt from './UpdatedAt';
 import Profiles from './Profiles';
 import WorkExperience from './WorkExperience';
 import ContactRange from './ContactRange';
+
 import { v4 as uuidv4 } from 'uuid';
 
 function Form({ postulant, template, id }) {
   const [modal, setModal] = useState({ state: false });
-  const [loadForm, setLoadForm] = useState();
 
   postulant.studies.tertiaryStudies.map((ts) => {
     ts.id = uuidv4();
@@ -42,8 +42,7 @@ function Form({ postulant, template, id }) {
   });
 
   const collectData = (data, property) => {
-    /*     console.log(data, property);
-     */ template.id = id;
+    template.id = id;
     if (property === 'contactRange') template.contactRange = data;
     if (property === 'primaryStudies') template.studies.primaryStudies = data;
     if (property === 'secondaryStudies') template.studies.secondaryStudies = data;
@@ -66,8 +65,8 @@ function Form({ postulant, template, id }) {
   const submit = async (e) => {
     let error = false;
     e.preventDefault();
-    /*     console.log(template);
-     */ try {
+    console.log(template);
+    /* try {
       const responseRaw = await fetch(`${process.env.REACT_APP_API}/postulants?id=${id}`, {
         method: 'PUT',
         headers: {
@@ -101,7 +100,7 @@ function Form({ postulant, template, id }) {
       });
     } catch (error) {
       console.log(error);
-    }
+    } */
   };
 
   return (
@@ -135,7 +134,7 @@ function Form({ postulant, template, id }) {
         <Profiles postulant={postulant} collectData={collectData} />
         <WorkExperience postulant={postulant} collectData={collectData} />
 
-        <button onClick={submit}>Save</button>
+        <button onClick={(e) => submit(e)}>Save</button>
       </form>
       {modal.state && <Modal modal={modal} setModal={setModal} />}
     </section>
