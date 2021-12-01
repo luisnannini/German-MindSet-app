@@ -7,6 +7,7 @@ const Form = () => {
   const [usernameValue, setUsernameValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
   const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     setLoading(true);
@@ -28,7 +29,7 @@ const Form = () => {
           setPasswordValue(response.data[0].password);
         })
         .catch((error) => {
-          console.log(error);
+          setError(error.toString());
         })
         .finally(() => setLoading(false));
     }
@@ -52,7 +53,7 @@ const Form = () => {
         );
       })
       .catch((error) => {
-        console.log(error);
+        setError(error.toString());
       })
       .finally(() => setLoading(false));
   }, []);
@@ -107,7 +108,7 @@ const Form = () => {
         window.location.href = '/admins';
       })
       .catch((error) => {
-        console.log(error);
+        setError(error.toString());
       })
       .finally(() => setLoading(false));
   };
@@ -146,6 +147,7 @@ const Form = () => {
         <button disabled={isLoading} type="submit">
           Save
         </button>
+        <div className={styles.error}>{error}</div>
       </form>
     </div>
   );
