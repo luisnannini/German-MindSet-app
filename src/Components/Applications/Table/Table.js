@@ -1,10 +1,11 @@
 import edit from './edit.png';
 import remove from './remove.png';
+import styles from './table.module.css';
 
 const Table = ({ applications, updateReq, removeReq }) => {
   return (
-    <table className="table">
-      <thead className="table-head">
+    <table className={styles.table}>
+      <thead>
         <tr>
           <th>ID</th>
           <th>Position</th>
@@ -15,7 +16,7 @@ const Table = ({ applications, updateReq, removeReq }) => {
           <th></th>
         </tr>
       </thead>
-      <tbody className="table-body">
+      <tbody>
         {applications.map((app) => (
           <tr key={app._id}>
             <td>{app._id}</td>
