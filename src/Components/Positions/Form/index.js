@@ -22,7 +22,8 @@ const Form = () => {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    setPositionId(params.get('id'));
+    const positionId = params.get('id');
+    setPositionId(positionId);
     if (positionId) {
       fetch(`${process.env.REACT_APP_API}/positions?_id=${positionId}`)
         .then((response) => {
@@ -90,7 +91,8 @@ const Form = () => {
   const onSubmit = (event) => {
     event.preventDefault();
     const params = new URLSearchParams(window.location.search);
-    setPositionId(params.get('id'));
+    const positionId = params.get('id');
+    setPositionId(positionId);
     let url;
     const options = {
       method: 'POST',
@@ -127,13 +129,6 @@ const Form = () => {
         setShowSuccessModal(true);
         setSuccess('You request was successful!');
       })
-      .then(() => {
-        setTimeout(function () {
-          if (setShowSuccessModal) {
-            window.location.href = '/positions';
-          }
-        }, 2000);
-      })
       .catch((error) => {
         setShowErrorModal(true);
         setError(error.toString());
@@ -145,10 +140,20 @@ const Form = () => {
     setShowSuccessModal(false);
   };
 
+  const closeSuccessModal = () => {
+    window.location.href = '/positions';
+  };
+
   return (
     <div className={styles.container}>
       <Modal show={showErrorModal} title="Error" message={error} onCancel={closeModal} />
-      <Modal show={showSuccessModal} title="Successful" message={success} onCancel={closeModal} />
+      <Modal
+        show={showSuccessModal}
+        title="Successful"
+        message={success}
+        onCancel={closeSuccessModal}
+        hideButton={true}
+      />
       <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.header}>
           <h2 className={styles.title}>{positionId ? 'Update a Position' : 'Create a Position'}</h2>

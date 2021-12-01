@@ -56,13 +56,6 @@ function Positions() {
             setSuccess('You request was successful!');
           });
       })
-      .then(() => {
-        setTimeout(function () {
-          if (setShowSuccessModal) {
-            window.location.href = '/positions';
-          }
-        }, 2000);
-      })
       .catch((error) => {
         setShowErrorModal(true);
         setError(error.toString());
@@ -83,6 +76,10 @@ function Positions() {
     setShowSuccessModal(false);
   };
 
+  const closeSuccessModal = () => {
+    setShowSuccessModal(false);
+  };
+
   return (
     <section>
       <Modal
@@ -92,7 +89,13 @@ function Positions() {
         onCancel={closeModal}
         onConfirm={deletePosition}
       />
-      <Modal show={showSuccessModal} title="Successful" message={success} onCancel={closeModal} />
+      <Modal
+        show={showSuccessModal}
+        title="Successful"
+        message={success}
+        onCancel={closeSuccessModal}
+        hideButton={true}
+      />
       <Modal show={showErrorModal} title="Error" message={error} onCancel={closeModal} />
       <div className={styles.container}>
         <h2 className={styles.title}>Positions</h2>
