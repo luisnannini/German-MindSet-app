@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import Modal from './Modal';
 import styles from './clients.module.css';
+import AddButton from './AddButton';
+import EditButton from './EditButton';
+import RemoveButton from './RemoveButton';
 
 function Clients() {
   const [clients, setClients] = useState([]);
@@ -97,7 +100,7 @@ function Clients() {
         </thead>
         <tbody>
           {clients.map((client) => (
-            <tr key={client._id} onClick={() => showForm(client)}>
+            <tr key={client._id}>
               <td>{client.name}</td>
               <td>{client.phone}</td>
               <td>{client.location.country}</td>
@@ -107,18 +110,15 @@ function Clients() {
               <td>{client.logo}</td>
               <td>{client.description}</td>
               <td>
-                <button className={styles.delete} onClick={(event) => handleDelete(event, client)}>
-                  Delete
-                </button>
+                <EditButton onClick={() => showForm(client)} />
+                <RemoveButton onClick={(event) => handleDelete(event, client)} />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
       <div className={styles.error}>{error}</div>
-      <button disabled={isLoading} className={styles.button} onClick={() => showForm()}>
-        Add new Client
-      </button>
+      <AddButton disabled={isLoading} onClick={() => showForm()} />
     </section>
   );
 }
