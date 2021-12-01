@@ -42,7 +42,6 @@ function Interviews() {
 
   const closeRemoveModal = () => {
     setShowRemoveModal(false);
-    showRemoveModal(false);
   };
 
   const confirmRemoveModal = () => {
@@ -114,14 +113,14 @@ function Interviews() {
                 }}
               />
             </li>
-            <RemoveModal
-              show={showRemoveModal}
-              confirmRemoveModal={confirmRemoveModal}
-              closeRemoveModal={closeRemoveModal}
-            />
           </ul>
         );
       })}
+      <RemoveModal
+        show={showRemoveModal}
+        confirmRemoveModal={confirmRemoveModal}
+        closeRemoveModal={closeRemoveModal}
+      />
       <CreateForm show={showCreateForm} closeCreateForm={closeCreateForm} />
       <CreateButton onClick={() => setShowCreateForm(true)} />
     </div>

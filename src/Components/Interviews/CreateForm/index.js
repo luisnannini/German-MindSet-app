@@ -107,25 +107,13 @@ const CreateForm = (props) => {
     setStatusValue(event.target.value);
   };
 
-  const [messageDate, setMessageDate] = useState('');
   const [errorDate, setErrorDate] = useState(null);
-  const [messageStatus, setMessageStatus] = useState('');
-  const [errorStatus, setErrorStatus] = useState(null);
 
   function handleChangeDate(event) {
     const value = event.target.value;
     if (!value.match(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/))
       setErrorDate('Date must be yyyy-mm-dd');
     else setErrorDate(null);
-    setMessageDate(value);
-  }
-
-  function handleChangeStatus(event) {
-    const value = event.target.value;
-    if (value !== 'failed' && value !== 'successful' && value !== 'assigned') {
-      setErrorStatus('Status must be assigned, successful or failed');
-    } else setErrorStatus(null);
-    setMessageStatus(value);
   }
 
   if (!props.show) {
@@ -155,8 +143,8 @@ const CreateForm = (props) => {
         </div>
       </div>
       <div className={styles.formDiv1}>
-        <label>Status</label>
-        <select onChange={onChangeStatusValue} style={{ fontSize: '10px', height: '25px' }}>
+        <h3>Status</h3>
+        <select className={styles.select} onChange={onChangeStatusValue}>
           <option selected value="0"></option>
           <option value="failed">Failed</option>
           <option value="assigned">Assigned</option>
@@ -164,7 +152,7 @@ const CreateForm = (props) => {
           <option value="cancelled">Cancelled</option>
           <option value="confirmed">Confirmed</option>
         </select>
-        <label>Date</label>
+        <h3>Date</h3>
         <Input
           name="date"
           value={dateValue}
@@ -176,22 +164,11 @@ const CreateForm = (props) => {
           required
         />
       </div>
-      <div className={styles.formDivError}>
-        <label
-          style={{ color: 'red', width: '200px', padding: '0px 20px' }}
-          htmlFor="messageStatus"
-        >
-          {errorStatus}
-        </label>
-        <label
-          style={{ color: 'red', width: '200px', padding: '0px 20px', float: 'right' }}
-          htmlFor="messageDate"
-        >
-          {errorDate}
-        </label>
-      </div>
+      <label className={styles.formLabel} htmlFor="messageDate">
+        {errorDate}
+      </label>
       <div className={styles.formDiv2}>
-        <label>Notes</label>
+        <h3>Notes</h3>
         <Input
           name="notes"
           value={notesValue}

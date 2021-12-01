@@ -7,7 +7,6 @@ import Input from '../Inputs';
 import Modal from '../Modal';
 
 function EditForm(props) {
-  const [interviews, setInterviews] = useState([]);
   const [clients, setClients] = useState([]);
   const [clientValue, setClientValue] = useState('');
   const [postulants, setPostulants] = useState([]);
@@ -22,12 +21,6 @@ function EditForm(props) {
   const [errorUpdate, setErrorUpdate] = useState(false);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/interviews`)
-      .then((response) => response.json())
-      .then((response) => {
-        setInterviews(response.data);
-      })
-      .catch((error) => error);
     fetch(`${process.env.REACT_APP_API}/clients`)
       .then((response) => response.json())
       .then((response) => {
@@ -138,16 +131,12 @@ function EditForm(props) {
       });
   };
 
-  const [messageDate, setMessageDate] = useState('');
   const [errorDate, setErrorDate] = useState(null);
-  const [messageStatus, setMessageStatus] = useState('');
-  const [errorStatus, setErrorStatus] = useState(null);
 
   function handleChangeDate(event) {
     const value = event.target.value;
     if (value.includes('T00:00:00.000Z')) setErrorDate('Date must be yyyy-mm-dd');
     else setErrorDate(null);
-    setMessageDate(value);
   }
 
   const onChangeStatusValue = (event) => {
@@ -186,12 +175,8 @@ function EditForm(props) {
         </div>
       </div>
       <div className={styles.formDiv1}>
-        <label>Status</label>
-        <select
-          onChange={onChangeStatusValue}
-          value={statusValue}
-          style={{ fontSize: '10px', height: '25px' }}
-        >
+        <h3>Status</h3>
+        <select onChange={onChangeStatusValue} value={statusValue}>
           <option selected value="0"></option>
           <option value="failed">Failed</option>
           <option value="assigned">Assigned</option>
@@ -199,7 +184,7 @@ function EditForm(props) {
           <option value="cancelled">Cancelled</option>
           <option value="confirmed">Confirmed</option>
         </select>
-        <label>Date</label>
+        <h3>Date</h3>
         <p>yyyy-mm-dd</p>
         <Input
           name="date"
@@ -212,22 +197,11 @@ function EditForm(props) {
           required
         />
       </div>
-      <div>
-        <label
-          style={{ color: 'red', width: '200px', textAlign: 'center', padding: '0px 20px' }}
-          htmlFor="messageStatus"
-        >
-          {errorStatus}
-        </label>
-        <label
-          style={{ color: 'red', width: '200px', textAlign: 'center', float: 'right' }}
-          htmlFor="messageDate"
-        >
-          {errorDate}
-        </label>
-      </div>
+      <label className={styles.formLabel} htmlFor="messageDate">
+        {errorDate}
+      </label>
       <div className={styles.formDiv2}>
-        <label>Notes</label>
+        <h3>Notes</h3>
         <Input
           name="notes"
           value={notesValue}
@@ -238,7 +212,7 @@ function EditForm(props) {
         />
       </div>
       <div className={styles.buttons}>
-        <button type="submit" className={styles.confirm} onClick={onSubmit}>
+        <button type="submit" className={styles.confirm}>
           Confirm
         </button>
       </div>
