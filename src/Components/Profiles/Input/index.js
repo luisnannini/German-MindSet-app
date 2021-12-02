@@ -14,6 +14,7 @@ const Input = (props) => {
         required={props.required}
         min={props.min}
         pattern={props.pattern}
+        step={props.step}
       ></input>
     </div>
   );
