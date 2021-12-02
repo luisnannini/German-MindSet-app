@@ -7,7 +7,7 @@ const PrimitiveFormInputs = ({ postulant, collectData, dataName }) => {
     collectData(data, dataName);
     setInput(data);
   };
-  useEffect(() => sendData(input), []);
+  useEffect(() => sendData(input));
 
   return (
     <div>
@@ -16,7 +16,7 @@ const PrimitiveFormInputs = ({ postulant, collectData, dataName }) => {
         defaultValue={input}
         checked={input}
         placeholder={dataName.toUpperCase()}
-        onChange={(e) => sendData(e.target.value)}
+        onChange={(e) => sendData(e.target.type === 'text' ? e.target.value : e.target.checked)}
       />
     </div>
   );

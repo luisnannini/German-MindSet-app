@@ -9,99 +9,106 @@ import validatePostulant from './validations';
 import { v4 as uuidv4 } from 'uuid';
 
 function Form() {
-  const [modal, setModal] = useState({ state: false });
+  const [modal, setModal] = useState({ state: false, action: '', message: '' });
+  const [template, setTemplate] = useState();
 
-  const template = {
-    contactRange: {
-      from: '',
-      to: ''
-    },
-    studies: {
-      primaryStudies: {
-        startDate: '',
-        endDate: '',
-        school: ''
+  if (!template) {
+    var body = {
+      contactRange: {
+        from: '',
+        to: ''
       },
-      secondaryStudies: {
-        startDate: '',
-        endDate: '',
-        school: ''
-      },
-      tertiaryStudies: [
-        {
+      studies: {
+        primaryStudies: {
           startDate: '',
           endDate: '',
-          description: '',
-          institute: ''
+          school: ''
+        },
+        secondaryStudies: {
+          startDate: '',
+          endDate: '',
+          school: ''
+        },
+        tertiaryStudies: [
+          {
+            startDate: '',
+            endDate: '',
+            description: '',
+            institute: ''
+          }
+        ],
+        universityStudies: [
+          {
+            startDate: '',
+            description: '',
+            institute: ''
+          },
+          {
+            startDate: '',
+            endDate: '',
+            description: '',
+            institute: ''
+          }
+        ],
+        informalStudies: [
+          {
+            startDate: '',
+            endDate: '',
+            description: '',
+            institute: ''
+          }
+        ]
+      },
+      _id: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      address: '',
+      birthday: '',
+      available: true,
+      phone: '',
+      profiles: [
+        {
+          profileId: '',
+          name: ''
         }
       ],
-      universityStudies: [
+      workExperience: [
         {
+          company: '',
           startDate: '',
-          description: '',
-          institute: ''
+          endDate: '',
+          description: ''
         },
         {
+          company: '',
           startDate: '',
           endDate: '',
-          description: '',
-          institute: ''
+          description: ''
         }
       ],
-      informalStudies: [
-        {
-          startDate: '',
-          endDate: '',
-          description: '',
-          institute: ''
-        }
-      ]
-    },
-    _id: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    address: '',
-    birthday: '',
-    available: true,
-    phone: '',
-    profiles: [
-      {
-        profileId: '',
-        name: ''
-      }
-    ],
-    workExperience: [
-      {
-        company: '',
-        startDate: '',
-        endDate: '',
-        description: ''
-      },
-      {
-        company: '',
-        startDate: '',
-        endDate: '',
-        description: ''
-      }
-    ],
-    createdAt: '',
-    updatedAt: ''
-  };
+      createdAt: '',
+      updatedAt: ''
+    };
+  } else {
+    body = template;
+  }
 
   const submit = async (e) => {
+    e.preventDefault();
+    setTemplate(body);
     let error = false;
     let status;
-    e.preventDefault();
-    console.log(template);
-    const message = validatePostulant(template);
+    const message = validatePostulant(body);
     if (message) {
       setModal({
         title: 'An error ocurred',
         state: true,
-        message: message
+        message: message,
+        action: () => setModal({ state: modal.state })
       });
+      return; //muere el body
     }
     try {
       const responseRaw = await fetch(`${process.env.REACT_APP_API}/postulants`, {
@@ -109,7 +116,7 @@ function Form() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(template)
+        body: JSON.stringify(body)
       });
       if (responseRaw.status !== 200 && responseRaw.status !== 201) {
         status = responseRaw.status + ' ' + responseRaw.statusText;
@@ -120,44 +127,47 @@ function Form() {
         setModal({
           title: status,
           state: true,
-          message: responseJson.message
+          message: responseJson.message,
+          action: () => setModal({ state: modal.state })
         });
         return;
       }
       setModal({
         title: 'Postulant added',
         state: true,
-        message: responseJson.message
+        message: responseJson.message,
+        action: () => setModal({ state: modal.state })
       });
     } catch (error) {
       setModal({
         title: 'Failed to fetch',
         state: true,
-        message: error.message
+        message: error.message,
+        action: () => setModal({ state: modal.state })
       });
       console.log(error);
     }
   };
 
   const collectData = (data, property) => {
-    if (property === 'contactRange') template.contactRange = data;
-    if (property === 'primaryStudies') template.studies.primaryStudies = data;
-    if (property === 'secondaryStudies') template.studies.secondaryStudies = data;
-    if (property === 'tertiaryStudies') template.studies.tertiaryStudies = data;
-    if (property === 'universityStudies') template.studies.universityStudies = data;
-    if (property === 'informalStudies') template.studies.informalStudies = data;
-    if (property === 'firstName') template.firstName = data;
-    if (property === 'lastName') template.lastName = data;
-    if (property === 'email') template.email = data;
-    if (property === 'password') template.password = data;
-    if (property === 'address') template.address = data;
-    if (property === 'birthday') template.birthday = data;
-    if (property === 'available') template.available = data;
-    if (property === 'phone') template.phone = data;
-    if (property === 'createdAt') template.createdAt = data;
-    if (property === 'updatedAt') template.updatedAt = data;
-    if (property === 'profiles') template.profiles = data;
-    if (property === 'workExperience') template.workExperience = data;
+    if (property === 'contactRange') body.contactRange = data;
+    if (property === 'primaryStudies') body.studies.primaryStudies = data;
+    if (property === 'secondaryStudies') body.studies.secondaryStudies = data;
+    if (property === 'tertiaryStudies') body.studies.tertiaryStudies = data;
+    if (property === 'universityStudies') body.studies.universityStudies = data;
+    if (property === 'informalStudies') body.studies.informalStudies = data;
+    if (property === 'firstName') body.firstName = data;
+    if (property === 'lastName') body.lastName = data;
+    if (property === 'email') body.email = data;
+    if (property === 'password') body.password = data;
+    if (property === 'address') body.address = data;
+    if (property === 'birthday') body.birthday = data;
+    if (property === 'available') body.available = data;
+    if (property === 'phone') body.phone = data;
+    if (property === 'createdAt') body.createdAt = data;
+    if (property === 'updatedAt') body.updatedAt = data;
+    if (property === 'profiles') body.profiles = data;
+    if (property === 'workExperience') body.workExperience = data;
   };
 
   return (
@@ -266,7 +276,7 @@ function Form() {
           </div>
           <div>
             <h2>Available</h2>
-            <PrimitiveFormInput collectData={collectData} dataName="available" />
+            <PrimitiveFormInput collectData={collectData} dataName="available" postulant={body} />
           </div>
           <div>
             <h2>Phone</h2>
@@ -301,7 +311,7 @@ function Form() {
         </div>
         <button onClick={(e) => submit(e)}>Add</button>
       </form>
-      {modal.state && <Modal modal={modal} setModal={setModal} />}
+      {modal.state && <Modal modal={modal} />}
     </section>
   );
 }

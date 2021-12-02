@@ -5,11 +5,10 @@ import FormUpdate from './Form-Update.jsx';
 
 function Postulants() {
   const [postulants, setPostulants] = useState([]);
-  const [formId, setFormId] = useState();
+  const [formId, setFormId] = useState(false);
   /*   const params = new URLSearchParams(window.location.search); */
   /*   let id = params.get('id'); */
   const url = `${process.env.REACT_APP_API}/postulants`;
-
   const getPostulants = async () => {
     const responseRaw = await fetch(url);
     const responseJson = await responseRaw.json();
@@ -95,12 +94,11 @@ function Postulants() {
   };
   const usePostulants = async () => {
     const formPostulants = await getPostulants();
-    setPostulants(formPostulants); //quizas useState no ejecuta useEffect
+    setPostulants(formPostulants);
   };
-
   useEffect(() => {
     usePostulants();
-  }, []); // se ejecuta solo al refrescar la pagina vez nomas
+  }, []);
 
   if (formId && postulants[0]) {
     return (
@@ -115,6 +113,7 @@ function Postulants() {
     <section className={styles.container}>
       <h2>Postulants</h2>
       <Items
+        url={url}
         postulants={postulants.map((postulant) => {
           return (postulant = {
             _id: postulant._id,
@@ -125,12 +124,11 @@ function Postulants() {
             available: postulant.available
           });
         })}
-        setForm={setFormId}
+        setFormId={setFormId}
         fetchData={usePostulants} // lo que va a hacer el boton "ok" del modal
       />
       <div>
         <button
-          title=""
           onClick={() => (window.location.href = `${window.location.origin}/postulants-form`)}
         >
           Add

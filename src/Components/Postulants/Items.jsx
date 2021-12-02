@@ -1,9 +1,7 @@
 import './postulants-Items.module.css';
 import Item from './Item';
 
-function Items({ postulants = [], fetch, setForm }) {
-  //aca se va a rerenderizar para obtener nuevamente los postualntes
-  //toda la fila es el tr
+function Items({ postulants = [], fetchData, setFormId, url }) {
   return (
     <div>
       <table>
@@ -19,15 +17,17 @@ function Items({ postulants = [], fetch, setForm }) {
           </tr>
         </thead>
         <tbody>
-          {postulants ? (
-            postulants.map((postulant) => {
-              return (
-                <Item fetch={fetch} postulant={postulant} key={postulant._id} setForm={setForm} />
-              );
-            })
-          ) : (
-            <></>
-          )}
+          {postulants.map((postulant) => {
+            return (
+              <Item
+                fetchData={fetchData}
+                postulant={postulant}
+                key={postulant._id}
+                setFormId={setFormId}
+                url={url}
+              />
+            );
+          })}
         </tbody>
       </table>
     </div>

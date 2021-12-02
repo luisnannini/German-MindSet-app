@@ -49,6 +49,7 @@ function Form({ postulant, template, id }) {
     if (property === 'workExperience') template.workExperience = data;
   };
   const submit = async (e) => {
+    e.preventDefault();
     let error = false;
     let status;
     console.log(template);
@@ -57,11 +58,12 @@ function Form({ postulant, template, id }) {
       setModal({
         title: 'An error ocurred',
         state: true,
-        message: message
+        message: message,
+        action: () => setModal({ state: modal.state })
       });
+      return;
     }
-    e.preventDefault();
-    /* try {
+    try {
       const responseRaw = await fetch(`${process.env.REACT_APP_API}/postulants?id=${id}`, {
         method: 'PUT',
         headers: {
@@ -79,6 +81,7 @@ function Form({ postulant, template, id }) {
           title: 'An error ocurred',
           state: true,
           message: responseJson.message,
+          action: setModal({ state: modal.state })
         });
         return;
       }
@@ -94,10 +97,11 @@ function Form({ postulant, template, id }) {
       setModal({
         title: 'Failed to fetch',
         state: true,
-        message: error.message
+        message: error.message,
+        action: setModal({ state: modal.state })
       });
       console.log(error);
-    } */
+    }
   };
 
   return (
@@ -273,7 +277,7 @@ function Form({ postulant, template, id }) {
         </div>
         <button onClick={(e) => submit(e)}>Save</button>
       </form>
-      {modal.state && <Modal modal={modal} setModal={setModal} />}
+      {modal.state && <Modal modal={modal} />}
     </section>
   );
 }

@@ -3,23 +3,21 @@ import { useState } from 'react';
 import Modal from './Modal';
 
 //si se clickea el delete, sólo se re-renderiza Item
-function Item({ postulant, fetchData, setForm }) {
-  const url = `${process.env.REACT_APP_API}/postulants`;
+function Item({ postulant, fetchData, url, setFormId }) {
+  //doFetch sirve para el delete y formId sirve para el edit
   const [modalState, setModalState] = useState({ state: false });
-
   const confirmDelete = async (id) => {
-    //al apretar confirm en el modal
-    /* try {
-      await fetch(`${url}?id=${234234}`, {
+    try {
+      await fetch(`${url}?id=${id}`, {
         method: 'DELETE'
       });
-      //fetchData();
-      setModalState({ title: 'Deleted', state: true, message: 'Deletion successfull' });
+      setModalState({ state: false });
+
+      fetchData();
     } catch (error) {
       console.log(error);
       setModalState({ title: 'Error', state: true, message: 'Error deleting' });
-    } */
-    setModalState({ title: 'Deleted', state: true, message: 'Deletion successfull' });
+    }
   };
 
   return (
@@ -27,32 +25,28 @@ function Item({ postulant, fetchData, setForm }) {
       {Object.keys(postulant).map((postulantKey) => {
         if (typeof postulant[postulantKey] === 'boolean') {
           return (
-            <td>
-              <input
-                key={postulant[postulantKey]}
-                type="checkbox"
-                checked={postulant[postulantKey]}
-                disabled={true}
-              ></input>
+            <td key={postulant[postulantKey]}>
+              <input type="checkbox" checked={postulant[postulantKey]} disabled={true}></input>
             </td>
           );
         }
-        return <td>{postulant[postulantKey]}</td>;
+        return <td key={postulant[postulantKey]}>{postulant[postulantKey]}</td>;
       })}
       <td>
-        <button onClick={() => setForm(postulant._id)}>Edit</button>
+        <button onClick={() => setFormId(postulant._id)}>Edit</button>
       </td>
       <td>
         <button
           onClick={() =>
             setModalState({
               //se pasa el mensaje y la accion de 'OK'
+              action: confirmDelete,
               actionParam: postulant._id,
               state: !modalState.state,
               title: 'Delete',
               message: 'Are you sure?',
-              action: confirmDelete,
-              type: 'confirm'
+              type: 'confirm',
+              close: () => setModalState({ state: modalState.state })
             })
           }
         >
