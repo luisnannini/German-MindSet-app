@@ -10,7 +10,9 @@ function Profiles() {
   const [showModal, setShowModal] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState(undefined);
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/profiles`)
@@ -48,8 +50,10 @@ function Profiles() {
             return response.json();
           })
           .then((response) => {
+            setShowModal(false);
             setProfiles(response.data);
-            closeModal();
+            setShowSuccessModal(true);
+            setSuccess('You request was successful!');
           });
       })
       .catch((error) => {
@@ -69,6 +73,7 @@ function Profiles() {
   const closeModal = () => {
     setShowModal(false);
     setShowErrorModal(false);
+    setShowSuccessModal(false);
   };
 
   return (
@@ -80,7 +85,20 @@ function Profiles() {
         onCancel={closeModal}
         onConfirm={deleteProfile}
       />
-      <Modal show={showErrorModal} title="Error" message={error} onCancel={closeModal} />
+      <Modal
+        show={showSuccessModal}
+        title="Successful"
+        message={success}
+        onCancel={closeModal}
+        hideButton={true}
+      />
+      <Modal
+        show={showErrorModal}
+        title="Error"
+        message={error}
+        onCancel={closeModal}
+        hideButton={true}
+      />
       <div className={styles.container}>
         <h2 className={styles.title}>Profiles</h2>
         <ul className={styles.listHeader}>

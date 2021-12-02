@@ -16,7 +16,7 @@ const Modal = (props) => {
         </div>
         <div className={styles.message}>{props.message}</div>
         <div className={styles.button}>
-          <Button label={'Confirm'} onClick={props.onConfirm} />
+          {props.hideButton ? '' : <Button label={'Confirm'} onClick={props.onConfirm} />}
         </div>
       </div>
     </div>

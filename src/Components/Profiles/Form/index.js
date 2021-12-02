@@ -77,30 +77,36 @@ const Form = () => {
         setShowSuccessModal(true);
         setSuccess('You request was successful!');
       })
-      .then(() => {
-        setTimeout(function () {
-          if (setShowSuccessModal) {
-            window.location.href = '/profiles';
-          }
-        }, 2000);
-      })
       .catch((error) => {
         setShowErrorModal(true);
         setError(error.toString());
       });
   };
 
-  const closeModal = () => {
+  const closeErrorModal = () => {
     setShowErrorModal(false);
-    setShowSuccessModal(false);
-    setError('');
-    setSuccess('');
+  };
+
+  const closeSuccessModal = () => {
+    window.location.href = '/profiles';
   };
 
   return (
     <div className={styles.container}>
-      <Modal show={showErrorModal} title="Error" message={error} onCancel={closeModal} />
-      <Modal show={showSuccessModal} title="Successful" message={success} onCancel={closeModal} />
+      <Modal
+        show={showSuccessModal}
+        title="Successful"
+        message={success}
+        onCancel={closeSuccessModal}
+        hideButton={true}
+      />
+      <Modal
+        show={showErrorModal}
+        title="Error"
+        message={error}
+        onCancel={closeErrorModal}
+        hideButton={true}
+      />
       <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.header}>
           <h2 className={styles.title}>{profileId ? 'Update a Profile' : 'Create a Profile'}</h2>
