@@ -2,7 +2,6 @@ import style from './postulants-Form.module.css';
 import { useState } from 'react';
 import Modal from './Modal';
 import ObjectFormInput from './ObjectFormInput';
-import PrimitiveFormInput from './PrimitiveFormInput';
 import ArrayFormInput from './ArrayFormInput';
 import Profiles from './Profiles';
 import validatePostulant from './validations';
@@ -70,8 +69,8 @@ function Form() {
       phone: '',
       profiles: [
         {
-          profileId: '',
-          name: ''
+          profileId: { _id: ', name:' },
+          id: ''
         }
       ],
       workExperience: [
@@ -252,43 +251,43 @@ function Form() {
         <div className={style.container}>
           <div>
             <h2>First Name</h2>
-            <PrimitiveFormInput collectData={collectData} dataName="firstName" />
+            <ObjectFormInput collectData={collectData} dataName="firstName" />
           </div>
           <div>
             <h2>Last Name</h2>
-            <PrimitiveFormInput collectData={collectData} dataName="lastName" />
+            <ObjectFormInput collectData={collectData} dataName="lastName" />
           </div>
           <div>
             <h2>Email</h2>
-            <PrimitiveFormInput collectData={collectData} dataName="email" />
+            <ObjectFormInput collectData={collectData} dataName="email" />
           </div>
           <div>
             <h2>Password</h2>
-            <PrimitiveFormInput collectData={collectData} dataName="password" />
+            <ObjectFormInput collectData={collectData} dataName="password" />
           </div>
           <div>
             <h2>Address</h2>
-            <PrimitiveFormInput collectData={collectData} dataName="address" />
+            <ObjectFormInput collectData={collectData} dataName="address" />
           </div>
           <div>
             <h2>Birthday</h2>
-            <PrimitiveFormInput collectData={collectData} dataName="birthday" />
+            <ObjectFormInput collectData={collectData} dataName="birthday" />
           </div>
           <div>
             <h2>Available</h2>
-            <PrimitiveFormInput collectData={collectData} dataName="available" postulant={body} />
+            <ObjectFormInput collectData={collectData} dataName="available" postulant={body} />
           </div>
           <div>
             <h2>Phone</h2>
-            <PrimitiveFormInput collectData={collectData} dataName="phone" />
+            <ObjectFormInput collectData={collectData} dataName="phone" />
           </div>
           <div>
             <h2>Created At</h2>
-            <PrimitiveFormInput collectData={collectData} dataName="createdAt" />
+            <ObjectFormInput collectData={collectData} dataName="createdAt" />
           </div>
           <div>
             <h2>Updated At</h2>
-            <PrimitiveFormInput collectData={collectData} dataName="updatedAt" />
+            <ObjectFormInput collectData={collectData} dataName="updatedAt" />
           </div>
         </div>
         <div>

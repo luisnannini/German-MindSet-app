@@ -6,11 +6,19 @@ const Profiles = ({ postulant, collectData }) => {
     profileId: { _id: '', name: '' },
     id: uuidv4()
   };
+  if (postulant) {
+    postulant.profiles.forEach((element, index, array) => {
+      if (!array[index].profileId) {
+        array[index].profileId = template.profileId;
+      }
+    });
+  }
   const [profiles, setProfiles] = useState(postulant ? postulant.profiles : [template]);
   const sendData = (data) => {
     collectData(data, 'profiles');
     setProfiles(data);
   };
+
   useEffect(() => sendData(profiles), []);
 
   return (
@@ -18,22 +26,18 @@ const Profiles = ({ postulant, collectData }) => {
       {profiles.map((profile, index) => {
         return (
           <div key={profile.id}>
-            <input
-              placeholder={Object.keys(profile.profileId)[0].toUpperCase()}
-              defaultValue={profile.profileId._id}
-              onChange={({ target: { value } }) => {
-                profiles[index].profileId._id = value; //no se puede encontrar el indice de un array a través de un objeto
-                sendData([...profiles]);
-              }}
-            />
-            <input
-              placeholder={Object.keys(profile.profileId)[1].toUpperCase()}
-              defaultValue={profile.profileId.name}
-              onChange={({ target: { value } }) => {
-                profiles[index].profileId.name = value; //no se puede encontrar el indice de un array a través de un objeto
-                sendData([...profiles]);
-              }}
-            />
+            {Object.entries(profile.profileId).map((piKeyPair) => {
+              return (
+                <input
+                  placeholder={piKeyPair[0]}
+                  defaultValue={piKeyPair[1]}
+                  onChange={({ target: { value } }) => {
+                    profiles[index].profileId[piKeyPair[0]] = value; //no se puede encontrar el indice de un array a través de un objeto
+                    sendData([...profiles]);
+                  }}
+                />
+              );
+            })}
           </div>
         );
       })}

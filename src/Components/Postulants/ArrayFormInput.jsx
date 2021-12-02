@@ -14,7 +14,7 @@ const ArrayFormInput = ({ postulant, collectData, dataName, defaultValue }) => {
       {input.map((inputElement, index) => {
         return (
           <div key={inputElement.id}>
-            {Object.keys(inputElement).map((ieKey) => {
+            {Object.keys(inputElement ? inputElement : defaultValue).map((ieKey) => {
               return ieKey === 'description' ? (
                 <textarea
                   key={ieKey}

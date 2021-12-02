@@ -7,7 +7,7 @@ const PrimitiveFormInputs = ({ postulant, collectData, dataName }) => {
     collectData(data, dataName);
     setInput(data);
   };
-  useEffect(() => sendData(input));
+  useEffect(() => sendData(input), []);
 
   return (
     <div>

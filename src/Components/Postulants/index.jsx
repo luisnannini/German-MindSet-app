@@ -71,8 +71,8 @@ function Postulants() {
     phone: '',
     profiles: [
       {
-        profileId: '',
-        name: ''
+        profileId: { _id: ', name:' },
+        id: ''
       }
     ],
     workExperience: [
