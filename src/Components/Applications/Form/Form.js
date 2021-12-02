@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import styles from './form.module.css';
 const Form = (props) => {
   if (props.showForm == false) {
     return null;
@@ -77,10 +78,10 @@ const Form = (props) => {
   return (
     <form onSubmit={onSubmit}>
       <h2>Create Application</h2>
-      <div>
+      <div className={styles.inputs}>
         <label>Position:</label>
         <select onChange={onChangePosition} required>
-          <option disabled hidden selected>
+          <option value="" disabled hidden selected>
             - Select an option -
           </option>
           {position.map((data) => {
@@ -92,10 +93,10 @@ const Form = (props) => {
           })}
         </select>
       </div>
-      <div>
+      <div className={styles.inputs}>
         <label>Postulant:</label>
         <select onChange={onChangePostulant} required>
-          <option disabled hidden selected>
+          <option value="" disabled hidden selected>
             - Select an option -
           </option>
           {postulant.map((data) => {
@@ -107,10 +108,10 @@ const Form = (props) => {
           })}
         </select>
       </div>
-      <div>
+      <div className={styles.inputs}>
         <label>ID Interview:</label>
         <select onChange={onChangeInterview} required>
-          <option disabled hidden selected>
+          <option value="" disabled hidden selected>
             - Select an option -
           </option>
           {interview.map((data) => {
@@ -122,7 +123,7 @@ const Form = (props) => {
           })}
         </select>
       </div>
-      <div>
+      <div className={styles.inputs}>
         <label>Result:</label>
         <input
           class_id="input"
