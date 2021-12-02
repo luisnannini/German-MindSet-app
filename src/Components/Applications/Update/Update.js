@@ -40,11 +40,7 @@ const Update = (props) => {
     setResultValue(input.target.value);
   };
   const onSubmit = (id) => {
-    //id.preventDefault();
-    console.log(id);
     const url = `${process.env.REACT_APP_API}/applications/${id}`;
-    //const url = `${process.env.REACT_APP_API}/applications/`;
-    console.log(url);
     const options = {
       headers: {
         'Content-Type': 'application/json'
@@ -67,11 +63,11 @@ const Update = (props) => {
         }
         return response.json();
       })
-      //.then(() => {
-      //   window.location.href = `${window.location.origin}/applications`;
-      // })
+      .then(() => {
+        window.location.href = `${window.location.origin}/applications`;
+      })
       .catch((error) => {
-        console.log(error);
+        return error;
       });
   };
   return (

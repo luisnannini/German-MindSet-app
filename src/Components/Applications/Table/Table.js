@@ -1,8 +1,8 @@
-import edit from './edit.png';
+//import edit from './edit.png';
 import remove from './remove.png';
 import styles from './table.module.css';
 
-const Table = ({ applications, updateReq, removeReq }) => {
+const Table = ({ applications, removeReq }) => {
   return (
     <table className={styles.table}>
       <thead>
@@ -28,7 +28,7 @@ const Table = ({ applications, updateReq, removeReq }) => {
             <td>{app.result}</td>
             {/* <td>
               <img src={edit} alt="Edit" onClick={() => updateReq(app._id)} />
-            </td> */}
+            </td> (need to import updateReq prop)*/}
             <td>
               <img src={remove} alt="Remove" onClick={() => removeReq(app._id)} />
             </td>
