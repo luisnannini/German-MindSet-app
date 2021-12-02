@@ -1,7 +1,6 @@
 import styles from './form.module.css';
 import Availability from './Availability';
 import { useState, useEffect } from 'react';
-import availability from './Availability';
 
 const index = (props) => {
   const [firstNameForm, setFirstName] = useState('');
@@ -40,7 +39,7 @@ const index = (props) => {
   const [sundayFrom, setSundayFrom] = useState('');
   const [sundayTo, setSundayTo] = useState('');
 
-  const [availabilityForm, setAvailability] = useState({
+  var availabilityForm = {
     monday: {
       availability: mondayBool,
       from: mondayFrom,
@@ -76,11 +75,32 @@ const index = (props) => {
       from: sundayFrom,
       to: sundayTo
     }
-  });
+  };
 
   useEffect(() => {
-    if (props.psy) {
-      return setFirstName(props.psy.firstName);
+    const psyID = props.id;
+    console.log(psyID);
+    if (psyID) {
+      console.log(psyID);
+      fetch(`${process.env.REACT_APP_API}/psychologist?_id=${psyID}`)
+        .then((response) => {
+          if (response.status !== 200) {
+            return response.json().then(({ message }) => {
+              throw new Error(message);
+            });
+          }
+          return response.json();
+        })
+        .then((response) => {
+          setFirstName(response.data[0].firstName);
+          setLastName(response.data[0].lastName);
+          setUsername(response.data[0].username);
+          setPassword(response.data[0].password);
+          setEmail(response.data[0].email);
+          setPhone(response.data[0].phone);
+          setAddress(response.data[0].address);
+          console.log(firstNameForm);
+        });
     }
   }, []);
 
@@ -137,6 +157,7 @@ const index = (props) => {
   };
   const onChangeTuesdayBool = (param) => {
     setTuesdayBool(param);
+    console.log(availabilityForm.tuesday);
   };
   const onChangeWednesdayBool = (param) => {
     setWednesdayBool(param);
@@ -263,7 +284,6 @@ const index = (props) => {
 
   const changeHourAvailTo = (event) => {
     const param = event.target.name;
-    console.log(param);
     switch (param) {
       case 'monday-to':
         onChangeMondayTo(event.target.value);
@@ -314,27 +334,29 @@ const index = (props) => {
   };
 
   const onSubmit = (e) => {
+    console.log(props.psy);
     e.preventDefault();
-    const options = {
+    let jsonData = {
+      firstName: firstNameForm,
+      lastName: lastNameForm,
+      username: usernameForm,
+      password: passwordForm,
+      email: emailForm,
+      phone: phoneForm,
+      address: addressForm,
+      availability: availabilityForm
+    };
+    console.log('data', jsonData);
+    let options = {
       method: 'POST',
       header: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        firstName: firstNameForm,
-        lastName: lastNameForm,
-        username: usernameForm,
-        password: passwordForm,
-        email: emailForm,
-        phone: phoneForm,
-        address: addressForm,
-        availability: availabilityForm
-      })
+      body: JSON.stringify(jsonData)
     };
-    fetch(`${process.env.REACT_APP_API}/psychologists/`, options).then((response) => {
+    fetch(`${process.env.REACT_APP_API}/psychologists`, options).then((response) => {
       if (response.status !== 200 && response.status !== 201) {
         return response.json().then(({ message }) => {
-          console.log(message);
           throw new Error(message);
         });
       }
@@ -366,6 +388,7 @@ const index = (props) => {
               type="text"
               required
               pattern="[A-Za-z ]*"
+              value={firstNameForm}
             />
           </div>
           <span className={styles.hiddenError}>Invalid First Name</span>
@@ -435,7 +458,6 @@ const index = (props) => {
         </div>
         <Availability
           data={psy.availability}
-          field={setAvailability}
           action={changeDayAvail}
           from={changeHourAvailFrom}
           to={changeHourAvailTo}

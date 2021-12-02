@@ -41,7 +41,7 @@ const Options = (props) => {
       <li>
         <Button action={modalOpenDel} name={'delete'} />
       </li>
-      <Modal visible={modal} psy={props.data} />
+      <Modal visible={modal} id={psy._id} close={modalOpen} />
       <ModalOther
         visible={modalDel}
         psy={psy}
