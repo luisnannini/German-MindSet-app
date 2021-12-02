@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 
 const ArrayFormInput = ({ postulant, collectData, dataName, defaultValue }) => {
   const [input, setInput] = useState(postulant ? postulant[dataName] : [defaultValue]);
@@ -13,20 +12,11 @@ const ArrayFormInput = ({ postulant, collectData, dataName, defaultValue }) => {
     <div>
       {input.map((inputElement, index) => {
         return (
-          <div>
+          <div key={inputElement.id}>
             {Object.keys(inputElement).map((ieKey) => {
-              return ieKey !== 'description' ? (
-                <input
-                  key={uuidv4()}
-                  defaultValue={inputElement[ieKey]}
-                  placeholder={ieKey.toUpperCase()}
-                  onChange={({ target: { value } }) => {
-                    input[index][ieKey] = value; //no se puede encontrar el indice de un array a través de un objeto
-                    sendData([...input]);
-                  }}
-                />
-              ) : (
+              return ieKey === 'description' ? (
                 <textarea
+                  key={ieKey}
                   defaultValue={inputElement[ieKey]}
                   placeholder={ieKey.toUpperCase()}
                   onChange={({ target: { value } }) => {
@@ -34,6 +24,18 @@ const ArrayFormInput = ({ postulant, collectData, dataName, defaultValue }) => {
                     sendData([...input]);
                   }}
                 ></textarea>
+              ) : ieKey === 'id' ? (
+                ''
+              ) : (
+                <input
+                  key={ieKey}
+                  defaultValue={inputElement[ieKey]}
+                  placeholder={ieKey.toUpperCase()}
+                  onChange={({ target: { value } }) => {
+                    input[index][ieKey] = value; //no se puede encontrar el indice de un array a través de un objeto
+                    sendData([...input]);
+                  }}
+                />
               );
             })}
           </div>

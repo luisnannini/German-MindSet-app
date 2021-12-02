@@ -5,13 +5,13 @@ import PrimitiveFormInput from './PrimitiveFormInput';
 import ObjectFormInput from './ObjectFormInput';
 import ArrayFormInput from './ArrayFormInput';
 import Profiles from './Profiles';
-
+import validatePostulant from './validations';
 import { v4 as uuidv4 } from 'uuid';
 
 function Form({ postulant, template, id }) {
   const [modal, setModal] = useState({ state: false });
 
-  /*  postulant.studies.tertiaryStudies.map((ts) => {
+  postulant.studies.tertiaryStudies.map((ts) => {
     ts.id = uuidv4();
   });
   postulant.studies.universityStudies.map((us) => {
@@ -25,7 +25,7 @@ function Form({ postulant, template, id }) {
   });
   postulant.workExperience.map((we) => {
     we.id = uuidv4();
-  }); */
+  });
 
   const collectData = (data, property) => {
     template.id = id;
@@ -52,6 +52,14 @@ function Form({ postulant, template, id }) {
     let error = false;
     let status;
     console.log(template);
+    const message = validatePostulant(template);
+    if (message) {
+      setModal({
+        title: 'An error ocurred',
+        state: true,
+        message: message
+      });
+    }
     e.preventDefault();
     /* try {
       const responseRaw = await fetch(`${process.env.REACT_APP_API}/postulants?id=${id}`, {
@@ -135,7 +143,7 @@ function Form({ postulant, template, id }) {
             <div>
               <h3>University Studies</h3>
               <ArrayFormInput
-                postulant={postulant}
+                postulant={postulant.studies}
                 collectData={collectData}
                 dataName="universityStudies"
                 defaultValue={{
@@ -149,7 +157,7 @@ function Form({ postulant, template, id }) {
             <div>
               <h3>Informal Studies</h3>
               <ArrayFormInput
-                postulant={postulant}
+                postulant={postulant.studies}
                 collectData={collectData}
                 dataName="informalStudies"
                 defaultValue={{

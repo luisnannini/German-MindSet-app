@@ -19,7 +19,7 @@ const Profiles = ({ postulant, collectData }) => {
         return (
           <div key={profile.id}>
             <input
-              placeholder={Object.keys(profile)[0].toUpperCase()}
+              placeholder={Object.keys(profile.profileId)[0].toUpperCase()}
               defaultValue={profile.profileId._id}
               onChange={({ target: { value } }) => {
                 profiles[index].profileId._id = value; //no se puede encontrar el indice de un array a través de un objeto
@@ -27,7 +27,7 @@ const Profiles = ({ postulant, collectData }) => {
               }}
             />
             <input
-              placeholder={Object.keys(profile)[1].toUpperCase()}
+              placeholder={Object.keys(profile.profileId)[1].toUpperCase()}
               defaultValue={profile.profileId.name}
               onChange={({ target: { value } }) => {
                 profiles[index].profileId.name = value; //no se puede encontrar el indice de un array a través de un objeto

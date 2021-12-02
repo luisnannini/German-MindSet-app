@@ -10,8 +10,11 @@ const ObjectFormInputs = ({ postulant, collectData, dataName, defaultValue }) =>
   return (
     <div>
       {Object.keys(input).map((inputKey, index) => {
-        return (
+        return inputKey === 'id' ? (
+          ''
+        ) : (
           <input
+            key={inputKey}
             defaultValue={input[inputKey]}
             placeholder={inputKey.toUpperCase()}
             onChange={({ target: { value } }) =>

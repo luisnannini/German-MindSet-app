@@ -5,8 +5,8 @@ import ObjectFormInput from './ObjectFormInput';
 import PrimitiveFormInput from './PrimitiveFormInput';
 import ArrayFormInput from './ArrayFormInput';
 import Profiles from './Profiles';
+import validatePostulant from './validations';
 
-import { v4 as uuidv4 } from 'uuid';
 function Form() {
   const [modal, setModal] = useState({ state: false });
 
@@ -94,6 +94,14 @@ function Form() {
     let status;
     e.preventDefault();
     console.log(template);
+    const message = validatePostulant(template);
+    if (message) {
+      setModal({
+        title: 'An error ocurred',
+        state: true,
+        message: message
+      });
+    }
     try {
       const responseRaw = await fetch(`${process.env.REACT_APP_API}/postulants`, {
         method: 'POST',

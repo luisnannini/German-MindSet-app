@@ -95,7 +95,6 @@ function Postulants() {
   };
   const usePostulants = async () => {
     const formPostulants = await getPostulants();
-    console.log('fetch');
     setPostulants(formPostulants); //quizas useState no ejecuta useEffect
   };
 
@@ -104,7 +103,6 @@ function Postulants() {
   }, []); // se ejecuta solo al refrescar la pagina vez nomas
 
   if (formId && postulants[0]) {
-    console.log(postulants);
     return (
       <FormUpdate
         postulant={postulants.find((postulant) => postulant._id === formId)}
@@ -128,13 +126,12 @@ function Postulants() {
           });
         })}
         setForm={setFormId}
-        fetch={usePostulants} // lo que va a hacer el boton "ok" del modal
+        fetchData={usePostulants} // lo que va a hacer el boton "ok" del modal
       />
       <div>
         <button
           title=""
           onClick={() => (window.location.href = `${window.location.origin}/postulants-form`)}
-          setForm={setFormId}
         >
           Add
         </button>
