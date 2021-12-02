@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 const ArrayFormInput = ({ postulant, collectData, dataName, defaultValue }) => {
   const [input, setInput] = useState(postulant ? postulant[dataName] : [defaultValue]);
@@ -44,7 +45,7 @@ const ArrayFormInput = ({ postulant, collectData, dataName, defaultValue }) => {
       <button
         onClick={(e) => {
           e.preventDefault();
-          setInput([...input, defaultValue]);
+          setInput([...input, { ...defaultValue, id: uuidv4() }]);
         }}
       >
         Add

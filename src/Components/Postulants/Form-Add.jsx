@@ -6,6 +6,7 @@ import PrimitiveFormInput from './PrimitiveFormInput';
 import ArrayFormInput from './ArrayFormInput';
 import Profiles from './Profiles';
 import validatePostulant from './validations';
+import { v4 as uuidv4 } from 'uuid';
 
 function Form() {
   const [modal, setModal] = useState({ state: false });
@@ -195,7 +196,8 @@ function Form() {
                   startDate: '',
                   endDate: '',
                   description: '',
-                  institute: ''
+                  institute: '',
+                  id: uuidv4()
                 }}
               />
             </div>
@@ -208,7 +210,8 @@ function Form() {
                   startDate: '',
                   endDate: '',
                   description: '',
-                  institute: ''
+                  institute: '',
+                  id: uuidv4()
                 }}
               />
             </div>
@@ -221,7 +224,8 @@ function Form() {
                   startDate: '',
                   endDate: '',
                   description: '',
-                  institute: ''
+                  institute: '',
+                  id: uuidv4()
                 }}
               />
             </div>
@@ -290,7 +294,8 @@ function Form() {
               company: '',
               startDate: '',
               endDate: '',
-              description: ''
+              description: '',
+              id: uuidv4()
             }}
           />
         </div>
