@@ -10,10 +10,12 @@ const Form = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [profileId, setProfileId] = useState(undefined);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const profileId = params.get('id');
+    setProfileId(profileId);
     if (profileId) {
       fetch(`${process.env.REACT_APP_API}/profiles?_id=${profileId}`)
         .then((response) => {
@@ -42,6 +44,7 @@ const Form = () => {
     event.preventDefault();
     const params = new URLSearchParams(window.location.search);
     const profileId = params.get('id');
+    setProfileId(profileId);
     let url;
     const options = {
       method: 'POST',
@@ -100,7 +103,7 @@ const Form = () => {
       <Modal show={showSuccessModal} title="Successful" message={success} onCancel={closeModal} />
       <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.header}>
-          <h2 className={styles.title}>Create a Profile</h2>
+          <h2 className={styles.title}>{profileId ? 'Update a Profile' : 'Create a Profile'}</h2>
         </div>
         <div className={styles.fields}>
           <div className={styles.columns}>
@@ -115,7 +118,7 @@ const Form = () => {
           </div>
         </div>
         <div className={styles.button}>
-          <Button type={'submit'} label={'Confirm'} onClick={onSubmit} />
+          <Button type={'submit'} label={'Confirm'} />
         </div>
       </form>
     </div>
