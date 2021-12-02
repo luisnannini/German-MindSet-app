@@ -70,8 +70,8 @@ function Form({ postulant, template, id }) {
         },
         body: JSON.stringify(template)
       });
+      status = responseRaw.status + ' ' + responseRaw.statusText;
       if (responseRaw.status !== 200 && responseRaw.status !== 201) {
-        status = responseRaw.status + ' ' + responseRaw.statusText;
         error = true;
       }
       const responseJson = await responseRaw.json();
@@ -79,7 +79,7 @@ function Form({ postulant, template, id }) {
         setModal({
           title: 'An error ocurred',
           state: true,
-          message: responseJson.message,
+          message: status,
           action: setModal({ state: modal.state })
         });
         return;

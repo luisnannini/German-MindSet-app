@@ -21,7 +21,7 @@ const ArrayFormInput = ({ postulant, collectData, dataName, defaultValue }) => {
                   defaultValue={inputElement[ieKey]}
                   placeholder={ieKey.toUpperCase()}
                   onChange={({ target: { value } }) => {
-                    input[index][ieKey] = value; //no se puede encontrar el indice de un array a través de un objeto
+                    input[index][ieKey] = value;
                     sendData([...input]);
                   }}
                 ></textarea>

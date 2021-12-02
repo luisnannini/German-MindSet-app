@@ -117,8 +117,8 @@ function Form() {
         },
         body: JSON.stringify(body)
       });
+      status = responseRaw.status + ' ' + responseRaw.statusText;
       if (responseRaw.status !== 200 && responseRaw.status !== 201) {
-        status = responseRaw.status + ' ' + responseRaw.statusText;
         error = true;
       }
       const responseJson = await responseRaw.json();
@@ -126,7 +126,7 @@ function Form() {
         setModal({
           title: status,
           state: true,
-          message: responseJson.message,
+          message: responseJson.status,
           action: () => setModal({ state: modal.state })
         });
         return;
