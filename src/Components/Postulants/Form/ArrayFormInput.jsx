@@ -8,7 +8,7 @@ const ArrayFormInput = ({ postulant, collectData, dataName, defaultValue }) => {
     setInput(data);
   };
   useEffect(() => sendData(input), []);
-
+  const dates = ['startDate', 'endDate', 'createdAt', 'updatedAt'];
   return (
     <div>
       {input.map((inputElement, index) => {
@@ -27,6 +27,22 @@ const ArrayFormInput = ({ postulant, collectData, dataName, defaultValue }) => {
                 ></textarea>
               ) : ieKey === 'id' ? (
                 ''
+              ) : dates.find((date) => date === ieKey) ? (
+                <input
+                  type="datetime-local"
+                  key={ieKey}
+                  defaultValue={
+                    inputElement[ieKey]
+                      ? inputElement[ieKey].substring(0, inputElement[ieKey].length - 8)
+                      : '2000-01-01T00:00'
+                  }
+                  placeholder={ieKey.toUpperCase()}
+                  onChange={({ target: { value } }) => {
+                    console.log(input[index][ieKey], value);
+                    input[index][ieKey] = value;
+                    sendData([...input]);
+                  }}
+                />
               ) : (
                 <input
                   key={ieKey}

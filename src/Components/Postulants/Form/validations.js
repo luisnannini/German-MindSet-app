@@ -9,7 +9,7 @@ const validatePostulant = (body) => {
     return 'lastName is wrong or missing';
   }
   if (!body.email || !body.email.match(emailRegex)) {
-    return 'email is wrong or missing';
+    return 'email should contain  "@" and "."';
   }
   if (!body.password) {
     return 'password is wrong or missing';
@@ -26,7 +26,7 @@ const validatePostulant = (body) => {
       /(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([0-5][0-9]):([0-5][0-9]):([0-5][0-9]).\d{3}Z$)|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$)/
     )
   ) {
-    return 'birthday is wrong or missing';
+    return 'birthday format should be YYYY-MM-DD';
   }
   if (!body.available || typeof body.available !== 'boolean') {
     return 'available is wrong or missing';

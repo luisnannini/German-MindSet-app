@@ -1,6 +1,6 @@
-import style from './postulants-Form.module.css';
+import style from '../postulants-Form.module.css';
 import { useState } from 'react';
-import Modal from './Modal';
+import Modal from '../Modal';
 import ObjectFormInput from './ObjectFormInput';
 import ArrayFormInput from './ArrayFormInput';
 import Profiles from './Profiles';
@@ -51,7 +51,6 @@ function Form({ postulant, template, id }) {
     e.preventDefault();
     let error = false;
     let status;
-    console.log(template);
     const message = validatePostulant(template);
     if (message) {
       setModal({
@@ -99,7 +98,6 @@ function Form({ postulant, template, id }) {
         message: error.message,
         action: setModal({ state: modal.state })
       });
-      console.log(error);
     }
   };
 

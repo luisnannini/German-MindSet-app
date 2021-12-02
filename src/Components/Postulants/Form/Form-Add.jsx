@@ -1,6 +1,6 @@
-import style from './postulants-Form.module.css';
+import style from '../postulants-Form.module.css';
 import { useState } from 'react';
-import Modal from './Modal';
+import Modal from '../Modal';
 import ObjectFormInput from './ObjectFormInput';
 import ArrayFormInput from './ArrayFormInput';
 import Profiles from './Profiles';
@@ -144,7 +144,6 @@ function Form() {
         message: error.message,
         action: () => setModal({ state: modal.state })
       });
-      console.log(error);
     }
   };
 

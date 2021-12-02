@@ -1,7 +1,7 @@
 import styles from './postulants.module.css';
 import { useEffect, useState } from 'react';
 import Items from './Items.jsx';
-import FormUpdate from './Form-Update.jsx';
+import FormUpdate from './Form/Form-Update.jsx';
 
 function Postulants() {
   const [postulants, setPostulants] = useState([]);
