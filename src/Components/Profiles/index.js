@@ -56,13 +56,6 @@ function Profiles() {
             setSuccess('You request was successful!');
           });
       })
-      .then(() => {
-        setTimeout(function () {
-          if (setShowSuccessModal) {
-            window.location.href = '/profiles';
-          }
-        }, 2000);
-      })
       .catch((error) => {
         setShowErrorModal(true);
         setError(error.toString());
