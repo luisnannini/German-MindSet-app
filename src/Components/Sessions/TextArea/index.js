@@ -7,7 +7,7 @@ function TextArea(props) {
       value={props.value}
       onChange={props.onChange}
       required={props.required}
-      className={styles.input}
+      className={styles.textarea}
       disabled={props.disabled}
     />
   );

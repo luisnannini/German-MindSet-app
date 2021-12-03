@@ -149,6 +149,7 @@ const Form = () => {
       <form onSubmit={onSubmit} className={styles.createForm}>
         <div className={styles.inputContainer}>
           <Select
+            className={styles.select}
             name="Postulant"
             value={postulantValue}
             onChange={(e) => setPostulantValue(e.target.value)}
@@ -159,6 +160,7 @@ const Form = () => {
         </div>
         <div className={styles.inputContainer}>
           <Select
+            className={styles.select}
             name="Psychologist"
             value={psychologistValue}
             onChange={(e) => setPsychologistValue(e.target.value)}
@@ -169,6 +171,7 @@ const Form = () => {
         </div>
         <div className={styles.inputContainer}>
           <Select
+            className={styles.select}
             name="status"
             value={statusValue}
             onChange={(e) => setStatusValue(e.target.value)}
@@ -183,6 +186,7 @@ const Form = () => {
         </div>
         <div className={styles.inputContainer}>
           <Input
+            className={styles.input}
             name="date"
             value={dateValue}
             onChange={(e) => setDateValue(e.target.value)}
@@ -201,7 +205,9 @@ const Form = () => {
         </div>
         <div className={styles.inputContainer}>
           <label className={styles.label} htmlFor="submit">
-            <input className={styles.submitBtn} type="submit" value={title} />
+            <button className={styles.submitBtn} type="submit">
+              {title}
+            </button>
           </label>
         </div>
         <div className={styles.error}>{error}</div>

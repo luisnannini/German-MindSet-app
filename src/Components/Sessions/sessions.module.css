@@ -6,15 +6,21 @@
   text-align: left;
   border-collapse: collapse;
 }
-.tr {
+.container h2 {
+  padding: 10px 0px 0px 10px;
+}
+.container tr {
   border-bottom: 1px solid grey;
   font-weight: 600;
 }
 .th {
   color: #fc692f;
 }
-.svg {
+.container svg {
   margin: 5px;
+  cursor: pointer;
+}
+input::-webkit-calendar-picker-indicator {
   cursor: pointer;
 }
 .addButton {
