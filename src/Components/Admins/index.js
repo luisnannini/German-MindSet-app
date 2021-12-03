@@ -66,8 +66,8 @@ function Admins() {
         onCancel={() => setShowModal(false)}
         onConfirm={deleteAdmin}
       />
-      <h2>Administrators</h2>
-      <table>
+      <h2 className={styles.title}>Administrators</h2>
+      <table className={styles.title}>
         <thead>
           <tr>
             <th>Name</th>
@@ -80,16 +80,22 @@ function Admins() {
               <td>{admin.name}</td>
               <td>{admin.username}</td>
               <td>
-                <button onClick={() => showForm(admin)}>Edit</button>
+                <button onClick={() => showForm(admin)} className={styles.button}>
+                  Edit
+                </button>
               </td>
               <td>
-                <button onClick={(event) => handleDelete(event, admin)}>Delete</button>
+                <button onClick={(event) => handleDelete(event, admin)} className={styles.button}>
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <button onClick={() => showForm()}>Add</button>
+      <button onClick={() => showForm()} className={styles.button}>
+        Add
+      </button>
     </section>
   );
 }

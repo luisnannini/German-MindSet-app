@@ -43,18 +43,15 @@
   display: flex;
   justify-content: center;
   align-self: center;
+  margin: 0.8em 0 3em 0;
 }
 
 .header h2 {
   color: #ffffff;
 }
 
-button {
-  margin: 0.8em 0 3em 0;
-}
-
-select,
-input {
+.select,
+.input {
   margin: 0.8em 0;
 }
 

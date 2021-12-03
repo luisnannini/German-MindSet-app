@@ -12,10 +12,10 @@ const Modal = (props) => {
           <h2>Are you sure you want to delete this administrator?</h2>
         </div>
         <div className={styles.header}>
-          <button disabled={isLoading} onClick={() => onCancel()}>
+          <button disabled={isLoading} onClick={() => onCancel()} className={styles.button}>
             Cancel
           </button>
-          <button disabled={isLoading} onClick={() => onConfirm()}>
+          <button disabled={isLoading} onClick={() => onConfirm()} className={styles.button}>
             Confirm
           </button>
         </div>

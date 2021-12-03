@@ -1,7 +1,16 @@
 .container {
-  flex: 1;
+  border: 1px solid blue;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+} 
+
+.title {
+  width: 90%;
+  border: 1px solid yellow;
+}
+
+.table {
+  width: 90%;
 }
