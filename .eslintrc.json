@@ -22,7 +22,7 @@
     "semi": [2, "always"],
     "react/react-in-jsx-scope": "off",
     "no-unused-vars": "off",
-    "react/jsx-key": "off",
+    "react/jsx-key": "warn",
     "react/prop-types": "off"
   }
 }

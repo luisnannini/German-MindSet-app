@@ -1,8 +1,7 @@
 import style from '../postulants-Form.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Modal from '../Modal';
 import validatePostulant from './validations';
-import { v4 as uuidv4 } from 'uuid';
 import ArrayInput from './ArrayInput';
 import InitialStudies from './InitialStudies';
 import PrimitiveFormInput from './PrimitiveFormInput';
@@ -11,9 +10,95 @@ import Profiles from './Profiles';
 
 function Form() {
   const [modal, setModal] = useState({ state: false, action: '', message: '' });
-  const [template, setTemplate] = useState();
+  const [template, setTemplate] = useState(); //si hay un id se guarda el postulante en setTemplate
+  const params = new URLSearchParams(window.location.search);
+  const postulantId = params.get('id');
+  const url = `${process.env.REACT_APP_API}/postulants`;
 
-  if (!template) {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [birthday, setBirthday] = useState('');
+  const [address, setAddress] = useState('');
+  const [contactRange, setContactRange] = useState({ from: '', to: '' });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [available, setAvailable] = useState(true);
+  const [phone, setPhone] = useState('');
+  const [createdAt, setCreatedAt] = useState('2000-01-01T00:00:00.000Z');
+  const [updatedAt, setUpdatedAt] = useState('2000-01-01T00:00:00.000Z');
+  const [profiles, setProfiles] = useState([{ profileId: { id: '', name: '' }, _id: '' }]);
+  const [workExperience, setWorkExperience] = useState([
+    {
+      startDate: '2000-01-01T00:00:00.000Z',
+      endDate: '2000-01-01T00:00:00.000Z',
+      company: '',
+      description: ''
+    }
+  ]);
+  const [primaryStudies, setPrimaryStudies] = useState({
+    startDate: '2000-01-01T00:00:00.000Z',
+    endDate: '2000-01-01T00:00:00.000Z',
+    school: ''
+  });
+  const [secondaryStudies, setSecondaryStudies] = useState({
+    startDate: '2000-01-01T00:00:00.000Z',
+    endDate: '2000-01-01T00:00:00.000Z',
+    school: ''
+  });
+  const [tertiaryStudies, setTertiaryStudies] = useState([
+    {
+      startDate: '2000-01-01T00:00:00.000Z',
+      endDate: '2000-01-01T00:00:00.000Z',
+      institute: '',
+      description: ''
+    }
+  ]);
+  const [universityStudies, setUniversityStudies] = useState([
+    {
+      startDate: '2000-01-01T00:00:00.000Z',
+      endDate: '2000-01-01T00:00:00.000Z',
+      institute: '',
+      description: ''
+    }
+  ]);
+  const [informalStudies, setInformalStudies] = useState([
+    {
+      startDate: '2000-01-01T00:00:00.000Z',
+      endDate: '2000-01-01T00:00:00.000Z',
+      institute: '',
+      description: ''
+    }
+  ]);
+
+  const getPostulant = async () => {
+    const postulantRaw = await fetch(url);
+    const postulantJson = await postulantRaw.json();
+    return postulantJson.data;
+  };
+  const usePostulant = async () => {
+    const formPostulants = await getPostulant();
+    const formPostulant = formPostulants.find((postulant) => postulant._id === postulantId);
+    setFirstName(formPostulant.lastName);
+    setLastName(formPostulant.lastName);
+    setBirthday(formPostulant.birthday);
+    setAddress(formPostulant.address);
+    setContactRange(formPostulant.contactRange);
+    setEmail(formPostulant.email);
+    setPassword(formPostulant.password);
+    setAvailable(formPostulant.available);
+    setPhone(formPostulant.phone);
+    setProfiles(formPostulant.profiles);
+    setWorkExperience(formPostulant.workExperience);
+    setPrimaryStudies(formPostulant.studies.primaryStudies);
+    setSecondaryStudies(formPostulant.studies.secondaryStudies);
+    setTertiaryStudies(formPostulant.studies.tertiaryStudies);
+    setUniversityStudies(formPostulant.studies.universityStudies);
+    setInformalStudies(formPostulant.studies.informalStudies);
+  };
+  useEffect(() => {
+    if (postulantId) usePostulant();
+  }, []);
+  /*   if (!template) {
     var body = {
       contactRange: {
         from: '',
@@ -94,13 +179,65 @@ function Form() {
     };
   } else {
     body = template;
-  }
-
+  } */
   const submit = async (e) => {
     e.preventDefault();
-    setTemplate(body);
-    let error = false;
+    let serverError = false;
     let status;
+    const body = {
+      contactRange: {
+        from: contactRange.from,
+        to: contactRange.to
+      },
+      studies: {
+        primaryStudies: {
+          startDate: primaryStudies.startDate,
+          endDate: primaryStudies.endDate,
+          school: primaryStudies.school
+        },
+        secondaryStudies: {
+          startDate: secondaryStudies.startDate,
+          endDate: secondaryStudies.endDate,
+          school: secondaryStudies.school
+        },
+        tertiaryStudies: [
+          {
+            startDate: tertiaryStudies.startDate,
+            endDate: tertiaryStudies.endDate,
+            description: tertiaryStudies.description,
+            institute: tertiaryStudies.insitute
+          }
+        ],
+        universityStudies: [
+          {
+            startDate: universityStudies.startDate,
+            endDate: universityStudies.endDate,
+            description: universityStudies.startDate,
+            institute: universityStudies.institute
+          }
+        ],
+        informalStudies: [
+          {
+            startDate: informalStudies.startDate,
+            endDate: informalStudies.endDate,
+            description: informalStudies.description,
+            institute: informalStudies.institute
+          }
+        ]
+      },
+      firstName,
+      lastName,
+      email,
+      password,
+      address,
+      birthday,
+      available,
+      phone,
+      profiles,
+      workExperience,
+      createdAt,
+      updatedAt
+    };
     const message = validatePostulant(body);
     if (message) {
       setModal({
@@ -111,28 +248,39 @@ function Form() {
       });
       return;
     }
+    let responseRaw;
     try {
-      const responseRaw = await fetch(`${process.env.REACT_APP_API}/postulants`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-      });
-      status = responseRaw.status + ' ' + responseRaw.statusText;
-      if (responseRaw.status !== 200 && responseRaw.status !== 201) {
-        error = true;
+      if (postulantId) {
+        responseRaw = await fetch(`${process.env.REACT_APP_API}/postulants/${postulantId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+      } else {
+        responseRaw = await fetch(`${process.env.REACT_APP_API}/postulants`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
       }
-      const responseJson = await responseRaw.json();
-      if (error) {
+      status = responseRaw.status + ' ' + responseRaw.statusText;
+      if (responseRaw.status !== 200 && responseRaw.status !== 201 && responseRaw.status !== 204) {
+        serverError = true;
+      }
+      if (serverError) {
         setModal({
           title: status,
           state: true,
-          message: responseJson.status,
+          message: 'Server Error',
           action: () => setModal({ state: modal.state })
         });
         return;
       }
+      const responseJson = await responseRaw.json();
       setModal({
         title: 'Postulant added',
         state: true,
@@ -143,12 +291,12 @@ function Form() {
       setModal({
         title: 'Failed to fetch',
         state: true,
-        message: error.message,
+        message: 'A local error ocurred',
         action: () => setModal({ state: modal.state })
       });
     }
   };
-
+  /* 
   const collectData = (data, property) => {
     if (property === 'contactRange') body.contactRange = data;
     if (property === 'primaryStudies') body.studies.primaryStudies = data;
@@ -168,157 +316,159 @@ function Form() {
     if (property === 'updatedAt') body.updatedAt = data;
     if (property === 'profiles') body.profiles = data;
     if (property === 'workExperience') body.workExperience = data;
-  };
+  }; */
 
   return (
     <section className={style.section}>
       <div className={style.formHeader}></div>
-      <h1 className={style.textCenter}>Add postulant</h1>
-      <button onClick={() => (window.location.href = `${window.location.origin}/postulants`)}>
-        List
-      </button>
+      <h1 className={style.textCenter}>{`Edit ${postulantId}`}</h1>
       <form>
         <div>
-          <h2>Studies</h2>
+          <h2 className={style.textCenter}>Studies</h2>
           <div className={style.inputSection}>
             <div>
               <h3>Primary Studies</h3>
               <InitialStudies
-                collectData={collectData}
+                postulantData={primaryStudies}
+                setStudies={setPrimaryStudies}
                 dataName="primaryStudies"
-                defaultValue={{ startDate: '', endDate: '', school: '' }}
               />
             </div>
             <div>
               <h3>Secondary Studies</h3>
-              <InitialStudies
-                collectData={collectData}
-                dataName="secondaryStudies"
-                defaultValue={{ startDate: '', endDate: '', school: '' }}
-              />
+              <InitialStudies postulantData={secondaryStudies} setStudies={setSecondaryStudies} />
             </div>
             <div>
               <h3>Tertiary Studies</h3>
               <ArrayInput
-                collectData={collectData}
-                id={uuidv4()}
-                dataName="tertiaryStudies"
-                defaultValue={{
-                  startDate: '',
-                  endDate: '',
-                  description: '',
-                  institute: '',
-                  id: uuidv4()
+                postulantData={tertiaryStudies}
+                setData={setTertiaryStudies}
+                dataName="studies"
+                dataTemplate={{
+                  startDate: '2000-01-01T00:00:00.000Z',
+                  endDate: '2000-01-01T00:00:00.000Z',
+                  Insistute: '',
+                  description: ''
                 }}
               />
             </div>
             <div>
               <h3>University Studies</h3>
               <ArrayInput
-                collectData={collectData}
-                dataName="universityStudies"
-                defaultValue={{
-                  startDate: '',
-                  endDate: '',
-                  description: '',
-                  institute: '',
-                  id: uuidv4()
+                postulantData={universityStudies}
+                setData={setUniversityStudies}
+                dataName="studies"
+                dataTemplate={{
+                  startDate: '2000-01-01T00:00:00.000Z',
+                  endDate: '2000-01-01T00:00:00.000Z',
+                  Insistute: '',
+                  description: ''
                 }}
               />
             </div>
             <div>
               <h3>Informal Studies</h3>
               <ArrayInput
-                collectData={collectData}
-                dataName="informalStudies"
-                id={uuidv4()}
-                defaultValue={{
-                  startDate: '',
-                  endDate: '',
-                  description: '',
-                  institute: '',
-                  id: uuidv4()
+                postulantData={informalStudies}
+                setData={setInformalStudies}
+                dataName="studies"
+                dataTemplate={{
+                  startDate: '2000-01-01T00:00:00.000Z',
+                  endDate: '2000-01-01T00:00:00.000Z',
+                  Insistute: '',
+                  description: ''
                 }}
               />
             </div>
           </div>
-        </div>
-        <div>
-          <h2>Contact Range</h2>
-          <ContactRange
-            collectData={collectData}
-            dataName="contactRange"
-            defaultValue={{ from: '', to: '' }}
-          />
+          <div>
+            <h2>Contact Range</h2>
+            <ContactRange postulantData={contactRange} setData={setContactRange} />
+          </div>
         </div>
         <div className={style.container}>
           <div>
             <h2>First Name</h2>
-            <PrimitiveFormInput collectData={collectData} dataName="firstName" />
+            <PrimitiveFormInput
+              postulantData={firstName}
+              dataName="firstName"
+              setData={setFirstName}
+            />
           </div>
           <div>
             <h2>Last Name</h2>
-            <PrimitiveFormInput collectData={collectData} dataName="lastName" />
+            <PrimitiveFormInput
+              postulantData={lastName}
+              dataName="lastName"
+              setData={setLastName}
+            />
           </div>
           <div>
             <h2>Email</h2>
-            <PrimitiveFormInput collectData={collectData} dataName="email" />
+            <PrimitiveFormInput postulantData={email} dataName="email" setData={setEmail} />
           </div>
           <div>
             <h2>Password</h2>
-            <PrimitiveFormInput collectData={collectData} dataName="password" />
+            <PrimitiveFormInput
+              postulantData={password}
+              dataName="password"
+              setData={setPassword}
+            />
           </div>
           <div>
             <h2>Address</h2>
-            <PrimitiveFormInput collectData={collectData} dataName="address" />
+            <PrimitiveFormInput postulantData={address} dataName="address" setData={setAddress} />
           </div>
           <div>
             <h2>Birthday</h2>
-            <PrimitiveFormInput collectData={collectData} dataName="birthday" />
+            <PrimitiveFormInput
+              postulantData={birthday}
+              dataName="birthday"
+              setData={setBirthday}
+            />
           </div>
           <div>
             <h2>Available</h2>
-            <PrimitiveFormInput collectData={collectData} dataName="available" postulant={body} />
+            <PrimitiveFormInput
+              postulantData={available}
+              dataName="available"
+              setData={setAvailable}
+            />
           </div>
           <div>
             <h2>Phone</h2>
-            <PrimitiveFormInput collectData={collectData} dataName="phone" />
+            <PrimitiveFormInput postulantData={phone} dataName="phone" setData={setPhone} />
           </div>
           <div>
             <h2>Created At</h2>
-            <PrimitiveFormInput collectData={collectData} dataName="createdAt" />
+            <PrimitiveFormInput
+              postulantData={createdAt}
+              dataName="createdAt"
+              setData={setCreatedAt}
+            />
           </div>
           <div>
-            <h2>Updated At</h2>
-            <PrimitiveFormInput collectData={collectData} dataName="updatedAt" />
+            <h2>Udated At</h2>
+            <PrimitiveFormInput
+              postulantData={updatedAt}
+              dataName="updatedAt"
+              setData={setUpdatedAt}
+            />
           </div>
         </div>
         <div>
           <h2>Profiles</h2>
           <Profiles
-            collectData={collectData}
-            template={{
-              profileId: { _id: '', name: '' },
-              id: uuidv4()
-            }}
+            postulantData={profiles}
+            setData={setProfiles}
+            dataTemplate={{ profileId: { id: '', name: '' }, _id: '' }}
           />
         </div>
         <div>
           <h2>Work Experience</h2>
-          <ArrayInput
-            collectData={collectData}
-            dataName="workExperience"
-            id={uuidv4()}
-            defaultValue={{
-              company: '',
-              startDate: '',
-              endDate: '',
-              description: '',
-              id: uuidv4()
-            }}
-          />
+          <ArrayInput postulantData={workExperience} dataName="workExperience" />
         </div>
-        <button onClick={(e) => submit(e)}>Add</button>
+        <button onClick={(e) => submit(e)}>Save</button>
       </form>
       {modal.state && <Modal modal={modal} />}
     </section>

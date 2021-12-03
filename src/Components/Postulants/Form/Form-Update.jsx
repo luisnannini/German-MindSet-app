@@ -1,5 +1,5 @@
 import style from '../postulants-Form.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Modal from '../Modal';
 import ContactRange from './ContactRange';
 import Profiles from './Profiles';
@@ -7,30 +7,29 @@ import validatePostulant from './validations';
 import ArrayInput from './ArrayInput';
 import InitialStudies from './InitialStudies';
 import PrimitiveFormInput from './PrimitiveFormInput';
-
-import { v4 as uuidv4 } from 'uuid';
-
-function Form({ postulant, template, id }) {
+function Form({ postulant, template }) {
   const [modal, setModal] = useState({ state: false });
-
-  postulant.studies.tertiaryStudies.map((ts) => {
-    ts.id = uuidv4();
-  });
-  postulant.studies.universityStudies.map((us) => {
-    us.id = uuidv4();
-  });
-  postulant.studies.informalStudies.map((is) => {
-    is.id = uuidv4();
-  });
-  postulant.profiles.map((profile) => {
-    profile.id = uuidv4();
-  });
-  postulant.workExperience.map((we) => {
-    we.id = uuidv4();
-  });
+  const [formPostulant, setPostulant] = useState([]);
+  const params = new URLSearchParams(window.location.search);
+  const postulantId = params.get('id');
+  const url = `${process.env.REACT_APP_API}/postulants?id=${postulantId}`;
+  console.log(url);
+  const getPostulant = async () => {
+    const postulantRaw = await fetch(url);
+    const postulantJson = await postulantRaw.json();
+    return postulantJson;
+  };
+  const usePostulant = async () => {
+    const formPostulant = await getPostulant();
+    console.log(formPostulant);
+    setPostulant(formPostulant);
+  };
+  useEffect(() => {
+    if (postulantId) usePostulant();
+  }, []);
 
   const collectData = (data, property) => {
-    template.id = id;
+    template.id = postulantId;
     if (property === 'contactRange') template.contactRange = data;
     if (property === 'primaryStudies') template.studies.primaryStudies = data;
     if (property === 'secondaryStudies') template.studies.secondaryStudies = data;
@@ -52,20 +51,20 @@ function Form({ postulant, template, id }) {
   };
   const submit = async (e) => {
     e.preventDefault();
-    let error = false;
+    let serverError = false;
     let status;
     const message = validatePostulant(template);
     if (message) {
       setModal({
-        title: 'An error ocurred',
+        title: 'Validaton Error',
         state: true,
         message: message,
         action: () => setModal({ state: modal.state })
       });
       return;
     }
-    try {
-      const responseRaw = await fetch(`${process.env.REACT_APP_API}/postulants?id=${id}`, {
+    /* try {
+      const responseRaw = await fetch(`${process.env.REACT_APP_API}/postulants/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -73,19 +72,19 @@ function Form({ postulant, template, id }) {
         body: JSON.stringify(template)
       });
       status = responseRaw.status + ' ' + responseRaw.statusText;
-      if (responseRaw.status !== 200 && responseRaw.status !== 201) {
-        error = true;
+      if (responseRaw.status !== 200 && responseRaw.status !== 201 && responseRaw.status !== 204) {
+        serverError = true;
       }
-      const responseJson = await responseRaw.json();
-      if (error) {
+      if (serverError) {
         setModal({
-          title: 'An error ocurred',
+          title: 'A server error ocurred',
           state: true,
           message: status,
-          action: setModal({ state: modal.state })
+          action: () => setModal({ state: modal.state })
         });
         return;
       }
+      const responseJson = await responseRaw.json();
       setModal({
         title: 'Updated',
         state: true,
@@ -98,16 +97,16 @@ function Form({ postulant, template, id }) {
       setModal({
         title: 'Failed to fetch',
         state: true,
-        message: error.message,
-        action: setModal({ state: modal.state })
+        message: 'An error ocurred locally',
+        action: () => setModal({ state: modal.state })
       });
-    }
+    } */
   };
 
   return (
     <section className={style.section}>
       <div className={style.formHeader}></div>
-      <h1 className={style.textCenter}>{`Edit ${id}`}</h1>
+      <h1 className={style.textCenter}>{`Edit ${postulantId}`}</h1>
       <form>
         <div>
           <h2 className={style.textCenter}>Studies</h2>
@@ -115,7 +114,7 @@ function Form({ postulant, template, id }) {
             <div>
               <h3>Primary Studies</h3>
               <InitialStudies
-                postulant={postulant.studies}
+                postulant={formPostulant.studies}
                 collectData={collectData}
                 dataName="primaryStudies"
                 defaultValue={{ startDate: '', endDate: '', school: '' }}
@@ -124,7 +123,7 @@ function Form({ postulant, template, id }) {
             <div>
               <h3>Secondary Studies</h3>
               <InitialStudies
-                postulant={postulant.studies}
+                postulant={formPostulant.studies}
                 collectData={collectData}
                 dataName="secondaryStudies"
                 defaultValue={{ startDate: '', endDate: '', school: '' }}
@@ -133,7 +132,7 @@ function Form({ postulant, template, id }) {
             <div>
               <h3>Tertiary Studies</h3>
               <ArrayInput
-                postulant={postulant.studies}
+                postulant={formPostulant.studies}
                 collectData={collectData}
                 dataName="tertiaryStudies"
                 defaultValue={{
@@ -147,7 +146,7 @@ function Form({ postulant, template, id }) {
             <div>
               <h3>University Studies</h3>
               <ArrayInput
-                postulant={postulant.studies}
+                postulant={formPostulant.studies}
                 collectData={collectData}
                 dataName="universityStudies"
                 defaultValue={{
@@ -161,7 +160,7 @@ function Form({ postulant, template, id }) {
             <div>
               <h3>Informal Studies</h3>
               <ArrayInput
-                postulant={postulant.studies}
+                postulant={formPostulant.studies}
                 collectData={collectData}
                 dataName="informalStudies"
                 defaultValue={{
@@ -176,7 +175,7 @@ function Form({ postulant, template, id }) {
           <div>
             <h2>Contact Range</h2>
             <ContactRange
-              postulant={postulant}
+              postulant={formPostulant}
               collectData={collectData}
               dataName="contactRange"
               defaultValue={{ from: '', to: '' }}
@@ -187,7 +186,7 @@ function Form({ postulant, template, id }) {
           <div>
             <h2>First Name</h2>
             <PrimitiveFormInput
-              postulant={postulant}
+              postulant={formPostulant}
               collectData={collectData}
               dataName="firstName"
             />
@@ -195,19 +194,23 @@ function Form({ postulant, template, id }) {
           <div>
             <h2>Last Name</h2>
             <PrimitiveFormInput
-              postulant={postulant}
+              postulant={formPostulant}
               collectData={collectData}
               dataName="lastName"
             />
           </div>
           <div>
             <h2>Email</h2>
-            <PrimitiveFormInput postulant={postulant} collectData={collectData} dataName="email" />
+            <PrimitiveFormInput
+              postulant={formPostulant}
+              collectData={collectData}
+              dataName="email"
+            />
           </div>
           <div>
             <h2>Password</h2>
             <PrimitiveFormInput
-              postulant={postulant}
+              postulant={formPostulant}
               collectData={collectData}
               dataName="password"
             />
@@ -215,7 +218,7 @@ function Form({ postulant, template, id }) {
           <div>
             <h2>Address</h2>
             <PrimitiveFormInput
-              postulant={postulant}
+              postulant={formPostulant}
               collectData={collectData}
               dataName="address"
             />
@@ -223,7 +226,7 @@ function Form({ postulant, template, id }) {
           <div>
             <h2>Birthday</h2>
             <PrimitiveFormInput
-              postulant={postulant}
+              postulant={formPostulant}
               collectData={collectData}
               dataName="birthday"
             />
@@ -231,19 +234,23 @@ function Form({ postulant, template, id }) {
           <div>
             <h2>Available</h2>
             <PrimitiveFormInput
-              postulant={postulant}
+              postulant={formPostulant}
               collectData={collectData}
               dataName="available"
             />
           </div>
           <div>
             <h2>Phone</h2>
-            <PrimitiveFormInput postulant={postulant} collectData={collectData} dataName="phone" />
+            <PrimitiveFormInput
+              postulant={formPostulant}
+              collectData={collectData}
+              dataName="phone"
+            />
           </div>
           <div>
             <h2>Created At</h2>
             <PrimitiveFormInput
-              postulant={postulant}
+              postulant={formPostulant}
               collectData={collectData}
               dataName="createdAt"
             />
@@ -251,7 +258,7 @@ function Form({ postulant, template, id }) {
           <div>
             <h2>Udated At</h2>
             <PrimitiveFormInput
-              postulant={postulant}
+              postulant={formPostulant}
               collectData={collectData}
               dataName="updatedAt"
             />
@@ -260,18 +267,18 @@ function Form({ postulant, template, id }) {
         <div>
           <h2>Profiles</h2>
           <Profiles
-            postulant={postulant}
+            postulant={formPostulant}
             collectData={collectData}
             template={{
               profileId: { _id: '', name: '' },
-              id: uuidv4()
+              id: Math.floor(Math.random() * 10000)
             }}
           />
         </div>
         <div>
           <h2>Work Experience</h2>
           <ArrayInput
-            postulant={postulant}
+            postulant={formPostulant}
             collectData={collectData}
             dataName="workExperience"
             defaultValue={{

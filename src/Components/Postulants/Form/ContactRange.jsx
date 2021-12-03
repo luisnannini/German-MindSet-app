@@ -1,28 +1,20 @@
 import { useState, useEffect } from 'react';
 
-const ContactRange = ({ postulant, collectData, dataName, defaultValue }) => {
-  const [input, setInput] = useState(postulant ? postulant[dataName] : defaultValue);
-  const sendData = (data) => {
-    collectData(data, dataName);
-    setInput(data);
-  };
-
-  useEffect(() => sendData(input), []);
+const ContactRange = ({ postulantData, setData }) => {
   return (
     <div>
       <input
-        defaultValue={input.from}
-        placeholder="To"
+        defaultValue={postulantData.from}
+        placeholder="From"
         onChange={(e) => {
-          input.to = e.target.value;
+          setData({ ...postulantData, from: e.target.value });
         }}
       />
       <input
-        defaultValue={input.to}
-        placeholder="From"
+        defaultValue={postulantData.to}
+        placeholder="To"
         onChange={(e) => {
-          input.from = e.target.value;
-          sendData({ ...input });
+          setData({ ...postulantData, to: e.target.value });
         }}
       />
     </div>
