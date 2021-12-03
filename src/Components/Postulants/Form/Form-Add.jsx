@@ -1,11 +1,13 @@
 import style from '../postulants-Form.module.css';
 import { useState } from 'react';
 import Modal from '../Modal';
-import ObjectFormInput from './ObjectFormInput';
-import ArrayFormInput from './ArrayFormInput';
-import Profiles from './Profiles';
 import validatePostulant from './validations';
 import { v4 as uuidv4 } from 'uuid';
+import ArrayInput from './ArrayInput';
+import InitialStudies from './InitialStudies';
+import PrimitiveFormInput from './PrimitiveFormInput';
+import ContactRange from './ContactRange';
+import Profiles from './Profiles';
 
 function Form() {
   const [modal, setModal] = useState({ state: false, action: '', message: '' });
@@ -107,7 +109,7 @@ function Form() {
         message: message,
         action: () => setModal({ state: modal.state })
       });
-      return; //muere el body
+      return;
     }
     try {
       const responseRaw = await fetch(`${process.env.REACT_APP_API}/postulants`, {
@@ -181,7 +183,7 @@ function Form() {
           <div className={style.inputSection}>
             <div>
               <h3>Primary Studies</h3>
-              <ObjectFormInput
+              <InitialStudies
                 collectData={collectData}
                 dataName="primaryStudies"
                 defaultValue={{ startDate: '', endDate: '', school: '' }}
@@ -189,7 +191,7 @@ function Form() {
             </div>
             <div>
               <h3>Secondary Studies</h3>
-              <ObjectFormInput
+              <InitialStudies
                 collectData={collectData}
                 dataName="secondaryStudies"
                 defaultValue={{ startDate: '', endDate: '', school: '' }}
@@ -197,8 +199,9 @@ function Form() {
             </div>
             <div>
               <h3>Tertiary Studies</h3>
-              <ArrayFormInput
+              <ArrayInput
                 collectData={collectData}
+                id={uuidv4()}
                 dataName="tertiaryStudies"
                 defaultValue={{
                   startDate: '',
@@ -211,7 +214,7 @@ function Form() {
             </div>
             <div>
               <h3>University Studies</h3>
-              <ArrayFormInput
+              <ArrayInput
                 collectData={collectData}
                 dataName="universityStudies"
                 defaultValue={{
@@ -225,9 +228,10 @@ function Form() {
             </div>
             <div>
               <h3>Informal Studies</h3>
-              <ArrayFormInput
+              <ArrayInput
                 collectData={collectData}
                 dataName="informalStudies"
+                id={uuidv4()}
                 defaultValue={{
                   startDate: '',
                   endDate: '',
@@ -241,7 +245,7 @@ function Form() {
         </div>
         <div>
           <h2>Contact Range</h2>
-          <ObjectFormInput
+          <ContactRange
             collectData={collectData}
             dataName="contactRange"
             defaultValue={{ from: '', to: '' }}
@@ -250,54 +254,61 @@ function Form() {
         <div className={style.container}>
           <div>
             <h2>First Name</h2>
-            <ObjectFormInput collectData={collectData} dataName="firstName" />
+            <PrimitiveFormInput collectData={collectData} dataName="firstName" />
           </div>
           <div>
             <h2>Last Name</h2>
-            <ObjectFormInput collectData={collectData} dataName="lastName" />
+            <PrimitiveFormInput collectData={collectData} dataName="lastName" />
           </div>
           <div>
             <h2>Email</h2>
-            <ObjectFormInput collectData={collectData} dataName="email" />
+            <PrimitiveFormInput collectData={collectData} dataName="email" />
           </div>
           <div>
             <h2>Password</h2>
-            <ObjectFormInput collectData={collectData} dataName="password" />
+            <PrimitiveFormInput collectData={collectData} dataName="password" />
           </div>
           <div>
             <h2>Address</h2>
-            <ObjectFormInput collectData={collectData} dataName="address" />
+            <PrimitiveFormInput collectData={collectData} dataName="address" />
           </div>
           <div>
             <h2>Birthday</h2>
-            <ObjectFormInput collectData={collectData} dataName="birthday" />
+            <PrimitiveFormInput collectData={collectData} dataName="birthday" />
           </div>
           <div>
             <h2>Available</h2>
-            <ObjectFormInput collectData={collectData} dataName="available" postulant={body} />
+            <PrimitiveFormInput collectData={collectData} dataName="available" postulant={body} />
           </div>
           <div>
             <h2>Phone</h2>
-            <ObjectFormInput collectData={collectData} dataName="phone" />
+            <PrimitiveFormInput collectData={collectData} dataName="phone" />
           </div>
           <div>
             <h2>Created At</h2>
-            <ObjectFormInput collectData={collectData} dataName="createdAt" />
+            <PrimitiveFormInput collectData={collectData} dataName="createdAt" />
           </div>
           <div>
             <h2>Updated At</h2>
-            <ObjectFormInput collectData={collectData} dataName="updatedAt" />
+            <PrimitiveFormInput collectData={collectData} dataName="updatedAt" />
           </div>
         </div>
         <div>
           <h2>Profiles</h2>
-          <Profiles collectData={collectData} />
+          <Profiles
+            collectData={collectData}
+            template={{
+              profileId: { _id: '', name: '' },
+              id: uuidv4()
+            }}
+          />
         </div>
         <div>
           <h2>Work Experience</h2>
-          <ArrayFormInput
+          <ArrayInput
             collectData={collectData}
             dataName="workExperience"
+            id={uuidv4()}
             defaultValue={{
               company: '',
               startDate: '',

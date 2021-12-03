@@ -2,7 +2,6 @@ import style from './postulants-Item.module.css';
 import { useState } from 'react';
 import Modal from './Modal';
 
-//si se clickea el delete, sólo se re-renderiza Item
 function Item({ postulant, fetchData, url, setFormId }) {
   //doFetch sirve para el delete y formId sirve para el edit
   const [modalState, setModalState] = useState({ state: false });
@@ -15,7 +14,6 @@ function Item({ postulant, fetchData, url, setFormId }) {
 
       fetchData();
     } catch (error) {
-      console.log(error);
       setModalState({ title: 'Error', state: true, message: 'Error deleting' });
     }
   };
@@ -39,7 +37,6 @@ function Item({ postulant, fetchData, url, setFormId }) {
         <button
           onClick={() =>
             setModalState({
-              //se pasa el mensaje y la accion de 'OK'
               action: confirmDelete,
               actionParam: postulant._id,
               state: !modalState.state,

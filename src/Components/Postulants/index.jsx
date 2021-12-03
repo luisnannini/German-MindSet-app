@@ -125,7 +125,7 @@ function Postulants() {
           });
         })}
         setFormId={setFormId}
-        fetchData={usePostulants} // lo que va a hacer el boton "ok" del modal
+        fetchData={usePostulants}
       />
       <div>
         <button

@@ -1,10 +1,13 @@
 import style from '../postulants-Form.module.css';
 import { useState } from 'react';
 import Modal from '../Modal';
-import ObjectFormInput from './ObjectFormInput';
-import ArrayFormInput from './ArrayFormInput';
+import ContactRange from './ContactRange';
 import Profiles from './Profiles';
 import validatePostulant from './validations';
+import ArrayInput from './ArrayInput';
+import InitialStudies from './InitialStudies';
+import PrimitiveFormInput from './PrimitiveFormInput';
+
 import { v4 as uuidv4 } from 'uuid';
 
 function Form({ postulant, template, id }) {
@@ -111,7 +114,7 @@ function Form({ postulant, template, id }) {
           <div className={style.inputSection}>
             <div>
               <h3>Primary Studies</h3>
-              <ObjectFormInput
+              <InitialStudies
                 postulant={postulant.studies}
                 collectData={collectData}
                 dataName="primaryStudies"
@@ -120,7 +123,7 @@ function Form({ postulant, template, id }) {
             </div>
             <div>
               <h3>Secondary Studies</h3>
-              <ObjectFormInput
+              <InitialStudies
                 postulant={postulant.studies}
                 collectData={collectData}
                 dataName="secondaryStudies"
@@ -129,7 +132,7 @@ function Form({ postulant, template, id }) {
             </div>
             <div>
               <h3>Tertiary Studies</h3>
-              <ArrayFormInput
+              <ArrayInput
                 postulant={postulant.studies}
                 collectData={collectData}
                 dataName="tertiaryStudies"
@@ -143,7 +146,7 @@ function Form({ postulant, template, id }) {
             </div>
             <div>
               <h3>University Studies</h3>
-              <ArrayFormInput
+              <ArrayInput
                 postulant={postulant.studies}
                 collectData={collectData}
                 dataName="universityStudies"
@@ -157,7 +160,7 @@ function Form({ postulant, template, id }) {
             </div>
             <div>
               <h3>Informal Studies</h3>
-              <ArrayFormInput
+              <ArrayInput
                 postulant={postulant.studies}
                 collectData={collectData}
                 dataName="informalStudies"
@@ -172,7 +175,7 @@ function Form({ postulant, template, id }) {
           </div>
           <div>
             <h2>Contact Range</h2>
-            <ObjectFormInput
+            <ContactRange
               postulant={postulant}
               collectData={collectData}
               dataName="contactRange"
@@ -183,52 +186,91 @@ function Form({ postulant, template, id }) {
         <div className={style.container}>
           <div>
             <h2>First Name</h2>
-            <ObjectFormInput postulant={postulant} collectData={collectData} dataName="firstName" />
+            <PrimitiveFormInput
+              postulant={postulant}
+              collectData={collectData}
+              dataName="firstName"
+            />
           </div>
           <div>
             <h2>Last Name</h2>
-            <ObjectFormInput postulant={postulant} collectData={collectData} dataName="lastName" />
+            <PrimitiveFormInput
+              postulant={postulant}
+              collectData={collectData}
+              dataName="lastName"
+            />
           </div>
           <div>
             <h2>Email</h2>
-            <ObjectFormInput postulant={postulant} collectData={collectData} dataName="email" />
+            <PrimitiveFormInput postulant={postulant} collectData={collectData} dataName="email" />
           </div>
           <div>
             <h2>Password</h2>
-            <ObjectFormInput postulant={postulant} collectData={collectData} dataName="password" />
+            <PrimitiveFormInput
+              postulant={postulant}
+              collectData={collectData}
+              dataName="password"
+            />
           </div>
           <div>
             <h2>Address</h2>
-            <ObjectFormInput postulant={postulant} collectData={collectData} dataName="address" />
+            <PrimitiveFormInput
+              postulant={postulant}
+              collectData={collectData}
+              dataName="address"
+            />
           </div>
           <div>
             <h2>Birthday</h2>
-            <ObjectFormInput postulant={postulant} collectData={collectData} dataName="birthday" />
+            <PrimitiveFormInput
+              postulant={postulant}
+              collectData={collectData}
+              dataName="birthday"
+            />
           </div>
           <div>
             <h2>Available</h2>
-            <ObjectFormInput postulant={postulant} collectData={collectData} dataName="available" />
+            <PrimitiveFormInput
+              postulant={postulant}
+              collectData={collectData}
+              dataName="available"
+            />
           </div>
           <div>
             <h2>Phone</h2>
-            <ObjectFormInput postulant={postulant} collectData={collectData} dataName="phone" />
+            <PrimitiveFormInput postulant={postulant} collectData={collectData} dataName="phone" />
           </div>
           <div>
             <h2>Created At</h2>
-            <ObjectFormInput postulant={postulant} collectData={collectData} dataName="createdAt" />
+            <PrimitiveFormInput
+              postulant={postulant}
+              collectData={collectData}
+              dataName="createdAt"
+            />
           </div>
           <div>
             <h2>Udated At</h2>
-            <ObjectFormInput postulant={postulant} collectData={collectData} dataName="updatedAt" />
+            <PrimitiveFormInput
+              postulant={postulant}
+              collectData={collectData}
+              dataName="updatedAt"
+            />
           </div>
         </div>
         <div>
           <h2>Profiles</h2>
-          <Profiles postulant={postulant} collectData={collectData} />
+          <Profiles
+            postulant={postulant}
+            collectData={collectData}
+            template={{
+              profileId: { _id: '', name: '' },
+              id: uuidv4()
+            }}
+          />
         </div>
         <div>
           <h2>Work Experience</h2>
-          <ArrayFormInput
+          <ArrayInput
             postulant={postulant}
             collectData={collectData}
             dataName="workExperience"

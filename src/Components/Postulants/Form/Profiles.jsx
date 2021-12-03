@@ -1,11 +1,7 @@
 import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-const Profiles = ({ postulant, collectData }) => {
-  const template = {
-    profileId: { _id: '', name: '' },
-    id: uuidv4()
-  };
+const Profiles = ({ postulant, collectData, template }) => {
   if (postulant) {
     postulant.profiles.forEach((element, index, array) => {
       if (!array[index].profileId) {
@@ -26,25 +22,29 @@ const Profiles = ({ postulant, collectData }) => {
       {profiles.map((profile, index) => {
         return (
           <div key={profile.id}>
-            {Object.entries(profile.profileId).map((piKeyPair) => {
-              return (
-                <input
-                  placeholder={piKeyPair[0]}
-                  defaultValue={piKeyPair[1]}
-                  onChange={({ target: { value } }) => {
-                    profiles[index].profileId[piKeyPair[0]] = value; //no se puede encontrar el indice de un array a través de un objeto
-                    sendData([...profiles]);
-                  }}
-                />
-              );
-            })}
+            <input
+              placeholder="ID"
+              defaultValue={profile.profileId._id}
+              onChange={(e) => {
+                profiles[index].profileId._id = e.target.value;
+                sendData([...profiles]);
+              }}
+            />
+            <input
+              placeholder="Name"
+              defaultValue={profile.profileId.name}
+              onChange={(e) => {
+                profiles[index].profileId.name = e.target.value;
+                sendData([...profiles]);
+              }}
+            />
           </div>
         );
       })}
       <button
         onClick={(e) => {
           e.preventDefault();
-          setProfiles([...profiles, template]);
+          setProfiles([...profiles, { ...template, id: uuidv4() }]);
         }}
       >
         Add
