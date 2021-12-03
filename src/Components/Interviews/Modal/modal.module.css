@@ -1,0 +1,24 @@
+.message {
+  position: fixed;
+  top: 40%;
+  left: 40%;
+  width: 200px;
+  height: 90px;
+  background-color: #fff;
+  border: 3px solid #232F3E;
+  z-index: 1;
+}
+
+.message p {
+  padding: 10px;
+  text-align: center;
+  color: #FC6225;
+  font-size: 15px;
+}
+
+.message button {
+  float: right;
+  border-style: none;
+  background-color: #fff;
+  color: #232F3E;
+}
