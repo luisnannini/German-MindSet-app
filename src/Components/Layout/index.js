@@ -14,6 +14,7 @@ import Psychologists from '../Psychologists/index';
 import Sessions from '../Sessions/index';
 import Home from '../Home/index';
 import styles from './layout.module.css';
+import EditForm from '../Interviews/EditForm';
 
 function Layout() {
   let currentScreen = <Home />;
@@ -32,6 +33,9 @@ function Layout() {
       break;
     case '/interviews':
       currentScreen = <Interviews />;
+      break;
+    case '/interviews/form':
+      currentScreen = <EditForm />;
       break;
     case '/positions':
       currentScreen = <Positions />;
