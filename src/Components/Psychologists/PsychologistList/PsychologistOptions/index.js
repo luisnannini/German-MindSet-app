@@ -30,7 +30,7 @@ const Options = (props) => {
         modalOpenDel();
         return response
           .json(`Id: ${id}`)
-          .catch((err) => {
+          .catch((error) => {
             setError(error.toString());
           })
           .finally(() => {

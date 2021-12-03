@@ -344,7 +344,7 @@ const index = (props) => {
       }
       return response
         .json()
-        .catch((err) => {
+        .catch((error) => {
           setError(error.toString());
         })
         .finally(() => {
