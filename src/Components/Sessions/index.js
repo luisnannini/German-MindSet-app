@@ -69,17 +69,16 @@ function Sessions() {
           onDelete={deleteSession}
         />
       )}
-      <section>
+      <section className={styles.section}>
         <h2>Sessions</h2>
-        <table>
+        <table className={styles.table}>
           <thead>
-            <tr>
-              <th>Postulant</th>
-              <th>Psychologist</th>
-              <th>Status</th>
-              <th>Date</th>
-              <th>Actions</th>
-              <th></th>
+            <tr className={styles.tr}>
+              <th className={styles.th}>Postulant</th>
+              <th className={styles.th}>Psychologist</th>
+              <th className={styles.th}>Status</th>
+              <th className={styles.th}>Date</th>
+              <th className={styles.th}>Actions</th>
             </tr>
           </thead>
           <tbody>

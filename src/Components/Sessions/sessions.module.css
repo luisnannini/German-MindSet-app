@@ -1,16 +1,16 @@
 .container {
   height: 500px
 }
-table {
+.table {
   width: 100%;
   text-align: left;
   border-collapse: collapse;
 }
-tr {
+.tr {
   border-bottom: 1px solid grey;
   font-weight: 600;
 }
-th {
+.th {
   color: #fc692f;
 }
 svg {
@@ -27,7 +27,7 @@ svg {
   color: #fc692f;
   cursor: pointer;
 }
-section {
+.section {
   width: 90%;
   margin: auto;
   margin-top: 8%;

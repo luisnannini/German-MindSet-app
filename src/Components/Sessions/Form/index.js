@@ -200,7 +200,7 @@ const Form = () => {
           />
         </div>
         <div className={styles.inputContainer}>
-          <label htmlFor="submit">
+          <label className={styles.label} htmlFor="submit">
             <input className={styles.submitBtn} type="submit" value={title} />
           </label>
         </div>

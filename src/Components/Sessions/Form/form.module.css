@@ -15,30 +15,29 @@
 .createForm {
   background-color: white;
   margin: auto;
-}
-svg {
-  margin: 5px;
-  cursor: pointer;
-}
-form {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
   width: 60%;
   padding-top: 20px;
 }
+svg {
+  margin: 5px;
+  cursor: pointer;
+}
 .inputContainer {
   display: flex;
   align-items: center;
   width: 50%;
 }
-label {
+.label {
   display: flex;
   flex-direction: column;
   width: fit-content;
   margin-left: 15%;
 }
-input, select {
+.input, 
+.select {
   background: white;
   width: 200px;
   height: 40px;

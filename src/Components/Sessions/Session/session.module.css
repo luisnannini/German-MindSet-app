@@ -1,13 +1,13 @@
-table {
+.table {
   width: 100%;
   text-align: left;
   border-collapse: collapse;
 }
-tr {
+.tr {
   border-bottom: 1px solid grey;
   font-weight: 600;
 }
-th {
+.th {
   color: #fc692f;
 }
 svg {
