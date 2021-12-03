@@ -7,6 +7,7 @@ function Admins() {
   const [selectedAdmin, setSelectedAdmin] = useState(undefined);
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/admins`)
@@ -14,7 +15,7 @@ function Admins() {
       .then((response) => {
         setAdmins(response.data);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => setError(error.toString()));
   }, []);
 
   const handleDelete = (event, admin) => {
@@ -46,7 +47,7 @@ function Admins() {
             setShowModal(false);
           });
       })
-      .catch((error) => console.log(error))
+      .catch((error) => setError(error.toString()))
       .finally(() => setLoading(false));
   };
 
@@ -93,6 +94,7 @@ function Admins() {
           ))}
         </tbody>
       </table>
+      <div className={styles.error}>{error}</div>
       <button onClick={() => showForm()} className={styles.button}>
         Add
       </button>

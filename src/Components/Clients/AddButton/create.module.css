@@ -1,0 +1,12 @@
+.createButton {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-end;
+  width: 45px;
+  box-shadow: 1px 1px 8px rgba(139, 139, 139, 0.432);
+  border-radius: 100px;
+  cursor: pointer;
+  border-style: none;
+  background-color: #fff;
+  margin: 30px 150px;
+}
