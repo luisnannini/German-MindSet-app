@@ -1,9 +1,8 @@
 import styles from './form.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const index = () => {
   const [error, setError] = useState('');
-
   const [firstNameForm, setFirstName] = useState('');
   const [lastNameForm, setLastName] = useState('');
   const [usernameForm, setUsername] = useState('');
@@ -11,34 +10,76 @@ const index = () => {
   const [emailForm, setEmail] = useState('');
   const [phoneForm, setPhone] = useState('');
   const [addressForm, setAddress] = useState('');
-
   const [mondayBool, setMondayBool] = useState(false);
   const [mondayFrom, setMondayFrom] = useState(0);
   const [mondayTo, setMondayTo] = useState(0);
-
   const [tuesdayBool, setTuesdayBool] = useState(false);
   const [tuesdayFrom, setTuesdayFrom] = useState(0);
   const [tuesdayTo, setTuesdayTo] = useState(0);
-
   const [wednesdayBool, setWednesdayBool] = useState(false);
   const [wednesdayFrom, setWednesdayFrom] = useState(0);
   const [wednesdayTo, setWednesdayTo] = useState(0);
-
   const [thursdayBool, setThursdayBool] = useState(false);
   const [thursdayFrom, setThursdayFrom] = useState(0);
   const [thursdayTo, setThursdayTo] = useState(0);
-
   const [fridayBool, setFridayBool] = useState(false);
   const [fridayFrom, setFridayFrom] = useState(0);
   const [fridayTo, setFridayTo] = useState(0);
-
   const [saturdayBool, setSaturdayBool] = useState(false);
   const [saturdayFrom, setSaturdayFrom] = useState(0);
   const [saturdayTo, setSaturdayTo] = useState(0);
-
   const [sundayBool, setSundayBool] = useState(false);
   const [sundayFrom, setSundayFrom] = useState(0);
   const [sundayTo, setSundayTo] = useState(0);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const psychologistId = params.get('id');
+    if (psychologistId) {
+      fetch(`${process.env.REACT_APP_API}/psychologists?_id=${psychologistId}`)
+        .then((response) => {
+          if (response.status !== 200) {
+            return response.json().then(({ message }) => {
+              throw new Error(message);
+            });
+          }
+          return response.json();
+        })
+        .then((response) => {
+          setFirstName(response.data[0].firstName);
+          setLastName(response.data[0].lastName);
+          setUsername(response.data[0].username);
+          setEmail(response.data[0].email);
+          setPhone(response.data[0].phone);
+          setPassword(response.data[0].password);
+          setAddress(response.data[0].address);
+          setMondayBool(response.data[0].availability.monday.availability);
+          setTuesdayBool(response.data[0].availability.tuesday.availability);
+          setWednesdayBool(response.data[0].availability.wednesday.availability);
+          setThursdayBool(response.data[0].availability.thursday.availability);
+          setFridayBool(response.data[0].availability.friday.availability);
+          setSaturdayBool(response.data[0].availability.saturday.availability);
+          setSundayBool(response.data[0].availability.sunday.availability);
+          setMondayFrom(response.data[0].availability.monday.from);
+          setTuesdayFrom(response.data[0].availability.tuesday.from);
+          setWednesdayFrom(response.data[0].availability.wednesday.from);
+          setThursdayFrom(response.data[0].availability.thursday.from);
+          setFridayFrom(response.data[0].availability.friday.from);
+          setSaturdayFrom(response.data[0].availability.saturday.from);
+          setSundayFrom(response.data[0].availability.sunday.from);
+          setMondayTo(response.data[0].availability.monday.to);
+          setTuesdayTo(response.data[0].availability.tuesday.to);
+          setWednesdayTo(response.data[0].availability.wednesday.to);
+          setThursdayTo(response.data[0].availability.thursday.to);
+          setFridayTo(response.data[0].availability.friday.to);
+          setSaturdayTo(response.data[0].availability.saturday.to);
+          setSundayTo(response.data[0].availability.sunday.to);
+        })
+        .catch((error) => {
+          setError(error.toString());
+        });
+    }
+  });
 
   // Availability
 
@@ -134,76 +175,81 @@ const index = () => {
     setAddress(event.target.value);
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    let route = `${process.env.REACT_APP_API}/psychologists/`;
-    let jsonData = {
-      firstName: firstNameForm,
-      lastName: lastNameForm,
-      username: usernameForm,
-      password: passwordForm,
-      email: emailForm,
-      phone: parseInt(phoneForm),
-      address: addressForm,
-      availability: {
-        monday: {
-          availability: !!mondayBool,
-          from: parseInt(mondayFrom, 10),
-          to: parseInt(mondayTo, 10)
-        },
-        tuesday: {
-          availability: !!tuesdayBool,
-          from: parseInt(tuesdayFrom, 10),
-          to: parseInt(tuesdayTo, 10)
-        },
-        wednesday: {
-          availability: !!wednesdayBool,
-          from: parseInt(wednesdayFrom, 10),
-          to: parseInt(wednesdayTo, 10)
-        },
-        thursday: {
-          availability: !!thursdayBool,
-          from: parseInt(thursdayFrom, 10),
-          to: parseInt(thursdayTo, 10)
-        },
-        friday: {
-          availability: !!fridayBool,
-          from: parseInt(fridayFrom, 10),
-          to: parseInt(fridayTo, 10)
-        },
-        saturday: {
-          availability: !!saturdayBool,
-          from: parseInt(saturdayFrom, 10),
-          to: parseInt(saturdayTo, 10)
-        },
-        sunday: {
-          availability: !!sundayBool,
-          from: parseInt(sundayFrom, 10),
-          to: parseInt(sundayTo, 10)
-        }
-      }
-    };
-    let options = {
+  const onSubmit = (event) => {
+    event.preventDefault();
+    const params = new URLSearchParams(window.location.search);
+    const psychologistId = params.get('id');
+    let url;
+    const options = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(jsonData)
+      body: JSON.stringify({
+        firstName: firstNameForm,
+        lastName: lastNameForm,
+        username: usernameForm,
+        password: passwordForm,
+        email: emailForm,
+        phone: parseInt(phoneForm),
+        address: addressForm,
+        availability: {
+          monday: {
+            availability: !!mondayBool,
+            from: parseInt(mondayFrom, 10),
+            to: parseInt(mondayTo, 10)
+          },
+          tuesday: {
+            availability: !!tuesdayBool,
+            from: parseInt(tuesdayFrom, 10),
+            to: parseInt(tuesdayTo, 10)
+          },
+          wednesday: {
+            availability: !!wednesdayBool,
+            from: parseInt(wednesdayFrom, 10),
+            to: parseInt(wednesdayTo, 10)
+          },
+          thursday: {
+            availability: !!thursdayBool,
+            from: parseInt(thursdayFrom, 10),
+            to: parseInt(thursdayTo, 10)
+          },
+          friday: {
+            availability: !!fridayBool,
+            from: parseInt(fridayFrom, 10),
+            to: parseInt(fridayTo, 10)
+          },
+          saturday: {
+            availability: !!saturdayBool,
+            from: parseInt(saturdayFrom, 10),
+            to: parseInt(saturdayTo, 10)
+          },
+          sunday: {
+            availability: !!sundayBool,
+            from: parseInt(sundayFrom, 10),
+            to: parseInt(sundayTo, 10)
+          }
+        }
+      })
     };
-    fetch(route, options).then((response) => {
+
+    if (psychologistId) {
+      options.method = 'PUT';
+      url = `${process.env.REACT_APP_API}/psychologists/${psychologistId}`;
+    } else {
+      options.method = 'POST';
+      url = `${process.env.REACT_APP_API}/psychologists`;
+    }
+
+    fetch(url, options).then((response) => {
       if (response.status !== 201) {
         return response.json().then(({ message }) => {
           throw new Error(message);
         });
       }
-      return response
-        .json()
-        .catch((error) => {
-          setError(error.toString());
-        })
-        .finally(() => {
-          window.location.href = `${window.location.origin}/psychologists`;
-        });
+      return response.json().catch((error) => {
+        setError(error.toString());
+      });
     });
   };
 
