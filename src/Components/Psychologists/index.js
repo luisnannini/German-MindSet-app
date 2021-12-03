@@ -29,7 +29,6 @@ function Psychologists() {
       </div>
       <div>
         {psychologists.map((psy) => {
-          console.log(JSON.stringify(psy));
           return <PsyList name={psy} key={psy._id} />;
         })}
       </div>

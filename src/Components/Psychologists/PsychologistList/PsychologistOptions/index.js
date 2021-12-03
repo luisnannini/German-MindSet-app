@@ -28,7 +28,9 @@ const Options = (props) => {
           });
         }
         modalOpenDel();
-        return response.json(`Id: ${id}`);
+        return response.json(`Id: ${id}`).finally(() => {
+          window.location.href = `${window.location.origin}/psychologists`;
+        });
       })
       .catch((error) => error);
   };
@@ -41,7 +43,7 @@ const Options = (props) => {
       <li>
         <Button action={modalOpenDel} name={'delete'} />
       </li>
-      <Modal visible={modal} id={psy._id} close={modalOpen} />
+      <Modal visible={modal} psy={psy} close={modalOpen} />
       <ModalOther
         visible={modalDel}
         psy={psy}

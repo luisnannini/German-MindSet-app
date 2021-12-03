@@ -1,110 +1,9 @@
 import styles from './form.module.css';
 import Availability from './Availability';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const index = (props) => {
-  const [firstNameForm, setFirstName] = useState('');
-  const [lastNameForm, setLastName] = useState('');
-  const [usernameForm, setUsername] = useState('');
-  const [passwordForm, setPassword] = useState('');
-  const [emailForm, setEmail] = useState('');
-  const [phoneForm, setPhone] = useState('');
-  const [addressForm, setAddress] = useState('');
-
-  const [mondayBool, setMondayBool] = useState('false');
-  const [mondayFrom, setMondayFrom] = useState('');
-  const [mondayTo, setMondayTo] = useState('');
-
-  const [tuesdayBool, setTuesdayBool] = useState('false');
-  const [tuesdayFrom, setTuesdayFrom] = useState('');
-  const [tuesdayTo, setTuesdayTo] = useState('');
-
-  const [wednesdayBool, setWednesdayBool] = useState('false');
-  const [wednesdayFrom, setWednesdayFrom] = useState('');
-  const [wednesdayTo, setWednesdayTo] = useState('');
-
-  const [thursdayBool, setThursdayBool] = useState('false');
-  const [thursdayFrom, setThursdayFrom] = useState('');
-  const [thursdayTo, setThursdayTo] = useState('');
-
-  const [fridayBool, setFridayBool] = useState('false');
-  const [fridayFrom, setFridayFrom] = useState('');
-  const [fridayTo, setFridayTo] = useState('');
-
-  const [saturdayBool, setSaturdayBool] = useState('false');
-  const [saturdayFrom, setSaturdayFrom] = useState('');
-  const [saturdayTo, setSaturdayTo] = useState('');
-
-  const [sundayBool, setSundayBool] = useState('false');
-  const [sundayFrom, setSundayFrom] = useState('');
-  const [sundayTo, setSundayTo] = useState('');
-
-  var availabilityForm = {
-    monday: {
-      availability: mondayBool,
-      from: mondayFrom,
-      to: mondayTo
-    },
-    tuesday: {
-      availability: tuesdayBool,
-      from: tuesdayFrom,
-      to: tuesdayTo
-    },
-    wednesday: {
-      availability: wednesdayBool,
-      from: wednesdayFrom,
-      to: wednesdayTo
-    },
-    thursday: {
-      availability: thursdayBool,
-      from: thursdayFrom,
-      to: thursdayTo
-    },
-    friday: {
-      availability: fridayBool,
-      from: fridayFrom,
-      to: fridayTo
-    },
-    saturday: {
-      availability: saturdayBool,
-      from: saturdayFrom,
-      to: saturdayTo
-    },
-    sunday: {
-      availability: sundayBool,
-      from: sundayFrom,
-      to: sundayTo
-    }
-  };
-
-  useEffect(() => {
-    const psyID = props.id;
-    console.log(psyID);
-    if (psyID) {
-      console.log(psyID);
-      fetch(`${process.env.REACT_APP_API}/psychologist?_id=${psyID}`)
-        .then((response) => {
-          if (response.status !== 200) {
-            return response.json().then(({ message }) => {
-              throw new Error(message);
-            });
-          }
-          return response.json();
-        })
-        .then((response) => {
-          setFirstName(response.data[0].firstName);
-          setLastName(response.data[0].lastName);
-          setUsername(response.data[0].username);
-          setPassword(response.data[0].password);
-          setEmail(response.data[0].email);
-          setPhone(response.data[0].phone);
-          setAddress(response.data[0].address);
-          console.log(firstNameForm);
-        });
-    }
-  }, []);
-
-  const data = {
+  let psy = {
     _id: '',
     firstName: '',
     lastName: '',
@@ -151,13 +50,90 @@ const index = (props) => {
       }
     }
   };
+
+  if (props.data) {
+    psy = props.data;
+  }
+  const [firstNameForm, setFirstName] = useState(psy.firstName);
+  const [lastNameForm, setLastName] = useState(psy.lastName);
+  const [usernameForm, setUsername] = useState(psy.username);
+  const [passwordForm, setPassword] = useState(psy.password);
+  const [emailForm, setEmail] = useState(psy.email);
+  const [phoneForm, setPhone] = useState(psy.phone);
+  const [addressForm, setAddress] = useState(psy.address);
+
+  const [mondayBool, setMondayBool] = useState(psy.availability.monday.availability);
+  const [mondayFrom, setMondayFrom] = useState(psy.availability.monday.from);
+  const [mondayTo, setMondayTo] = useState(psy.availability.monday.to);
+
+  const [tuesdayBool, setTuesdayBool] = useState(psy.availability.tuesday.availability);
+  const [tuesdayFrom, setTuesdayFrom] = useState(psy.availability.tuesday.from);
+  const [tuesdayTo, setTuesdayTo] = useState(psy.availability.tuesday.to);
+
+  const [wednesdayBool, setWednesdayBool] = useState(psy.availability.wednesday.availability);
+  const [wednesdayFrom, setWednesdayFrom] = useState(psy.availability.wednesday.from);
+  const [wednesdayTo, setWednesdayTo] = useState(psy.availability.wednesday.to);
+
+  const [thursdayBool, setThursdayBool] = useState(psy.availability.thursday.availability);
+  const [thursdayFrom, setThursdayFrom] = useState(psy.availability.thursday.from);
+  const [thursdayTo, setThursdayTo] = useState(psy.availability.thursday.to);
+
+  const [fridayBool, setFridayBool] = useState(psy.availability.friday.availability);
+  const [fridayFrom, setFridayFrom] = useState(psy.availability.friday.from);
+  const [fridayTo, setFridayTo] = useState(psy.availability.friday.to);
+
+  const [saturdayBool, setSaturdayBool] = useState(psy.availability.saturday.availability);
+  const [saturdayFrom, setSaturdayFrom] = useState(psy.availability.saturday.from);
+  const [saturdayTo, setSaturdayTo] = useState(psy.availability.saturday.to);
+
+  const [sundayBool, setSundayBool] = useState(psy.availability.sunday.availability);
+  const [sundayFrom, setSundayFrom] = useState(psy.availability.sunday.from);
+  const [sundayTo, setSundayTo] = useState(psy.availability.sunday.to);
+
+  var availabilityForm = {
+    monday: {
+      availability: mondayBool,
+      from: mondayFrom,
+      to: mondayTo
+    },
+    tuesday: {
+      availability: tuesdayBool,
+      from: tuesdayFrom,
+      to: tuesdayTo
+    },
+    wednesday: {
+      availability: wednesdayBool,
+      from: wednesdayFrom,
+      to: wednesdayTo
+    },
+    thursday: {
+      availability: thursdayBool,
+      from: thursdayFrom,
+      to: thursdayTo
+    },
+    friday: {
+      availability: fridayBool,
+      from: fridayFrom,
+      to: fridayTo
+    },
+    saturday: {
+      availability: saturdayBool,
+      from: saturdayFrom,
+      to: saturdayTo
+    },
+    sunday: {
+      availability: sundayBool,
+      from: sundayFrom,
+      to: sundayTo
+    }
+  };
+
   // days available
   const onChangeMondayBool = (param) => {
     setMondayBool(param);
   };
   const onChangeTuesdayBool = (param) => {
     setTuesdayBool(param);
-    console.log(availabilityForm.tuesday);
   };
   const onChangeWednesdayBool = (param) => {
     setWednesdayBool(param);
@@ -177,7 +153,6 @@ const index = (props) => {
 
   const changeDayAvail = (event) => {
     const param = event.target.name;
-    console.log(param);
     switch (param) {
       case 'monday-availability':
         onChangeMondayBool(event.target.checked);
@@ -230,7 +205,6 @@ const index = (props) => {
 
   const changeHourAvailFrom = (event) => {
     const param = event.target.name;
-    console.log(param);
     switch (param) {
       case 'monday-from':
         onChangeMondayFrom(event.target.value);
@@ -334,45 +308,41 @@ const index = (props) => {
   };
 
   const onSubmit = (e) => {
-    console.log(props.psy);
     e.preventDefault();
+    let methodType = 'POST';
+    let route = `${process.env.REACT_APP_API}/psychologists/`;
     let jsonData = {
       firstName: firstNameForm,
       lastName: lastNameForm,
       username: usernameForm,
       password: passwordForm,
       email: emailForm,
-      phone: phoneForm,
+      phone: parseInt(phoneForm),
       address: addressForm,
       availability: availabilityForm
     };
-    console.log('data', jsonData);
+    if (props.data) {
+      methodType = 'PUT';
+      route = `${process.env.REACT_APP_API}/psychologists/${props.data._id}`;
+    }
     let options = {
-      method: 'POST',
-      header: {
+      method: methodType,
+      headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(jsonData)
     };
-    fetch(`${process.env.REACT_APP_API}/psychologists`, options).then((response) => {
+    fetch(route, options).then((response) => {
       if (response.status !== 200 && response.status !== 201) {
         return response.json().then(({ message }) => {
           throw new Error(message);
         });
       }
       return response.json().finally(() => {
-        window.location.href = `${window.location.origin}/psychologists/`;
+        window.location.href = `${window.location.origin}/psychologists`;
       });
     });
   };
-
-  let psy = {};
-
-  if (!props.data) {
-    psy = data;
-  } else {
-    psy = props.data;
-  }
 
   return (
     <div className={styles.container}>
@@ -400,6 +370,7 @@ const index = (props) => {
               type="text"
               required
               pattern="[A-Za-z ]*"
+              value={lastNameForm}
             />
           </div>
           <span className={styles.hiddenError}>Invalid Last Name</span>
@@ -411,6 +382,7 @@ const index = (props) => {
               type="text"
               required
               pattern="[A-Za-z ]*"
+              value={usernameForm}
             />
           </div>
           <span className={styles.hiddenError}>Invalid Username</span>
@@ -421,6 +393,7 @@ const index = (props) => {
               placeholder="Psychologist Password"
               type="password"
               required
+              value={passwordForm}
             />
           </div>
           <span className={styles.hiddenError}>Invalid Password</span>
@@ -429,9 +402,10 @@ const index = (props) => {
               name="email"
               placeholder="Psychologist Email"
               onChange={onChangeEmailValue}
-              type="text"
+              type="email"
               required
               pattern="^[^@]+@[^@]+\.[a-zA-Z]{2,}$"
+              value={emailForm}
             />
           </div>
           <span className={styles.hiddenError}>Invalid E-Mail</span>
@@ -440,8 +414,9 @@ const index = (props) => {
               name="phone"
               placeholder="Psychologist Phone"
               onChange={onChangePhoneValue}
-              type="phone"
+              type="number"
               required
+              value={phoneForm}
             />
           </div>
           <span className={styles.hiddenError}>Invalid Phone Number</span>
@@ -452,6 +427,7 @@ const index = (props) => {
               placeholder="Psychologist Address"
               type="text"
               required
+              value={addressForm}
             />
           </div>
           <span className={styles.hiddenError}>Invalid Address</span>
@@ -462,7 +438,7 @@ const index = (props) => {
           from={changeHourAvailFrom}
           to={changeHourAvailTo}
         />
-        <button name={'CONFIRM'} type={'submit'} />
+        <button type="submit">confirm</button>
       </form>
     </div>
   );
