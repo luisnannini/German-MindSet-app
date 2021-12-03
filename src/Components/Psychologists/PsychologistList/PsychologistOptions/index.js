@@ -4,6 +4,7 @@ import Button from '../../Button';
 import ModalOther from './ModalOther';
 
 const Options = (props) => {
+  const [error, setError] = useState('');
   const [modal, changeModal] = useState(false);
   const [modalDel, changeModalDel] = useState(false);
   const psy = props.data;
@@ -17,7 +18,6 @@ const Options = (props) => {
   };
 
   const deletePsychologists = (id) => {
-    console.log(id);
     fetch(`${process.env.REACT_APP_API}/psychologists/${id}`, {
       method: 'DELETE'
     })
@@ -28,9 +28,14 @@ const Options = (props) => {
           });
         }
         modalOpenDel();
-        return response.json(`Id: ${id}`).finally(() => {
-          window.location.href = `${window.location.origin}/psychologists`;
-        });
+        return response
+          .json(`Id: ${id}`)
+          .catch((err) => {
+            setError(error.toString());
+          })
+          .finally(() => {
+            window.location.href = `${window.location.origin}/psychologists`;
+          });
       })
       .catch((error) => error);
   };
@@ -51,6 +56,7 @@ const Options = (props) => {
         close={modalOpenDel}
         type={'delete'}
       />
+      <div>{error}</div>
     </>
   );
 };

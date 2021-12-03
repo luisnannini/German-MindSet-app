@@ -54,6 +54,9 @@ const index = (props) => {
   if (props.data) {
     psy = props.data;
   }
+
+  const [error, setError] = useState('');
+
   const [firstNameForm, setFirstName] = useState(psy.firstName);
   const [lastNameForm, setLastName] = useState(psy.lastName);
   const [usernameForm, setUsername] = useState(psy.username);
@@ -338,9 +341,14 @@ const index = (props) => {
           throw new Error(message);
         });
       }
-      return response.json().finally(() => {
-        window.location.href = `${window.location.origin}/psychologists`;
-      });
+      return response
+        .json()
+        .catch((err) => {
+          setError(error.toString());
+        })
+        .finally(() => {
+          window.location.href = `${window.location.origin}/psychologists`;
+        });
     });
   };
 
@@ -439,6 +447,7 @@ const index = (props) => {
           to={changeHourAvailTo}
         />
         <button type="submit">confirm</button>
+        <div>{error}</div>
       </form>
     </div>
   );
