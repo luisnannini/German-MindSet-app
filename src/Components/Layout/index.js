@@ -3,10 +3,13 @@ import Footer from '../Footer/index';
 import Admins from '../Admins/index';
 import Applications from '../Applications/index';
 import Clients from '../Clients/index';
+import ClientsForm from '../Clients/Form';
 import Interviews from '../Interviews/index';
 import Positions from '../Positions/index';
+import PositionsForm from '../Positions/Form';
 import Postulants from '../Postulants/index';
 import Profiles from '../Profiles/index';
+import ProfilesForm from '../Profiles/Form';
 import Psychologists from '../Psychologists/index';
 import Sessions from '../Sessions/index';
 import Home from '../Home/index';
@@ -25,6 +28,9 @@ function Layout() {
     case '/clients':
       currentScreen = <Clients />;
       break;
+    case '/clients/form':
+      currentScreen = <ClientsForm />;
+      break;
     case '/interviews':
       currentScreen = <Interviews />;
       break;
@@ -34,11 +40,17 @@ function Layout() {
     case '/positions':
       currentScreen = <Positions />;
       break;
+    case '/positions/form':
+      currentScreen = <PositionsForm />;
+      break;
     case '/postulants':
       currentScreen = <Postulants />;
       break;
     case '/profiles':
       currentScreen = <Profiles />;
+      break;
+    case '/profiles/form':
+      currentScreen = <ProfilesForm />;
       break;
     case '/psychologists':
       currentScreen = <Psychologists />;
