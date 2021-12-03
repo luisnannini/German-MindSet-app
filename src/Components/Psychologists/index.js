@@ -2,17 +2,10 @@ import { useEffect, useState } from 'react';
 import styles from './psychologists.module.css';
 import PsyList from './PsychologistList';
 import Button from './Button';
-import Modal from './PsychologistList/PsychologistOptions/Modal';
 const field = 'Psychologists';
 
 function Psychologists() {
   const [psychologists, savePsychologists] = useState([]);
-
-  const [modal, changeModal] = useState(false);
-
-  const modalOpen = () => {
-    changeModal(!modal);
-  };
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/psychologists`)
@@ -21,6 +14,10 @@ function Psychologists() {
         savePsychologists(response.data);
       });
   }, []);
+
+  const showForm = () => {
+    window.location.href = `psychologists/form`;
+  };
 
   return (
     <section className={styles.container}>
@@ -44,8 +41,7 @@ function Psychologists() {
           return <PsyList name={psy} key={psy._id} />;
         })}
       </div>
-      <Button action={modalOpen} name={'ADD'} />
-      <Modal visible={modal} condition={'add'} />
+      <Button action={showForm} name={'ADD'} />
     </section>
   );
 }
