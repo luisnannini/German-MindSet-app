@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import styles from './form.module.css';
 
 const Form = () => {
-  const [setAdmins] = useState([]);
   const [fullNameValue, setFullNameValue] = useState('');
   const [usernameValue, setUsernameValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
@@ -33,29 +32,6 @@ const Form = () => {
         })
         .finally(() => setLoading(false));
     }
-
-    fetch(`${process.env.REACT_APP_API}/admins`)
-      .then((response) => {
-        if (response.status !== 200) {
-          return response.json().then(({ message }) => {
-            throw new Error(message);
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setAdmins(
-          response.data.map((admin) => ({
-            name: admin.name,
-            username: admin.username,
-            password: admin.password
-          }))
-        );
-      })
-      .catch((error) => {
-        setError(error.toString());
-      })
-      .finally(() => setLoading(false));
   }, []);
 
   const onChangeFullNameValue = (event) => {
