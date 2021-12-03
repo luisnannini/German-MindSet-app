@@ -22,7 +22,7 @@ function Psychologists() {
     }
   };
 
-  const handleDelete = (event, psy) => {
+  const handleDelete = (event) => {
     event.stopPropagation();
     // setShowModal(true);
   };
