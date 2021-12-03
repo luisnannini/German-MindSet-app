@@ -1,6 +1,7 @@
 import styles from './form.module.css';
 import Availability from './Availability';
 import { useState } from 'react';
+import Button from '../Button';
 
 const index = (props) => {
   let psy = {
@@ -354,6 +355,13 @@ const index = (props) => {
 
   return (
     <div className={styles.container}>
+      <button
+        onClick={() => {
+          window.location.href = `${window.location.origin}/psychologists`;
+        }}
+      >
+        Return
+      </button>
       <h2 className={styles.header}>Form</h2>
       <form className={styles.form} onSubmit={onSubmit}>
         <div>
