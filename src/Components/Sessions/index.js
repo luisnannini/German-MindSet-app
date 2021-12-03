@@ -3,8 +3,6 @@ import { FaPlusCircle } from 'react-icons/fa';
 import styles from './sessions.module.css';
 import Session from './Session';
 import ConfirmModal from './ConfirmModal';
-import CreateModal from './CreateModal';
-import UpdateModal from './UpdateModal';
 
 function Sessions() {
   const [Sessions, setSessions] = useState([]);
@@ -12,64 +10,56 @@ function Sessions() {
     show: false,
     session: {}
   });
-  const [ShowCreateModal, setShowCreateModal] = useState(false);
-  const [ShowUpdateModal, setShowUpdateModal] = useState({
-    show: false,
-    id: ''
+  const [error, setError] = useState({
+    isError: false,
+    message: ''
   });
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     getSessions();
   }, []);
 
   function getSessions() {
+    setLoading(true);
     fetch(`${process.env.REACT_APP_API}/sessions`)
-      .then((response) => response.json())
       .then((response) => {
-        console.log(response.data);
+        if (response.status !== 200) {
+          return response.json().then(({ message }) => {
+            throw new Error(message);
+          });
+        }
+        return response.json();
+      })
+      .then((response) => {
         setSessions(response.data);
-      });
+      })
+      .catch((error) => {
+        setError({ isError: true, message: error.message.toString() });
+      })
+      .finally(() => setLoading(false));
   }
 
   function deleteSession() {
     setShowConfirmModal({ show: false });
     fetch(`${process.env.REACT_APP_API}/sessions/${ShowConfirmModal.id}`, {
       method: 'DELETE'
-    }).then(() => {
-      getSessions();
-    });
-  }
-
-  function createSession(session) {
-    fetch(`${process.env.REACT_APP_API}/sessions`, {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify(session)
     })
-      .then((response) => response.json())
       .then(() => {
         getSessions();
+      })
+      .catch((error) => {
+        setError({ isError: true, message: error.message.toString() });
       });
-    setShowCreateModal(false);
   }
 
-  function updateSession(updatedSession) {
-    fetch(`${process.env.REACT_APP_API}/sessions/${updatedSession.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify(updatedSession)
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response.data);
-        getSessions();
-      });
-    setShowUpdateModal({ show: false });
-  }
+  const showForm = (session) => {
+    if (session) {
+      window.location.href = `sessions/form?id=${session._id}`;
+    } else {
+      window.location.href = `sessions/form`;
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -77,16 +67,6 @@ function Sessions() {
         <ConfirmModal
           onClose={() => setShowConfirmModal({ show: false, id: '' })}
           onDelete={deleteSession}
-        />
-      )}
-      {ShowCreateModal && (
-        <CreateModal onCancel={() => setShowCreateModal(false)} onCreate={createSession} />
-      )}
-      {ShowUpdateModal.show && (
-        <UpdateModal
-          onCancel={() => setShowUpdateModal(false)}
-          onUpdate={updateSession}
-          session={ShowUpdateModal.session}
         />
       )}
       <section>
@@ -121,7 +101,7 @@ function Sessions() {
                   status={session.status}
                   date={session.date}
                   onDelete={() => setShowConfirmModal({ show: true, id: session._id })}
-                  onEdit={() => setShowUpdateModal({ show: true, session: session })}
+                  onEdit={() => showForm(session)}
                 />
               );
             })}
@@ -129,10 +109,11 @@ function Sessions() {
         </table>
       </section>
       <>
-        <button className={styles.addButton} onClick={() => setShowCreateModal(true)}>
+        <button disabled={isLoading} className={styles.addButton} onClick={() => showForm()}>
           <FaPlusCircle />
         </button>
       </>
+      {error.isError && <div>{error.message}</div>}
     </div>
   );
 }
