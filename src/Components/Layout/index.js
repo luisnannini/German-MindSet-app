@@ -12,6 +12,7 @@ import Postulants from '../Postulants/index';
 import Profiles from '../Profiles/index';
 import ProfilesForm from '../Profiles/Form';
 import Psychologists from '../Psychologists/index';
+import PsychologistsForm from '../Psychologists/Form';
 import Sessions from '../Sessions/index';
 import Home from '../Home/index';
 import styles from './layout.module.css';
@@ -58,6 +59,9 @@ function Layout() {
       break;
     case '/psychologists':
       currentScreen = <Psychologists />;
+      break;
+    case '/psychologists/form':
+      currentScreen = <PsychologistsForm />;
       break;
     case '/sessions':
       currentScreen = <Sessions />;
