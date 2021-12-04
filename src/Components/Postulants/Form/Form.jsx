@@ -10,14 +10,12 @@ import Profiles from './Profiles';
 
 function Form() {
   const [modal, setModal] = useState({ state: false, action: '', message: '' });
-  const [template, setTemplate] = useState(); //si hay un id se guarda el postulante en setTemplate
   const params = new URLSearchParams(window.location.search);
   const postulantId = params.get('id');
   const url = `${process.env.REACT_APP_API}/postulants`;
-
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [birthday, setBirthday] = useState('');
+  const [birthday, setBirthday] = useState('2000-01-01T00:00:00.000Z');
   const [address, setAddress] = useState('');
   const [contactRange, setContactRange] = useState({ from: '', to: '' });
   const [email, setEmail] = useState('');
@@ -95,135 +93,23 @@ function Form() {
     setUniversityStudies(formPostulant.studies.universityStudies);
     setInformalStudies(formPostulant.studies.informalStudies);
   };
+
   useEffect(() => {
     if (postulantId) usePostulant();
   }, []);
-  /*   if (!template) {
-    var body = {
-      contactRange: {
-        from: '',
-        to: ''
-      },
-      studies: {
-        primaryStudies: {
-          startDate: '',
-          endDate: '',
-          school: ''
-        },
-        secondaryStudies: {
-          startDate: '',
-          endDate: '',
-          school: ''
-        },
-        tertiaryStudies: [
-          {
-            startDate: '',
-            endDate: '',
-            description: '',
-            institute: ''
-          }
-        ],
-        universityStudies: [
-          {
-            startDate: '',
-            description: '',
-            institute: ''
-          },
-          {
-            startDate: '',
-            endDate: '',
-            description: '',
-            institute: ''
-          }
-        ],
-        informalStudies: [
-          {
-            startDate: '',
-            endDate: '',
-            description: '',
-            institute: ''
-          }
-        ]
-      },
-      _id: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      address: '',
-      birthday: '',
-      available: true,
-      phone: '',
-      profiles: [
-        {
-          profileId: { _id: ', name:' },
-          id: ''
-        }
-      ],
-      workExperience: [
-        {
-          company: '',
-          startDate: '',
-          endDate: '',
-          description: ''
-        },
-        {
-          company: '',
-          startDate: '',
-          endDate: '',
-          description: ''
-        }
-      ],
-      createdAt: '',
-      updatedAt: ''
-    };
-  } else {
-    body = template;
-  } */
+
   const submit = async (e) => {
     e.preventDefault();
     let serverError = false;
     let status;
     const body = {
-      contactRange: {
-        from: contactRange.from,
-        to: contactRange.to
-      },
+      contactRange,
       studies: {
-        primaryStudies: {
-          startDate: primaryStudies.startDate,
-          endDate: primaryStudies.endDate,
-          school: primaryStudies.school
-        },
-        secondaryStudies: {
-          startDate: secondaryStudies.startDate,
-          endDate: secondaryStudies.endDate,
-          school: secondaryStudies.school
-        },
-        tertiaryStudies: [
-          {
-            startDate: tertiaryStudies.startDate,
-            endDate: tertiaryStudies.endDate,
-            description: tertiaryStudies.description,
-            institute: tertiaryStudies.insitute
-          }
-        ],
-        universityStudies: [
-          {
-            startDate: universityStudies.startDate,
-            endDate: universityStudies.endDate,
-            description: universityStudies.startDate,
-            institute: universityStudies.institute
-          }
-        ],
-        informalStudies: [
-          {
-            startDate: informalStudies.startDate,
-            endDate: informalStudies.endDate,
-            description: informalStudies.description,
-            institute: informalStudies.institute
-          }
-        ]
+        primaryStudies,
+        secondaryStudies,
+        tertiaryStudies,
+        universityStudies,
+        informalStudies
       },
       firstName,
       lastName,
@@ -273,16 +159,16 @@ function Form() {
       }
       if (serverError) {
         setModal({
-          title: status,
+          title: 'Server Error',
           state: true,
-          message: 'Server Error',
+          message: status,
           action: () => setModal({ state: modal.state })
         });
         return;
       }
       const responseJson = await responseRaw.json();
       setModal({
-        title: 'Postulant added',
+        title: 'Operation Successful',
         state: true,
         message: responseJson.message,
         action: () => setModal({ state: modal.state })
@@ -296,27 +182,6 @@ function Form() {
       });
     }
   };
-  /* 
-  const collectData = (data, property) => {
-    if (property === 'contactRange') body.contactRange = data;
-    if (property === 'primaryStudies') body.studies.primaryStudies = data;
-    if (property === 'secondaryStudies') body.studies.secondaryStudies = data;
-    if (property === 'tertiaryStudies') body.studies.tertiaryStudies = data;
-    if (property === 'universityStudies') body.studies.universityStudies = data;
-    if (property === 'informalStudies') body.studies.informalStudies = data;
-    if (property === 'firstName') body.firstName = data;
-    if (property === 'lastName') body.lastName = data;
-    if (property === 'email') body.email = data;
-    if (property === 'password') body.password = data;
-    if (property === 'address') body.address = data;
-    if (property === 'birthday') body.birthday = data;
-    if (property === 'available') body.available = data;
-    if (property === 'phone') body.phone = data;
-    if (property === 'createdAt') body.createdAt = data;
-    if (property === 'updatedAt') body.updatedAt = data;
-    if (property === 'profiles') body.profiles = data;
-    if (property === 'workExperience') body.workExperience = data;
-  }; */
 
   return (
     <section className={style.section}>
@@ -328,11 +193,7 @@ function Form() {
           <div className={style.inputSection}>
             <div>
               <h3>Primary Studies</h3>
-              <InitialStudies
-                postulantData={primaryStudies}
-                setStudies={setPrimaryStudies}
-                dataName="primaryStudies"
-              />
+              <InitialStudies postulantData={primaryStudies} setStudies={setPrimaryStudies} />
             </div>
             <div>
               <h3>Secondary Studies</h3>
@@ -466,7 +327,17 @@ function Form() {
         </div>
         <div>
           <h2>Work Experience</h2>
-          <ArrayInput postulantData={workExperience} dataName="workExperience" />
+          <ArrayInput
+            postulantData={workExperience}
+            dataName="workExperience"
+            setData={setWorkExperience}
+            dataTemplate={{
+              startDate: '2000-01-01T00:00:00.000Z',
+              endDate: '2000-01-01T00:00:00.000Z',
+              company: '',
+              description: ''
+            }}
+          />
         </div>
         <button onClick={(e) => submit(e)}>Save</button>
       </form>

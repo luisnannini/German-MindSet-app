@@ -2,8 +2,7 @@ import style from './postulants-Item.module.css';
 import { useState } from 'react';
 import Modal from './Modal';
 
-function Item({ postulant, fetchData, url, setFormId }) {
-  //doFetch sirve para el delete y formId sirve para el edit
+function Item({ postulant, fetchData, url }) {
   const [modalState, setModalState] = useState({ state: false });
   const confirmDelete = async (id) => {
     let responseRaw;

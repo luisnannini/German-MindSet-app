@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-
 const ContactRange = ({ postulantData, setData }) => {
   return (
     <div>

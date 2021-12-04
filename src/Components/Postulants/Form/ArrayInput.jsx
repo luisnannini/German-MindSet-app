@@ -1,12 +1,7 @@
-import { useState, useEffect } from 'react';
-
 const ArrayInput = ({ postulantData, setData, dataName, dataTemplate }) => {
   return (
     <div>
       {postulantData.map((inputElement, index) => {
-        {
-          console.log(inputElement.startDate.substring(0, inputElement.startDate.length - 8));
-        }
         return (
           <div key={index}>
             <input
@@ -14,8 +9,7 @@ const ArrayInput = ({ postulantData, setData, dataName, dataTemplate }) => {
               defaultValue={inputElement.startDate.substring(0, inputElement.startDate.length - 8)}
               placeholder="Start Date"
               onChange={(e) => {
-                inputElement.startDate = e.target.value;
-                //console.log(e.target.value);
+                postulantData[index].startDate = e.target.value;
                 setData([...postulantData]);
               }}
             />
@@ -24,17 +18,19 @@ const ArrayInput = ({ postulantData, setData, dataName, dataTemplate }) => {
               defaultValue={inputElement.endDate.substring(0, inputElement.startDate.length - 8)}
               placeholder="Start Date"
               onChange={(e) => {
-                inputElement.endDate = e.target.value;
+                postulantData[index].endDate = e.target.value;
                 setData([...postulantData]);
               }}
             />
             <input
-              defaultValue={inputElement.institute}
+              defaultValue={
+                dataName === 'workExperience' ? inputElement.company : inputElement.institute
+              }
               placeholder={dataName === 'workExperience' ? 'Company' : 'Institute'}
               onChange={(e) => {
                 dataName === 'workExperience'
-                  ? (inputElement.company = e.target.value)
-                  : (inputElement.institute = e.target.value);
+                  ? (postulantData[index].company = e.target.value)
+                  : (postulantData[index].institute = e.target.value);
                 setData([...postulantData]);
               }}
             />
@@ -42,7 +38,7 @@ const ArrayInput = ({ postulantData, setData, dataName, dataTemplate }) => {
               defaultValue={inputElement.description}
               placeholder="Description"
               onChange={({ target: { value } }) => {
-                inputElement.description = value;
+                postulantData[index].description = value;
                 setData([...postulantData]);
               }}
             ></textarea>
@@ -52,9 +48,7 @@ const ArrayInput = ({ postulantData, setData, dataName, dataTemplate }) => {
       <button
         onClick={(e) => {
           e.preventDefault();
-          if (dataName === 'wrokExperience') {
-            setData([...postulantData, { ...dataTemplate, id: Math.floor(Math.random() * 10000) }]);
-          }
+          setData([...postulantData, { ...dataTemplate, id: Math.floor(Math.random() * 10000) }]);
         }}
       >
         Add
