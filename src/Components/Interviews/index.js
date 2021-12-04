@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './interviews.module.css';
 import CreateButton from './CreateButton';
 import CreateForm from './CreateForm';
@@ -30,14 +31,6 @@ function Interviews() {
 
   const closeCreateForm = () => {
     setShowCreateForm(false);
-  };
-
-  const showForm = (interview) => {
-    if (interview) {
-      window.location.href = `interviews/form?id=${interview._id}`;
-    } else {
-      window.location.href = `interviews/`;
-    }
   };
 
   const closeRemoveModal = () => {
@@ -106,7 +99,9 @@ function Interviews() {
             <li>{interview.date.replace('T00:00:00.000Z', '')}</li>
             <li>{interview.notes}</li>
             <li className={styles.buttons}>
-              <EditButton onClick={() => showForm(interview)} />
+              <Link to={`interviews/form?id=${interview._id}`}>
+                <EditButton />
+              </Link>
             </li>
             <li className={styles.buttons}>
               <RemoveButton
@@ -125,7 +120,9 @@ function Interviews() {
         closeRemoveModal={closeRemoveModal}
       />
       <CreateForm show={showCreateForm} closeCreateForm={closeCreateForm} />
-      <CreateButton onClick={() => setShowCreateForm(true)} />
+      <Link to="interviews/form">
+        <CreateButton />
+      </Link>
     </div>
   );
 }
