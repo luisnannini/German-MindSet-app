@@ -1,4 +1,4 @@
-import style from './postulants-Item.module.css';
+// import style from './postulants-Item.module.css';
 import { useState } from 'react';
 import Modal from './Modal';
 
