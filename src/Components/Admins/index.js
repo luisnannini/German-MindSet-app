@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './admins.module.css';
 import Modal from './Modal';
 
@@ -51,14 +52,6 @@ function Admins() {
       .finally(() => setLoading(false));
   };
 
-  const showForm = (admin) => {
-    if (admin) {
-      window.location.href = `admins/form?id=${admin._id}`;
-    } else {
-      window.location.href = `admins/form`;
-    }
-  };
-
   return (
     <section className={styles.container}>
       <Modal
@@ -81,9 +74,9 @@ function Admins() {
               <td>{admin.name}</td>
               <td>{admin.username}</td>
               <td>
-                <button onClick={() => showForm(admin)} className={styles.button}>
-                  Edit
-                </button>
+                <Link to={`admins/form?id=${admin._id}`}>
+                  <button className={styles.button}>Edit</button>
+                </Link>
               </td>
               <td>
                 <button onClick={(event) => handleDelete(event, admin)} className={styles.button}>
@@ -95,9 +88,9 @@ function Admins() {
         </tbody>
       </table>
       <div className={styles.error}>{error}</div>
-      <button onClick={() => showForm()} className={styles.button}>
-        Add
-      </button>
+      <Link to="/admins/form">
+        <button className={styles.button}>Add</button>
+      </Link>
     </section>
   );
 }

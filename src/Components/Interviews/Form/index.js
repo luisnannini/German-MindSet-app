@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import styles from './createform.module.css';
+import styles from './form.module.css';
 import Input from '../Inputs';
 import SelectPostulant from '../SelectPostulant';
 import SelectClient from '../SelectClient';
 import SelectApplication from '../SelectApplication';
 import Modal from '../Modal';
+import { Link } from 'react-router-dom';
 
-const CreateForm = (props) => {
+const Form = () => {
   const [clients, setClients] = useState([]);
   const [clientValue, setClientValue] = useState('');
   const [postulants, setPostulants] = useState([]);
@@ -16,9 +17,10 @@ const CreateForm = (props) => {
   const [statusValue, setStatusValue] = useState('');
   const [dateValue, setDateValue] = useState('');
   const [notesValue, setNotesValue] = useState('');
-  const [showSuccessCreate, setShowSuccessCreate] = useState(false);
-  const [showErrorCreate, setShowErrorCreate] = useState(false);
-  const [errorCreate, setErrorCreate] = useState(false);
+  const [error, setError] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [interviewId, setInterviewId] = useState(undefined);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/clients`)
@@ -41,8 +43,40 @@ const CreateForm = (props) => {
       .catch((error) => error);
   }, []);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const interviewId = params.get('id');
+    setInterviewId(interviewId);
+    if (interviewId) {
+      fetch(`${process.env.REACT_APP_API}/interviews?_id=${interviewId}`)
+        .then((response) => {
+          if (response.status !== 200) {
+            return response.json().then(({ message }) => {
+              throw new Error(message);
+            });
+          }
+          return response.json();
+        })
+        .then((response) => {
+          setPostulantValue(response.data[0].postulant?._id);
+          setClientValue(response.data[0].client?._id);
+          setApplicationValue(response.data[0].application?._id);
+          setDateValue(response.data[0].date);
+          setStatusValue(response.data[0].status);
+          setNotesValue(response.data[0].notes);
+        })
+        .catch((error) => {
+          setShowError(true);
+          setError(error.toString());
+        });
+    }
+  }, []);
+
   const onSubmit = (e) => {
     e.preventDefault();
+    let url;
+    const params = new URLSearchParams(window.location.search);
+    const interviewId = params.get('id');
 
     const options = {
       method: 'POST',
@@ -54,12 +88,18 @@ const CreateForm = (props) => {
         client: clientValue,
         application: applicationValue,
         status: statusValue,
-        date: dateValue,
+        date: dateValue.replace('T00:00:00.000Z', ''),
         notes: notesValue
       })
     };
 
-    const url = `${process.env.REACT_APP_API}/interviews/`;
+    if (interviewId) {
+      options.method = 'PUT';
+      url = `${process.env.REACT_APP_API}/interviews/${interviewId}`;
+    } else {
+      options.method = 'POST';
+      url = `${process.env.REACT_APP_API}/interviews`;
+    }
 
     fetch(url, options)
       .then((response) => {
@@ -71,21 +111,21 @@ const CreateForm = (props) => {
         return response.json();
       })
       .then(() => {
-        setShowSuccessCreate(true);
+        setShowSuccess(true);
       })
       .catch((error) => {
-        setShowErrorCreate(true);
-        setErrorCreate(error.toString());
+        setShowError(true);
+        setError(error.toString());
       });
   };
 
   const closeModalSuccess = () => {
-    setShowSuccessCreate(false);
+    setShowSuccess(false);
     window.location.href = '/interviews';
   };
 
   const closeModalError = () => {
-    setShowErrorCreate(false);
+    setShowError(false);
   };
 
   const onChangeClientValue = (event) => {
@@ -113,42 +153,56 @@ const CreateForm = (props) => {
     else setErrorDate(null);
   }
 
-  if (!props.show) {
-    return null;
-  }
   return (
     <form className={styles.form} onSubmit={onSubmit}>
       <Modal
-        show={showSuccessCreate}
+        show={showSuccess}
         title="Successful"
-        message={'Interview Created successfully'}
+        message={'Success'}
         onCancel={closeModalSuccess}
       />
-      <Modal
-        show={showErrorCreate}
-        title="Error"
-        message={errorCreate}
-        onCancel={closeModalError}
-      />
-      <h2>Create Interview</h2>
+      <Modal show={showError} title="Error" message={error} onCancel={closeModalError} />
+      <h2 className={styles.title}>
+        {interviewId ? 'Update an Interview' : 'Create an Interview'}
+      </h2>
       <div className={styles.formDiv1}>
         <div className={styles.formDiv2}>
           <h3>Postulant</h3>
-          <SelectPostulant object={postulants} onChange={onChangePostulantValue} required />
+          <SelectPostulant
+            value={postulantValue}
+            object={postulants}
+            onChange={onChangePostulantValue}
+            required
+          />
         </div>
         <div className={styles.formDiv2}>
           <h3>Client</h3>
-          <SelectClient object={clients} onChange={onChangeClientValue} required />
+          <SelectClient
+            value={clientValue}
+            object={clients}
+            onChange={onChangeClientValue}
+            required
+          />
         </div>
         <div className={styles.formDiv2}>
           <h3>Application</h3>
-          <SelectApplication object={applications} onChange={onChangeApplicationValue} required />
+          <SelectApplication
+            value={applicationValue}
+            object={applications}
+            onChange={onChangeApplicationValue}
+            required
+          />
         </div>
       </div>
       <div className={styles.formDiv1}>
         <h3>Status</h3>
-        <select className={styles.select} onChange={onChangeStatusValue} required>
-          <option defaultValue=""></option>
+        <select
+          className={styles.select}
+          value={statusValue}
+          onChange={onChangeStatusValue}
+          required
+        >
+          <option value=""></option>
           <option value="failed">Failed</option>
           <option value="assigned">Assigned</option>
           <option value="successful">Successful</option>
@@ -182,9 +236,9 @@ const CreateForm = (props) => {
         />
       </div>
       <div className={styles.buttons}>
-        <button className={styles.cancel} onClick={props.closeCreateForm}>
-          Cancel
-        </button>
+        <Link to="/interviews">
+          <button className={styles.cancel}>Cancel</button>
+        </Link>
         <button type="submit" className={styles.confirm}>
           Confirm
         </button>
@@ -193,4 +247,4 @@ const CreateForm = (props) => {
   );
 };
 
-export default CreateForm;
+export default Form;

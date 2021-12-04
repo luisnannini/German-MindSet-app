@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { FaPlusCircle } from 'react-icons/fa';
 import styles from './sessions.module.css';
 import Session from './Session';
@@ -108,9 +109,11 @@ function Sessions() {
         </table>
       </section>
       <>
-        <button disabled={isLoading} className={styles.addButton} onClick={() => showForm()}>
-          <FaPlusCircle />
-        </button>
+        <Link to="sessions/form">
+          <button disabled={isLoading} className={styles.addButton}>
+            <FaPlusCircle />
+          </button>
+        </Link>
       </>
       {error.isError && <div>{error.message}</div>}
     </div>

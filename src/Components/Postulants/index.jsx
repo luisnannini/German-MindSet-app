@@ -1,5 +1,6 @@
-import styles from './postulants.module.css';
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import styles from './postulants.module.css';
 import Items from './Items.jsx';
 
 function Postulants() {
@@ -36,11 +37,9 @@ function Postulants() {
         fetchData={usePostulants}
       />
       <div>
-        <button
-          onClick={() => (window.location.href = `${window.location.origin}/postulants-form`)}
-        >
-          Add
-        </button>
+        <Link to="/postulants/form">
+          <button>Add</button>
+        </Link>
       </div>
     </section>
   );

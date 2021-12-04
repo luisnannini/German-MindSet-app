@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Modal from './Modal';
 import styles from './clients.module.css';
 import AddButton from './AddButton';
@@ -32,14 +33,6 @@ function Clients() {
     event.stopPropagation();
     setSelectedClient(client._id);
     setShowModal(true);
-  };
-
-  const showForm = (client) => {
-    if (client) {
-      window.location.href = `clients/form?id=${client._id}`;
-    } else {
-      window.location.href = `clients/form`;
-    }
   };
 
   const deleteClient = () => {
@@ -110,7 +103,9 @@ function Clients() {
               <td>{client.logo}</td>
               <td>{client.description}</td>
               <td>
-                <EditButton onClick={() => showForm(client)} />
+                <Link to={`clients/form?id=${client._id}`}>
+                  <EditButton />
+                </Link>
                 <RemoveButton onClick={(event) => handleDelete(event, client)} />
               </td>
             </tr>
@@ -118,7 +113,9 @@ function Clients() {
         </tbody>
       </table>
       <div className={styles.error}>{error}</div>
-      <AddButton onClick={() => showForm()} />
+      <Link to="./clients/form">
+        <AddButton />
+      </Link>
     </section>
   );
 }

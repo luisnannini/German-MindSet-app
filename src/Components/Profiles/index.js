@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './profiles.module.css';
 import Modal from './Modal';
 import CreateButton from './CreateButton';
@@ -62,14 +63,6 @@ function Profiles() {
       });
   };
 
-  const showForm = (profile) => {
-    if (profile) {
-      window.location.href = `profiles/form?id=${profile._id}`;
-    } else {
-      window.location.href = `profiles/form`;
-    }
-  };
-
   const closeModal = () => {
     setShowModal(false);
     setShowErrorModal(false);
@@ -111,7 +104,9 @@ function Profiles() {
             <ul key={profile._id} className={styles.list}>
               <li>{profile.name}</li>
               <li>
-                <UpdateButton onClick={() => showForm(profile)} />
+                <Link to={`profiles/form?id=${profile._id}`}>
+                  <UpdateButton />
+                </Link>
               </li>
               <li>
                 <DeleteButton onClick={(event) => handleDelete(event, profile)} />
@@ -121,7 +116,9 @@ function Profiles() {
         })}
       </div>
       <div className={styles.button}>
-        <CreateButton onClick={() => showForm()} />
+        <Link to="./profiles/form">
+          <CreateButton />
+        </Link>
       </div>
     </section>
   );
