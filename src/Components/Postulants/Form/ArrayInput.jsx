@@ -1,60 +1,45 @@
-import { v4 as uuidv4 } from 'uuid';
-import { useState, useEffect } from 'react';
-
-const ArrayInput = ({ postulant, collectData, dataName, defaultValue }) => {
-  const [input, setInput] = useState(postulant ? postulant[dataName] : [defaultValue]);
-  const sendData = (data) => {
-    collectData(data, dataName);
-    setInput(data);
-  };
-  useEffect(() => sendData(input), []);
+const ArrayInput = ({ postulantData, setData, dataName, dataTemplate }) => {
   return (
     <div>
-      {input.map((inputElement) => {
+      {postulantData.map((inputElement, index) => {
         return (
-          <div key={input.id}>
+          <div key={index}>
             <input
               type="datetime-local"
-              defaultValue={
-                inputElement.startDate
-                  ? inputElement.startDate.substring(0, inputElement.startDate.length - 8)
-                  : '2000-01-01T00:00'
-              }
+              defaultValue={inputElement.startDate.substring(0, inputElement.startDate.length - 8)}
               placeholder="Start Date"
               onChange={(e) => {
-                inputElement.startDate = e.target.value;
-                sendData([...input]);
+                postulantData[index].startDate = e.target.value;
+                setData([...postulantData]);
               }}
             />
             <input
               type="datetime-local"
-              defaultValue={
-                inputElement.endDate
-                  ? inputElement.endDate.substring(0, inputElement.endDate.length - 8)
-                  : '2000-01-01T00:00'
-              }
-              placeholder="End Date"
+              defaultValue={inputElement.endDate.substring(0, inputElement.startDate.length - 8)}
+              placeholder="Start Date"
               onChange={(e) => {
-                inputElement.endDate = e.target.value;
-                sendData([...input]);
+                postulantData[index].endDate = e.target.value;
+                setData([...postulantData]);
               }}
             />
             <input
-              defaultValue={inputElement.institute}
+              defaultValue={
+                dataName === 'workExperience' ? inputElement.company : inputElement.institute
+              }
               placeholder={dataName === 'workExperience' ? 'Company' : 'Institute'}
               onChange={(e) => {
                 dataName === 'workExperience'
-                  ? (inputElement.company = e.target.value)
-                  : (inputElement.institute = e.target.value);
-                sendData([...input]);
+                  ? (postulantData[index].company = e.target.value)
+                  : (postulantData[index].institute = e.target.value);
+                setData([...postulantData]);
               }}
             />
             <textarea
               defaultValue={inputElement.description}
               placeholder="Description"
               onChange={({ target: { value } }) => {
-                inputElement.description = value;
-                sendData([...input]);
+                postulantData[index].description = value;
+                setData([...postulantData]);
               }}
             ></textarea>
           </div>
@@ -63,7 +48,7 @@ const ArrayInput = ({ postulant, collectData, dataName, defaultValue }) => {
       <button
         onClick={(e) => {
           e.preventDefault();
-          setInput([...input, { ...defaultValue, id: uuidv4() }]);
+          setData([...postulantData, { ...dataTemplate, id: Math.floor(Math.random() * 10000) }]);
         }}
       >
         Add

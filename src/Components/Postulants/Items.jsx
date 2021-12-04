@@ -1,7 +1,7 @@
 import './postulants-Items.module.css';
 import Item from './Item';
 
-function Items({ postulants = [], fetchData, setFormId, url }) {
+function Items({ postulants = [], fetchData, url }) {
   return (
     <div>
       <table>
@@ -19,13 +19,7 @@ function Items({ postulants = [], fetchData, setFormId, url }) {
         <tbody>
           {postulants.map((postulant) => {
             return (
-              <Item
-                fetchData={fetchData}
-                postulant={postulant}
-                key={postulant._id}
-                setFormId={setFormId}
-                url={url}
-              />
+              <Item fetchData={fetchData} postulant={postulant} key={postulant._id} url={url} />
             );
           })}
         </tbody>

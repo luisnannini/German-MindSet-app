@@ -2,19 +2,39 @@
 import { useState } from 'react';
 import Modal from './Modal';
 
-function Item({ postulant, fetchData, url, setFormId }) {
-  //doFetch sirve para el delete y formId sirve para el edit
+function Item({ postulant, fetchData, url }) {
   const [modalState, setModalState] = useState({ state: false });
   const confirmDelete = async (id) => {
+    let responseRaw;
+    let status;
+    let serverError;
     try {
-      await fetch(`${url}?id=${id}`, {
+      responseRaw = await fetch(`${url}/${id}`, {
         method: 'DELETE'
       });
+      status = responseRaw.status + ' ' + responseRaw.statusText;
+      if (responseRaw.status !== 200 && responseRaw.status !== 201 && responseRaw.status !== 204) {
+        serverError = status;
+        throw new Error(serverError);
+      }
       setModalState({ state: false });
-
       fetchData();
     } catch (error) {
-      setModalState({ title: 'Error', state: true, message: 'Error deleting' });
+      if (serverError) {
+        setModalState({
+          title: 'Error',
+          state: true,
+          message: serverError,
+          action: () => setModalState({ state: false })
+        });
+      } else {
+        setModalState({
+          title: 'Error',
+          state: true,
+          message: 'A local error has ocurred',
+          action: () => setModalState({ state: false })
+        });
+      }
     }
   };
 
@@ -31,7 +51,13 @@ function Item({ postulant, fetchData, url, setFormId }) {
         return <td key={postulant[postulantKey]}>{postulant[postulantKey]}</td>;
       })}
       <td>
-        <button onClick={() => setFormId(postulant._id)}>Edit</button>
+        <button
+          onClick={() =>
+            (window.location.href = `${window.location.origin}/postulants-form?id=${postulant._id}`)
+          }
+        >
+          Edit
+        </button>
       </td>
       <td>
         <button
