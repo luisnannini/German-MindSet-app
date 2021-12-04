@@ -8,8 +8,7 @@ import ApplicationsForm from '../Applications/Form';
 import Clients from '../Clients/index';
 import ClientsForm from '../Clients/Form';
 import Interviews from '../Interviews/index';
-import InterviewsEditForm from '../Interviews/EditForm';
-import InterviewsCreateForm from '../Interviews/CreateForm';
+import InterviewsForm from '../Interviews/Form';
 import Positions from '../Positions/index';
 import PositionsForm from '../Positions/Form';
 import Postulants from '../Postulants/index';
@@ -39,8 +38,8 @@ function Layout() {
         <Route exact path="/clients/form" component={ClientsForm} />
         <Route path="/clients/form/:id" component={ClientsForm} />
         <Route exact path="/interviews" component={Interviews} />
-        <Route exact path="/interviews/form" component={InterviewsCreateForm} />
-        <Route path="/interviews/form/:id" component={InterviewsEditForm} />
+        <Route exact path="/interviews/form" component={InterviewsForm} />
+        <Route path="/interviews/form/:id" component={InterviewsForm} />
         <Route exact path="/positions" component={Positions} />
         <Route exact path="/positions/form" component={PositionsForm} />
         <Route path="/positions/form/:id" component={PositionsForm} />
