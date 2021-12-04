@@ -18,7 +18,6 @@ const Form = () => {
   const [dateValue, setDateValue] = useState('');
   const [notesValue, setNotesValue] = useState('');
   const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
   const [interviewId, setInterviewId] = useState(undefined);
