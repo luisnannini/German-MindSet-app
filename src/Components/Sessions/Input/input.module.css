@@ -1,0 +1,24 @@
+/* .inputContainer {
+  display: flex;
+  align-items: center;
+  width: 50%;
+}
+.formContainer svg {
+  margin: 5px;
+  cursor: pointer;
+}
+.inputContainer input,
+.inputContainer select {
+  background: white;
+  width: 200px;
+  height: 40px;
+  border: 1px solid gray;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+.input button {
+  border: none;
+  color: white;
+  background-color: #fc692f;
+  cursor: pointer;
+} */

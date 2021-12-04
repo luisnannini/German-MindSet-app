@@ -14,6 +14,7 @@ import ProfilesForm from '../Profiles/Form';
 import Psychologists from '../Psychologists/index';
 import PsychologistsForm from '../Psychologists/Form';
 import Sessions from '../Sessions/index';
+import SessionsForm from '../Sessions/Form';
 import Home from '../Home/index';
 import styles from './layout.module.css';
 import EditForm from '../Interviews/EditForm';
@@ -65,6 +66,9 @@ function Layout() {
       break;
     case '/sessions':
       currentScreen = <Sessions />;
+      break;
+    case '/sessions/form':
+      currentScreen = <SessionsForm />;
       break;
     default:
       break;
