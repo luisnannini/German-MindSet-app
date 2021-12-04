@@ -13,11 +13,11 @@ const Modal = (props) => {
         </div>
         <div className={styles.message}>{props.message}</div>
         <div className={styles.btnContainer}>
-          <button className={styles.confirmButton} onClick={props.onConfirm}>
-            Confirm
-          </button>
           <button className={styles.cancelButton} onClick={props.onCancel}>
             Cancel
+          </button>
+          <button className={styles.confirmButton} onClick={props.onConfirm}>
+            Confirm
           </button>
         </div>
       </div>
