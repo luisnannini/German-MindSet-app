@@ -9,7 +9,7 @@ import Interviews from '../Interviews/index';
 import Positions from '../Positions/index';
 import PositionsForm from '../Positions/Form';
 import Postulants from '../Postulants/index';
-import PostulantsAddForm from '../Postulants/Form/Form-Add';
+import PostulantsAddForm from '../Postulants/Form/Form';
 import Profiles from '../Profiles/index';
 import ProfilesForm from '../Profiles/Form';
 import Psychologists from '../Psychologists/index';
