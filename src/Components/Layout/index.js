@@ -14,6 +14,7 @@ import Positions from '../Positions/index';
 import PositionsForm from '../Positions/Form';
 import Postulants from '../Postulants/index';
 import PostulantsAddForm from '../Postulants/Form/Form-Add';
+import PostulantsEditForm from '../Postulants/Form/Form-Update';
 import Profiles from '../Profiles/index';
 import ProfilesForm from '../Profiles/Form';
 import Psychologists from '../Psychologists/index';
@@ -46,7 +47,7 @@ function Layout() {
         <Route path="/positions/form/:id" component={PositionsForm} />
         <Route exact path="/postulants" component={Postulants} />
         <Route exact path="/postulants/form" component={PostulantsAddForm} />
-        <Route path="/postulants/form/:id" component={PostulantsAddForm} />
+        <Route path="/postulants/form/:id" component={PostulantsEditForm} />
         <Route exact path="/profiles" component={Profiles} />
         <Route exact path="/profiles/form" component={ProfilesForm} />
         <Route path="/profiles/form/:id" component={ProfilesForm} />
