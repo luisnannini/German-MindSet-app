@@ -113,7 +113,6 @@ function Interviews() {
         confirmRemoveModal={confirmRemoveModal}
         closeRemoveModal={closeRemoveModal}
       />
-      {/* <CreateForm show={showCreateForm} closeCreateForm={closeCreateForm} /> */}
       <Link to="interviews/form">
         <CreateButton />
       </Link>
