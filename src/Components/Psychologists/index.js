@@ -24,14 +24,6 @@ function Psychologists() {
       .catch((error) => setError(error.toString()));
   }, []);
 
-  // const showForm = (psy) => {
-  //   if (psy) {
-  //     window.location.href = `psychologists/form?id=${psy._id}`;
-  //   } else {
-  //     window.location.href = `psychologists/form`;
-  //   }
-  // };
-
   const handleDelete = (event, psy) => {
     event.stopPropagation();
     setShowModalDelete(true);
@@ -110,7 +102,7 @@ function Psychologists() {
         })}
       </div>
       <div className={styles.error}>{error}</div>
-      <Link to="./profiles/psychologists">
+      <Link to="./psychologists/form">
         <Button className={styles.button} name={'ADD'} />
       </Link>
     </section>

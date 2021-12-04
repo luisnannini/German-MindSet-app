@@ -63,14 +63,6 @@ function Positions() {
       });
   };
 
-  // const showForm = (position) => {
-  //   if (position) {
-  //     window.location.href = `positions/form?id=${position._id}`;
-  //   } else {
-  //     window.location.href = `positions/form`;
-  //   }
-  // };
-
   const closeModal = () => {
     setShowModal(false);
     setShowErrorModal(false);

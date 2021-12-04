@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './interviews.module.css';
 import CreateButton from './CreateButton';
-import CreateForm from './CreateForm';
 import EditButton from './EditButton';
 import RemoveButton from './RemoveButton';
 import RemoveModal from './RemoveModal';
@@ -10,7 +9,6 @@ import Modal from './Modal';
 
 function Interviews() {
   const [interviews, setInterviews] = useState([]);
-  const [showCreateForm, setShowCreateForm] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [selectedInterview, setSelectedInterview] = useState(undefined);
   const [showSuccessDelete, setShowSuccessDelete] = useState(false);
@@ -27,10 +25,6 @@ function Interviews() {
   const handleDelete = (event, interview) => {
     event.stopPropagation();
     setSelectedInterview(interview._id);
-  };
-
-  const closeCreateForm = () => {
-    setShowCreateForm(false);
   };
 
   const closeRemoveModal = () => {
@@ -119,7 +113,7 @@ function Interviews() {
         confirmRemoveModal={confirmRemoveModal}
         closeRemoveModal={closeRemoveModal}
       />
-      <CreateForm show={showCreateForm} closeCreateForm={closeCreateForm} />
+      {/* <CreateForm show={showCreateForm} closeCreateForm={closeCreateForm} /> */}
       <Link to="interviews/form">
         <CreateButton />
       </Link>

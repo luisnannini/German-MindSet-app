@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './createform.module.css';
 import Input from '../Inputs';
 import SelectPostulant from '../SelectPostulant';
@@ -6,7 +7,7 @@ import SelectClient from '../SelectClient';
 import SelectApplication from '../SelectApplication';
 import Modal from '../Modal';
 
-const CreateForm = (props) => {
+const CreateForm = () => {
   const [clients, setClients] = useState([]);
   const [clientValue, setClientValue] = useState('');
   const [postulants, setPostulants] = useState([]);
@@ -113,9 +114,6 @@ const CreateForm = (props) => {
     else setErrorDate(null);
   }
 
-  if (!props.show) {
-    return null;
-  }
   return (
     <form className={styles.form} onSubmit={onSubmit}>
       <Modal
@@ -182,9 +180,9 @@ const CreateForm = (props) => {
         />
       </div>
       <div className={styles.buttons}>
-        <button className={styles.cancel} onClick={props.closeCreateForm}>
-          Cancel
-        </button>
+        <Link to="/interviews">
+          <button className={styles.cancel}>Cancel</button>
+        </Link>
         <button type="submit" className={styles.confirm}>
           Confirm
         </button>

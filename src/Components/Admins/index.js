@@ -52,14 +52,6 @@ function Admins() {
       .finally(() => setLoading(false));
   };
 
-  // const showForm = (admin) => {
-  //   if (admin) {
-  //     window.location.href = `admins/form?id=${admin._id}`;
-  //   } else {
-  //     window.location.href = `admins/form`;
-  //   }
-  // };
-
   return (
     <section className={styles.container}>
       <Modal
