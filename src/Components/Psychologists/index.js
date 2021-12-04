@@ -3,20 +3,24 @@ import styles from './psychologists.module.css';
 import Button from './Button';
 import ModalDelete from './ModalDelete';
 
-const field = 'Psychologists';
-
 function Psychologists() {
   const [psychologists, savePsychologists] = useState([]);
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [selectedPsychologist, setSelectedPsychologist] = useState('');
-  // const [psychologist, setPsychologist] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/psychologists`)
-      .then((response) => response.json())
       .then((response) => {
-        savePsychologists(response.data);
-      });
+        if (response.status !== 200) {
+          return response.json().then(({ message }) => {
+            throw new Error(message);
+          });
+        }
+        return response.json();
+      })
+      .then((response) => savePsychologists(response.data))
+      .catch((error) => setError(error.toString()));
   }, []);
 
   const showForm = (psy) => {
@@ -57,7 +61,7 @@ function Psychologists() {
             await setShowModalDelete(false);
           });
       })
-      .catch((error) => error);
+      .catch((error) => setError(error.toString()));
   };
 
   const closeModal = () => {
@@ -68,10 +72,10 @@ function Psychologists() {
     <section className={styles.container}>
       <ModalDelete visible={showModalDelete} action={deletePsychologist} close={closeModal} />
       <div>
-        <h2>{field}</h2>
+        <h2 className={styles.title}>Psychologist</h2>
       </div>
       <div>
-        <ul className={styles.listElem}>
+        <ul className={styles.listHeader}>
           <li>First Name</li>
           <li>Last Name</li>
           <li>Username</li>
@@ -85,7 +89,7 @@ function Psychologists() {
       <div>
         {psychologists.map((psy) => {
           return (
-            <ul key={psy._id} className={styles.listElem}>
+            <ul key={psy._id} className={styles.list}>
               <li>{psy.firstName}</li>
               <li>{psy.lastName}</li>
               <li>{psy.username}</li>
@@ -102,7 +106,8 @@ function Psychologists() {
           );
         })}
       </div>
-      <Button action={() => showForm()} name={'ADD'} />
+      <div className={styles.error}>{error}</div>
+      <Button className={styles.button} action={() => showForm()} name={'ADD'} />
     </section>
   );
 }

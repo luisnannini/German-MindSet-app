@@ -255,7 +255,7 @@ const index = () => {
         window.location.href = '/psychologists';
       })
       .catch((error) => {
-        error;
+        setError(error.toString());
       });
   };
 
@@ -268,111 +268,114 @@ const index = () => {
       >
         Return
       </button>
-      <h2 className={styles.header}>Form</h2>
       <form className={styles.form} onSubmit={onSubmit}>
+        <h2 className={styles.title}>Form</h2>
         <div>
-          <h2>PERSONAL DATA</h2>
-          <div className={styles.fields}>
-            <input
-              name="firstName"
-              placeholder="Psychologist First Name"
-              onChange={onChangeFirstNameValue}
-              type="text"
-              required
-              pattern="[A-Za-z ]*"
-              value={firstNameForm}
-            />
+          <h2 className={styles.title}>PERSONAL DATA</h2>
+          <div className={styles.columns}></div>
+          <div className={styles.columns}>
+            <div className={styles.fields}>
+              <input
+                label="firstName"
+                placeholder="Psychologist First Name"
+                onChange={onChangeFirstNameValue}
+                type="text"
+                required
+                pattern="[A-Za-z ]*"
+                value={firstNameForm}
+              />
+            </div>
+            <span className={styles.hiddenError}>Invalid First Name</span>
+            <div className={styles.fields}>
+              <input
+                label="lastName"
+                placeholder="Psychologist Last Name"
+                onChange={onChangeLastNameValue}
+                type="text"
+                required
+                pattern="[A-Za-z ]*"
+                value={lastNameForm}
+              />
+            </div>
+            <span className={styles.hiddenError}>Invalid Last Name</span>
+            <div className={styles.fields}>
+              <input
+                label="username"
+                placeholder="Psychologist Username"
+                onChange={onChangeUsernameValue}
+                type="text"
+                required
+                pattern="[A-Za-z ]*"
+                value={usernameForm}
+              />
+            </div>
+            <span className={styles.hiddenError}>Invalid Username</span>
+            <div className={styles.fields}>
+              <input
+                label="password"
+                onChange={onChangePasswordValue}
+                placeholder="Psychologist Password"
+                type="password"
+                required
+                value={passwordForm}
+              />
+            </div>
+            <span className={styles.hiddenError}>Invalid Password</span>
+            <div className={styles.fields}>
+              <input
+                label="email"
+                placeholder="Psychologist Email"
+                onChange={onChangeEmailValue}
+                type="email"
+                required
+                pattern="^[^@]+@[^@]+\.[a-zA-Z]{2,}$"
+                value={emailForm}
+              />
+            </div>
+            <span className={styles.hiddenError}>Invalid E-Mail</span>
+            <div className={styles.fields}>
+              <input
+                label="phone"
+                placeholder="Psychologist Phone"
+                onChange={onChangePhoneValue}
+                type="number"
+                required
+                value={phoneForm}
+              />
+            </div>
+            <span className={styles.hiddenError}>Invalid Phone Number</span>
+            <div className={styles.fields}>
+              <input
+                label="address"
+                onChange={onChangeAddressValue}
+                placeholder="Psychologist Address"
+                type="text"
+                required
+                value={addressForm}
+              />
+            </div>
+            <span className={styles.hiddenError}>Invalid Address</span>
           </div>
-          <span className={styles.hiddenError}>Invalid First Name</span>
-          <div className={styles.fields}>
-            <input
-              name="lastName"
-              placeholder="Psychologist Last Name"
-              onChange={onChangeLastNameValue}
-              type="text"
-              required
-              pattern="[A-Za-z ]*"
-              value={lastNameForm}
-            />
-          </div>
-          <span className={styles.hiddenError}>Invalid Last Name</span>
-          <div className={styles.fields}>
-            <input
-              name="username"
-              placeholder="Psychologist Username"
-              onChange={onChangeUsernameValue}
-              type="text"
-              required
-              pattern="[A-Za-z ]*"
-              value={usernameForm}
-            />
-          </div>
-          <span className={styles.hiddenError}>Invalid Username</span>
-          <div className={styles.fields}>
-            <input
-              name="password"
-              onChange={onChangePasswordValue}
-              placeholder="Psychologist Password"
-              type="password"
-              required
-              value={passwordForm}
-            />
-          </div>
-          <span className={styles.hiddenError}>Invalid Password</span>
-          <div className={styles.fields}>
-            <input
-              name="email"
-              placeholder="Psychologist Email"
-              onChange={onChangeEmailValue}
-              type="email"
-              required
-              pattern="^[^@]+@[^@]+\.[a-zA-Z]{2,}$"
-              value={emailForm}
-            />
-          </div>
-          <span className={styles.hiddenError}>Invalid E-Mail</span>
-          <div className={styles.fields}>
-            <input
-              name="phone"
-              placeholder="Psychologist Phone"
-              onChange={onChangePhoneValue}
-              type="number"
-              required
-              value={phoneForm}
-            />
-          </div>
-          <span className={styles.hiddenError}>Invalid Phone Number</span>
-          <div className={styles.fields}>
-            <input
-              name="address"
-              onChange={onChangeAddressValue}
-              placeholder="Psychologist Address"
-              type="text"
-              required
-              value={addressForm}
-            />
-          </div>
-          <span className={styles.hiddenError}>Invalid Address</span>
         </div>
         <h2 className={styles.container}>Availability</h2>
         <div>
           <p>Monday</p>
           <input
-            name="monday-availability"
+            label="monday-availability"
             day="monday"
             type="checkbox"
             defaultChecked={mondayBool}
             onChange={onChangeMondayBool}
           />
           <input
-            name="monday-from"
+            label="monday-from"
             placeholder="From"
             type="string"
             onChange={onChangeMondayFrom}
             value={mondayFrom}
           />
           <input
-            name="monday-to"
+            label="monday-to"
             placeholder="To"
             type="string"
             onChange={onChangeMondayTo}
@@ -382,21 +385,21 @@ const index = () => {
         <div>
           <p>Tuesday</p>
           <input
-            name="tuesday-availability"
+            label="tuesday-availability"
             type="checkbox"
             day="tuesday"
             defaultChecked={tuesdayBool}
             onChange={onChangeTuesdayBool}
           />
           <input
-            name="tuesday-from"
+            label="tuesday-from"
             placeholder="From"
             type="string"
             onChange={onChangeTuesdayFrom}
             value={tuesdayFrom}
           />
           <input
-            name="tuesday-to"
+            label="tuesday-to"
             placeholder="To"
             type="string"
             onChange={onChangeTuesdayTo}
@@ -407,20 +410,20 @@ const index = () => {
           <p>Wednesday</p>
           <input
             day="wednesday"
-            name="wednesday-availability"
+            label="wednesday-availability"
             type="checkbox"
             defaultChecked={wednesdayBool}
             onChange={onChangeWednesdayBool}
           />
           <input
-            name="wednesday-from"
+            label="wednesday-from"
             placeholder="From"
             type="string"
             onChange={onChangeWednesdayFrom}
             value={wednesdayFrom}
           />
           <input
-            name="wednesday-to"
+            label="wednesday-to"
             placeholder="To"
             type="string"
             onChange={onChangeWednesdayTo}
@@ -430,21 +433,21 @@ const index = () => {
         <div>
           <p>Thursday</p>
           <input
-            name="thursday-availability"
+            label="thursday-availability"
             day="thursday"
             type="checkbox"
             defaultChecked={thursdayBool}
             onChange={onChangeThursdayBool}
           />
           <input
-            name="thursday-from"
+            label="thursday-from"
             placeholder="From"
             type="string"
             onChange={onChangeThursdayFrom}
             value={thursdayFrom}
           />
           <input
-            name="thursday-to"
+            label="thursday-to"
             placeholder="To"
             type="string"
             onChange={onChangeThursdayTo}
@@ -454,21 +457,21 @@ const index = () => {
         <div>
           <p>Friday</p>
           <input
-            name="friday-availability"
+            label="friday-availability"
             day="friday"
             type="checkbox"
             defaultChecked={fridayBool}
             onChange={onChangeFridayBool}
           />
           <input
-            name="friday-from"
+            label="friday-from"
             placeholder="From"
             type="string"
             onChange={onChangeFridayFrom}
             value={fridayFrom}
           />
           <input
-            name="friday-to"
+            label="friday-to"
             placeholder="To"
             type="string"
             onChange={onChangeFridayTo}
@@ -478,21 +481,21 @@ const index = () => {
         <div>
           <p>Saturday</p>
           <input
-            name="saturday-availability"
+            label="saturday-availability"
             day="saturday"
             type="checkbox"
             defaultChecked={saturdayBool}
             onChange={onChangeSaturdayBool}
           />
           <input
-            name="saturday-from"
+            label="saturday-from"
             placeholder="From"
             type="string"
             onChange={onChangeSaturdayFrom}
             value={saturdayFrom}
           />
           <input
-            name="saturday-to"
+            label="saturday-to"
             placeholder="To"
             type="string"
             onChange={onChangeSaturdayTo}
@@ -502,21 +505,21 @@ const index = () => {
         <div>
           <p>Sunday</p>
           <input
-            name="sunday-availability"
+            label="sunday-availability"
             day="sunday"
             type="checkbox"
             defaultChecked={sundayBool}
             onChange={onChangeSundayBool}
           />
           <input
-            name="sunday-from"
+            label="sunday-from"
             placeholder="From"
             type="string"
             onChange={onChangeSundayFrom}
             value={sundayFrom}
           />
           <input
-            name="sunday-to"
+            label="sunday-to"
             placeholder="To"
             type="string"
             onChange={onChangeSundayTo}
@@ -524,7 +527,7 @@ const index = () => {
           />
         </div>
         <button type="submit">confirm</button>
-        <div>{error}</div>
+        <div className={styles.error}>{error}</div>
       </form>
     </div>
   );
