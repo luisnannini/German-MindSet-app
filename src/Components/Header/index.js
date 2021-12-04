@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styles from './header.module.css';
 
 function Header() {
@@ -30,9 +31,9 @@ function Header() {
         <div className={styles.appName}>
           Mind<span>SET</span>
         </div>
-        <ul className={styles.rutes}>
+        <ul className={styles.routes}>
           <li>
-            <a href="/admins">admins</a>
+            <Link to="/admins">admins</Link>
           </li>
           <li>
             <a href="/applications">applications</a>
