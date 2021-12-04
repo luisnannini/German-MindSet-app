@@ -1,5 +1,6 @@
 // import style from './postulants-Item.module.css';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Modal from './Modal';
 
 function Item({ postulant, fetchData, url }) {
@@ -51,13 +52,9 @@ function Item({ postulant, fetchData, url }) {
         return <td key={postulant[postulantKey]}>{postulant[postulantKey]}</td>;
       })}
       <td>
-        <button
-          onClick={() =>
-            (window.location.href = `${window.location.origin}/postulants-form?id=${postulant._id}`)
-          }
-        >
-          Edit
-        </button>
+        <Link to={`postulants/form?id=${postulant._id}`}>
+          <button>Edit</button>
+        </Link>
       </td>
       <td>
         <button
