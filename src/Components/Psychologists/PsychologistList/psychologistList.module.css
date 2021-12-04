@@ -1,0 +1,24 @@
+.container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.listElem {
+  display: flex;
+  flex-direction: row;
+}
+
+.dataFetch {
+  display: flex;
+  flex-direction: row;
+}
+
+.listElem li{
+  flex: 1;
+  margin: 0px 15px;
+  border-bottom: 5px solid black;
+  list-style-type: none;
+}
