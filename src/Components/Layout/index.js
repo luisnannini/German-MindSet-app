@@ -1,6 +1,7 @@
 import Header from '../Header/index';
 import Footer from '../Footer/index';
 import Admins from '../Admins/index';
+import AdminsForm from '../Admins/Form';
 import Applications from '../Applications/index';
 import Clients from '../Clients/index';
 import ClientsForm from '../Clients/Form';
@@ -11,6 +12,7 @@ import Postulants from '../Postulants/index';
 import Profiles from '../Profiles/index';
 import ProfilesForm from '../Profiles/Form';
 import Psychologists from '../Psychologists/index';
+import PsychologistsForm from '../Psychologists/Form';
 import Sessions from '../Sessions/index';
 import SessionsForm from '../Sessions/Form';
 import Home from '../Home/index';
@@ -22,6 +24,9 @@ function Layout() {
   switch (window.location.pathname) {
     case '/admins':
       currentScreen = <Admins />;
+      break;
+    case '/admins/form':
+      currentScreen = <AdminsForm />;
       break;
     case '/applications':
       currentScreen = <Applications />;
@@ -55,6 +60,9 @@ function Layout() {
       break;
     case '/psychologists':
       currentScreen = <Psychologists />;
+      break;
+    case '/psychologists/form':
+      currentScreen = <PsychologistsForm />;
       break;
     case '/sessions':
       currentScreen = <Sessions />;
