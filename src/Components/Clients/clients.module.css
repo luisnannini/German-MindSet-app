@@ -5,3 +5,41 @@
   justify-content: center;
   align-items: center;
 }
+
+.table {
+  border-collapse: collapse;
+  width: 80%;
+  box-shadow: 5px 7px 8px rgba(139, 139, 139, 0.432), -5px -2px 8px rgba(139, 139, 139, 0.26);
+}
+
+.container h2 {
+  align-self: flex-start;
+  margin-left: 150px;
+}
+
+.table thead {
+  height: 50px;
+  color: #FC6225;
+}
+
+.table thead tr th {
+  text-transform: capitalize;
+}
+
+.table tbody tr td {
+  height: 35px;
+  padding-left: 10px;
+  text-transform: capitalize;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.error {
+  color: #f00;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.img {
+  width: 15px;
+  height: 15px;
+}
