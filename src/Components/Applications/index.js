@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './applications.module.css';
-import Table from './Table/Table.js';
-import Modal from './Modal/Modal.js';
+import Table from './Table';
+import Modal from './Modal';
 
 function Applications() {
   const [applications, setApplications] = useState([]);
