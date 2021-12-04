@@ -1,0 +1,60 @@
+.formContainer {
+  margin: 80px auto;
+}
+.createForm {
+  background-color: white;
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width: 60%;
+  padding-top: 20px;
+  box-shadow: -5px 7px 8px rgba(139, 139, 139, 0.432),
+              5px 0px 8px rgba(139, 139, 139, 0.432);
+}
+.formContainer svg {
+  margin: 5px;
+  cursor: pointer;
+}
+.inputContainer {
+  display: flex;
+  align-items: center;
+  width: 300px;
+  margin: 1px;
+}
+.formContainer label {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  margin-left: 30%;
+}
+.formContainer input,
+.formContainer select {
+  background: white;
+  width: 200px;
+  height: 40px;
+  border: 1px solid gray;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+.submitBtn {
+  border: none;
+  color: white;
+  background-color: #fc692f;
+  cursor: pointer;
+  width: 140px;
+  height: 30px;
+}
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+  width: 60%;
+  background-color: #232f3e;
+  color: white;
+}
+.modalHeader * {
+  padding: 0 40px;
+}

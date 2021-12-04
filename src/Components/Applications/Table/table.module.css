@@ -1,0 +1,19 @@
+.table, .table th, .table td {
+  border:1px solid black;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+.title {
+  margin: 1em 0em 2em 1em;
+  font-size: 2em;
+  color: #232F3E;
+}
+
+.button {
+  display: flex;
+  justify-content:flex-end;
+  margin: 5em 5em;
+}
