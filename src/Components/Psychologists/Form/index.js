@@ -1,7 +1,7 @@
 import styles from './form.module.css';
 import { useState, useEffect } from 'react';
 
-const index = () => {
+const Form = () => {
   const [error, setError] = useState('');
   const [firstNameForm, setFirstName] = useState('');
   const [lastNameForm, setLastName] = useState('');
@@ -533,6 +533,6 @@ const index = () => {
   );
 };
 
-index.propTypes = {};
+// Form.propTypes = {};
 
-export default index;
+export default Form;
