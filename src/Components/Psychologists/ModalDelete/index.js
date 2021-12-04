@@ -1,15 +1,13 @@
-import styles from './modalDel.module.css';
-import Button from '../../../Button';
+import styles from './modalDelete.module.css';
+import Button from '../Button';
 
-const Modal = (props) => {
+const ModalDelete = (props) => {
   return (
     <div className={props.visible ? '' : styles.hideModal}>
       <div className={styles.container}>
         <div className={styles.form}>
           <div className={styles.header}>
-            <h2>
-              ARE YOU SURE YOU WANT TO DELETE {props.psy.firstName} {props.psy.lastName}
-            </h2>
+            <h2>ARE YOU SURE YOU WANT TO DELETE THIS PSYCHOLOGIST?</h2>
           </div>
           <div className={styles.header}>
             <Button class={styles.greenButton} action={props.action} name={'Confirm'} />
@@ -21,4 +19,4 @@ const Modal = (props) => {
   );
 };
 
-export default Modal;
+export default ModalDelete;

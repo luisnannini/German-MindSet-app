@@ -35,6 +35,7 @@ const index = () => {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const psychologistId = params.get('id');
+    // setPsychologistId(psychologistId);
     if (psychologistId) {
       fetch(`${process.env.REACT_APP_API}/psychologists?_id=${psychologistId}`)
         .then((response) => {
@@ -79,7 +80,7 @@ const index = () => {
           setError(error.toString());
         });
     }
-  });
+  }, []);
 
   // Availability
 
@@ -241,16 +242,21 @@ const index = () => {
       url = `${process.env.REACT_APP_API}/psychologists`;
     }
 
-    fetch(url, options).then((response) => {
-      if (response.status !== 201) {
-        return response.json().then(({ message }) => {
-          throw new Error(message);
-        });
-      }
-      return response.json().catch((error) => {
-        setError(error.toString());
+    fetch(url, options)
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201) {
+          return response.json().then(({ message }) => {
+            throw new Error(message);
+          });
+        }
+        return response.json();
+      })
+      .then(() => {
+        window.location.href = '/psychologists';
+      })
+      .catch((error) => {
+        error;
       });
-    });
   };
 
   return (
