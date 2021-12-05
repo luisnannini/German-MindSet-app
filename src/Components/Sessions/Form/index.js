@@ -4,6 +4,7 @@ import TextArea from '../TextArea';
 import Select from '../Select';
 import { useEffect, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
+import ModalError from '../../Shared/Modal-Error/modal-error';
 
 const Form = () => {
   const [dateValue, setDateValue] = useState('');
@@ -13,7 +14,11 @@ const Form = () => {
   const [notesValue, setNotesValue] = useState('');
   const [postulants, setPostulants] = useState([]);
   const [psychologists, setPsychologists] = useState([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState({
+    show: false,
+    title: '',
+    message: ''
+  });
   const [isLoading, setLoading] = useState(false);
   const [title, setTitle] = useState('');
 
@@ -25,11 +30,12 @@ const Form = () => {
     if (sessionId) {
       fetch(`${process.env.REACT_APP_API}/sessions?_id=${sessionId}`)
         .then((response) => {
-          if (response.status !== 200) {
-            return response.json().then(({ message }) => {
-              throw new Error(message);
+          if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+            return response.json().then(({ message: { message } }) => {
+              const status = `${response.status} ${response.statusText}`;
+              throw { message, status };
             });
-          }
+          } ///////////GET
           return response.json();
         })
         .then((response) => {
@@ -40,18 +46,19 @@ const Form = () => {
           setNotesValue(response.data[0].notes);
         })
         .catch((error) => {
-          setError(error.toString());
+          setError({ show: true, message: error.message, title: error.status });
         })
         .finally(() => setLoading(false));
     }
 
     fetch(`${process.env.REACT_APP_API}/postulants`)
       .then((response) => {
-        if (response.status !== 200) {
-          return response.json().then(({ message }) => {
-            throw new Error(message);
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          return response.json().then(({ message: { message } }) => {
+            const status = `${response.status} ${response.statusText}`;
+            throw { message, status };
           });
-        }
+        } ///////////////////GET
         return response.json();
       })
       .then((response) => {
@@ -63,17 +70,18 @@ const Form = () => {
         );
       })
       .catch((error) => {
-        setError(error.toString());
+        setError({ show: true, message: error.message, title: error.status });
       })
       .finally(() => setLoading(false));
 
     fetch(`${process.env.REACT_APP_API}/psychologists`)
       .then((response) => {
-        if (response.status !== 200) {
-          return response.json().then(({ message }) => {
-            throw new Error(message);
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          return response.json().then(({ message: { message } }) => {
+            const status = `${response.status} ${response.statusText}`;
+            throw { message, status };
           });
-        }
+        } ///////////////////GET
         return response.json();
       })
       .then((response) => {
@@ -85,7 +93,7 @@ const Form = () => {
         );
       })
       .catch((error) => {
-        setError(error.toString());
+        setError({ show: true, message: error.message, title: error.status });
       })
       .finally(() => setLoading(false));
   }, []);
@@ -120,18 +128,20 @@ const Form = () => {
 
     fetch(url, options)
       .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw message.message;
+            const status = `${response.status} ${response.statusText}`;
+            throw { message, status };
           });
-        }
+        } //////POST O PUT
         return response.json();
       })
       .then(() => {
         window.location.href = '/sessions';
       })
       .catch((error) => {
-        setError(error.toString());
+        setError({ show: true, message: error.message, title: error.status });
       })
       .finally(() => setLoading(false));
   };
@@ -210,8 +220,8 @@ const Form = () => {
             </button>
           </label>
         </div>
-        <div className={styles.error}>{error}</div>
       </form>
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />
     </div>
   );
 };

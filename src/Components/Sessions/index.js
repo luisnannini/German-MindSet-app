@@ -4,16 +4,19 @@ import { FaPlusCircle } from 'react-icons/fa';
 import styles from './sessions.module.css';
 import Session from './Session';
 import ConfirmModal from './ConfirmModal';
+import ModalError from '../Shared/Modal-Error/modal-error';
 
 function Sessions() {
   const [Sessions, setSessions] = useState([]);
   const [ShowConfirmModal, setShowConfirmModal] = useState({
     show: false,
-    session: {}
+    session: {},
+    id: ''
   });
   const [error, setError] = useState({
-    isError: false,
-    message: ''
+    show: false,
+    message: '',
+    title: ''
   });
   const [isLoading, setLoading] = useState(false);
 
@@ -25,18 +28,19 @@ function Sessions() {
     setLoading(true);
     fetch(`${process.env.REACT_APP_API}/sessions`)
       .then((response) => {
-        if (response.status !== 200) {
-          return response.json().then(({ message }) => {
-            throw new Error(message);
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          return response.json().then(({ message: { message } }) => {
+            const status = `${response.status} ${response.statusText}`;
+            throw { message, status };
           });
-        }
+        } /////////////////GET
         return response.json();
       })
       .then((response) => {
         setSessions(response.data);
       })
       .catch((error) => {
-        setError({ isError: true, message: error.message.toString() });
+        setError({ show: true, message: error.message, title: error.status });
       })
       .finally(() => setLoading(false));
   }
@@ -46,21 +50,31 @@ function Sessions() {
     fetch(`${process.env.REACT_APP_API}/sessions/${ShowConfirmModal.id}`, {
       method: 'DELETE'
     })
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          return response.json().then(({ message }) => {
+            if (message.message) throw message.message;
+            const status = `${response.status} ${response.statusText}`;
+            throw { message, status };
+          });
+        }
+        return response.json();
+      })
       .then(() => {
         getSessions();
       })
       .catch((error) => {
-        setError({ isError: true, message: error.message.toString() });
+        setError({ show: true, message: error.message, title: error.status });
       });
   }
-
+  /* 
   const showForm = (session) => {
     if (session) {
       window.location.href = `sessions/form?id=${session._id}`;
     } else {
       window.location.href = `sessions/form`;
     }
-  };
+  }; */
 
   return (
     <div className={styles.container}>
@@ -101,7 +115,6 @@ function Sessions() {
                   status={session.status}
                   date={session.date}
                   onDelete={() => setShowConfirmModal({ show: true, id: session._id })}
-                  onEdit={() => showForm(session)}
                 />
               );
             })}
@@ -115,7 +128,8 @@ function Sessions() {
           </button>
         </Link>
       </>
-      {error.isError && <div>{error.message}</div>}
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />
+      {/* {error.isError && <div>{error.message}</div>} */}
     </div>
   );
 }
