@@ -2,8 +2,8 @@ import styles from './input.module.css';
 
 const Input = (props) => {
   return (
-    <>
-      <label htmlFor={props.label}></label>
+    <div className={styles.inputContainer}>
+      <label htmlFor={props.label}>{props.label.toUpperCase()}</label>
       <input
         type={props.type}
         value={props.value}
@@ -18,7 +18,7 @@ const Input = (props) => {
         step={props.step}
         className={styles.input}
       ></input>
-    </>
+    </div>
   );
 };
 
