@@ -91,7 +91,6 @@ const Form = () => {
       })
       .finally(() => setLoading(false));
   }, []);
-
   const onSubmit = (event) => {
     event.preventDefault();
     setLoading(true);

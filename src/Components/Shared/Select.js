@@ -1,6 +1,7 @@
 import React from 'react';
 
 const Select = (props) => {
+  console.log(props.object);
   return (
     <div>
       <label>{props.label}</label>
