@@ -211,6 +211,7 @@ const Form = () => {
         </select>
         <Input
           label={'Date'}
+          type={'datetime-local'}
           name={'date'}
           value={dateValue}
           placeholder={'yyyy-mm-dd'}
