@@ -166,6 +166,14 @@ const Form = () => {
     else setErrorDate(null);
   }
 
+  const result = [
+    { _id: 'assigned', value: 'assigned', name: 'Assigned' },
+    { _id: 'successful', value: 'successful', name: 'Successful' },
+    { _id: 'cancelled', value: 'cancelled', name: 'Cancelled' },
+    { _id: 'failed', value: 'failed', name: 'Failed' },
+    { _id: 'confirmed', value: 'confirmed', name: 'Confirmed' }
+  ];
+
   return (
     <form className={styles.form} onSubmit={onSubmit}>
       <Modal
@@ -212,19 +220,13 @@ const Form = () => {
       </div>
       <div className={styles.formDiv1}>
         <h3>Status</h3>
-        <select
-          className={styles.select}
+        <Select
           value={statusValue}
+          title="Status"
+          object={result}
           onChange={onChangeStatusValue}
           required
-        >
-          <option value=""></option>
-          <option value="failed">Failed</option>
-          <option value="assigned">Assigned</option>
-          <option value="successful">Successful</option>
-          <option value="cancelled">Cancelled</option>
-          <option value="confirmed">Confirmed</option>
-        </select>
+        />
         <h3>Date</h3>
         <Input
           name="date"
