@@ -1,4 +1,6 @@
 import styles from './confirmModal.module.css';
+import ButtonCancel from '../../Shared/ButtonCancel';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
 
 const ConfirmModal = ({ onClose, onDelete }) => {
   return (
@@ -10,12 +12,8 @@ const ConfirmModal = ({ onClose, onDelete }) => {
         <div className={styles.confirmModalContent}>
           <p>Delete session?</p>
           <div className={styles.btnContainer}>
-            <button className={styles.cancelBtn} onClick={onClose}>
-              Cancel
-            </button>
-            <button className={styles.confirmBtn} onClick={onDelete}>
-              Delete
-            </button>
+            <ButtonCancel onClick={onClose} />
+            <ButtonConfirm onClick={onDelete} />
           </div>
         </div>
       </div>

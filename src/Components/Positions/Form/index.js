@@ -3,8 +3,8 @@ import styles from './form.module.css';
 import Modal from '../Modal';
 import Input from '../Input';
 import Select from '../Select';
-import Button from '../Button';
 import Checkbox from '../Checkbox';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
 
 const Form = () => {
   const [clients, setClients] = useState([]);
@@ -210,7 +210,7 @@ const Form = () => {
           </div>
         </div>
         <div className={styles.button}>
-          <Button type={'submit'} label={'Confirm'} />
+          <ButtonConfirm type="submit" />
         </div>
       </form>
     </div>

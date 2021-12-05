@@ -1,4 +1,6 @@
 import styles from './modal.module.css';
+import ButtonCancel from '../../Shared/ButtonCancel';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
 
 const Modal = (props) => {
   const { onCancel, onConfirm, isLoading, show } = props;
@@ -12,12 +14,12 @@ const Modal = (props) => {
           <h2>Are you sure you want to delete this administrator?</h2>
         </div>
         <div className={styles.header}>
-          <button disabled={isLoading} onClick={() => onCancel()} className={styles.button}>
-            Cancel
-          </button>
-          <button disabled={isLoading} onClick={() => onConfirm()} className={styles.button}>
-            Confirm
-          </button>
+          <ButtonCancel disabled={isLoading} onClick={() => onCancel()} className={styles.button} />
+          <ButtonConfirm
+            disabled={isLoading}
+            onClick={() => onConfirm()}
+            className={styles.button}
+          />
         </div>
       </div>
     </div>

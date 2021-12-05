@@ -1,5 +1,7 @@
 import styles from './form.module.css';
 import { useState, useEffect } from 'react';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
+import ButtonCancel from '../../Shared/ButtonCancel';
 
 const Form = () => {
   const [error, setError] = useState('');
@@ -261,13 +263,6 @@ const Form = () => {
 
   return (
     <div className={styles.container}>
-      <button
-        onClick={() => {
-          window.location.href = `${window.location.origin}/psychologists`;
-        }}
-      >
-        Return
-      </button>
       <form className={styles.form} onSubmit={onSubmit}>
         <h2 className={styles.title}>Form</h2>
         <div>
@@ -526,7 +521,12 @@ const Form = () => {
             value={sundayTo}
           />
         </div>
-        <button type="submit">confirm</button>
+        <ButtonCancel
+          onClick={() => {
+            window.location.href = `${window.location.origin}/psychologists`;
+          }}
+        />
+        <ButtonConfirm type="submit" />
         <div className={styles.error}>{error}</div>
       </form>
     </div>

@@ -1,3 +1,5 @@
+import ButtonConfirm from '../../Shared/ButtonConfirm';
+
 const Profiles = ({ postulantData, setData, dataTemplate }) => {
   postulantData.forEach((data, index) => {
     if (!data.profileId) postulantData[index].profileId = { id: '', name: '' };
@@ -26,14 +28,13 @@ const Profiles = ({ postulantData, setData, dataTemplate }) => {
           </div>
         );
       })}
-      <button
+      <ButtonConfirm
+        name="Save"
         onClick={(e) => {
           e.preventDefault();
           setData([...postulantData, { ...dataTemplate, id: Math.floor(Math.random() * 10000) }]);
         }}
-      >
-        Add
-      </button>
+      />
     </div>
   );
 };

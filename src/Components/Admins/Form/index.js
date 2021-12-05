@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './form.module.css';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
 
 const Form = () => {
   const [fullNameValue, setFullNameValue] = useState('');
@@ -120,9 +121,7 @@ const Form = () => {
           required
           disabled={isLoading}
         />
-        <button disabled={isLoading} type="submit">
-          Save
-        </button>
+        <ButtonConfirm disabled={isLoading} type="submit" name="Submit" />
         <div className={styles.error}>{error}</div>
       </form>
     </div>

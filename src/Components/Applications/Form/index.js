@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import styles from './form.module.css';
+import ButtonCancel from '../../Shared/ButtonCancel';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
+
 const Form = (props) => {
   if (props.showForm == false) {
     return null;
@@ -133,8 +136,8 @@ const Form = (props) => {
           required
         ></input>
       </div>
-      <button onClick={props.onClose}>Cancel</button>
-      <button type="submit">Submit</button>
+      <ButtonCancel onClick={props.onClose} />
+      <ButtonConfirm type="submit" name="Submit" />
     </form>
   );
 };

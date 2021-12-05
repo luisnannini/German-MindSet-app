@@ -1,3 +1,5 @@
+import ButtonConfirm from '../../Shared/ButtonConfirm';
+
 const ArrayInput = ({ postulantData, setData, dataName, dataTemplate }) => {
   return (
     <div>
@@ -45,14 +47,13 @@ const ArrayInput = ({ postulantData, setData, dataName, dataTemplate }) => {
           </div>
         );
       })}
-      <button
+      <ButtonConfirm
+        name="Add"
         onClick={(e) => {
           e.preventDefault();
           setData([...postulantData, { ...dataTemplate, id: Math.floor(Math.random() * 10000) }]);
         }}
-      >
-        Add
-      </button>
+      />
     </div>
   );
 };

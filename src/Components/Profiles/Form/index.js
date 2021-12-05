@@ -2,7 +2,7 @@ import { React, useState, useEffect } from 'react';
 import styles from './form.module.css';
 import Modal from '../Modal';
 import Input from '../Input';
-import Button from '../Button';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
 
 const Form = () => {
   const [profileValue, setProfileValue] = useState('');
@@ -124,7 +124,7 @@ const Form = () => {
           </div>
         </div>
         <div className={styles.button}>
-          <Button type={'submit'} label={'Confirm'} />
+          <ButtonConfirm type={'submit'} />
         </div>
       </form>
     </div>

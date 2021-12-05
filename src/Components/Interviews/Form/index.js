@@ -6,6 +6,8 @@ import SelectClient from '../SelectClient';
 import SelectApplication from '../SelectApplication';
 import Modal from '../Modal';
 import { Link } from 'react-router-dom';
+import ButtonCancel from '../../Shared/ButtonCancel';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
 
 const Form = () => {
   const [clients, setClients] = useState([]);
@@ -237,11 +239,9 @@ const Form = () => {
       </div>
       <div className={styles.buttons}>
         <Link to="/interviews">
-          <button className={styles.cancel}>Cancel</button>
+          <ButtonCancel />
         </Link>
-        <button type="submit" className={styles.confirm}>
-          Confirm
-        </button>
+        <ButtonConfirm type="submit" name="Submit" />
       </div>
     </form>
   );

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Input from '../Input';
 import styles from './form.module.css';
-
+import ButtonConfirm from '../../Shared/ButtonConfirm';
 function Form() {
   const [nameValue, setNameValue] = useState('');
   const [phoneValue, setPhoneValue] = useState('');
@@ -223,9 +223,7 @@ function Form() {
           type="text"
           disabled={isLoading}
         />
-        <button disabled={isLoading} type="submit" className={styles.button}>
-          Save
-        </button>
+        <ButtonConfirm disabled={isLoading} type="submit" name="Submit" />
         <div className={styles.error}>{error}</div>
       </form>
     </section>

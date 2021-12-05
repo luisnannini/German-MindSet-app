@@ -7,6 +7,7 @@ import InitialStudies from './InitialStudies';
 import PrimitiveFormInput from './PrimitiveFormInput';
 import ContactRange from './ContactRange';
 import Profiles from './Profiles';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
 
 function Form() {
   const [modal, setModal] = useState({ state: false, action: '', message: '' });
@@ -208,7 +209,7 @@ function Form() {
                 dataTemplate={{
                   startDate: '2000-01-01T00:00:00.000Z',
                   endDate: '2000-01-01T00:00:00.000Z',
-                  Insistute: '',
+                  Institute: '',
                   description: ''
                 }}
               />
@@ -222,7 +223,7 @@ function Form() {
                 dataTemplate={{
                   startDate: '2000-01-01T00:00:00.000Z',
                   endDate: '2000-01-01T00:00:00.000Z',
-                  Insistute: '',
+                  Institute: '',
                   description: ''
                 }}
               />
@@ -236,7 +237,7 @@ function Form() {
                 dataTemplate={{
                   startDate: '2000-01-01T00:00:00.000Z',
                   endDate: '2000-01-01T00:00:00.000Z',
-                  Insistute: '',
+                  Institute: '',
                   description: ''
                 }}
               />
@@ -309,7 +310,7 @@ function Form() {
             />
           </div>
           <div>
-            <h2>Udated At</h2>
+            <h2>Updated At</h2>
             <PrimitiveFormInput
               postulantData={updatedAt}
               dataName="updatedAt"
@@ -339,7 +340,7 @@ function Form() {
             }}
           />
         </div>
-        <button onClick={(e) => submit(e)}>Save</button>
+        <ButtonConfirm onClick={(e) => submit(e)} />
       </form>
       {modal.state && <Modal modal={modal} />}
     </section>
