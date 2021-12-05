@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import styles from './form.module.css';
 import Modal from '../Modal';
-import Input from '../Input';
+import Input from '../../Shared/Input';
 import Button from '../Button';
 
 const Form = () => {

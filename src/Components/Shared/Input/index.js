@@ -16,6 +16,7 @@ const Input = (props) => {
         min={props.min}
         max={props.max}
         step={props.step}
+        pattern={props.pattern}
         className={styles.input}
       ></input>
     </div>
