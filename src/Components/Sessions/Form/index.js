@@ -1,7 +1,7 @@
 import styles from './form.module.css';
 import Input from '../Input';
 import TextArea from '../TextArea';
-import Select from '../Select';
+import Select from '../../Shared/Select';
 import { useEffect, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 
@@ -57,8 +57,9 @@ const Form = () => {
       .then((response) => {
         setPostulants(
           response.data.map((postulant) => ({
+            _id: postulant._id,
             value: postulant._id,
-            label: `${postulant.firstName} ${postulant.lastName}`
+            name: `${postulant.firstName} ${postulant.lastName}`
           }))
         );
       })
@@ -79,8 +80,9 @@ const Form = () => {
       .then((response) => {
         setPsychologists(
           response.data.map((psychologist) => ({
+            _id: psychologist._id,
             value: psychologist._id,
-            label: `${psychologist.firstName} ${psychologist.lastName}`
+            name: `${psychologist.firstName} ${psychologist.lastName}`
           }))
         );
       })
@@ -150,10 +152,9 @@ const Form = () => {
         <div className={styles.inputContainer}>
           <Select
             className={styles.select}
-            name="Postulant"
             value={postulantValue}
             onChange={(e) => setPostulantValue(e.target.value)}
-            options={postulants}
+            object={postulants}
             required
             disabled={isLoading}
           />
@@ -161,10 +162,9 @@ const Form = () => {
         <div className={styles.inputContainer}>
           <Select
             className={styles.select}
-            name="Psychologist"
             value={psychologistValue}
             onChange={(e) => setPsychologistValue(e.target.value)}
-            options={psychologists}
+            object={psychologists}
             required
             disabled={isLoading}
           />
@@ -175,10 +175,10 @@ const Form = () => {
             name="status"
             value={statusValue}
             onChange={(e) => setStatusValue(e.target.value)}
-            options={[
-              { value: 'assigned', label: 'Assigned' },
-              { value: 'succesful', label: 'Succesful' },
-              { value: 'cancelled', label: 'Cancelled' }
+            object={[
+              { _id: 'assigned', value: 'assigned', name: 'Assigned' },
+              { _id: 'succesful', value: 'succesful', name: 'Successful' },
+              { _id: 'cancelled', value: 'cancelled', name: 'Cancelled' }
             ]}
             required
             disabled={isLoading}

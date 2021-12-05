@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import Input from '../Inputs';
 import SelectPostulant from '../SelectPostulant';
-import SelectClient from '../SelectClient';
 import SelectApplication from '../SelectApplication';
+
+import Select from '../../Shared/Select';
 import Modal from '../Modal';
 import { Link } from 'react-router-dom';
 
@@ -177,8 +178,9 @@ const Form = () => {
         </div>
         <div className={styles.formDiv2}>
           <h3>Client</h3>
-          <SelectClient
+          <Select
             value={clientValue}
+            title="Client Name"
             object={clients}
             onChange={onChangeClientValue}
             required
