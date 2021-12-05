@@ -1,5 +1,6 @@
 import styles from './form.module.css';
 import { useState, useEffect } from 'react';
+import Input from '../../Shared/Input';
 
 const Form = () => {
   const [error, setError] = useState('');
@@ -274,86 +275,77 @@ const Form = () => {
           <h2 className={styles.title}>PERSONAL DATA</h2>
           <div className={styles.columns}></div>
           <div className={styles.columns}>
-            <div className={styles.fields}>
-              <input
-                label="firstName"
-                placeholder="Psychologist First Name"
-                onChange={onChangeFirstNameValue}
-                type="text"
-                required
-                pattern="[A-Za-z ]*"
-                value={firstNameForm}
-              />
-            </div>
+            <Input
+              label={'First Name'}
+              name={'firstName'}
+              placeholder={'First Name'}
+              onChange={onChangeFirstNameValue}
+              type={'text'}
+              required={true}
+              pattern={'[A-Za-z ]*'}
+              value={firstNameForm}
+            />
             <span className={styles.hiddenError}>Invalid First Name</span>
-            <div className={styles.fields}>
-              <input
-                label="lastName"
-                placeholder="Psychologist Last Name"
-                onChange={onChangeLastNameValue}
-                type="text"
-                required
-                pattern="[A-Za-z ]*"
-                value={lastNameForm}
-              />
-            </div>
+            <Input
+              label={'Last Name'}
+              name={'lastName'}
+              placeholder={'Last Name'}
+              onChange={onChangeLastNameValue}
+              type={'text'}
+              required={true}
+              pattern={'[A-Za-z ]*'}
+              value={lastNameForm}
+            />
             <span className={styles.hiddenError}>Invalid Last Name</span>
-            <div className={styles.fields}>
-              <input
-                label="username"
-                placeholder="Psychologist Username"
-                onChange={onChangeUsernameValue}
-                type="text"
-                required
-                pattern="[A-Za-z ]*"
-                value={usernameForm}
-              />
-            </div>
+            <Input
+              label={'Username'}
+              name={'username'}
+              placeholder={'Username'}
+              onChange={onChangeUsernameValue}
+              type={'text'}
+              required={true}
+              pattern={'[A-Za-z ]*'}
+              value={usernameForm}
+            />
             <span className={styles.hiddenError}>Invalid Username</span>
-            <div className={styles.fields}>
-              <input
-                label="password"
-                onChange={onChangePasswordValue}
-                placeholder="Psychologist Password"
-                type="password"
-                required
-                value={passwordForm}
-              />
-            </div>
+            <Input
+              label={'Password'}
+              name={'password'}
+              onChange={onChangePasswordValue}
+              type="password"
+              required={true}
+              value={passwordForm}
+            />
             <span className={styles.hiddenError}>Invalid Password</span>
-            <div className={styles.fields}>
-              <input
-                label="email"
-                placeholder="Psychologist Email"
-                onChange={onChangeEmailValue}
-                type="email"
-                required
-                pattern="^[^@]+@[^@]+\.[a-zA-Z]{2,}$"
-                value={emailForm}
-              />
-            </div>
+            <Input
+              label={'Email'}
+              placeholder={'Email'}
+              onChange={onChangeEmailValue}
+              type={'email'}
+              required={true}
+              pattern={'^[^@]+@[^@]+.[a-zA-Z]{2,}$'}
+              value={emailForm}
+            />
             <span className={styles.hiddenError}>Invalid E-Mail</span>
-            <div className={styles.fields}>
-              <input
-                label="phone"
-                placeholder="Psychologist Phone"
-                onChange={onChangePhoneValue}
-                type="number"
-                required
-                value={phoneForm}
-              />
-            </div>
+            <Input
+              label={'Phone'}
+              name={'phone'}
+              placeholder={'Phone'}
+              onChange={onChangePhoneValue}
+              type={'number'}
+              required={true}
+              value={phoneForm}
+            />
             <span className={styles.hiddenError}>Invalid Phone Number</span>
-            <div className={styles.fields}>
-              <input
-                label="address"
-                onChange={onChangeAddressValue}
-                placeholder="Psychologist Address"
-                type="text"
-                required
-                value={addressForm}
-              />
-            </div>
+            <Input
+              label={'Address'}
+              name={'address'}
+              onChange={onChangeAddressValue}
+              placeholder={'Address'}
+              type={'text'}
+              required={true}
+              value={addressForm}
+            />
             <span className={styles.hiddenError}>Invalid Address</span>
           </div>
         </div>
@@ -367,17 +359,19 @@ const Form = () => {
             defaultChecked={mondayBool}
             onChange={onChangeMondayBool}
           />
-          <input
-            label="monday-from"
-            placeholder="From"
-            type="string"
+          <Input
+            label={'From'}
+            name={'monday-from'}
+            placeholder={'From'}
+            type={'text'}
             onChange={onChangeMondayFrom}
             value={mondayFrom}
           />
-          <input
-            label="monday-to"
-            placeholder="To"
-            type="string"
+          <Input
+            label={'To'}
+            name={'monday-to'}
+            placeholder={'To'}
+            type={'text'}
             onChange={onChangeMondayTo}
             value={mondayTo}
           />
@@ -391,17 +385,19 @@ const Form = () => {
             defaultChecked={tuesdayBool}
             onChange={onChangeTuesdayBool}
           />
-          <input
-            label="tuesday-from"
-            placeholder="From"
-            type="string"
+          <Input
+            label={'From'}
+            name={'tuesday-to'}
+            placeholder={'To'}
+            type={'string'}
             onChange={onChangeTuesdayFrom}
             value={tuesdayFrom}
           />
-          <input
-            label="tuesday-to"
-            placeholder="To"
-            type="string"
+          <Input
+            label={'To'}
+            name={'tuesday-to'}
+            placeholder={'To'}
+            type={'text'}
             onChange={onChangeTuesdayTo}
             value={tuesdayTo}
           />
@@ -415,17 +411,19 @@ const Form = () => {
             defaultChecked={wednesdayBool}
             onChange={onChangeWednesdayBool}
           />
-          <input
-            label="wednesday-from"
-            placeholder="From"
-            type="string"
+          <Input
+            label={'From'}
+            name={'wednesday-from'}
+            placeholder={'From'}
+            type={'text'}
             onChange={onChangeWednesdayFrom}
             value={wednesdayFrom}
           />
-          <input
-            label="wednesday-to"
-            placeholder="To"
-            type="string"
+          <Input
+            label={'to'}
+            name={'wednesday-to'}
+            placeholder={'To'}
+            type={'text'}
             onChange={onChangeWednesdayTo}
             value={wednesdayTo}
           />
@@ -439,17 +437,19 @@ const Form = () => {
             defaultChecked={thursdayBool}
             onChange={onChangeThursdayBool}
           />
-          <input
-            label="thursday-from"
-            placeholder="From"
-            type="string"
+          <Input
+            label={'From'}
+            name={'thursday-from'}
+            placeholder={'From'}
+            type={'text'}
             onChange={onChangeThursdayFrom}
             value={thursdayFrom}
           />
-          <input
-            label="thursday-to"
-            placeholder="To"
-            type="string"
+          <Input
+            label={'To'}
+            name={'thursday-to'}
+            placeholder={'To'}
+            type={'text'}
             onChange={onChangeThursdayTo}
             value={thursdayTo}
           />
@@ -463,17 +463,19 @@ const Form = () => {
             defaultChecked={fridayBool}
             onChange={onChangeFridayBool}
           />
-          <input
-            label="friday-from"
-            placeholder="From"
-            type="string"
+          <Input
+            label={'From'}
+            name={'friday-from'}
+            placeholder={'From'}
+            type={'text'}
             onChange={onChangeFridayFrom}
             value={fridayFrom}
           />
-          <input
-            label="friday-to"
-            placeholder="To"
-            type="string"
+          <Input
+            label={'To'}
+            name={'friday-to'}
+            placeholder={'To'}
+            type={'text'}
             onChange={onChangeFridayTo}
             value={fridayTo}
           />
@@ -487,17 +489,19 @@ const Form = () => {
             defaultChecked={saturdayBool}
             onChange={onChangeSaturdayBool}
           />
-          <input
-            label="saturday-from"
-            placeholder="From"
-            type="string"
+          <Input
+            label={'From'}
+            name={'saturday-from'}
+            placeholder={'From'}
+            type={'text'}
             onChange={onChangeSaturdayFrom}
             value={saturdayFrom}
           />
-          <input
-            label="saturday-to"
-            placeholder="To"
-            type="string"
+          <Input
+            label={'To'}
+            name={'saturday-to'}
+            placeholder={'To'}
+            type={'text'}
             onChange={onChangeSaturdayTo}
             value={saturdayTo}
           />
@@ -511,17 +515,19 @@ const Form = () => {
             defaultChecked={sundayBool}
             onChange={onChangeSundayBool}
           />
-          <input
-            label="sunday-from"
-            placeholder="From"
-            type="string"
+          <Input
+            label={'From'}
+            name={'sunday-from'}
+            placeholder={'From'}
+            type={'text'}
             onChange={onChangeSundayFrom}
             value={sundayFrom}
           />
-          <input
-            label="sunday-to"
-            placeholder="To"
-            type="string"
+          <Input
+            label={'To'}
+            name={'sunday-to'}
+            placeholder={'To'}
+            type={'text'}
             onChange={onChangeSundayTo}
             value={sundayTo}
           />
