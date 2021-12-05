@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaPlusCircle } from 'react-icons/fa';
 import styles from './sessions.module.css';
 import Session from './Session';
 import ConfirmModal from './ConfirmModal';
+import ButtonCreate from '../Shared/ButtonCreate';
 
 function Sessions() {
   const [Sessions, setSessions] = useState([]);
@@ -110,9 +110,7 @@ function Sessions() {
       </section>
       <>
         <Link to="sessions/form">
-          <button disabled={isLoading} className={styles.addButton}>
-            <FaPlusCircle />
-          </button>
+          <ButtonCreate disabled={isLoading} />
         </Link>
       </>
       {error.isError && <div>{error.message}</div>}

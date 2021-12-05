@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import styles from './postulants.module.css';
 import Items from './Items.jsx';
+import ButtonCreate from '../Shared/ButtonCreate';
 
 function Postulants() {
   const [postulants, setPostulants] = useState([]);
@@ -38,7 +39,7 @@ function Postulants() {
       />
       <div>
         <Link to="/postulants/form">
-          <button>Add</button>
+          <ButtonCreate />
         </Link>
       </div>
     </section>

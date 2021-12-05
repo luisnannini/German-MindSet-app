@@ -1,6 +1,6 @@
-//import edit from './edit.png';
-import remove from './remove.png';
 import styles from './table.module.css';
+//import ButtonUpdate from '../../Shared/ButtonUpdate';
+import ButtonDelete from '../../Shared/ButtonDelete';
 
 const Table = ({ applications, removeReq }) => {
   return (
@@ -27,10 +27,10 @@ const Table = ({ applications, removeReq }) => {
             <td>{app.interview._id}</td>
             <td>{app.result}</td>
             {/* <td>
-              <img src={edit} alt="Edit" onClick={() => updateReq(app._id)} />
-            </td> (need to import updateReq prop)*/}
+              <ButtonUpdate onClick={() => updateReq(app._id)} />
+            </td> (Update not available at back-end)*/}
             <td>
-              <img src={remove} alt="Remove" onClick={() => removeReq(app._id)} />
+              <ButtonDelete onClick={() => removeReq(app._id)} />
             </td>
           </tr>
         ))}

@@ -177,7 +177,7 @@ const Form = () => {
             onChange={(e) => setStatusValue(e.target.value)}
             options={[
               { value: 'assigned', label: 'Assigned' },
-              { value: 'succesful', label: 'Succesful' },
+              { value: 'successful', label: 'Successful' },
               { value: 'cancelled', label: 'Cancelled' }
             ]}
             required
