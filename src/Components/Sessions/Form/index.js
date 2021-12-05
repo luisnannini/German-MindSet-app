@@ -185,10 +185,10 @@ const Form = () => {
           />
         </div>
         <Input
-          label="date"
-          type="datetime-local"
+          label={'Date'}
+          type={'datetime-local'}
           value={dateValue}
-          name="date"
+          name={'date'}
           onChange={(e) => setDateValue(e.target.value)}
           required={true}
           disabled={isLoading}

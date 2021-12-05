@@ -3,7 +3,7 @@ import styles from './input.module.css';
 const Input = (props) => {
   return (
     <div className={styles.inputContainer}>
-      <label htmlFor={props.label}>{props.label.toUpperCase()}</label>
+      <label htmlFor={props.name}>{props.label}</label>
       <input
         type={props.type}
         value={props.value}

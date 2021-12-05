@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './form.module.css';
-import Input from '../Inputs';
+import Input from '../../Shared/Input';
 import SelectPostulant from '../SelectPostulant';
 import SelectClient from '../SelectClient';
 import SelectApplication from '../SelectApplication';
@@ -209,16 +209,16 @@ const Form = () => {
           <option value="cancelled">Cancelled</option>
           <option value="confirmed">Confirmed</option>
         </select>
-        <h3>Date</h3>
         <Input
-          name="date"
+          label={'Date'}
+          name={'date'}
           value={dateValue}
-          placeholder="yyyy-mm-dd"
+          placeholder={'yyyy-mm-dd'}
           onChange={(e) => {
             setDateValue(e.target.value);
             handleChangeDate(e);
           }}
-          required
+          required={true}
         />
       </div>
       <label className={styles.formLabel} htmlFor="messageDate">

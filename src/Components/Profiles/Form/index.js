@@ -111,18 +111,15 @@ const Form = () => {
         <div className={styles.header}>
           <h2 className={styles.title}>{profileId ? 'Update a Profile' : 'Create a Profile'}</h2>
         </div>
-        <div className={styles.fields}>
-          <div className={styles.columns}>
-            <Input
-              label={'Profile'}
-              value={profileValue}
-              onChange={onChangeProfileValue}
-              placeholder={'Write a new profile'}
-              required
-              pattern="[A-Za-z ]*"
-            />
-          </div>
-        </div>
+        <Input
+          label={'Profile'}
+          name={'profile'}
+          value={profileValue}
+          onChange={onChangeProfileValue}
+          placeholder={'Write a new profile'}
+          required={true}
+          pattern="[A-Za-z ]*"
+        />
         <div className={styles.button}>
           <Button type={'submit'} label={'Confirm'} />
         </div>
