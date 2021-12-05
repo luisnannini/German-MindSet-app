@@ -4,14 +4,12 @@ import styles from './interviews.module.css';
 import CreateButton from './CreateButton';
 import EditButton from './EditButton';
 import RemoveButton from './RemoveButton';
-import RemoveModal from './RemoveModal';
-import Modal from './Modal';
+import Modal from '../Shared/Modal';
 
 function Interviews() {
   const [interviews, setInterviews] = useState([]);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [selectedInterview, setSelectedInterview] = useState(undefined);
-  const [showSuccessDelete, setShowSuccessDelete] = useState(false);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/interviews`)
@@ -29,11 +27,6 @@ function Interviews() {
 
   const closeRemoveModal = () => {
     setShowRemoveModal(false);
-  };
-
-  const closeModalSuccess = () => {
-    setShowSuccessDelete(false);
-    window.location.href = '/interviews';
   };
 
   const confirmRemoveModal = () => {
@@ -54,19 +47,12 @@ function Interviews() {
       })
       .then(() => {
         setShowRemoveModal(false);
-        setShowSuccessDelete(true);
       })
       .catch((error) => error);
   };
 
   return (
     <div className={styles.container}>
-      <Modal
-        show={showSuccessDelete}
-        title="Successful"
-        message={'Interview deleted'}
-        onCancel={closeModalSuccess}
-      />
       <h1>Interviews</h1>
       <ul className={styles.list1}>
         <li>Postulant</li>
@@ -108,10 +94,12 @@ function Interviews() {
           </ul>
         );
       })}
-      <RemoveModal
+      <Modal
         show={showRemoveModal}
-        confirmRemoveModal={confirmRemoveModal}
-        closeRemoveModal={closeRemoveModal}
+        title="Delete Interview"
+        message="Are you sure you want to delete this interview?"
+        onConfirm={confirmRemoveModal}
+        onCancel={closeRemoveModal}
       />
       <Link to="interviews/form">
         <CreateButton />

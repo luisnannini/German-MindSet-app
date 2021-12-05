@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './profiles.module.css';
-import Modal from './Modal';
+import Modal from '../Shared/Modal';
 import CreateButton from './CreateButton';
 import UpdateButton from './UpdateButton';
 import DeleteButton from './DeleteButton';
@@ -11,9 +11,7 @@ function Profiles() {
   const [showModal, setShowModal] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState(undefined);
   const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/profiles`)
@@ -53,8 +51,6 @@ function Profiles() {
           .then((response) => {
             setShowModal(false);
             setProfiles(response.data);
-            setShowSuccessModal(true);
-            setSuccess('You request was successful!');
           });
       })
       .catch((error) => {
@@ -66,7 +62,6 @@ function Profiles() {
   const closeModal = () => {
     setShowModal(false);
     setShowErrorModal(false);
-    setShowSuccessModal(false);
   };
 
   return (
@@ -77,13 +72,6 @@ function Profiles() {
         message="Are you sure you want to delete this profile?"
         onCancel={closeModal}
         onConfirm={deleteProfile}
-      />
-      <Modal
-        show={showSuccessModal}
-        title="Successful"
-        message={success}
-        onCancel={closeModal}
-        hideButton={true}
       />
       <Modal
         show={showErrorModal}

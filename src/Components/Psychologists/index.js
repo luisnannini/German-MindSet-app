@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './psychologists.module.css';
 import Button from './Button';
-import ModalDelete from './ModalDelete';
+import Modal from '../Shared/Modal';
 
 function Psychologists() {
   const [psychologists, savePsychologists] = useState([]);
@@ -63,7 +63,13 @@ function Psychologists() {
 
   return (
     <section className={styles.container}>
-      <ModalDelete visible={showModalDelete} action={deletePsychologist} close={closeModal} />
+      <Modal
+        show={showModalDelete}
+        title="Delete Psychologist"
+        message="Are you sure you want to delete this Psychologist?"
+        onConfirm={deletePsychologist}
+        onCancel={closeModal}
+      />
       <div>
         <h2 className={styles.title}>Psychologist</h2>
       </div>

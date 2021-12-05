@@ -13,10 +13,18 @@ const Modal = (props) => {
         </div>
         <div className={styles.message}>{props.message}</div>
         <div className={styles.btnContainer}>
-          <button className={styles.cancelButton} onClick={props.onCancel}>
+          <button
+            disabled={props.isLoading}
+            className={styles.cancelButton}
+            onClick={props.onCancel}
+          >
             Cancel
           </button>
-          <button className={styles.confirmButton} onClick={props.onConfirm}>
+          <button
+            disabled={props.isLoading}
+            className={styles.confirmButton}
+            onClick={props.onConfirm}
+          >
             Confirm
           </button>
         </div>
