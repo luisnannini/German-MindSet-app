@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import Input from '../Inputs';
-import SelectPostulant from '../SelectPostulant';
-import SelectApplication from '../SelectApplication';
-
 import Select from '../../Shared/Select';
 import Modal from '../Modal';
 import { Link } from 'react-router-dom';

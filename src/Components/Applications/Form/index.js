@@ -30,13 +30,11 @@ const Form = (props) => {
       .then((response) => response.json())
       .then((response) => {
         setPostulant(
-          response.data.map((pos) => {
-            ({
-              _id: pos._id,
-              value: pos._id,
-              name: pos.firstName
-            });
-          })
+          response.data.map((postulant) => ({
+            _id: postulant._id,
+            value: postulant._id,
+            name: `${postulant.firstName} ${postulant.lastName}`
+          }))
         );
       })
       .catch((error) => error);
