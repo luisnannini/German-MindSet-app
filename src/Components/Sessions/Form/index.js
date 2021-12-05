@@ -3,7 +3,6 @@ import Input from '../Input';
 import TextArea from '../TextArea';
 import Select from '../Select';
 import { useEffect, useState } from 'react';
-import { FaTimes } from 'react-icons/fa';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
 import ButtonCancel from '../../Shared/ButtonCancel';
 
