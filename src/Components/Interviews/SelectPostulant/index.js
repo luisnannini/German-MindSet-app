@@ -14,7 +14,7 @@ const SelectPostulant = (props) => {
         {props.object.map((data) => {
           return (
             <option key={data._id} value={data._id}>
-              {data.firstName} {data.lastName}
+              {data.name}
             </option>
           );
         })}

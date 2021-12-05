@@ -33,13 +33,25 @@ const Form = () => {
     fetch(`${process.env.REACT_APP_API}/postulants`)
       .then((response) => response.json())
       .then((response) => {
-        setPostulants(response.data);
+        setPostulants(
+          response.data.map((postulant) => ({
+            _id: postulant._id,
+            value: postulant._id,
+            name: `${postulant.firstName} ${postulant.lastName}`
+          }))
+        );
       })
       .catch((error) => error);
     fetch(`${process.env.REACT_APP_API}/applications`)
       .then((response) => response.json())
       .then((response) => {
-        setApplications(response.data);
+        setApplications(
+          response.data.map((application) => ({
+            _id: application._id,
+            value: application._id,
+            name: application.result
+          }))
+        );
       })
       .catch((error) => error);
   }, []);
@@ -169,8 +181,9 @@ const Form = () => {
       <div className={styles.formDiv1}>
         <div className={styles.formDiv2}>
           <h3>Postulant</h3>
-          <SelectPostulant
+          <Select
             value={postulantValue}
+            title="Postulant Name"
             object={postulants}
             onChange={onChangePostulantValue}
             required
@@ -188,8 +201,9 @@ const Form = () => {
         </div>
         <div className={styles.formDiv2}>
           <h3>Application</h3>
-          <SelectApplication
+          <Select
             value={applicationValue}
+            title="Application"
             object={applications}
             onChange={onChangeApplicationValue}
             required
