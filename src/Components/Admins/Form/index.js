@@ -30,6 +30,13 @@ const Form = () => {
           return response.json();
         })
         .then((response) => {
+          if (!response.data[0]) {
+            return setError({
+              show: true,
+              message: 'Admin not found',
+              title: '404: Not Found'
+            });
+          }
           setFullNameValue(response.data[0].name);
           setUsernameValue(response.data[0].username);
           setPasswordValue(response.data[0].password);

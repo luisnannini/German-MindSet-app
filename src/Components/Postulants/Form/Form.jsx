@@ -74,7 +74,7 @@ function Form() {
 
   const getPostulant = async () => {
     try {
-      const responseRaw = await fetch(url);
+      const responseRaw = await fetch(postulantId ? `${url}?_id=${postulantId}` : url);
       if (responseRaw.status !== 200 && responseRaw.status !== 201 && responseRaw.status !== 204) {
         const status = `${responseRaw.status} ${responseRaw.statusText}`;
         const { message } = await responseRaw.json();
@@ -82,6 +82,7 @@ function Form() {
         throw { message, status };
       }
       const { data } = await responseRaw.json();
+
       return data;
     } catch (error) {
       setError({ show: true, message: error.message, title: error.status });
@@ -89,26 +90,25 @@ function Form() {
   };
   const usePostulant = async () => {
     const formPostulants = await getPostulant();
-    const formPostulant = formPostulants.find((postulant) => postulant._id === postulantId);
-    if (!formPostulant) {
+    if (!formPostulants) {
       return setError({ show: true, message: 'Postulant not found', title: '404: Not Found' });
     }
-    setFirstName(formPostulant.lastName);
-    setLastName(formPostulant.lastName);
-    setBirthday(formPostulant.birthday);
-    setAddress(formPostulant.address);
-    setContactRange(formPostulant.contactRange);
-    setEmail(formPostulant.email);
-    setPassword(formPostulant.password);
-    setAvailable(formPostulant.available);
-    setPhone(formPostulant.phone);
-    setProfiles(formPostulant.profiles);
-    setWorkExperience(formPostulant.workExperience);
-    setPrimaryStudies(formPostulant.studies.primaryStudies);
-    setSecondaryStudies(formPostulant.studies.secondaryStudies);
-    setTertiaryStudies(formPostulant.studies.tertiaryStudies);
-    setUniversityStudies(formPostulant.studies.universityStudies);
-    setInformalStudies(formPostulant.studies.informalStudies);
+    setFirstName(formPostulants[0].lastName);
+    setLastName(formPostulants[0].lastName);
+    setBirthday(formPostulants[0].birthday);
+    setAddress(formPostulants[0].address);
+    setContactRange(formPostulants[0].contactRange);
+    setEmail(formPostulants[0].email);
+    setPassword(formPostulants[0].password);
+    setAvailable(formPostulants[0].available);
+    setPhone(formPostulants[0].phone);
+    setProfiles(formPostulants[0].profiles);
+    setWorkExperience(formPostulants[0].workExperience);
+    setPrimaryStudies(formPostulants[0].studies.primaryStudies);
+    setSecondaryStudies(formPostulants[0].studies.secondaryStudies);
+    setTertiaryStudies(formPostulants[0].studies.tertiaryStudies);
+    setUniversityStudies(formPostulants[0].studies.universityStudies);
+    setInformalStudies(formPostulants[0].studies.informalStudies);
   };
 
   useEffect(() => {

@@ -40,6 +40,13 @@ const Form = () => {
           return response.json();
         })
         .then((response) => {
+          if (!response.data[0]) {
+            return setError({
+              show: true,
+              message: 'Session not found',
+              title: '404: Not Found'
+            });
+          }
           setDateValue(response.data[0].date);
           setPostulantValue(response.data[0].postulant?._id);
           setPsychologistValue(response.data[0].psychologist?._id);

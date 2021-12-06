@@ -36,6 +36,13 @@ function Form() {
           return response.json();
         })
         .then((response) => {
+          if (!response.data[0]) {
+            return setError({
+              show: true,
+              message: 'Client not found',
+              title: '404: Not Found'
+            });
+          }
           setNameValue(response.data[0].name);
           setPhoneValue(response.data[0].phone);
           setCountryValue(response.data[0].location.country);

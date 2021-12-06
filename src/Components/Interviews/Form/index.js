@@ -89,6 +89,13 @@ const Form = () => {
           return response.json();
         })
         .then((response) => {
+          if (!response.data[0]) {
+            return setError({
+              show: true,
+              message: 'Interview not found',
+              title: '404: Not Found'
+            });
+          }
           setPostulantValue(response.data[0].postulant?._id);
           setClientValue(response.data[0].client?._id);
           setApplicationValue(response.data[0].application?._id);

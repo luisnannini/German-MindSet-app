@@ -50,6 +50,13 @@ const Form = () => {
           return response.json();
         })
         .then((response) => {
+          if (!response.data[0]) {
+            return setError({
+              show: true,
+              message: 'Psychologist not found',
+              title: '404: Not Found'
+            });
+          }
           setFirstName(response.data[0].firstName);
           setLastName(response.data[0].lastName);
           setUsername(response.data[0].username);

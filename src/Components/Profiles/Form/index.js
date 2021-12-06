@@ -30,6 +30,13 @@ const Form = () => {
           return response.json();
         })
         .then((response) => {
+          if (!response.data[0]) {
+            return setError({
+              show: true,
+              message: 'Profile not found',
+              title: '404: Not Found'
+            });
+          }
           setProfileValue(response.data[0].name);
         })
         .catch((error) => {

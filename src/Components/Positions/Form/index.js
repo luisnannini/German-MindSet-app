@@ -38,6 +38,13 @@ const Form = () => {
           return response.json();
         })
         .then((response) => {
+          if (!response.data[0]) {
+            return setError({
+              show: true,
+              message: 'Position not found',
+              title: '404: Not Found'
+            });
+          }
           setClientValue(response.data[0].client._id);
           setProfilesValue(response.data[0].professionalProfiles._id);
           setJobDescriptionValue(response.data[0].jobDescription);
