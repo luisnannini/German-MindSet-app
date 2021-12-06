@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './form.module.css';
-import Input from '../Inputs';
+import Input from '../../Shared/Input';
 import Select from '../../Shared/Select';
 import Modal from '../Modal';
 import { Link } from 'react-router-dom';
@@ -225,14 +225,16 @@ const Form = () => {
         />
         <h3>Date</h3>
         <Input
-          name="date"
+          label={'Date'}
+          type={'datetime-local'}
+          name={'date'}
           value={dateValue}
-          placeholder="yyyy-mm-dd"
+          placeholder={'yyyy-mm-dd'}
           onChange={(e) => {
             setDateValue(e.target.value);
             handleChangeDate(e);
           }}
-          required
+          required={true}
         />
       </div>
       <label className={styles.formLabel} htmlFor="messageDate">

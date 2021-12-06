@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import Modal from '../Modal';
-import Input from '../Input';
-import Select from '../../Shared/Select';
+import Input from '../../Shared/Input';
+import Select from '../Shared/Select';
 import Button from '../Button';
 import Checkbox from '../Checkbox';
 
@@ -176,9 +176,10 @@ const Form = () => {
             <Input
               label={'Job Description'}
               value={jobDescriptionValue}
+              name={'job-description'}
               onChange={onChangeJobDescriptionValue}
               placeholder={'Write a job description'}
-              required
+              required={true}
             />
             <Checkbox
               label={'Is Open?'}
@@ -197,12 +198,12 @@ const Form = () => {
               required
             />
             <Input
-              className={styles.input}
               label={'Vacancy'}
               value={vacancyValue}
+              name={'vacancy'}
               onChange={onChangeVacancyValue}
               placeholder={'Set the number of vacancies'}
-              required
+              required={true}
               type={'number'}
               min={1}
               step={1}

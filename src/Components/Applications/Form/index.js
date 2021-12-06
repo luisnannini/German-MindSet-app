@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './form.module.css';
+import Input from '../../Shared/Input';
 import Select from '../../Shared/Select';
 
 const Form = (props) => {
@@ -128,16 +129,15 @@ const Form = (props) => {
           required
         />
       </div>
-      <div className={styles.inputs}>
-        <label>Result:</label>
-        <input
-          class_id="input"
-          value={resultValue}
-          onChange={onChangeResult}
-          placeholder="Result"
-          required
-        ></input>
-      </div>
+      <Input
+        label={'Result'}
+        name={'result'}
+        value={resultValue}
+        onChange={onChangeResult}
+        placeholder="Result"
+        required={true}
+        type={'text'}
+      />
       <button onClick={props.onClose}>Cancel</button>
       <button type="submit">Submit</button>
     </form>

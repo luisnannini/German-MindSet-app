@@ -1,5 +1,5 @@
 import styles from './form.module.css';
-import Input from '../Input';
+import Input from '../../Shared/Input';
 import TextArea from '../TextArea';
 import Select from '../../Shared/Select';
 import { useEffect, useState } from 'react';
@@ -189,17 +189,15 @@ const Form = () => {
             disabled={isLoading}
           />
         </div>
-        <div className={styles.inputContainer}>
-          <Input
-            className={styles.input}
-            name="date"
-            value={dateValue}
-            onChange={(e) => setDateValue(e.target.value)}
-            type="datetime-local"
-            required
-            disabled={isLoading}
-          />
-        </div>
+        <Input
+          label={'Date'}
+          type={'datetime-local'}
+          value={dateValue}
+          name={'date'}
+          onChange={(e) => setDateValue(e.target.value)}
+          required={true}
+          disabled={isLoading}
+        />
         <div className={styles.inputContainer}>
           <TextArea
             name="notes"
