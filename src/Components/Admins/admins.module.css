@@ -3,10 +3,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-} 
+}
 
 .title {
-  width: 90%;
+  font-size: 30px;
+  color: black;
 }
 
 .table {

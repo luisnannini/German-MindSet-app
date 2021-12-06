@@ -44,6 +44,10 @@
   color: white;
 }
 
+.routes > li > a:hover {
+  color: #FC6225;
+}
+
 .appName {
   font-size: 2.5rem;
   font-weight: bold;
