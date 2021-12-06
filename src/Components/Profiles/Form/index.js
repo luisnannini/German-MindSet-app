@@ -1,15 +1,16 @@
 import { React, useState, useEffect } from 'react';
 import styles from './form.module.css';
-import Modal from '../Modal';
 import Input from '../Input';
 import Button from '../Button';
+import ModalError from '../../Shared/Modal-Error/modal-error';
 
 const Form = () => {
   const [profileValue, setProfileValue] = useState('');
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [error, setError] = useState({
+    show: false,
+    message: '',
+    title: ''
+  });
   const [profileId, setProfileId] = useState(undefined);
 
   useEffect(() => {
@@ -19,9 +20,11 @@ const Form = () => {
     if (profileId) {
       fetch(`${process.env.REACT_APP_API}/profiles?_id=${profileId}`)
         .then((response) => {
-          if (response.status !== 200) {
+          if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+            const status = `${response.status} ${response.statusText}`;
             return response.json().then(({ message }) => {
-              throw new Error(message);
+              if (message.message) throw { message: message.message, status };
+              throw { message, status };
             });
           }
           return response.json();
@@ -30,8 +33,7 @@ const Form = () => {
           setProfileValue(response.data[0].name);
         })
         .catch((error) => {
-          setShowErrorModal(true);
-          setError(error.toString());
+          setError({ show: true, message: error.message, title: error.status });
         });
     }
   }, []);
@@ -66,47 +68,26 @@ const Form = () => {
 
     fetch(url, options)
       .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
           });
         }
         return response.json();
       })
       .then(() => {
-        setShowSuccessModal(true);
-        setSuccess('You request was successful!');
+        console.log('asd');
       })
       .catch((error) => {
-        setShowErrorModal(true);
-        setError(error.toString());
+        setError({ show: true, message: error.message, title: error.status });
       });
-  };
-
-  const closeErrorModal = () => {
-    setShowErrorModal(false);
-  };
-
-  const closeSuccessModal = () => {
-    window.location.href = '/profiles';
   };
 
   return (
     <div className={styles.container}>
-      <Modal
-        show={showSuccessModal}
-        title="Successful"
-        message={success}
-        onCancel={closeSuccessModal}
-        hideButton={true}
-      />
-      <Modal
-        show={showErrorModal}
-        title="Error"
-        message={error}
-        onCancel={closeErrorModal}
-        hideButton={true}
-      />
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />
       <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.header}>
           <h2 className={styles.title}>{profileId ? 'Update a Profile' : 'Create a Profile'}</h2>

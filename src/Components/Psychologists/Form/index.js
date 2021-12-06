@@ -1,8 +1,9 @@
 import styles from './form.module.css';
 import { useState, useEffect } from 'react';
+import ModalError from '../../Shared/Modal-Error/modal-error';
 
 const Form = () => {
-  const [error, setError] = useState('');
+  const [error, setError] = useState({ show: false });
   const [firstNameForm, setFirstName] = useState('');
   const [lastNameForm, setLastName] = useState('');
   const [usernameForm, setUsername] = useState('');
@@ -39,9 +40,11 @@ const Form = () => {
     if (psychologistId) {
       fetch(`${process.env.REACT_APP_API}/psychologists?_id=${psychologistId}`)
         .then((response) => {
-          if (response.status !== 200) {
+          if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+            const status = `${response.status} ${response.statusText}`;
             return response.json().then(({ message }) => {
-              throw new Error(message);
+              if (message.message) throw { message: message.message, status };
+              throw { message, status };
             });
           }
           return response.json();
@@ -77,7 +80,7 @@ const Form = () => {
           setSundayTo(response.data[0].availability.sunday.to);
         })
         .catch((error) => {
-          setError(error.toString());
+          setError({ show: true, message: error.message, title: error.status });
         });
     }
   }, []);
@@ -244,9 +247,11 @@ const Form = () => {
 
     fetch(url, options)
       .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
           });
         }
         return response.json();
@@ -255,7 +260,7 @@ const Form = () => {
         window.location.href = '/psychologists';
       })
       .catch((error) => {
-        setError(error.toString());
+        setError({ show: true, message: error.message, title: error.status });
       });
   };
 
@@ -527,7 +532,7 @@ const Form = () => {
           />
         </div>
         <button type="submit">confirm</button>
-        <div className={styles.error}>{error}</div>
+        <ModalError error={error} onConfirm={() => setError({ show: false })} />
       </form>
     </div>
   );

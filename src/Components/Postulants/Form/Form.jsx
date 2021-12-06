@@ -1,6 +1,6 @@
 import style from '../postulants-Form.module.css';
 import { useState, useEffect } from 'react';
-import Modal from '../Modal';
+import ModalError from '../../Shared/Modal-Error/modal-error';
 import validatePostulant from './validations';
 import ArrayInput from './ArrayInput';
 import InitialStudies from './InitialStudies';
@@ -9,10 +9,14 @@ import ContactRange from './ContactRange';
 import Profiles from './Profiles';
 
 function Form() {
-  const [modal, setModal] = useState({ state: false, action: '', message: '' });
   const params = new URLSearchParams(window.location.search);
   const postulantId = params.get('id');
   const url = `${process.env.REACT_APP_API}/postulants`;
+  const [error, setError] = useState({
+    show: false,
+    message: '',
+    title: ''
+  });
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [birthday, setBirthday] = useState('2000-01-01T00:00:00.000Z');
@@ -69,9 +73,19 @@ function Form() {
   ]);
 
   const getPostulant = async () => {
-    const postulantRaw = await fetch(url);
-    const postulantJson = await postulantRaw.json();
-    return postulantJson.data;
+    try {
+      const responseRaw = await fetch(url);
+      if (responseRaw.status !== 200 && responseRaw.status !== 201 && responseRaw.status !== 204) {
+        const status = `${responseRaw.status} ${responseRaw.statusText}`;
+        const { message } = await responseRaw.json();
+        if (message.message) throw { message: message.message, status };
+        throw { message, status };
+      }
+      const responseJson = await responseRaw.json();
+      return responseJson.data;
+    } catch (error) {
+      setError({ show: true, message: error.message, title: error.status });
+    }
   };
   const usePostulant = async () => {
     const formPostulants = await getPostulant();
@@ -100,8 +114,6 @@ function Form() {
 
   const submit = async (e) => {
     e.preventDefault();
-    let serverError = false;
-    let status;
     const body = {
       contactRange,
       studies: {
@@ -126,67 +138,39 @@ function Form() {
     };
     const message = validatePostulant(body);
     if (message) {
-      setModal({
-        title: 'An error ocurred',
-        state: true,
-        message: message,
-        action: () => setModal({ state: modal.state })
-      });
+      setError({ show: true, message, title: 'Validation Error' });
       return;
     }
-    let responseRaw;
+    const options = {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    };
+    postulantId ? (options.method = 'PUT') : (options.method = 'POST');
     try {
-      if (postulantId) {
-        responseRaw = await fetch(`${process.env.REACT_APP_API}/postulants/${postulantId}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(body)
-        });
-      } else {
-        responseRaw = await fetch(`${process.env.REACT_APP_API}/postulants`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(body)
-        });
-      }
-      status = responseRaw.status + ' ' + responseRaw.statusText;
+      const responseRaw = await fetch(
+        `${process.env.REACT_APP_API}/postulants/${postulantId}`,
+        options
+      );
       if (responseRaw.status !== 200 && responseRaw.status !== 201 && responseRaw.status !== 204) {
-        serverError = true;
+        const status = `${responseRaw.status} ${responseRaw.statusText}`;
+        const { message } = await responseRaw.json();
+        if (message.message) throw { message: message.message, status };
+        throw { message, status };
       }
-      if (serverError) {
-        setModal({
-          title: 'Server Error',
-          state: true,
-          message: status,
-          action: () => setModal({ state: modal.state })
-        });
-        return;
-      }
-      const responseJson = await responseRaw.json();
-      setModal({
-        title: 'Operation Successful',
-        state: true,
-        message: responseJson.message,
-        action: () => setModal({ state: modal.state })
-      });
+      await responseRaw.json();
+      window.location.href = '/postulants';
     } catch (error) {
-      setModal({
-        title: 'Failed to fetch',
-        state: true,
-        message: 'A local error ocurred',
-        action: () => setModal({ state: modal.state })
-      });
+      setError({ show: true, message: error.message, title: error.status });
     }
   };
 
   return (
     <section className={style.section}>
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />
       <div className={style.formHeader}></div>
-      <h1 className={style.textCenter}>{`Edit ${postulantId}`}</h1>
+      <h1 className={style.textCenter}>{postulantId ? 'Add postulant' : `Edit ${postulantId}`}</h1>
       <form>
         <div>
           <h2 className={style.textCenter}>Studies</h2>
@@ -341,7 +325,6 @@ function Form() {
         </div>
         <button onClick={(e) => submit(e)}>Save</button>
       </form>
-      {modal.state && <Modal modal={modal} />}
     </section>
   );
 }

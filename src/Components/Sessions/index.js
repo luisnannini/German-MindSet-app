@@ -29,8 +29,9 @@ function Sessions() {
     fetch(`${process.env.REACT_APP_API}/sessions`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          return response.json().then(({ message: { message } }) => {
-            const status = `${response.status} ${response.statusText}`;
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
             throw { message, status };
           });
         } /////////////////GET
@@ -52,9 +53,9 @@ function Sessions() {
     })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            if (message.message) throw message.message;
-            const status = `${response.status} ${response.statusText}`;
+            if (message.message) throw { message: message.message, status };
             throw { message, status };
           });
         }
@@ -67,14 +68,6 @@ function Sessions() {
         setError({ show: true, message: error.message, title: error.status });
       });
   }
-  /* 
-  const showForm = (session) => {
-    if (session) {
-      window.location.href = `sessions/form?id=${session._id}`;
-    } else {
-      window.location.href = `sessions/form`;
-    }
-  }; */
 
   return (
     <div className={styles.container}>

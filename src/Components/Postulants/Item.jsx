@@ -2,40 +2,31 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Modal from './Modal';
+import ModalError from '../Shared/Modal-Error/modal-error';
 
 function Item({ postulant, fetchData, url }) {
   const [modalState, setModalState] = useState({ state: false });
+  const [error, setError] = useState({
+    show: false,
+    message: '',
+    title: ''
+  });
   const confirmDelete = async (id) => {
-    let responseRaw;
-    let status;
-    let serverError;
     try {
-      responseRaw = await fetch(`${url}/${id}`, {
+      const responseRaw = await fetch(`${url}/${id}`, {
         method: 'DELETE'
       });
-      status = responseRaw.status + ' ' + responseRaw.statusText;
       if (responseRaw.status !== 200 && responseRaw.status !== 201 && responseRaw.status !== 204) {
-        serverError = status;
-        throw new Error(serverError);
+        const status = `${responseRaw.status} ${responseRaw.statusText}`;
+        const { message } = await responseRaw.json();
+        if (message.message) throw { message: message.message, status };
+        throw { message, status };
       }
       setModalState({ state: false });
       fetchData();
     } catch (error) {
-      if (serverError) {
-        setModalState({
-          title: 'Error',
-          state: true,
-          message: serverError,
-          action: () => setModalState({ state: false })
-        });
-      } else {
-        setModalState({
-          title: 'Error',
-          state: true,
-          message: 'A local error has ocurred',
-          action: () => setModalState({ state: false })
-        });
-      }
+      setModalState({ state: false });
+      setError({ show: true, message: error.message, title: error.status });
     }
   };
 
@@ -73,6 +64,7 @@ function Item({ postulant, fetchData, url }) {
           Delete
         </button>
         {modalState.state && <Modal modal={modalState} closeModal={setModalState} />}
+        <ModalError error={error} onConfirm={() => setError({ show: false })} />
       </td>
     </tr>
   );

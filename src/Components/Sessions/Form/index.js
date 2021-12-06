@@ -31,8 +31,9 @@ const Form = () => {
       fetch(`${process.env.REACT_APP_API}/sessions?_id=${sessionId}`)
         .then((response) => {
           if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-            return response.json().then(({ message: { message } }) => {
-              const status = `${response.status} ${response.statusText}`;
+            const status = `${response.status} ${response.statusText}`;
+            return response.json().then(({ message }) => {
+              if (message.message) throw { message: message.message, status };
               throw { message, status };
             });
           } ///////////GET
@@ -54,8 +55,9 @@ const Form = () => {
     fetch(`${process.env.REACT_APP_API}/postulants`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          return response.json().then(({ message: { message } }) => {
-            const status = `${response.status} ${response.statusText}`;
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
             throw { message, status };
           });
         } ///////////////////GET
@@ -77,8 +79,9 @@ const Form = () => {
     fetch(`${process.env.REACT_APP_API}/psychologists`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          return response.json().then(({ message: { message } }) => {
-            const status = `${response.status} ${response.statusText}`;
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
             throw { message, status };
           });
         } ///////////////////GET
@@ -129,9 +132,9 @@ const Form = () => {
     fetch(url, options)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            if (message.message) throw message.message;
-            const status = `${response.status} ${response.statusText}`;
+            if (message.message) throw { message: message.message, status };
             throw { message, status };
           });
         } //////POST O PUT
