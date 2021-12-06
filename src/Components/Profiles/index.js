@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './profiles.module.css';
 import Modal from './Modal';
-import CreateButton from './CreateButton';
-import UpdateButton from './UpdateButton';
-import DeleteButton from './DeleteButton';
+import ButtonCreate from '../Shared/ButtonCreate';
+import ButtonUpdate from '../Shared/ButtonUpdate';
+import ButtonDelete from '../Shared/ButtonDelete';
 
 function Profiles() {
   const [profiles, setProfiles] = useState([]);
@@ -105,11 +105,11 @@ function Profiles() {
               <li>{profile.name}</li>
               <li>
                 <Link to={`profiles/form?id=${profile._id}`}>
-                  <UpdateButton />
+                  <ButtonUpdate />
                 </Link>
               </li>
               <li>
-                <DeleteButton onClick={(event) => handleDelete(event, profile)} />
+                <ButtonDelete onClick={(event) => handleDelete(event, profile)} />
               </li>
             </ul>
           );
@@ -117,7 +117,7 @@ function Profiles() {
       </div>
       <div className={styles.button}>
         <Link to="./profiles/form">
-          <CreateButton />
+          <ButtonCreate />
         </Link>
       </div>
     </section>

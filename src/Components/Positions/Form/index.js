@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './form.module.css';
 import Modal from '../Modal';
 import Input from '../../Shared/Input';
-import Select from '../Shared/Select';
-import Button from '../Button';
+import Select from '../../Shared/Select';
 import Checkbox from '../Checkbox';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
+import ButtonCancel from '../../Shared/ButtonCancel';
 
 const Form = () => {
   const [clients, setClients] = useState([]);
@@ -211,7 +213,10 @@ const Form = () => {
           </div>
         </div>
         <div className={styles.button}>
-          <Button type={'submit'} label={'Confirm'} />
+          <Link to="/positions">
+            <ButtonCancel />
+          </Link>
+          <ButtonConfirm type="submit" />
         </div>
       </form>
     </div>

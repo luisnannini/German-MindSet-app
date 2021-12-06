@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Modal from './Modal';
 import styles from './clients.module.css';
-import AddButton from './AddButton';
-import EditButton from './EditButton';
-import RemoveButton from './RemoveButton';
+import ButtonCreate from '../Shared/ButtonCreate';
+import ButtonUpdate from '../Shared/ButtonUpdate';
+import ButtonDelete from '../Shared/ButtonDelete';
 
 function Clients() {
   const [clients, setClients] = useState([]);
@@ -104,9 +104,9 @@ function Clients() {
               <td>{client.description}</td>
               <td>
                 <Link to={`clients/form?id=${client._id}`}>
-                  <EditButton />
+                  <ButtonUpdate />
                 </Link>
-                <RemoveButton onClick={(event) => handleDelete(event, client)} />
+                <ButtonDelete onClick={(event) => handleDelete(event, client)} />
               </td>
             </tr>
           ))}
@@ -114,7 +114,7 @@ function Clients() {
       </table>
       <div className={styles.error}>{error}</div>
       <Link to="./clients/form">
-        <AddButton />
+        <ButtonCreate />
       </Link>
     </section>
   );

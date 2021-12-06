@@ -1,4 +1,6 @@
 import styles from './modal.module.css';
+import ButtonCancel from '../../Shared/ButtonCancel';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
 
 function Modal(props) {
   if (!props.show) {
@@ -9,16 +11,8 @@ function Modal(props) {
       <div className={styles.modal}>
         <h4>{props.title}</h4>
         <div>
-          <button
-            disabled={props.isLoading}
-            onClick={props.onCancel}
-            className={`${styles.button} ${styles.cancel}`}
-          >
-            Cancel
-          </button>
-          <button disabled={props.isLoading} onClick={props.onConfirm} className={styles.button}>
-            Confirm
-          </button>
+          <ButtonCancel disabled={props.isLoading} onClick={props.onCancel} />
+          <ButtonConfirm disabled={props.isLoading} onClick={props.onConfirm} />
         </div>
       </div>
     </section>

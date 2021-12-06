@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './form.module.css';
+import ButtonCancel from '../../Shared/ButtonCancel';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
 import Input from '../../Shared/Input';
 import Select from '../../Shared/Select';
 
@@ -138,8 +140,8 @@ const Form = (props) => {
         required={true}
         type={'text'}
       />
-      <button onClick={props.onClose}>Cancel</button>
-      <button type="submit">Submit</button>
+      <ButtonCancel onClick={props.onClose} />
+      <ButtonConfirm type="submit" />
     </form>
   );
 };

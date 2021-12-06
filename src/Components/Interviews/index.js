@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './interviews.module.css';
-import CreateButton from './CreateButton';
-import EditButton from './EditButton';
-import RemoveButton from './RemoveButton';
 import RemoveModal from './RemoveModal';
 import Modal from './Modal';
+import ButtonCreate from '../Shared/ButtonCreate';
+import ButtonUpdate from '../Shared/ButtonUpdate';
+import ButtonDelete from '../Shared/ButtonDelete';
 
 function Interviews() {
   const [interviews, setInterviews] = useState([]);
@@ -18,7 +18,6 @@ function Interviews() {
       .then((response) => response.json())
       .then((response) => {
         setInterviews(response.data);
-        console.log(response.data);
       })
       .catch((error) => error);
   }, []);
@@ -84,33 +83,30 @@ function Interviews() {
         <li>Actions</li>
       </ul>
       {interviews.map((interview) => {
-        // this is here because some postulants are no longer on the db
-        if (interview.postulant) {
-          return (
-            <ul className={styles.list} key={interview._id}>
-              <li>{interview.postulant.firstName}</li>
-              <li>{interview.postulant.lastName}</li>
-              <li>{interview.client.name}</li>
-              <li>{interview.application.result}</li>
-              <li>{interview.status}</li>
-              <li>{interview.date.replace('T00:00:00.000Z', '')}</li>
-              <li>{interview.notes}</li>
-              <li className={styles.buttons}>
-                <Link to={`interviews/form?id=${interview._id}`}>
-                  <EditButton />
-                </Link>
-              </li>
-              <li className={styles.buttons}>
-                <RemoveButton
-                  onClick={(event) => {
-                    handleDelete(event, interview);
-                    setShowRemoveModal(true);
-                  }}
-                />
-              </li>
-            </ul>
-          );
-        }
+        return (
+          <ul className={styles.list} key={interview._id}>
+            <li>{interview.postulant.firstName}</li>
+            <li>{interview.postulant.lastName}</li>
+            <li>{interview.client.name}</li>
+            <li>{interview.application.result}</li>
+            <li>{interview.status}</li>
+            <li>{interview.date.replace('T00:00:00.000Z', '')}</li>
+            <li>{interview.notes}</li>
+            <li className={styles.buttons}>
+              <Link to={`interviews/form?id=${interview._id}`}>
+                <ButtonUpdate />
+              </Link>
+            </li>
+            <li className={styles.buttons}>
+              <ButtonDelete
+                onClick={(event) => {
+                  handleDelete(event, interview);
+                  setShowRemoveModal(true);
+                }}
+              />
+            </li>
+          </ul>
+        );
       })}
       <RemoveModal
         show={showRemoveModal}
@@ -118,7 +114,7 @@ function Interviews() {
         closeRemoveModal={closeRemoveModal}
       />
       <Link to="interviews/form">
-        <CreateButton />
+        <ButtonCreate />
       </Link>
     </div>
   );

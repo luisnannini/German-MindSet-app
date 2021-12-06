@@ -1,8 +1,10 @@
 import { React, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './form.module.css';
 import Modal from '../Modal';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
+import ButtonCancel from '../../Shared/ButtonCancel';
 import Input from '../../Shared/Input';
-import Button from '../Button';
 
 const Form = () => {
   const [profileValue, setProfileValue] = useState('');
@@ -121,7 +123,10 @@ const Form = () => {
           pattern="[A-Za-z ]*"
         />
         <div className={styles.button}>
-          <Button type={'submit'} label={'Confirm'} />
+          <Link to="/profiles">
+            <ButtonCancel />
+          </Link>
+          <ButtonConfirm type={'submit'} />
         </div>
       </form>
     </div>

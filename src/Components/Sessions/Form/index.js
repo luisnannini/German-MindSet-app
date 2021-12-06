@@ -1,9 +1,10 @@
+import { useEffect, useState } from 'react';
 import styles from './form.module.css';
 import Input from '../../Shared/Input';
 import TextArea from '../TextArea';
 import Select from '../../Shared/Select';
-import { useEffect, useState } from 'react';
-import { FaTimes } from 'react-icons/fa';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
+import ButtonCancel from '../../Shared/ButtonCancel';
 
 const Form = () => {
   const [dateValue, setDateValue] = useState('');
@@ -145,7 +146,6 @@ const Form = () => {
     <div className={styles.formContainer}>
       <div className={styles.modalHeader}>
         <h3>{title} Session</h3>
-        <FaTimes onClick={closeForm} />
       </div>
       <form onSubmit={onSubmit} className={styles.createForm}>
         <div className={styles.inputContainer}>
@@ -206,11 +206,10 @@ const Form = () => {
             disabled={isLoading}
           />
         </div>
+        <ButtonCancel onClick={closeForm} />
         <div className={styles.inputContainer}>
           <label className={styles.label} htmlFor="submit">
-            <button className={styles.submitBtn} type="submit">
-              {title}
-            </button>
+            <ButtonConfirm type="submit" name={title} />
           </label>
         </div>
         <div className={styles.error}>{error}</div>

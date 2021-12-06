@@ -1,5 +1,8 @@
-import styles from './form.module.css';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import styles from './form.module.css';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
+import ButtonCancel from '../../Shared/ButtonCancel';
 import Input from '../../Shared/Input';
 
 const Form = () => {
@@ -262,13 +265,6 @@ const Form = () => {
 
   return (
     <div className={styles.container}>
-      <button
-        onClick={() => {
-          window.location.href = `${window.location.origin}/psychologists`;
-        }}
-      >
-        Return
-      </button>
       <form className={styles.form} onSubmit={onSubmit}>
         <h2 className={styles.title}>Form</h2>
         <div>
@@ -532,7 +528,10 @@ const Form = () => {
             value={sundayTo}
           />
         </div>
-        <button type="submit">confirm</button>
+        <Link to="/psychologists">
+          <ButtonCancel />
+        </Link>
+        <ButtonConfirm type="submit" />
         <div className={styles.error}>{error}</div>
       </form>
     </div>

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './form.module.css';
 import Input from '../../Shared/Input';
 import Select from '../../Shared/Select';
 import Modal from '../Modal';
-import { Link } from 'react-router-dom';
+import ButtonCancel from '../../Shared/ButtonCancel';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
 
 const Form = () => {
   const [clients, setClients] = useState([]);
@@ -253,11 +255,9 @@ const Form = () => {
       </div>
       <div className={styles.buttons}>
         <Link to="/interviews">
-          <button className={styles.cancel}>Cancel</button>
+          <ButtonCancel />
         </Link>
-        <button type="submit" className={styles.confirm}>
-          Confirm
-        </button>
+        <ButtonConfirm type="submit" />
       </div>
     </form>
   );
