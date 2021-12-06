@@ -1,16 +1,12 @@
 import React from 'react';
-import styles from './button.module.css';
-import create from './create.png';
+import styles from './buttonCreate.module.css';
+import { FaPlusCircle } from 'react-icons/fa';
 
 const ButtonCreate = (props) => {
   return (
-    <img
-      src={create}
-      disabled={props.disabled}
-      onClick={props.onClick}
-      className={styles.button}
-      alt="Create Button"
-    ></img>
+    <button className={styles.button}>
+      <FaPlusCircle disabled={props.disabled} onClick={props.onClick} />
+    </button>
   );
 };
 
