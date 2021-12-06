@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styles from './form.module.css';
 import Modal from '../Modal';
 import Input from '../../Shared/Input';
-import Select from '../Shared/Select';
+import Select from '../../Shared/Select';
 import Checkbox from '../Checkbox';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
 import ButtonCancel from '../../Shared/ButtonCancel';

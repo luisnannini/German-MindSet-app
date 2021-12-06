@@ -1,5 +1,6 @@
-import style from '../postulants-Form.module.css';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import style from '../postulants-Form.module.css';
 import Modal from '../Modal';
 import validatePostulant from './validations';
 import ArrayInput from './ArrayInput';
@@ -9,7 +10,6 @@ import ContactRange from './ContactRange';
 import Profiles from './Profiles';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
 import ButtonCancel from '../../Shared/ButtonCancel';
-import { Link } from 'react-router-dom';
 
 function Form() {
   const [modal, setModal] = useState({ state: false, action: '', message: '' });
@@ -340,14 +340,10 @@ function Form() {
             }}
           />
         </div>
-<<<<<<< HEAD
         <Link to="/postulants">
           <ButtonCancel />
         </Link>
-        <ButtonConfirm onClick={(e) => submit(e)} />
-=======
-        <input type="submit" value={postulantId ? 'Save' : 'Add'} />
->>>>>>> development
+        <ButtonConfirm onClick={(e) => onSubmit(e)} />
       </form>
       {modal.state && <Modal modal={modal} />}
     </section>
