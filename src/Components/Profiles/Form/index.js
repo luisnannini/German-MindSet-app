@@ -77,9 +77,7 @@ const Form = () => {
         }
         return response.json();
       })
-      .then(() => {
-        console.log('asd');
-      })
+      .then(() => {})
       .catch((error) => {
         setError({ show: true, message: error.message, title: error.status });
       });

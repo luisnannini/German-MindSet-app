@@ -58,9 +58,7 @@ function Interviews() {
           });
         }
       })
-      .then(() => {
-        console.log('asd');
-      })
+      .then(() => {})
       .catch((error) => setError({ show: true, message: error.message, title: error.status }));
   };
 
