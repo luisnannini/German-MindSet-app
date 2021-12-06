@@ -2,20 +2,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #232F3E;
 }
 
-.main {
+/* .main {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 5%;
   width: 90%;
-  height: 250px;
+  height: 100px;
 }
 
 .appName {
-  font-size: 2rem;
+  font-size: 1.2rem;
   font-weight: bold;
   color: #FFF;
 }
@@ -29,12 +28,12 @@
 
 .routes > li > a {
   margin-left: 15px;
-  font-size: 1rem;
+  font-size: 0.7rem;
   font-weight: 600;
   text-decoration: none;
   text-transform: capitalize;
   color: #FFF;
-}
+} */
 
 .license {
   display: flex;
@@ -47,7 +46,7 @@
 }
 
 .copyright {
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   font-style: italic;
 }
 
@@ -63,7 +62,7 @@
 
   .license {
     padding: 0 20px;
-    width: calc(60% - 40px);
+    width: calc(80% - 40px);
   }
 
   .socialIcon {
