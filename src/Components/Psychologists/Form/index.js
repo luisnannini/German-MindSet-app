@@ -363,17 +363,10 @@ const Form = () => {
           <p>Monday</p>
           <Checkbox
             label="monday-availability"
-            defaultChecked={mondayBool}
+            value={mondayBool}
             onChange={onChangeMondayBool}
             day="monday"
           />
-          {/* <input
-            label="monday-availability"
-            day="monday"
-            type="checkbox"
-            defaultChecked={mondayBool}
-            onChange={onChangeMondayBool}
-          /> */}
           <input
             label="monday-from"
             placeholder="From"
@@ -393,17 +386,10 @@ const Form = () => {
           <p>Tuesday</p>
           <Checkbox
             label="tuesday-availability"
-            defaultChecked={tuesdayBool}
+            value={tuesdayBool}
             onChange={onChangeTuesdayBool}
             day="tuesday"
           />
-          {/* <input
-            label="tuesday-availability"
-            type="checkbox"
-            day="tuesday"
-            defaultChecked={tuesdayBool}
-            onChange={onChangeTuesdayBool}
-          /> */}
           <input
             label="tuesday-from"
             placeholder="From"
@@ -423,17 +409,10 @@ const Form = () => {
           <p>Wednesday</p>
           <Checkbox
             label="wednesday-availability"
-            defaultChecked={wednesdayBool}
+            value={wednesdayBool}
             onChange={onChangeWednesdayBool}
             day="wednesday"
           />
-          {/* <input
-            day="wednesday"
-            label="wednesday-availability"
-            type="checkbox"
-            defaultChecked={wednesdayBool}
-            onChange={onChangeWednesdayBool}
-          /> */}
           <input
             label="wednesday-from"
             placeholder="From"
@@ -453,17 +432,10 @@ const Form = () => {
           <p>Thursday</p>
           <Checkbox
             label="thursday-availability"
-            defaultChecked={thursdayBool}
+            value={thursdayBool}
             onChange={onChangeThursdayBool}
             day="thursday"
           />
-          {/* <input
-            label="thursday-availability"
-            day="thursday"
-            type="checkbox"
-            defaultChecked={thursdayBool}
-            onChange={onChangeThursdayBool}
-          /> */}
           <input
             label="thursday-from"
             placeholder="From"
@@ -483,17 +455,10 @@ const Form = () => {
           <p>Friday</p>
           <Checkbox
             label="friday-availability"
-            defaultChecked={fridayBool}
+            value={fridayBool}
             onChange={onChangeFridayBool}
             day="friday"
           />
-          {/* <input
-            label="friday-availability"
-            day="friday"
-            type="checkbox"
-            defaultChecked={fridayBool}
-            onChange={onChangeFridayBool}
-          /> */}
           <input
             label="friday-from"
             placeholder="From"
@@ -513,17 +478,10 @@ const Form = () => {
           <p>Saturday</p>
           <Checkbox
             label="saturday-availability"
-            defaultChecked={saturdayBool}
+            value={saturdayBool}
             onChange={onChangeSaturdayBool}
             day="saturday"
           />
-          {/* <input
-            label="saturday-availability"
-            day="saturday"
-            type="checkbox"
-            defaultChecked={saturdayBool}
-            onChange={onChangeSaturdayBool}
-          /> */}
           <input
             label="saturday-from"
             placeholder="From"
@@ -543,17 +501,10 @@ const Form = () => {
           <p>Sunday</p>
           <Checkbox
             label="sunday-availability"
-            defaultChecked={sundayBool}
+            value={sundayBool}
             onChange={onChangeSundayBool}
             day="sunday"
           />
-          {/* <input
-            label="sunday-availability"
-            day="sunday"
-            type="checkbox"
-            defaultChecked={sundayBool}
-            onChange={onChangeSundayBool}
-          /> */}
           <input
             label="sunday-from"
             placeholder="From"
