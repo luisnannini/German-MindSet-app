@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './form.module.css';
-import ModalError from '../Shared/Modal-Error/modal-error';
+import ModalError from '../../Shared/Modal-Error/modal-error';
 
 const Form = () => {
   const [fullNameValue, setFullNameValue] = useState('');
