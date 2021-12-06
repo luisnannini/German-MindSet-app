@@ -365,6 +365,7 @@ const Form = () => {
             label="monday-availability"
             defaultChecked={mondayBool}
             onChange={onChangeMondayBool}
+            day="monday"
           />
           {/* <input
             label="monday-availability"
@@ -394,6 +395,7 @@ const Form = () => {
             label="tuesday-availability"
             defaultChecked={tuesdayBool}
             onChange={onChangeTuesdayBool}
+            day="tuesday"
           />
           {/* <input
             label="tuesday-availability"
@@ -423,6 +425,7 @@ const Form = () => {
             label="wednesday-availability"
             defaultChecked={wednesdayBool}
             onChange={onChangeWednesdayBool}
+            day="wednesday"
           />
           {/* <input
             day="wednesday"
@@ -452,6 +455,7 @@ const Form = () => {
             label="thursday-availability"
             defaultChecked={thursdayBool}
             onChange={onChangeThursdayBool}
+            day="thursday"
           />
           {/* <input
             label="thursday-availability"
@@ -481,6 +485,7 @@ const Form = () => {
             label="friday-availability"
             defaultChecked={fridayBool}
             onChange={onChangeFridayBool}
+            day="friday"
           />
           {/* <input
             label="friday-availability"
@@ -510,6 +515,7 @@ const Form = () => {
             label="saturday-availability"
             defaultChecked={saturdayBool}
             onChange={onChangeSaturdayBool}
+            day="saturday"
           />
           {/* <input
             label="saturday-availability"
@@ -539,6 +545,7 @@ const Form = () => {
             label="sunday-availability"
             defaultChecked={sundayBool}
             onChange={onChangeSundayBool}
+            day="sunday"
           />
           {/* <input
             label="sunday-availability"
