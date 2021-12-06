@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './form.module.css';
+import Input from '../../Shared/Input';
+import Checkbox from '../../Shared/Checkbox';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
 import ButtonCancel from '../../Shared/ButtonCancel';
-import Input from '../../Shared/Input';
 
 const Form = () => {
   const [error, setError] = useState('');
@@ -348,12 +349,11 @@ const Form = () => {
         <h2 className={styles.container}>Availability</h2>
         <div>
           <p>Monday</p>
-          <input
+          <Checkbox
             label="monday-availability"
-            day="monday"
-            type="checkbox"
-            defaultChecked={mondayBool}
+            value={mondayBool}
             onChange={onChangeMondayBool}
+            day="monday"
           />
           <Input
             label={'From'}
@@ -374,12 +374,11 @@ const Form = () => {
         </div>
         <div>
           <p>Tuesday</p>
-          <input
+          <Checkbox
             label="tuesday-availability"
-            type="checkbox"
-            day="tuesday"
-            defaultChecked={tuesdayBool}
+            value={tuesdayBool}
             onChange={onChangeTuesdayBool}
+            day="tuesday"
           />
           <Input
             label={'From'}
@@ -400,12 +399,11 @@ const Form = () => {
         </div>
         <div>
           <p>Wednesday</p>
-          <input
-            day="wednesday"
+          <Checkbox
             label="wednesday-availability"
-            type="checkbox"
-            defaultChecked={wednesdayBool}
+            value={wednesdayBool}
             onChange={onChangeWednesdayBool}
+            day="wednesday"
           />
           <Input
             label={'From'}
@@ -426,12 +424,11 @@ const Form = () => {
         </div>
         <div>
           <p>Thursday</p>
-          <input
+          <Checkbox
             label="thursday-availability"
-            day="thursday"
-            type="checkbox"
-            defaultChecked={thursdayBool}
+            value={thursdayBool}
             onChange={onChangeThursdayBool}
+            day="thursday"
           />
           <Input
             label={'From'}
@@ -452,12 +449,11 @@ const Form = () => {
         </div>
         <div>
           <p>Friday</p>
-          <input
+          <Checkbox
             label="friday-availability"
-            day="friday"
-            type="checkbox"
-            defaultChecked={fridayBool}
+            value={fridayBool}
             onChange={onChangeFridayBool}
+            day="friday"
           />
           <Input
             label={'From'}
@@ -478,12 +474,11 @@ const Form = () => {
         </div>
         <div>
           <p>Saturday</p>
-          <input
+          <Checkbox
             label="saturday-availability"
-            day="saturday"
-            type="checkbox"
-            defaultChecked={saturdayBool}
+            value={saturdayBool}
             onChange={onChangeSaturdayBool}
+            day="saturday"
           />
           <Input
             label={'From'}
@@ -504,12 +499,11 @@ const Form = () => {
         </div>
         <div>
           <p>Sunday</p>
-          <input
+          <Checkbox
             label="sunday-availability"
-            day="sunday"
-            type="checkbox"
-            defaultChecked={sundayBool}
+            value={sundayBool}
             onChange={onChangeSundayBool}
+            day="sunday"
           />
           <Input
             label={'From'}

@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import styles from './form.module.css';
 import Modal from '../Modal';
 import Input from '../../Shared/Input';
+import Checkbox from '../../Shared/Checkbox';
 import Select from '../../Shared/Select';
-import Checkbox from '../Checkbox';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
 import ButtonCancel from '../../Shared/ButtonCancel';
 
@@ -183,12 +183,7 @@ const Form = () => {
               placeholder={'Write a job description'}
               required={true}
             />
-            <Checkbox
-              label={'Is Open?'}
-              type={'checkbox'}
-              value={isOpenValue}
-              onChange={onChangeIsOpenValue}
-            />
+            <Checkbox label={'Is Open?'} value={isOpenValue} onChange={onChangeIsOpenValue} />
           </div>
           <div className={styles.columns}>
             <Select

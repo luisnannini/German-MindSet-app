@@ -1,3 +1,5 @@
+import Checkbox from '../../Shared/Checkbox';
+
 const PrimitiveFormInputs = ({ postulantData, setData, dataName }) => {
   return (
     <div>
@@ -17,10 +19,8 @@ const PrimitiveFormInputs = ({ postulantData, setData, dataName }) => {
         </>
       ) : dataName === 'available' ? (
         <>
-          <label htmlFor={dataName}></label>
-          <input
-            name={dataName}
-            type="checkbox"
+          <Checkbox
+            htmlFor={dataName}
             checked={postulantData}
             onChange={(e) => setData(e.target.checked)}
           />

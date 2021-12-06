@@ -10,6 +10,7 @@ const Checkbox = (props) => {
         className={styles.checkbox}
         onChange={props.onChange}
         checked={props.value}
+        disabled={props.isDisabled}
       ></input>
     </div>
   );
