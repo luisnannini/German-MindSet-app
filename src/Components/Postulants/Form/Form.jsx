@@ -90,6 +90,9 @@ function Form() {
   const usePostulant = async () => {
     const formPostulants = await getPostulant();
     const formPostulant = formPostulants.find((postulant) => postulant._id === postulantId);
+    if (!formPostulant) {
+      return setError({ show: true, message: 'Postulant not found', title: '404: Not Found' });
+    }
     setFirstName(formPostulant.lastName);
     setLastName(formPostulant.lastName);
     setBirthday(formPostulant.birthday);
