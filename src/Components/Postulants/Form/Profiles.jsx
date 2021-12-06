@@ -1,4 +1,4 @@
-import ButtonConfirm from '../../Shared/ButtonConfirm';
+import ButtonLittleAdd from '../../Shared/ButtonLittleAdd';
 
 const Profiles = ({ postulantData, setData, dataTemplate }) => {
   postulantData.forEach((data, index) => {
@@ -28,7 +28,7 @@ const Profiles = ({ postulantData, setData, dataTemplate }) => {
           </div>
         );
       })}
-      <ButtonConfirm
+      <ButtonLittleAdd
         onClick={(e) => {
           e.preventDefault();
           setData([...postulantData, { ...dataTemplate, id: Math.floor(Math.random() * 10000) }]);

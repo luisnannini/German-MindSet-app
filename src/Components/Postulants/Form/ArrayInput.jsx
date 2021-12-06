@@ -1,4 +1,4 @@
-import ButtonConfirm from '../../Shared/ButtonConfirm';
+import ButtonLittleAdd from '../../Shared/ButtonLittleAdd';
 
 const ArrayInput = ({ postulantData, setData, dataName, dataTemplate }) => {
   return (
@@ -47,7 +47,7 @@ const ArrayInput = ({ postulantData, setData, dataName, dataTemplate }) => {
           </div>
         );
       })}
-      <ButtonConfirm
+      <ButtonLittleAdd
         onClick={(e) => {
           e.preventDefault();
           setData([...postulantData, { ...dataTemplate, id: Math.floor(Math.random() * 10000) }]);
