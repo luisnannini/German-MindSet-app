@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import styles from './form.module.css';
 import ButtonCancel from '../../Shared/ButtonCancel';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
+import Input from '../../Shared/Input';
+import Select from '../../Shared/Select';
 
 const Form = (props) => {
   if (props.showForm == false) {
@@ -18,19 +20,37 @@ const Form = (props) => {
     fetch(`${process.env.REACT_APP_API}/positions`)
       .then((response) => response.json())
       .then((response) => {
-        setPosition(response.data);
+        setPosition(
+          response.data.map((position) => ({
+            _id: position._id,
+            value: position._id,
+            name: position.jobDescription
+          }))
+        );
       })
       .catch((error) => error);
     fetch(`${process.env.REACT_APP_API}/postulants`)
       .then((response) => response.json())
       .then((response) => {
-        setPostulant(response.data);
+        setPostulant(
+          response.data.map((postulant) => ({
+            _id: postulant._id,
+            value: postulant._id,
+            name: `${postulant.firstName} ${postulant.lastName}`
+          }))
+        );
       })
       .catch((error) => error);
     fetch(`${process.env.REACT_APP_API}/interviews`)
       .then((response) => response.json())
       .then((response) => {
-        setInterview(response.data);
+        setInterview(
+          response.data.map((interview) => ({
+            _id: interview._id,
+            value: interview._id,
+            name: interview._id
+          }))
+        );
       })
       .catch((error) => error);
   }, []);
@@ -82,60 +102,44 @@ const Form = (props) => {
     <form onSubmit={onSubmit}>
       <h2>Create Application</h2>
       <div className={styles.inputs}>
-        <label>Position:</label>
-        <select onChange={onChangePosition} required>
-          <option value="" disabled hidden selected>
-            - Select an option -
-          </option>
-          {position.map((data) => {
-            return (
-              <option key={data._id} value={data._id}>
-                {data.jobDescription}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-      <div className={styles.inputs}>
-        <label>Postulant:</label>
-        <select onChange={onChangePostulant} required>
-          <option value="" disabled hidden selected>
-            - Select an option -
-          </option>
-          {postulant.map((data) => {
-            return (
-              <option key={data._id} value={data._id}>
-                {data.firstName + ' ' + data.lastName}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-      <div className={styles.inputs}>
-        <label>ID Interview:</label>
-        <select onChange={onChangeInterview} required>
-          <option value="" disabled hidden selected>
-            - Select an option -
-          </option>
-          {interview.map((data) => {
-            return (
-              <option key={data._id} value={data._id}>
-                {data._id}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-      <div className={styles.inputs}>
-        <label>Result:</label>
-        <input
-          class_id="input"
-          value={resultValue}
-          onChange={onChangeResult}
-          placeholder="Result"
+        <Select
+          label="Positions:"
+          onChange={onChangePosition}
+          value={positionValue}
+          object={position}
+          title="- Select a position -"
           required
-        ></input>
+        />
       </div>
+      <div className={styles.inputs}>
+        <Select
+          label="Postulants:"
+          onChange={onChangePostulant}
+          value={postulantValue}
+          object={postulant}
+          title="- Select a postulant -"
+          required
+        />
+      </div>
+      <div className={styles.inputs}>
+        <Select
+          label="Id interview:"
+          onChange={onChangeInterview}
+          value={interviewValue}
+          object={interview}
+          title="- Select an interview -"
+          required
+        />
+      </div>
+      <Input
+        label={'Result'}
+        name={'result'}
+        value={resultValue}
+        onChange={onChangeResult}
+        placeholder="Result"
+        required={true}
+        type={'text'}
+      />
       <ButtonCancel onClick={props.onClose} />
       <ButtonConfirm type="submit" />
     </form>

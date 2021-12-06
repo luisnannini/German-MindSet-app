@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import Input from '../Input';
+import { Link } from 'react-router-dom';
+import Input from '../../Shared/Input';
 import styles from './form.module.css';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
 import ButtonCancel from '../../Shared/ButtonCancel';
-import { Link } from 'react-router-dom';
 
 function Form() {
   const [nameValue, setNameValue] = useState('');
@@ -137,93 +137,87 @@ function Form() {
     <section className={styles.container}>
       <form className={styles.form} onSubmit={onSubmit}>
         <h2>Clients Form</h2>
-        <label>Name</label>
         <Input
-          name="name"
+          label={'Name'}
+          name={'name'}
           value={nameValue}
-          placeholder="Insert Client name..."
+          placeholder={'Insert Client name...'}
           onChange={onChangeNameInput}
-          type="text"
-          required
-          pattern="[A-Za-z ]*"
-          title="Enter a valid name"
+          type={'text'}
+          required={true}
+          pattern={'[A-Za-z ]*'}
           disabled={isLoading}
         />
-        <label>Phone Number</label>
         <Input
-          name="phone"
+          label={'Phone Number'}
+          name={'phone'}
           value={phoneValue}
-          placeholder="Insert Client phone..."
+          placeholder={'Insert Client phone...'}
           onChange={onChangePhoneInput}
-          type="number"
-          required
-          pattern="[0-9]"
-          title="Enter a valid phone number"
+          type={'number'}
+          required={true}
+          pattern={'[0-9]'}
           disabled={isLoading}
         />
-        <label>Country</label>
         <Input
-          name="country"
+          label={'Country'}
+          name={'country'}
           value={countryValue}
-          placeholder="Insert Client country..."
+          placeholder={'Insert Client country...'}
           onChange={onChangeCountryInput}
-          type="text"
-          required
-          pattern="[A-Za-z ]*"
-          title="Enter a valid country"
+          type={'text'}
+          required={true}
+          pattern={'[A-Za-z ]*'}
           disabled={isLoading}
         />
-        <label>State</label>
         <Input
-          name="state"
+          label={'State'}
+          name={'state'}
           value={stateValue}
-          placeholder="Insert Client state..."
+          placeholder={'Insert Client state...'}
           onChange={onChangeStateInput}
-          type="text"
-          pattern="[A-Za-z ]*"
-          title="Enter a valid state"
-          required
+          type={'text'}
+          pattern={'[A-Za-z ]*'}
+          required={true}
           disabled={isLoading}
         />
-        <label>City</label>
         <Input
-          name="city"
+          label={'City'}
+          name={'city'}
           value={cityValue}
-          placeholder="Insert Client city..."
+          placeholder={'Insert Client city...'}
           onChange={onChangeCityInput}
-          type="text"
-          required
-          pattern="[A-Za-z ]*"
-          title="Enter a valid city"
+          type={'text'}
+          required={true}
+          pattern={'[A-Za-z ]*'}
           disabled={isLoading}
         />
-        <label>Address</label>
         <Input
-          name="address"
+          label={'Address'}
+          name={'address'}
           value={addressValue}
-          placeholder="Insert Client address..."
+          placeholder={'Insert Client address...'}
           onChange={onChangeAddressInput}
-          type="address"
-          required
-          title="Enter a valid address"
+          type={'address'}
+          required={true}
           disabled={isLoading}
         />
-        <label>Logo</label>
         <Input
-          name="logo"
+          label={'Logo'}
+          name={'logo'}
           value={logoValue}
-          placeholder="Insert Client logo..."
+          placeholder={'Insert Client logo...'}
           onChange={onChangeLogoInput}
-          type="text"
+          type={'text'}
           disabled={isLoading}
         />
-        <label>Description</label>
         <Input
-          name="description"
+          label={'Description'}
+          name={'description'}
           value={descriptionValue}
-          placeholder="Insert Client description..."
+          placeholder={'Insert Client description...'}
           onChange={onChangeDescriptionInput}
-          type="text"
+          type={'text'}
           disabled={isLoading}
         />
         <Link to="/clients">

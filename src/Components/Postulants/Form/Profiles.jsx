@@ -9,7 +9,10 @@ const Profiles = ({ postulantData, setData, dataTemplate }) => {
       {postulantData.map((profile, index) => {
         return (
           <div key={index}>
+            <label htmlFor="id"></label>
             <input
+              required
+              name="id"
               placeholder="ID"
               defaultValue={profile.profileId._id}
               onChange={(e) => {
@@ -17,7 +20,10 @@ const Profiles = ({ postulantData, setData, dataTemplate }) => {
                 setData([...postulantData]);
               }}
             />
+            <label htmlFor="id"></label>
             <input
+              required
+              name="name"
               placeholder="Name"
               defaultValue={profile.profileId.name}
               onChange={(e) => {

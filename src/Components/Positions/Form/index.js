@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './form.module.css';
 import Modal from '../Modal';
-import Input from '../Input';
-import Select from '../Select';
+import Input from '../../Shared/Input';
+import Select from '../Shared/Select';
 import Checkbox from '../Checkbox';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
 import ButtonCancel from '../../Shared/ButtonCancel';
-import { Link } from 'react-router-dom';
 
 const Form = () => {
   const [clients, setClients] = useState([]);
@@ -172,15 +172,16 @@ const Form = () => {
               label={'Clients'}
               value={clientValue}
               onChange={onChangeClientValue}
-              placeholder={'Select a Client'}
+              title={'Select a Client'}
               required
             />
             <Input
               label={'Job Description'}
               value={jobDescriptionValue}
+              name={'job-description'}
               onChange={onChangeJobDescriptionValue}
               placeholder={'Write a job description'}
-              required
+              required={true}
             />
             <Checkbox
               label={'Is Open?'}
@@ -195,16 +196,16 @@ const Form = () => {
               label={'Profiles'}
               value={profilesValue}
               onChange={onChangeProfilesValue}
-              placeholder={'Select a Profile'}
+              title={'Select a Profile'}
               required
             />
             <Input
-              className={styles.input}
               label={'Vacancy'}
               value={vacancyValue}
+              name={'vacancy'}
               onChange={onChangeVacancyValue}
               placeholder={'Set the number of vacancies'}
-              required
+              required={true}
               type={'number'}
               min={1}
               step={1}

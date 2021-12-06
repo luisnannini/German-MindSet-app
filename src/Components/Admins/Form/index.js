@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './form.module.css';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
 import ButtonCancel from '../../Shared/ButtonCancel';
-import { Link } from 'react-router-dom';
+import Input from '../../Shared/Input';
 
 const Form = () => {
   const [fullNameValue, setFullNameValue] = useState('');
@@ -96,31 +97,31 @@ const Form = () => {
     <div className={styles.container}>
       <form onSubmit={submitAdmin}>
         <h2>Form</h2>
-        <label>Full Name</label>
-        <input
-          type="text"
+        <Input
+          label={'Full Name'}
+          type={'text'}
           value={fullNameValue}
-          placeholder="Full name"
+          placeholder={'Full name'}
           onChange={onChangeFullNameValue}
-          required
+          required={true}
           disabled={isLoading}
         />
-        <label>Username</label>
-        <input
-          type="text"
+        <Input
+          label={'Username'}
+          type={'text'}
           value={usernameValue}
-          placeholder="Username"
+          placeholder={'Username'}
           onChange={onChangeUsernameValue}
-          required
+          required={true}
           disabled={isLoading}
         />
-        <label>Password</label>
-        <input
-          type="password"
+        <Input
+          label={'Password'}
+          type={'password'}
           value={passwordValue}
-          placeholder="Password"
+          placeholder={'Password'}
           onChange={onChangePasswordValue}
-          required
+          required={true}
           disabled={isLoading}
         />
         <Link to="/admins">

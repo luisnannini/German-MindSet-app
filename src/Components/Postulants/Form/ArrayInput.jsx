@@ -6,7 +6,10 @@ const ArrayInput = ({ postulantData, setData, dataName, dataTemplate }) => {
       {postulantData.map((inputElement, index) => {
         return (
           <div key={index}>
+            <label htmlFor={dataName}></label>
             <input
+              required
+              name={dataName}
               type="datetime-local"
               defaultValue={inputElement.startDate.substring(0, inputElement.startDate.length - 8)}
               placeholder="Start Date"
@@ -15,16 +18,21 @@ const ArrayInput = ({ postulantData, setData, dataName, dataTemplate }) => {
                 setData([...postulantData]);
               }}
             />
+            <label htmlFor={dataName}></label>
             <input
+              name={dataName}
               type="datetime-local"
-              defaultValue={inputElement.endDate.substring(0, inputElement.startDate.length - 8)}
-              placeholder="Start Date"
+              defaultValue={inputElement.endDate.substring(0, inputElement.endDate.length - 8)}
+              placeholder="End Date"
               onChange={(e) => {
                 postulantData[index].endDate = e.target.value;
                 setData([...postulantData]);
               }}
             />
+            <label htmlFor={dataName}></label>
             <input
+              required
+              name={dataName}
               defaultValue={
                 dataName === 'workExperience' ? inputElement.company : inputElement.institute
               }
@@ -36,7 +44,10 @@ const ArrayInput = ({ postulantData, setData, dataName, dataTemplate }) => {
                 setData([...postulantData]);
               }}
             />
+            <label htmlFor={dataName}></label>
             <textarea
+              required
+              name={dataName}
               defaultValue={inputElement.description}
               placeholder="Description"
               onChange={({ target: { value } }) => {

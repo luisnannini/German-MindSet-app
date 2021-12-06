@@ -96,12 +96,10 @@ function Form() {
     setUniversityStudies(formPostulant.studies.universityStudies);
     setInformalStudies(formPostulant.studies.informalStudies);
   };
-
   useEffect(() => {
     if (postulantId) usePostulant();
   }, []);
-
-  const submit = async (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     let serverError = false;
     let status;
@@ -160,16 +158,16 @@ function Form() {
       if (responseRaw.status !== 200 && responseRaw.status !== 201 && responseRaw.status !== 204) {
         serverError = true;
       }
+      const responseJson = await responseRaw.json();
       if (serverError) {
         setModal({
           title: 'Server Error',
           state: true,
-          message: status,
+          message: `${status}: ${responseJson.message}`,
           action: () => setModal({ state: modal.state })
         });
         return;
       }
-      const responseJson = await responseRaw.json();
       setModal({
         title: 'Operation Successful',
         state: true,
@@ -189,8 +187,8 @@ function Form() {
   return (
     <section className={style.section}>
       <div className={style.formHeader}></div>
-      <h1 className={style.textCenter}>{`Edit ${postulantId}`}</h1>
-      <form>
+      <h1 className={style.textCenter}>{postulantId ? `Edit ${postulantId}` : `Add Postulant`}</h1>
+      <form onSubmit={(e) => onSubmit(e)}>
         <div>
           <h2 className={style.textCenter}>Studies</h2>
           <div className={style.inputSection}>
@@ -342,10 +340,14 @@ function Form() {
             }}
           />
         </div>
+<<<<<<< HEAD
         <Link to="/postulants">
           <ButtonCancel />
         </Link>
         <ButtonConfirm onClick={(e) => submit(e)} />
+=======
+        <input type="submit" value={postulantId ? 'Save' : 'Add'} />
+>>>>>>> development
       </form>
       {modal.state && <Modal modal={modal} />}
     </section>
