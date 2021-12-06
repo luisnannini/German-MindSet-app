@@ -5,35 +5,39 @@ import CreateButton from './CreateButton';
 import EditButton from './EditButton';
 import RemoveButton from './RemoveButton';
 import RemoveModal from './RemoveModal';
-import Modal from './Modal';
+import ModalError from '../Shared/Modal-Error/modal-error';
 
 function Interviews() {
   const [interviews, setInterviews] = useState([]);
-  const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [selectedInterview, setSelectedInterview] = useState(undefined);
-  const [showSuccessDelete, setShowSuccessDelete] = useState(false);
+  const [error, setError] = useState({
+    show: false,
+    message: '',
+    title: ''
+  });
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/interviews`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
+          });
+        }
+
+        return response.json();
+      })
       .then((response) => {
         setInterviews(response.data);
       })
-      .catch((error) => error);
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
   }, []);
 
   const handleDelete = (event, interview) => {
     event.stopPropagation();
     setSelectedInterview(interview._id);
-  };
-
-  const closeRemoveModal = () => {
-    setShowRemoveModal(false);
-  };
-
-  const closeModalSuccess = () => {
-    setShowSuccessDelete(false);
-    window.location.href = '/interviews';
   };
 
   const confirmRemoveModal = () => {
@@ -46,27 +50,23 @@ function Interviews() {
       }
     })
       .then((response) => {
-        if (response.status !== 204) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
           });
         }
       })
       .then(() => {
-        setShowRemoveModal(false);
-        setShowSuccessDelete(true);
+        console.log('asd');
       })
-      .catch((error) => error);
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
   };
 
   return (
     <div className={styles.container}>
-      <Modal
-        show={showSuccessDelete}
-        title="Successful"
-        message={'Interview deleted'}
-        onCancel={closeModalSuccess}
-      />
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />
       <h1>Interviews</h1>
       <ul className={styles.list1}>
         <li>Postulant</li>
@@ -101,18 +101,13 @@ function Interviews() {
               <RemoveButton
                 onClick={(event) => {
                   handleDelete(event, interview);
-                  setShowRemoveModal(true);
+                  setError(true);
                 }}
               />
             </li>
           </ul>
         );
       })}
-      <RemoveModal
-        show={showRemoveModal}
-        confirmRemoveModal={confirmRemoveModal}
-        closeRemoveModal={closeRemoveModal}
-      />
       <Link to="interviews/form">
         <CreateButton />
       </Link>

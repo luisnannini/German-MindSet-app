@@ -4,8 +4,8 @@ import Input from '../Inputs';
 import SelectPostulant from '../SelectPostulant';
 import SelectClient from '../SelectClient';
 import SelectApplication from '../SelectApplication';
-import Modal from '../Modal';
 import { Link } from 'react-router-dom';
+import ModalError from '../../Shared/Modal-Error/modal-error';
 
 const Form = () => {
   const [clients, setClients] = useState([]);
@@ -17,30 +17,59 @@ const Form = () => {
   const [statusValue, setStatusValue] = useState('');
   const [dateValue, setDateValue] = useState('');
   const [notesValue, setNotesValue] = useState('');
-  const [error, setError] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [showError, setShowError] = useState(false);
+  const [error, setError] = useState({
+    show: false,
+    message: '',
+    title: ''
+  });
   const [interviewId, setInterviewId] = useState(undefined);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/clients`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
+          });
+        }
+        return response.json();
+      })
       .then((response) => {
         setClients(response.data);
       })
-      .catch((error) => error);
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
     fetch(`${process.env.REACT_APP_API}/postulants`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
+          });
+        }
+        return response.json();
+      })
       .then((response) => {
         setPostulants(response.data);
       })
-      .catch((error) => error);
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
     fetch(`${process.env.REACT_APP_API}/applications`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
+          });
+        }
+        return response.json();
+      })
       .then((response) => {
         setApplications(response.data);
       })
-      .catch((error) => error);
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
   }, []);
 
   useEffect(() => {
@@ -50,9 +79,11 @@ const Form = () => {
     if (interviewId) {
       fetch(`${process.env.REACT_APP_API}/interviews?_id=${interviewId}`)
         .then((response) => {
-          if (response.status !== 200) {
+          if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+            const status = `${response.status} ${response.statusText}`;
             return response.json().then(({ message }) => {
-              throw new Error(message);
+              if (message.message) throw { message: message.message, status };
+              throw { message, status };
             });
           }
           return response.json();
@@ -66,8 +97,7 @@ const Form = () => {
           setNotesValue(response.data[0].notes);
         })
         .catch((error) => {
-          setShowError(true);
-          setError(error.toString());
+          setError({ show: true, message: error.message, title: error.status });
         });
     }
   }, []);
@@ -103,29 +133,21 @@ const Form = () => {
 
     fetch(url, options)
       .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
           });
         }
         return response.json();
       })
       .then(() => {
-        setShowSuccess(true);
+        console.log('asd');
       })
       .catch((error) => {
-        setShowError(true);
-        setError(error.toString());
+        setError({ show: true, message: error.message, title: error.status });
       });
-  };
-
-  const closeModalSuccess = () => {
-    setShowSuccess(false);
-    window.location.href = '/interviews';
-  };
-
-  const closeModalError = () => {
-    setShowError(false);
   };
 
   const onChangeClientValue = (event) => {
@@ -155,13 +177,7 @@ const Form = () => {
 
   return (
     <form className={styles.form} onSubmit={onSubmit}>
-      <Modal
-        show={showSuccess}
-        title="Successful"
-        message={'Success'}
-        onCancel={closeModalSuccess}
-      />
-      <Modal show={showError} title="Error" message={error} onCancel={closeModalError} />
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />{' '}
       <h2 className={styles.title}>
         {interviewId ? 'Update an Interview' : 'Create an Interview'}
       </h2>

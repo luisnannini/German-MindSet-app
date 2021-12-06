@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './applications.module.css';
 import Table from './Table';
 import Modal from './Modal';
+import ModalError from '../Shared/Modal-Error/modal-error';
 
 function Applications() {
   const [applications, setApplications] = useState([]);
@@ -11,13 +12,28 @@ function Applications() {
   const [updateId, setUpdateId] = useState('');
   const [showRemove, setShowRemove] = useState(false);
   const [removeId, setRemoveId] = useState('');
+  const [error, setError] = useState({
+    show: false,
+    message: '',
+    title: ''
+  });
+
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/applications`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
+          });
+        }
+        return response.json();
+      })
       .then((response) => {
         setApplications(response.data);
       })
-      .catch((error) => error);
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
   }, []);
 
   const removeReq = (id) => {
@@ -39,9 +55,11 @@ function Applications() {
       method: 'DELETE'
     })
       .then((response) => {
-        if (response.status !== 204) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
           });
         }
         return response.json(`Id: ${id}`);
@@ -49,11 +67,12 @@ function Applications() {
       .then(() => {
         window.location.href = `${window.location.origin}/applications`;
       })
-      .catch((error) => error);
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
   };
 
   return (
     <section className={styles.container}>
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />
       <div className={styles.header}>
         <h2 className={styles.title}>Applications</h2>
         <button

@@ -5,25 +5,35 @@ import Modal from './Modal';
 import CreateButton from './CreateButton';
 import UpdateButton from './UpdateButton';
 import DeleteButton from './DeleteButton';
+import ModalError from '../Shared/Modal-Error/modal-error';
 
 function Positions() {
   const [positions, setPositions] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedPosition, setSelectedPosition] = useState(undefined);
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [error, setError] = useState({
+    show: false,
+    message: '',
+    title: ''
+  });
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/positions`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
+          });
+        }
+        return response.json();
+      })
       .then((response) => {
         setPositions(response.data);
       })
       .catch((error) => {
-        setShowErrorModal(true);
-        setError(error.toString());
+        setError({ show: true, message: error.message, title: error.status });
       });
   }, []);
 
@@ -36,16 +46,20 @@ function Positions() {
   const deletePosition = () => {
     fetch(`${process.env.REACT_APP_API}/positions/${selectedPosition}`, { method: 'DELETE' })
       .then((response) => {
-        if (response.status !== 204) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
           });
         }
         return fetch(`${process.env.REACT_APP_API}/positions`)
           .then((response) => {
-            if (response.status !== 200) {
+            if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+              const status = `${response.status} ${response.statusText}`;
               return response.json().then(({ message }) => {
-                throw new Error(message);
+                if (message.message) throw { message: message.message, status };
+                throw { message, status };
               });
             }
             return response.json();
@@ -53,20 +67,11 @@ function Positions() {
           .then((response) => {
             setShowModal(false);
             setPositions(response.data);
-            setShowSuccessModal(true);
-            setSuccess('You request was successful!');
           });
       })
       .catch((error) => {
-        setShowErrorModal(true);
-        setError(error.toString());
+        setError({ show: true, message: error.message, title: error.status });
       });
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-    setShowErrorModal(false);
-    setShowSuccessModal(false);
   };
 
   return (
@@ -75,23 +80,10 @@ function Positions() {
         show={showModal}
         title="Delete a Position"
         message="Are you sure you want to delete this position?"
-        onCancel={closeModal}
+        onCancel={() => showModal(false)}
         onConfirm={deletePosition}
       />
-      <Modal
-        show={showSuccessModal}
-        title="Successful"
-        message={success}
-        onCancel={closeModal}
-        hideButton={true}
-      />
-      <Modal
-        show={showErrorModal}
-        title="Error"
-        message={error}
-        onCancel={closeModal}
-        hideButton={true}
-      />
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />
       <div className={styles.container}>
         <h2 className={styles.title}>Positions</h2>
         <ul className={styles.listHeader}>

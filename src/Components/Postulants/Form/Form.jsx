@@ -81,8 +81,8 @@ function Form() {
         if (message.message) throw { message: message.message, status };
         throw { message, status };
       }
-      const responseJson = await responseRaw.json();
-      return responseJson.data;
+      const { data } = await responseRaw.json();
+      return data;
     } catch (error) {
       setError({ show: true, message: error.message, title: error.status });
     }
@@ -150,7 +150,7 @@ function Form() {
     postulantId ? (options.method = 'PUT') : (options.method = 'POST');
     try {
       const responseRaw = await fetch(
-        `${process.env.REACT_APP_API}/postulants/${postulantId}`,
+        `${process.env.REACT_APP_API}/postulants/${postulantId ? postulantId : ''}`,
         options
       );
       if (responseRaw.status !== 200 && responseRaw.status !== 201 && responseRaw.status !== 204) {
@@ -160,7 +160,7 @@ function Form() {
         throw { message, status };
       }
       await responseRaw.json();
-      window.location.href = '/postulants';
+      //if (postulantId) window.location.href = '/postulants';
     } catch (error) {
       setError({ show: true, message: error.message, title: error.status });
     }
@@ -170,7 +170,7 @@ function Form() {
     <section className={style.section}>
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
       <div className={style.formHeader}></div>
-      <h1 className={style.textCenter}>{postulantId ? 'Add postulant' : `Edit ${postulantId}`}</h1>
+      <h1 className={style.textCenter}>{postulantId ? `Edit ${postulantId}` : 'Add postulant'}</h1>
       <form>
         <div>
           <h2 className={style.textCenter}>Studies</h2>
@@ -323,7 +323,7 @@ function Form() {
             }}
           />
         </div>
-        <button onClick={(e) => submit(e)}>Save</button>
+        <button onClick={(e) => submit(e)}>{postulantId ? 'Save' : 'Add'}</button>
       </form>
     </section>
   );

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Input from '../Input';
 import styles from './form.module.css';
+import ModalError from '../../Shared/Modal-Error/modal-error';
 
 function Form() {
   const [nameValue, setNameValue] = useState('');
@@ -11,7 +12,11 @@ function Form() {
   const [addressValue, setAddressValue] = useState('');
   const [logoValue, setLogoValue] = useState('');
   const [descriptionValue, setDescriptionValue] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState({
+    show: false,
+    message: '',
+    title: ''
+  });
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -21,9 +26,11 @@ function Form() {
     if (clientId) {
       fetch(`${process.env.REACT_APP_API}/clients?_id=${clientId}`)
         .then((response) => {
-          if (response.status !== 200) {
+          if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+            const status = `${response.status} ${response.statusText}`;
             return response.json().then(({ message }) => {
-              throw new Error(message);
+              if (message.message) throw { message: message.message, status };
+              throw { message, status };
             });
           }
           return response.json();
@@ -39,7 +46,7 @@ function Form() {
           setDescriptionValue(response.data[0].description);
         })
         .catch((error) => {
-          setError(error.toString());
+          setError({ show: true, message: error.message, title: error.status });
         })
         .finally(() => setLoading(false));
     }
@@ -114,9 +121,11 @@ function Form() {
 
     fetch(url, options)
       .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
           });
         }
         return response.json();
@@ -125,7 +134,7 @@ function Form() {
         window.location.href = '/clients';
       })
       .catch((error) => {
-        setError(error.toString());
+        setError({ show: true, message: error.message, title: error.status });
       })
       .finally(() => setLoading(false));
   };
@@ -226,7 +235,7 @@ function Form() {
         <button disabled={isLoading} type="submit" className={styles.button}>
           Save
         </button>
-        <div className={styles.error}>{error}</div>
+        <ModalError error={error} onConfirm={() => setError({ show: false })} />{' '}
       </form>
     </section>
   );
