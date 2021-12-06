@@ -1,5 +1,6 @@
 import styles from './form.module.css';
 import { useState, useEffect } from 'react';
+import Checkbox from '../../Shared/Checkbox';
 
 const Form = () => {
   const [error, setError] = useState('');
@@ -360,13 +361,18 @@ const Form = () => {
         <h2 className={styles.container}>Availability</h2>
         <div>
           <p>Monday</p>
-          <input
+          <Checkbox
+            label="monday-availability"
+            defaultChecked={mondayBool}
+            onChange={onChangeMondayBool}
+          />
+          {/* <input
             label="monday-availability"
             day="monday"
             type="checkbox"
             defaultChecked={mondayBool}
             onChange={onChangeMondayBool}
-          />
+          /> */}
           <input
             label="monday-from"
             placeholder="From"
@@ -384,13 +390,18 @@ const Form = () => {
         </div>
         <div>
           <p>Tuesday</p>
-          <input
+          <Checkbox
+            label="tuesday-availability"
+            defaultChecked={tuesdayBool}
+            onChange={onChangeTuesdayBool}
+          />
+          {/* <input
             label="tuesday-availability"
             type="checkbox"
             day="tuesday"
             defaultChecked={tuesdayBool}
             onChange={onChangeTuesdayBool}
-          />
+          /> */}
           <input
             label="tuesday-from"
             placeholder="From"
@@ -408,13 +419,18 @@ const Form = () => {
         </div>
         <div>
           <p>Wednesday</p>
-          <input
+          <Checkbox
+            label="wednesday-availability"
+            defaultChecked={wednesdayBool}
+            onChange={onChangeWednesdayBool}
+          />
+          {/* <input
             day="wednesday"
             label="wednesday-availability"
             type="checkbox"
             defaultChecked={wednesdayBool}
             onChange={onChangeWednesdayBool}
-          />
+          /> */}
           <input
             label="wednesday-from"
             placeholder="From"
@@ -432,13 +448,18 @@ const Form = () => {
         </div>
         <div>
           <p>Thursday</p>
-          <input
+          <Checkbox
+            label="thursday-availability"
+            defaultChecked={thursdayBool}
+            onChange={onChangeThursdayBool}
+          />
+          {/* <input
             label="thursday-availability"
             day="thursday"
             type="checkbox"
             defaultChecked={thursdayBool}
             onChange={onChangeThursdayBool}
-          />
+          /> */}
           <input
             label="thursday-from"
             placeholder="From"
@@ -456,13 +477,18 @@ const Form = () => {
         </div>
         <div>
           <p>Friday</p>
-          <input
+          <Checkbox
+            label="friday-availability"
+            defaultChecked={fridayBool}
+            onChange={onChangeFridayBool}
+          />
+          {/* <input
             label="friday-availability"
             day="friday"
             type="checkbox"
             defaultChecked={fridayBool}
             onChange={onChangeFridayBool}
-          />
+          /> */}
           <input
             label="friday-from"
             placeholder="From"
@@ -480,13 +506,18 @@ const Form = () => {
         </div>
         <div>
           <p>Saturday</p>
-          <input
+          <Checkbox
+            label="saturday-availability"
+            defaultChecked={saturdayBool}
+            onChange={onChangeSaturdayBool}
+          />
+          {/* <input
             label="saturday-availability"
             day="saturday"
             type="checkbox"
             defaultChecked={saturdayBool}
             onChange={onChangeSaturdayBool}
-          />
+          /> */}
           <input
             label="saturday-from"
             placeholder="From"
@@ -504,13 +535,18 @@ const Form = () => {
         </div>
         <div>
           <p>Sunday</p>
-          <input
+          <Checkbox
+            label="sunday-availability"
+            defaultChecked={sundayBool}
+            onChange={onChangeSundayBool}
+          />
+          {/* <input
             label="sunday-availability"
             day="sunday"
             type="checkbox"
             defaultChecked={sundayBool}
             onChange={onChangeSundayBool}
-          />
+          /> */}
           <input
             label="sunday-from"
             placeholder="From"
