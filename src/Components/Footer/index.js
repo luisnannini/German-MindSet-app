@@ -5,9 +5,9 @@ function Footer() {
     <footer className={styles.container}>
       <div className={styles.main}>
         <div className={styles.appName}>
-          Mind<span>SET</span>
+          <span>MindSET</span>
         </div>
-        <ul className={styles.rutes}>
+        <ul className={styles.routes}>
           <li>
             <a href="/admins">admins</a>
           </li>
