@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react';
+import ButtonCancel from '../../Shared/ButtonCancel';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
+
 const Update = (props) => {
   if (props.showUpdate == false) {
     return null;
@@ -119,8 +122,8 @@ const Update = (props) => {
           required
         ></input>
       </div>
-      <button onClick={props.onClose}>Cancel</button>
-      <button type="submit">Update</button>
+      <ButtonCancel onClick={props.onClose} />
+      <ButtonConfirm type="submit" />
     </form>
   );
 };

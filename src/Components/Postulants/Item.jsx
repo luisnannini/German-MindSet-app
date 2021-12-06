@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Modal from './Modal';
+import ButtonUpdate from '../Shared/ButtonUpdate';
+import ButtonDelete from '../Shared/ButtonDelete';
 
 function Item({ postulant, fetchData, url }) {
   const [modalState, setModalState] = useState({ state: false });
@@ -52,11 +54,11 @@ function Item({ postulant, fetchData, url }) {
       })}
       <td>
         <Link to={`postulants/form?id=${postulant._id}`}>
-          <button>Edit</button>
+          <ButtonUpdate />
         </Link>
       </td>
       <td>
-        <button
+        <ButtonDelete
           onClick={() =>
             setModalState({
               action: confirmDelete,
@@ -68,9 +70,7 @@ function Item({ postulant, fetchData, url }) {
               close: () => setModalState({ state: modalState.state })
             })
           }
-        >
-          Delete
-        </button>
+        />
         {modalState.state && <Modal modal={modalState} closeModal={setModalState} />}
       </td>
     </tr>

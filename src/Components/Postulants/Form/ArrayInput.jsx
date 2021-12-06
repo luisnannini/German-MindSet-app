@@ -1,3 +1,5 @@
+import ButtonLittleAdd from '../../Shared/ButtonLittleAdd';
+
 const ArrayInput = ({ postulantData, setData, dataName, dataTemplate }) => {
   return (
     <div>
@@ -56,14 +58,12 @@ const ArrayInput = ({ postulantData, setData, dataName, dataTemplate }) => {
           </div>
         );
       })}
-      <button
+      <ButtonLittleAdd
         onClick={(e) => {
           e.preventDefault();
           setData([...postulantData, { ...dataTemplate, id: Math.floor(Math.random() * 10000) }]);
         }}
-      >
-        Add
-      </button>
+      />
     </div>
   );
 };

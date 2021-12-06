@@ -1,9 +1,10 @@
-import styles from './form.module.css';
-import Input from '../Input';
-import TextArea from '../TextArea';
-import Select from '../Select';
 import { useEffect, useState } from 'react';
-import { FaTimes } from 'react-icons/fa';
+import styles from './form.module.css';
+import Input from '../../Shared/Input';
+import TextArea from '../TextArea';
+import Select from '../../Shared/Select';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
+import ButtonCancel from '../../Shared/ButtonCancel';
 
 const Form = () => {
   const [dateValue, setDateValue] = useState('');
@@ -57,8 +58,9 @@ const Form = () => {
       .then((response) => {
         setPostulants(
           response.data.map((postulant) => ({
+            _id: postulant._id,
             value: postulant._id,
-            label: `${postulant.firstName} ${postulant.lastName}`
+            name: `${postulant.firstName} ${postulant.lastName}`
           }))
         );
       })
@@ -79,8 +81,9 @@ const Form = () => {
       .then((response) => {
         setPsychologists(
           response.data.map((psychologist) => ({
+            _id: psychologist._id,
             value: psychologist._id,
-            label: `${psychologist.firstName} ${psychologist.lastName}`
+            name: `${psychologist.firstName} ${psychologist.lastName}`
           }))
         );
       })
@@ -89,7 +92,6 @@ const Form = () => {
       })
       .finally(() => setLoading(false));
   }, []);
-
   const onSubmit = (event) => {
     event.preventDefault();
     setLoading(true);
@@ -144,57 +146,58 @@ const Form = () => {
     <div className={styles.formContainer}>
       <div className={styles.modalHeader}>
         <h3>{title} Session</h3>
-        <FaTimes onClick={closeForm} />
       </div>
       <form onSubmit={onSubmit} className={styles.createForm}>
         <div className={styles.inputContainer}>
           <Select
             className={styles.select}
-            name="Postulant"
+            label="Postulant:"
             value={postulantValue}
             onChange={(e) => setPostulantValue(e.target.value)}
-            options={postulants}
+            object={postulants}
             required
             disabled={isLoading}
+            title="Postulant"
           />
         </div>
         <div className={styles.inputContainer}>
           <Select
             className={styles.select}
-            name="Psychologist"
             value={psychologistValue}
+            label="Psychologist:"
             onChange={(e) => setPsychologistValue(e.target.value)}
-            options={psychologists}
+            object={psychologists}
             required
             disabled={isLoading}
+            title="Psychologist"
           />
         </div>
         <div className={styles.inputContainer}>
           <Select
             className={styles.select}
             name="status"
+            label="Status:"
             value={statusValue}
             onChange={(e) => setStatusValue(e.target.value)}
-            options={[
-              { value: 'assigned', label: 'Assigned' },
-              { value: 'succesful', label: 'Succesful' },
-              { value: 'cancelled', label: 'Cancelled' }
+            object={[
+              { _id: 'assigned', value: 'assigned', name: 'Assigned' },
+              { _id: 'succesful', value: 'succesful', name: 'Successful' },
+              { _id: 'cancelled', value: 'cancelled', name: 'Cancelled' }
             ]}
             required
+            title="Status"
             disabled={isLoading}
           />
         </div>
-        <div className={styles.inputContainer}>
-          <Input
-            className={styles.input}
-            name="date"
-            value={dateValue}
-            onChange={(e) => setDateValue(e.target.value)}
-            type="datetime-local"
-            required
-            disabled={isLoading}
-          />
-        </div>
+        <Input
+          label={'Date'}
+          type={'datetime-local'}
+          value={dateValue}
+          name={'date'}
+          onChange={(e) => setDateValue(e.target.value)}
+          required={true}
+          disabled={isLoading}
+        />
         <div className={styles.inputContainer}>
           <TextArea
             name="notes"
@@ -203,11 +206,10 @@ const Form = () => {
             disabled={isLoading}
           />
         </div>
+        <ButtonCancel onClick={closeForm} />
         <div className={styles.inputContainer}>
           <label className={styles.label} htmlFor="submit">
-            <button className={styles.submitBtn} type="submit">
-              {title}
-            </button>
+            <ButtonConfirm type="submit" name={title} />
           </label>
         </div>
         <div className={styles.error}>{error}</div>

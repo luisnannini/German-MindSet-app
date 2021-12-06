@@ -1,3 +1,5 @@
+import ButtonLittleAdd from '../../Shared/ButtonLittleAdd';
+
 const Profiles = ({ postulantData, setData, dataTemplate }) => {
   postulantData.forEach((data, index) => {
     if (!data.profileId) postulantData[index].profileId = { id: '', name: '' };
@@ -32,14 +34,12 @@ const Profiles = ({ postulantData, setData, dataTemplate }) => {
           </div>
         );
       })}
-      <button
+      <ButtonLittleAdd
         onClick={(e) => {
           e.preventDefault();
           setData([...postulantData, { ...dataTemplate, id: Math.floor(Math.random() * 10000) }]);
         }}
-      >
-        Add
-      </button>
+      />
     </div>
   );
 };

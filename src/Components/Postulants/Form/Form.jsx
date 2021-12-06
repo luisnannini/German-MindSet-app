@@ -1,5 +1,6 @@
-import style from '../postulants-Form.module.css';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import style from '../postulants-Form.module.css';
 import Modal from '../Modal';
 import validatePostulant from './validations';
 import ArrayInput from './ArrayInput';
@@ -7,6 +8,8 @@ import InitialStudies from './InitialStudies';
 import PrimitiveFormInput from './PrimitiveFormInput';
 import ContactRange from './ContactRange';
 import Profiles from './Profiles';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
+import ButtonCancel from '../../Shared/ButtonCancel';
 
 function Form() {
   const [modal, setModal] = useState({ state: false, action: '', message: '' });
@@ -206,7 +209,7 @@ function Form() {
                 dataTemplate={{
                   startDate: '2000-01-01T00:00:00.000Z',
                   endDate: '2000-01-01T00:00:00.000Z',
-                  Insistute: '',
+                  Institute: '',
                   description: ''
                 }}
               />
@@ -220,7 +223,7 @@ function Form() {
                 dataTemplate={{
                   startDate: '2000-01-01T00:00:00.000Z',
                   endDate: '2000-01-01T00:00:00.000Z',
-                  Insistute: '',
+                  Institute: '',
                   description: ''
                 }}
               />
@@ -234,7 +237,7 @@ function Form() {
                 dataTemplate={{
                   startDate: '2000-01-01T00:00:00.000Z',
                   endDate: '2000-01-01T00:00:00.000Z',
-                  Insistute: '',
+                  Institute: '',
                   description: ''
                 }}
               />
@@ -307,7 +310,7 @@ function Form() {
             />
           </div>
           <div>
-            <h2>Udated At</h2>
+            <h2>Updated At</h2>
             <PrimitiveFormInput
               postulantData={updatedAt}
               dataName="updatedAt"
@@ -337,7 +340,10 @@ function Form() {
             }}
           />
         </div>
-        <input type="submit" value={postulantId ? 'Save' : 'Add'} />
+        <Link to="/postulants">
+          <ButtonCancel />
+        </Link>
+        <ButtonConfirm onClick={(e) => onSubmit(e)} />
       </form>
       {modal.state && <Modal modal={modal} />}
     </section>
