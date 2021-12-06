@@ -180,11 +180,7 @@ const Form = () => {
               placeholder={'Write a job description'}
               required
             />
-            <Checkbox
-              label={'Is Open?'}
-              value={isOpenValue}
-              onChange={onChangeIsOpenValue}
-            />
+            <Checkbox label={'Is Open?'} value={isOpenValue} onChange={onChangeIsOpenValue} />
           </div>
           <div className={styles.columns}>
             <Select
