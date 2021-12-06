@@ -13,30 +13,29 @@ function Item({ postulant, fetchData, url }) {
       responseRaw = await fetch(`${url}/${id}`, {
         method: 'DELETE'
       });
-      status = responseRaw.status + ' ' + responseRaw.statusText;
-      if (responseRaw.status !== 200 && responseRaw.status !== 201 && responseRaw.status !== 204) {
-        serverError = status;
-        throw new Error(serverError);
-      }
-      setModalState({ state: false });
-      fetchData();
     } catch (error) {
-      if (serverError) {
-        setModalState({
-          title: 'Error',
-          state: true,
-          message: serverError,
-          action: () => setModalState({ state: false })
-        });
-      } else {
-        setModalState({
-          title: 'Error',
-          state: true,
-          message: 'A local error has ocurred',
-          action: () => setModalState({ state: false })
-        });
-      }
+      setModalState({
+        title: 'Error',
+        state: true,
+        message: 'A local error has ocurred',
+        action: () => setModalState({ state: false })
+      });
     }
+    status = responseRaw.status + ' ' + responseRaw.statusText;
+    if (responseRaw.status !== 200 && responseRaw.status !== 201 && responseRaw.status !== 204) {
+      serverError = true;
+    }
+    const responseJson = await responseRaw.json();
+    if (serverError) {
+      setModalState({
+        title: 'Server Error',
+        state: true,
+        message: `${status}: ${responseJson.message}`,
+        action: () => setModalState({ state: false })
+      });
+    }
+    setModalState({ state: false });
+    fetchData();
   };
 
   return (

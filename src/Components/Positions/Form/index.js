@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import Modal from '../Modal';
 import Input from '../../Shared/Input';
-import Select from '../Select';
+import Select from '../Shared/Select';
 import Button from '../Button';
 import Checkbox from '../Checkbox';
 
@@ -170,7 +170,7 @@ const Form = () => {
               label={'Clients'}
               value={clientValue}
               onChange={onChangeClientValue}
-              placeholder={'Select a Client'}
+              title={'Select a Client'}
               required
             />
             <Input
@@ -194,7 +194,7 @@ const Form = () => {
               label={'Profiles'}
               value={profilesValue}
               onChange={onChangeProfilesValue}
-              placeholder={'Select a Profile'}
+              title={'Select a Profile'}
               required
             />
             <Input

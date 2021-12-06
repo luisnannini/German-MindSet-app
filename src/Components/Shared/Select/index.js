@@ -12,7 +12,7 @@ const Select = (props) => {
         required={props.required}
       >
         <option value="" disabled hidden>
-          {props.placeholder}
+          {props.title}
         </option>
         {props.object.map((data) => {
           return (
