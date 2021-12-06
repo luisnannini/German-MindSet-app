@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom';
 import styles from './interviews.module.css';
 import CreateButton from './CreateButton';
 import EditButton from './EditButton';
-import RemoveButton from './RemoveButton';
+import ButtonDelete from '../Shared/ButtonDelete';
 import RemoveModal from './RemoveModal';
 import ModalError from '../Shared/Modal-Error/modal-error';
 
 function Interviews() {
   const [interviews, setInterviews] = useState([]);
   const [selectedInterview, setSelectedInterview] = useState(undefined);
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [error, setError] = useState({
     show: false,
     message: '',
@@ -38,6 +39,10 @@ function Interviews() {
   const handleDelete = (event, interview) => {
     event.stopPropagation();
     setSelectedInterview(interview._id);
+  };
+
+  const closeRemoveModal = () => {
+    setShowRemoveModal(false);
   };
 
   const confirmRemoveModal = () => {
@@ -96,16 +101,21 @@ function Interviews() {
               </Link>
             </li>
             <li className={styles.buttons}>
-              <RemoveButton
+              <ButtonDelete
                 onClick={(event) => {
                   handleDelete(event, interview);
-                  setError(true);
+                  setShowRemoveModal(true);
                 }}
               />
             </li>
           </ul>
         );
       })}
+      <RemoveModal
+        show={showRemoveModal}
+        confirmRemoveModal={confirmRemoveModal}
+        closeRemoveModal={closeRemoveModal}
+      />
       <Link to="interviews/form">
         <CreateButton />
       </Link>

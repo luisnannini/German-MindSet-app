@@ -149,9 +149,7 @@ const Form = () => {
         }
         return response.json();
       })
-      .then(() => {
-        console.log('asd');
-      })
+      .then(() => {})
       .catch((error) => {
         setError({ show: true, message: error.message, title: error.status });
       });
@@ -184,7 +182,7 @@ const Form = () => {
 
   return (
     <form className={styles.form} onSubmit={onSubmit}>
-      <ModalError error={error} onConfirm={() => setError({ show: false })} />{' '}
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />
       <h2 className={styles.title}>
         {interviewId ? 'Update an Interview' : 'Create an Interview'}
       </h2>
