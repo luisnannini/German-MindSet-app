@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './psychologists.module.css';
-import Button from './Button';
 import ModalDelete from './ModalDelete';
+import ButtonCreate from '../Shared/ButtonCreate';
+import ButtonUpdate from '../Shared/ButtonUpdate';
+import ButtonDelete from '../Shared/ButtonDelete';
 
 function Psychologists() {
   const [psychologists, savePsychologists] = useState([]);
@@ -22,14 +25,6 @@ function Psychologists() {
       .then((response) => savePsychologists(response.data))
       .catch((error) => setError(error.toString()));
   }, []);
-
-  const showForm = (psy) => {
-    if (psy) {
-      window.location.href = `psychologists/form?id=${psy._id}`;
-    } else {
-      window.location.href = `psychologists/form`;
-    }
-  };
 
   const handleDelete = (event, psy) => {
     event.stopPropagation();
@@ -87,27 +82,31 @@ function Psychologists() {
         </ul>
       </div>
       <div>
-        {psychologists.map((psy) => {
+        {psychologists.map((psychologist) => {
           return (
-            <ul key={psy._id} className={styles.list}>
-              <li>{psy.firstName}</li>
-              <li>{psy.lastName}</li>
-              <li>{psy.username}</li>
-              <li>{psy.email}</li>
-              <li>{psy.phone}</li>
-              <li>{psy.address}</li>
+            <ul key={psychologist._id} className={styles.list}>
+              <li>{psychologist.firstName}</li>
+              <li>{psychologist.lastName}</li>
+              <li>{psychologist.username}</li>
+              <li>{psychologist.email}</li>
+              <li>{psychologist.phone}</li>
+              <li>{psychologist.address}</li>
               <li>
-                <button onClick={() => showForm(psy)}>Update</button>
+                <Link to={`psychologists/form?id=${psychologist._id}`}>
+                  <ButtonUpdate />
+                </Link>
               </li>
               <li>
-                <button onClick={(event) => handleDelete(event, psy)}>Delete</button>
+                <ButtonDelete onClick={(event) => handleDelete(event, psychologist)} />
               </li>
             </ul>
           );
         })}
       </div>
       <div className={styles.error}>{error}</div>
-      <Button className={styles.button} action={() => showForm()} name={'ADD'} />
+      <Link to="./psychologists/form">
+        <ButtonCreate />
+      </Link>
     </section>
   );
 }

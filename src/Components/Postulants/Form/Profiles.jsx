@@ -1,54 +1,45 @@
-import { useState, useEffect } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import ButtonLittleAdd from '../../Shared/ButtonLittleAdd';
 
-const Profiles = ({ postulant, collectData, template }) => {
-  if (postulant) {
-    postulant.profiles.forEach((element, index, array) => {
-      if (!array[index].profileId) {
-        array[index].profileId = template.profileId;
-      }
-    });
-  }
-  const [profiles, setProfiles] = useState(postulant ? postulant.profiles : [template]);
-  const sendData = (data) => {
-    collectData(data, 'profiles');
-    setProfiles(data);
-  };
-
-  useEffect(() => sendData(profiles), []);
-
+const Profiles = ({ postulantData, setData, dataTemplate }) => {
+  postulantData.forEach((data, index) => {
+    if (!data.profileId) postulantData[index].profileId = { id: '', name: '' };
+  });
   return (
     <div>
-      {profiles.map((profile, index) => {
+      {postulantData.map((profile, index) => {
         return (
-          <div key={profile.id}>
+          <div key={index}>
+            <label htmlFor="id"></label>
             <input
+              required
+              name="id"
               placeholder="ID"
               defaultValue={profile.profileId._id}
               onChange={(e) => {
-                profiles[index].profileId._id = e.target.value;
-                sendData([...profiles]);
+                postulantData[index].profileId._id = e.target.value;
+                setData([...postulantData]);
               }}
             />
+            <label htmlFor="id"></label>
             <input
+              required
+              name="name"
               placeholder="Name"
               defaultValue={profile.profileId.name}
               onChange={(e) => {
-                profiles[index].profileId.name = e.target.value;
-                sendData([...profiles]);
+                postulantData[index].profileId.name = e.target.value;
+                setData([...postulantData]);
               }}
             />
           </div>
         );
       })}
-      <button
+      <ButtonLittleAdd
         onClick={(e) => {
           e.preventDefault();
-          setProfiles([...profiles, { ...template, id: uuidv4() }]);
+          setData([...postulantData, { ...dataTemplate, id: Math.floor(Math.random() * 10000) }]);
         }}
-      >
-        Add
-      </button>
+      />
     </div>
   );
 };

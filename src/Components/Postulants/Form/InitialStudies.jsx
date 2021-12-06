@@ -1,45 +1,42 @@
-import { useState, useEffect } from 'react';
-
-const InitialStudies = ({ postulant, collectData, dataName, defaultValue }) => {
-  const [input, setInput] = useState(postulant ? postulant[dataName] : defaultValue);
-  const sendData = (data) => {
-    collectData(data, dataName);
-    setInput(data);
-  };
-
-  useEffect(() => sendData(input), []);
+const InitialStudies = ({ postulantData, setStudies }) => {
   return (
     <div>
+      <label htmlFor="start-date"></label>
       <input
+        name="start-date"
+        required
         type="datetime-local"
-        defaultValue={
-          input.startDate
-            ? input.startDate.substring(0, input.startDate.length - 8)
-            : '2000-01-01T00:00'
-        }
+        defaultValue={postulantData.startDate.substring(0, postulantData.startDate.length - 8)}
         placeholder="Start Date"
         onChange={(e) => {
-          input.startDate = e.target.value;
-          sendData({ ...input });
+          setStudies({
+            ...postulantData,
+            startDate: e.target.value.substring(0, e.target.value.length - 8)
+          });
         }}
       />
+      <label htmlFor="end-date"></label>
       <input
+        required
+        name="end-date"
         type="datetime-local"
-        defaultValue={
-          input.endDate ? input.endDate.substring(0, input.endDate.length - 8) : '2000-01-01T00:00'
-        }
+        defaultValue={postulantData.endDate.substring(0, postulantData.endDate.length - 8)}
         placeholder="End Date"
         onChange={(e) => {
-          input.endDate = e.target.value;
-          sendData({ ...input });
+          setStudies({
+            ...postulantData,
+            endDate: e.target.value.substring(0, postulantData.endDate.length - 8)
+          });
         }}
       />
+      <label htmlFor="school"></label>
       <input
-        defaultValue={input.school}
+        required
+        name="school"
+        defaultValue={postulantData.school}
         placeholder="School"
         onChange={(e) => {
-          input.school = e.target.value; //no se puede encontrar el indice de un array a través de un objeto
-          sendData({ ...input });
+          setStudies({ ...postulantData, school: e.target.value });
         }}
       />
     </div>

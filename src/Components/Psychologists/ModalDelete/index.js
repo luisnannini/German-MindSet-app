@@ -1,5 +1,6 @@
 import styles from './modalDelete.module.css';
-import Button from '../Button';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
+import ButtonCancel from '../../Shared/ButtonCancel';
 
 const ModalDelete = (props) => {
   return (
@@ -10,8 +11,8 @@ const ModalDelete = (props) => {
             <h2>ARE YOU SURE YOU WANT TO DELETE THIS PSYCHOLOGIST?</h2>
           </div>
           <div className={styles.header}>
-            <Button class={styles.greenButton} action={props.action} name={'Confirm'} />
-            <Button class={styles.redButton} action={props.close} name={'Cancel'} />
+            <ButtonCancel onClick={props.close} />
+            <ButtonConfirm onClick={props.action} />
           </div>
         </div>
       </div>

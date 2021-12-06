@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './profiles.module.css';
 import Modal from './Modal';
-import CreateButton from './CreateButton';
-import UpdateButton from './UpdateButton';
-import DeleteButton from './DeleteButton';
+import ButtonCreate from '../Shared/ButtonCreate';
+import ButtonUpdate from '../Shared/ButtonUpdate';
+import ButtonDelete from '../Shared/ButtonDelete';
 
 function Profiles() {
   const [profiles, setProfiles] = useState([]);
@@ -62,14 +63,6 @@ function Profiles() {
       });
   };
 
-  const showForm = (profile) => {
-    if (profile) {
-      window.location.href = `profiles/form?id=${profile._id}`;
-    } else {
-      window.location.href = `profiles/form`;
-    }
-  };
-
   const closeModal = () => {
     setShowModal(false);
     setShowErrorModal(false);
@@ -111,17 +104,21 @@ function Profiles() {
             <ul key={profile._id} className={styles.list}>
               <li>{profile.name}</li>
               <li>
-                <UpdateButton onClick={() => showForm(profile)} />
+                <Link to={`profiles/form?id=${profile._id}`}>
+                  <ButtonUpdate />
+                </Link>
               </li>
               <li>
-                <DeleteButton onClick={(event) => handleDelete(event, profile)} />
+                <ButtonDelete onClick={(event) => handleDelete(event, profile)} />
               </li>
             </ul>
           );
         })}
       </div>
       <div className={styles.button}>
-        <CreateButton onClick={() => showForm()} />
+        <Link to="./profiles/form">
+          <ButtonCreate />
+        </Link>
       </div>
     </section>
   );

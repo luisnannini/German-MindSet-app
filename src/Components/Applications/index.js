@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import styles from './applications.module.css';
-import Table from './Table/Table.js';
-import Modal from './Modal/Modal.js';
+import Table from './Table';
+import Modal from './Modal';
+import ButtonCreate from '../Shared/ButtonCreate';
 
 function Applications() {
   const [applications, setApplications] = useState([]);
@@ -56,17 +57,14 @@ function Applications() {
     <section className={styles.container}>
       <div className={styles.header}>
         <h2 className={styles.title}>Applications</h2>
-        <button
-          className={styles.button}
+        <ButtonCreate
           onClick={() => {
             setShowModal(true);
             setShowForm(true);
             setShowUpdate(false);
             setShowRemove(false);
           }}
-        >
-          Add Application
-        </button>
+        />
       </div>
       <Table applications={applications} updateReq={updateReq} removeReq={removeReq} />
       <Modal

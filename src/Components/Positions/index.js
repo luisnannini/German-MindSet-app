@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './positions.module.css';
 import Modal from './Modal';
-import CreateButton from './CreateButton';
-import UpdateButton from './UpdateButton';
-import DeleteButton from './DeleteButton';
+import ButtonCreate from '../Shared/ButtonCreate';
+import ButtonUpdate from '../Shared/ButtonUpdate';
+import ButtonDelete from '../Shared/ButtonDelete';
 
 function Positions() {
   const [positions, setPositions] = useState([]);
@@ -62,14 +63,6 @@ function Positions() {
       });
   };
 
-  const showForm = (position) => {
-    if (position) {
-      window.location.href = `positions/form?id=${position._id}`;
-    } else {
-      window.location.href = `positions/form`;
-    }
-  };
-
   const closeModal = () => {
     setShowModal(false);
     setShowErrorModal(false);
@@ -119,17 +112,21 @@ function Positions() {
               <li>{position.vacancy}</li>
               <li>{position.isOpen ? 'Yes' : 'No'}</li>
               <li>
-                <UpdateButton onClick={() => showForm(position)} />
+                <Link to={`positions/form?id=${position._id}`}>
+                  <ButtonUpdate />
+                </Link>
               </li>
               <li>
-                <DeleteButton onClick={(event) => handleDelete(event, position)} />
+                <ButtonDelete onClick={(event) => handleDelete(event, position)} />
               </li>
             </ul>
           );
         })}
       </div>
       <div className={styles.button}>
-        <CreateButton onClick={() => showForm()} />
+        <Link to="./positions/form">
+          <ButtonCreate />
+        </Link>
       </div>
     </section>
   );

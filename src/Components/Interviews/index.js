@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './interviews.module.css';
-import CreateButton from './CreateButton';
-import CreateForm from './CreateForm';
-import EditButton from './EditButton';
-import RemoveButton from './RemoveButton';
 import RemoveModal from './RemoveModal';
 import Modal from './Modal';
+import ButtonCreate from '../Shared/ButtonCreate';
+import ButtonUpdate from '../Shared/ButtonUpdate';
+import ButtonDelete from '../Shared/ButtonDelete';
 
 function Interviews() {
   const [interviews, setInterviews] = useState([]);
-  const [showCreateForm, setShowCreateForm] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [selectedInterview, setSelectedInterview] = useState(undefined);
   const [showSuccessDelete, setShowSuccessDelete] = useState(false);
@@ -26,18 +25,6 @@ function Interviews() {
   const handleDelete = (event, interview) => {
     event.stopPropagation();
     setSelectedInterview(interview._id);
-  };
-
-  const closeCreateForm = () => {
-    setShowCreateForm(false);
-  };
-
-  const showForm = (interview) => {
-    if (interview) {
-      window.location.href = `interviews/form?id=${interview._id}`;
-    } else {
-      window.location.href = `interviews/`;
-    }
   };
 
   const closeRemoveModal = () => {
@@ -106,10 +93,12 @@ function Interviews() {
             <li>{interview.date.replace('T00:00:00.000Z', '')}</li>
             <li>{interview.notes}</li>
             <li className={styles.buttons}>
-              <EditButton onClick={() => showForm(interview)} />
+              <Link to={`interviews/form?id=${interview._id}`}>
+                <ButtonUpdate />
+              </Link>
             </li>
             <li className={styles.buttons}>
-              <RemoveButton
+              <ButtonDelete
                 onClick={(event) => {
                   handleDelete(event, interview);
                   setShowRemoveModal(true);
@@ -124,8 +113,9 @@ function Interviews() {
         confirmRemoveModal={confirmRemoveModal}
         closeRemoveModal={closeRemoveModal}
       />
-      <CreateForm show={showCreateForm} closeCreateForm={closeCreateForm} />
-      <CreateButton onClick={() => setShowCreateForm(true)} />
+      <Link to="interviews/form">
+        <ButtonCreate />
+      </Link>
     </div>
   );
 }

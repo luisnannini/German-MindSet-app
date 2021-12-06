@@ -1,21 +1,43 @@
 // import style from './postulants-Item.module.css';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Modal from './Modal';
+import ButtonUpdate from '../Shared/ButtonUpdate';
+import ButtonDelete from '../Shared/ButtonDelete';
 
-function Item({ postulant, fetchData, url, setFormId }) {
-  //doFetch sirve para el delete y formId sirve para el edit
+function Item({ postulant, fetchData, url }) {
   const [modalState, setModalState] = useState({ state: false });
   const confirmDelete = async (id) => {
+    let responseRaw;
+    let status;
+    let serverError;
     try {
-      await fetch(`${url}?id=${id}`, {
+      responseRaw = await fetch(`${url}/${id}`, {
         method: 'DELETE'
       });
-      setModalState({ state: false });
-
-      fetchData();
     } catch (error) {
-      setModalState({ title: 'Error', state: true, message: 'Error deleting' });
+      setModalState({
+        title: 'Error',
+        state: true,
+        message: 'A local error has ocurred',
+        action: () => setModalState({ state: false })
+      });
     }
+    status = responseRaw.status + ' ' + responseRaw.statusText;
+    if (responseRaw.status !== 200 && responseRaw.status !== 201 && responseRaw.status !== 204) {
+      serverError = true;
+    }
+    const responseJson = await responseRaw.json();
+    if (serverError) {
+      setModalState({
+        title: 'Server Error',
+        state: true,
+        message: `${status}: ${responseJson.message}`,
+        action: () => setModalState({ state: false })
+      });
+    }
+    setModalState({ state: false });
+    fetchData();
   };
 
   return (
@@ -31,10 +53,12 @@ function Item({ postulant, fetchData, url, setFormId }) {
         return <td key={postulant[postulantKey]}>{postulant[postulantKey]}</td>;
       })}
       <td>
-        <button onClick={() => setFormId(postulant._id)}>Edit</button>
+        <Link to={`postulants/form?id=${postulant._id}`}>
+          <ButtonUpdate />
+        </Link>
       </td>
       <td>
-        <button
+        <ButtonDelete
           onClick={() =>
             setModalState({
               action: confirmDelete,
@@ -46,9 +70,7 @@ function Item({ postulant, fetchData, url, setFormId }) {
               close: () => setModalState({ state: modalState.state })
             })
           }
-        >
-          Delete
-        </button>
+        />
         {modalState.state && <Modal modal={modalState} closeModal={setModalState} />}
       </td>
     </tr>

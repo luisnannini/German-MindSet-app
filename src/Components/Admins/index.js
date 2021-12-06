@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './admins.module.css';
 import Modal from './Modal';
+import ButtonCreate from '../Shared/ButtonCreate';
+import ButtonUpdate from '../Shared/ButtonUpdate';
+import ButtonDelete from '../Shared/ButtonDelete';
 
 function Admins() {
   const [admins, setAdmins] = useState([]);
@@ -51,14 +55,6 @@ function Admins() {
       .finally(() => setLoading(false));
   };
 
-  const showForm = (admin) => {
-    if (admin) {
-      window.location.href = `admins/form?id=${admin._id}`;
-    } else {
-      window.location.href = `admins/form`;
-    }
-  };
-
   return (
     <section className={styles.container}>
       <Modal
@@ -81,23 +77,21 @@ function Admins() {
               <td>{admin.name}</td>
               <td>{admin.username}</td>
               <td>
-                <button onClick={() => showForm(admin)} className={styles.button}>
-                  Edit
-                </button>
+                <Link to={`admins/form?id=${admin._id}`}>
+                  <ButtonUpdate />
+                </Link>
               </td>
               <td>
-                <button onClick={(event) => handleDelete(event, admin)} className={styles.button}>
-                  Delete
-                </button>
+                <ButtonDelete onClick={(event) => handleDelete(event, admin)} />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
       <div className={styles.error}>{error}</div>
-      <button onClick={() => showForm()} className={styles.button}>
-        Add
-      </button>
+      <Link to="/admins/form">
+        <ButtonCreate />
+      </Link>
     </section>
   );
 }
