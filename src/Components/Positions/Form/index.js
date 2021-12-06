@@ -4,7 +4,7 @@ import Modal from '../Modal';
 import Input from '../Input';
 import Select from '../Select';
 import Button from '../Button';
-import Checkbox from '../Checkbox';
+import Checkbox from '../../Shared/Checkbox';
 
 const Form = () => {
   const [clients, setClients] = useState([]);
@@ -182,7 +182,6 @@ const Form = () => {
             />
             <Checkbox
               label={'Is Open?'}
-              type={'checkbox'}
               value={isOpenValue}
               onChange={onChangeIsOpenValue}
             />
