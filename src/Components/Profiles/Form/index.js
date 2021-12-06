@@ -3,6 +3,8 @@ import styles from './form.module.css';
 import Modal from '../Modal';
 import Input from '../Input';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
+import ButtonCancel from '../../Shared/ButtonCancel';
+import { Link } from 'react-router-dom';
 
 const Form = () => {
   const [profileValue, setProfileValue] = useState('');
@@ -124,6 +126,9 @@ const Form = () => {
           </div>
         </div>
         <div className={styles.button}>
+          <Link to="/profiles">
+            <ButtonCancel />
+          </Link>
           <ButtonConfirm type={'submit'} />
         </div>
       </form>

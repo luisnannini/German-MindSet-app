@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import Input from '../Input';
 import styles from './form.module.css';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
+import ButtonCancel from '../../Shared/ButtonCancel';
+import { Link } from 'react-router-dom';
+
 function Form() {
   const [nameValue, setNameValue] = useState('');
   const [phoneValue, setPhoneValue] = useState('');
@@ -223,7 +226,10 @@ function Form() {
           type="text"
           disabled={isLoading}
         />
-        <ButtonConfirm disabled={isLoading} type="submit" name="Submit" />
+        <Link to="/clients">
+          <ButtonCancel />
+        </Link>
+        <ButtonConfirm disabled={isLoading} type="submit" />
         <div className={styles.error}>{error}</div>
       </form>
     </section>

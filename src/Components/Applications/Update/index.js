@@ -123,7 +123,7 @@ const Update = (props) => {
         ></input>
       </div>
       <ButtonCancel onClick={props.onClose} />
-      <ButtonConfirm type="submit" name="Update" />
+      <ButtonConfirm type="submit" />
     </form>
   );
 };

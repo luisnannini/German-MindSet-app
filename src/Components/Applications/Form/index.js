@@ -137,7 +137,7 @@ const Form = (props) => {
         ></input>
       </div>
       <ButtonCancel onClick={props.onClose} />
-      <ButtonConfirm type="submit" name="Submit" />
+      <ButtonConfirm type="submit" />
     </form>
   );
 };

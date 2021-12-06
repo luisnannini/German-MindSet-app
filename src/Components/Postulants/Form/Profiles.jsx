@@ -29,7 +29,6 @@ const Profiles = ({ postulantData, setData, dataTemplate }) => {
         );
       })}
       <ButtonConfirm
-        name="Save"
         onClick={(e) => {
           e.preventDefault();
           setData([...postulantData, { ...dataTemplate, id: Math.floor(Math.random() * 10000) }]);

@@ -241,7 +241,7 @@ const Form = () => {
         <Link to="/interviews">
           <ButtonCancel />
         </Link>
-        <ButtonConfirm type="submit" name="Submit" />
+        <ButtonConfirm type="submit" />
       </div>
     </form>
   );

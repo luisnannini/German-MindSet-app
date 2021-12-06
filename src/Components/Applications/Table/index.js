@@ -1,5 +1,4 @@
 import styles from './table.module.css';
-//import ButtonUpdate from '../../Shared/ButtonUpdate';
 import ButtonDelete from '../../Shared/ButtonDelete';
 
 const Table = ({ applications, removeReq }) => {
@@ -12,7 +11,6 @@ const Table = ({ applications, removeReq }) => {
           <th>Postulant</th>
           <th>ID Interview</th>
           <th>Result</th>
-          {/* <th></th> */}
           <th></th>
         </tr>
       </thead>
@@ -26,9 +24,6 @@ const Table = ({ applications, removeReq }) => {
             </td>
             <td>{app.interview._id}</td>
             <td>{app.result}</td>
-            {/* <td>
-              <ButtonUpdate onClick={() => updateReq(app._id)} />
-            </td> (Update not available at back-end)*/}
             <td>
               <ButtonDelete onClick={() => removeReq(app._id)} />
             </td>

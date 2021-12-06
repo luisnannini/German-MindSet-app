@@ -7,9 +7,9 @@ const ButtonConfirm = (props) => {
       type={props.type}
       disabled={props.disabled}
       onClick={props.onClick}
-      className={styles.confirm}
+      className={styles.button}
     >
-      {props.name || 'Confirm'}
+      Confirm
     </button>
   );
 };

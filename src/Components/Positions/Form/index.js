@@ -5,6 +5,8 @@ import Input from '../Input';
 import Select from '../Select';
 import Checkbox from '../Checkbox';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
+import ButtonCancel from '../../Shared/ButtonCancel';
+import { Link } from 'react-router-dom';
 
 const Form = () => {
   const [clients, setClients] = useState([]);
@@ -210,6 +212,9 @@ const Form = () => {
           </div>
         </div>
         <div className={styles.button}>
+          <Link to="/positions">
+            <ButtonCancel />
+          </Link>
           <ButtonConfirm type="submit" />
         </div>
       </form>

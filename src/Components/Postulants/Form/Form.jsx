@@ -8,6 +8,8 @@ import PrimitiveFormInput from './PrimitiveFormInput';
 import ContactRange from './ContactRange';
 import Profiles from './Profiles';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
+import ButtonCancel from '../../Shared/ButtonCancel';
+import { Link } from 'react-router-dom';
 
 function Form() {
   const [modal, setModal] = useState({ state: false, action: '', message: '' });
@@ -340,6 +342,9 @@ function Form() {
             }}
           />
         </div>
+        <Link to="/postulants">
+          <ButtonCancel />
+        </Link>
         <ButtonConfirm onClick={(e) => submit(e)} />
       </form>
       {modal.state && <Modal modal={modal} />}

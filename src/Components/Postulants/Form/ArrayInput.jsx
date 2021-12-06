@@ -48,7 +48,6 @@ const ArrayInput = ({ postulantData, setData, dataName, dataTemplate }) => {
         );
       })}
       <ButtonConfirm
-        name="Add"
         onClick={(e) => {
           e.preventDefault();
           setData([...postulantData, { ...dataTemplate, id: Math.floor(Math.random() * 10000) }]);

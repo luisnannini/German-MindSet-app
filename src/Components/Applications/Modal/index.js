@@ -2,6 +2,7 @@ import styles from './modal.module.css';
 import Form from '../Form';
 import Update from '../Update';
 import Remove from '../Remove';
+
 const Modal = (props) => {
   if (props.show == false) {
     return null;

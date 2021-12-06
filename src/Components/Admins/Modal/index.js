@@ -14,12 +14,8 @@ const Modal = (props) => {
           <h2>Are you sure you want to delete this administrator?</h2>
         </div>
         <div className={styles.header}>
-          <ButtonCancel disabled={isLoading} onClick={() => onCancel()} className={styles.button} />
-          <ButtonConfirm
-            disabled={isLoading}
-            onClick={() => onConfirm()}
-            className={styles.button}
-          />
+          <ButtonCancel disabled={isLoading} onClick={() => onCancel()} />
+          <ButtonConfirm disabled={isLoading} onClick={() => onConfirm()} />
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@ import styles from './form.module.css';
 import { useState, useEffect } from 'react';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
 import ButtonCancel from '../../Shared/ButtonCancel';
+import { Link } from 'react-router-dom';
 
 const Form = () => {
   const [error, setError] = useState('');
@@ -521,11 +522,9 @@ const Form = () => {
             value={sundayTo}
           />
         </div>
-        <ButtonCancel
-          onClick={() => {
-            window.location.href = `${window.location.origin}/psychologists`;
-          }}
-        />
+        <Link to="/psychologists">
+          <ButtonCancel />
+        </Link>
         <ButtonConfirm type="submit" />
         <div className={styles.error}>{error}</div>
       </form>

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import styles from './form.module.css';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
+import ButtonCancel from '../../Shared/ButtonCancel';
+import { Link } from 'react-router-dom';
 
 const Form = () => {
   const [fullNameValue, setFullNameValue] = useState('');
@@ -121,7 +123,10 @@ const Form = () => {
           required
           disabled={isLoading}
         />
-        <ButtonConfirm disabled={isLoading} type="submit" name="Submit" />
+        <Link to="/admins">
+          <ButtonCancel />
+        </Link>
+        <ButtonConfirm disabled={isLoading} type="submit" />
         <div className={styles.error}>{error}</div>
       </form>
     </div>
