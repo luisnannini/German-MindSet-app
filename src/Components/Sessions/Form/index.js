@@ -151,27 +151,32 @@ const Form = () => {
         <div className={styles.inputContainer}>
           <Select
             className={styles.select}
+            label="Postulant:"
             value={postulantValue}
             onChange={(e) => setPostulantValue(e.target.value)}
             object={postulants}
             required
             disabled={isLoading}
+            title="Postulant"
           />
         </div>
         <div className={styles.inputContainer}>
           <Select
             className={styles.select}
             value={psychologistValue}
+            label="Psychologist:"
             onChange={(e) => setPsychologistValue(e.target.value)}
             object={psychologists}
             required
             disabled={isLoading}
+            title="Psychologist"
           />
         </div>
         <div className={styles.inputContainer}>
           <Select
             className={styles.select}
             name="status"
+            label="Status:"
             value={statusValue}
             onChange={(e) => setStatusValue(e.target.value)}
             object={[
@@ -180,6 +185,7 @@ const Form = () => {
               { _id: 'cancelled', value: 'cancelled', name: 'Cancelled' }
             ]}
             required
+            title="Status"
             disabled={isLoading}
           />
         </div>

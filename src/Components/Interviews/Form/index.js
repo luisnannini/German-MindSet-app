@@ -185,30 +185,29 @@ const Form = () => {
       </h2>
       <div className={styles.formDiv1}>
         <div className={styles.formDiv2}>
-          <h3>Postulant</h3>
           <Select
             value={postulantValue}
             title="Postulant Name"
+            label="Postulant Name"
             object={postulants}
             onChange={onChangePostulantValue}
             required
           />
         </div>
         <div className={styles.formDiv2}>
-          <h3>Client</h3>
           <Select
             value={clientValue}
             title="Client Name"
+            label="Client Name"
             object={clients}
             onChange={onChangeClientValue}
             required
           />
         </div>
         <div className={styles.formDiv2}>
-          <h3>Application</h3>
           <Select
             value={applicationValue}
-            title="Application"
+            label="Application"
             object={applications}
             onChange={onChangeApplicationValue}
             required
@@ -216,10 +215,10 @@ const Form = () => {
         </div>
       </div>
       <div className={styles.formDiv1}>
-        <h3>Status</h3>
         <Select
           value={statusValue}
           title="Status"
+          label="Status"
           object={result}
           onChange={onChangeStatusValue}
           required

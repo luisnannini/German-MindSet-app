@@ -104,7 +104,7 @@ const Form = (props) => {
           onChange={onChangePosition}
           value={positionValue}
           object={position}
-          title="- Select an option -"
+          title="- Select a position -"
           required
         />
       </div>
@@ -114,7 +114,7 @@ const Form = (props) => {
           onChange={onChangePostulant}
           value={postulantValue}
           object={postulant}
-          title="- Select an option -"
+          title="- Select a postulant -"
           required
         />
       </div>
@@ -124,7 +124,7 @@ const Form = (props) => {
           onChange={onChangeInterview}
           value={interviewValue}
           object={interview}
-          title="- Select an option -"
+          title="- Select an interview -"
           required
         />
       </div>
