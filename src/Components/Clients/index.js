@@ -44,7 +44,7 @@ function Clients() {
 
   const deleteClient = () => {
     setLoading(true);
-    fetch(`${process.env.REACT_APP_API}/clients/${selectedClient}`, { method: 'DELETE' })
+    fetch(`${process.env.REACT_APP_API}/clients/${selectedClient}asd`, { method: 'DELETE' })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           const status = `${response.status} ${response.statusText}`;
@@ -69,7 +69,10 @@ function Clients() {
             closeModal();
           });
       })
-      .catch((error) => setError({ show: true, message: error.message, title: error.status }))
+      .catch((error) => {
+        setError({ show: true, message: error.message, title: error.status });
+        setShowModal(false);
+      })
       .finally(() => setLoading(false));
   };
 

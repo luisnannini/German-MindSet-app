@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import styles from './interviews.module.css';
 import CreateButton from './CreateButton';
 import EditButton from './EditButton';
-import ButtonDelete from '../Shared/ButtonDelete';
 import RemoveModal from './RemoveModal';
 import ModalError from '../Shared/Modal-Error/modal-error';
 
@@ -64,7 +63,10 @@ function Interviews() {
         }
       })
       .then(() => {})
-      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
+      .catch((error) => {
+        setShowRemoveModal(false);
+        setError({ show: true, message: error.message, title: error.status });
+      });
   };
 
   return (
@@ -101,12 +103,14 @@ function Interviews() {
               </Link>
             </li>
             <li className={styles.buttons}>
-              <ButtonDelete
+              <button
                 onClick={(event) => {
                   handleDelete(event, interview);
                   setShowRemoveModal(true);
                 }}
-              />
+              >
+                Delete
+              </button>
             </li>
           </ul>
         );

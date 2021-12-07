@@ -14,10 +14,10 @@ const Form = () => {
   });
 
   useEffect(() => {
-    setLoading(true);
     const params = new URLSearchParams(window.location.search);
     const adminId = params.get('id');
     if (adminId) {
+      setLoading(true);
       fetch(`${process.env.REACT_APP_API}/admins?_id=${adminId}`)
         .then((response) => {
           if (response.status !== 200 && response.status !== 201 && response.status !== 204) {

@@ -297,7 +297,7 @@ const Form = () => {
                 value={firstNameForm}
               />
             </div>
-            <span className={styles.hiddenError}>Invalid First Name</span>
+            <span className={styles.hiddenError}>First Name</span>
             <div className={styles.fields}>
               <input
                 label="lastName"
@@ -309,7 +309,7 @@ const Form = () => {
                 value={lastNameForm}
               />
             </div>
-            <span className={styles.hiddenError}>Invalid Last Name</span>
+            <span className={styles.hiddenError}>Last Name</span>
             <div className={styles.fields}>
               <input
                 label="username"
@@ -321,7 +321,7 @@ const Form = () => {
                 value={usernameForm}
               />
             </div>
-            <span className={styles.hiddenError}>Invalid Username</span>
+            <span className={styles.hiddenError}>Username</span>
             <div className={styles.fields}>
               <input
                 label="password"
@@ -332,7 +332,7 @@ const Form = () => {
                 value={passwordForm}
               />
             </div>
-            <span className={styles.hiddenError}>Invalid Password</span>
+            <span className={styles.hiddenError}>Password</span>
             <div className={styles.fields}>
               <input
                 label="email"
@@ -344,7 +344,7 @@ const Form = () => {
                 value={emailForm}
               />
             </div>
-            <span className={styles.hiddenError}>Invalid E-Mail</span>
+            <span className={styles.hiddenError}>E-Mail</span>
             <div className={styles.fields}>
               <input
                 label="phone"
@@ -355,7 +355,7 @@ const Form = () => {
                 value={phoneForm}
               />
             </div>
-            <span className={styles.hiddenError}>Invalid Phone Number</span>
+            <span className={styles.hiddenError}>Phone Number</span>
             <div className={styles.fields}>
               <input
                 label="address"
@@ -366,7 +366,7 @@ const Form = () => {
                 value={addressForm}
               />
             </div>
-            <span className={styles.hiddenError}>Invalid Address</span>
+            <span className={styles.hiddenError}>Address</span>
           </div>
         </div>
         <h2 className={styles.container}>Availability</h2>

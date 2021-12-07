@@ -38,7 +38,7 @@ function Psychologists() {
   };
 
   const deletePsychologist = () => {
-    fetch(`${process.env.REACT_APP_API}/psyclogists/${selectedPsychologist}`, {
+    fetch(`${process.env.REACT_APP_API}/psychologists/${selectedPsychologist}`, {
       method: 'DELETE'
     })
       .then((response) => {
@@ -60,12 +60,13 @@ function Psychologists() {
             }
             return response.json();
           })
-          .then(async (response) => {
-            await savePsychologists(response.data);
-            await setShowModalDelete(false);
+          .then((response) => {
+            savePsychologists(response.data);
+            setShowModalDelete(false);
           });
       })
       .catch((error) => {
+        setShowModalDelete(false);
         setError({ show: true, message: error.message, title: error.status });
       });
   };

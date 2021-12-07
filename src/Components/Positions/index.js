@@ -70,6 +70,7 @@ function Positions() {
           });
       })
       .catch((error) => {
+        setShowModal(false);
         setError({ show: true, message: error.message, title: error.status });
       });
   };
@@ -80,7 +81,7 @@ function Positions() {
         show={showModal}
         title="Delete a Position"
         message="Are you sure you want to delete this position?"
-        onCancel={() => showModal(false)}
+        onCancel={() => setShowModal(false)}
         onConfirm={deletePosition}
       />
       <ModalError error={error} onConfirm={() => setError({ show: false })} />

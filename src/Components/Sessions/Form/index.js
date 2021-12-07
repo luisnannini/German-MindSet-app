@@ -36,7 +36,7 @@ const Form = () => {
               if (message.message) throw { message: message.message, status };
               throw { message, status };
             });
-          } ///////////GET
+          }
           return response.json();
         })
         .then((response) => {
@@ -67,10 +67,17 @@ const Form = () => {
             if (message.message) throw { message: message.message, status };
             throw { message, status };
           });
-        } ///////////////////GET
+        }
         return response.json();
       })
       .then((response) => {
+        if (!response.data[0]) {
+          return setError({
+            show: true,
+            message: 'Postulant not found',
+            title: '404: Not Found'
+          });
+        }
         setPostulants(
           response.data.map((postulant) => ({
             value: postulant._id,
@@ -91,10 +98,17 @@ const Form = () => {
             if (message.message) throw { message: message.message, status };
             throw { message, status };
           });
-        } ///////////////////GET
+        }
         return response.json();
       })
       .then((response) => {
+        if (!response.data[0]) {
+          return setError({
+            show: true,
+            message: 'Psychologist not found',
+            title: '404: Not Found'
+          });
+        }
         setPsychologists(
           response.data.map((psychologist) => ({
             value: psychologist._id,
@@ -144,7 +158,7 @@ const Form = () => {
             if (message.message) throw { message: message.message, status };
             throw { message, status };
           });
-        } //////POST O PUT
+        }
         return response.json();
       })
       .then(() => {
