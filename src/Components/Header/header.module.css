@@ -3,7 +3,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 5%;
-  height: 50px;
+  height: 80px;
   background-color: #FC6225;
 }
 
@@ -37,8 +37,8 @@
 
 .routes > li > a {
   display: block;
-  margin-bottom: 10px;
-  font-size: 1rem;
+  margin: 15px 20px;
+  font-size: 18px;
   text-decoration: none;
   text-transform: capitalize;
   color: white;
@@ -49,7 +49,7 @@
 }
 
 .appName {
-  font-size: 2.5rem;
+  font-size: 40px;
   font-weight: bold;
   text-align: center;
   color: white;
