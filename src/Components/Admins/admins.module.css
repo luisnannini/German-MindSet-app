@@ -9,7 +9,7 @@
 }
 
 .title {
-  margin: 1em 0em 2em 1em;
+  margin: 10px;
   font-size: 30px;
   color: #232F3E;
 }
@@ -54,5 +54,6 @@
 .header {
   display: flex;
   justify-content: space-between;
-  margin: 10px;
+  align-items: center;
+  margin: 20px;
 }
