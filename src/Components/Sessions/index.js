@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaPlusCircle } from 'react-icons/fa';
 import styles from './sessions.module.css';
 import Session from './Session';
-import ConfirmModal from './ConfirmModal';
-import ModalError from '../Shared/Modal-Error/modal-error';
+import ModalError from '../Shared/ModalError';
+import Modal from '../Shared/Modal';
+import ButtonCreate from '../Shared/ButtonCreate';
 
 function Sessions() {
   const [Sessions, setSessions] = useState([]);
@@ -34,7 +34,7 @@ function Sessions() {
             if (message.message) throw { message: message.message, status };
             throw { message, status };
           });
-        } /////////////////GET
+        }
         return response.json();
       })
       .then((response) => {
@@ -71,12 +71,13 @@ function Sessions() {
 
   return (
     <div className={styles.container}>
-      {ShowConfirmModal.show && (
-        <ConfirmModal
-          onClose={() => setShowConfirmModal({ show: false, id: '' })}
-          onDelete={deleteSession}
-        />
-      )}
+      <Modal
+        show={ShowConfirmModal}
+        title="Delete Session"
+        message="Are you sure you want to delete this Session?"
+        onCancel={() => setShowConfirmModal({ show: false, id: '' })}
+        onConfirm={deleteSession}
+      />
       <section className={styles.section}>
         <h2>Sessions</h2>
         <table className={styles.table}>
@@ -114,15 +115,10 @@ function Sessions() {
           </tbody>
         </table>
       </section>
-      <>
-        <Link to="sessions/form">
-          <button disabled={isLoading} className={styles.addButton}>
-            <FaPlusCircle />
-          </button>
-        </Link>
-      </>
+      <Link to="sessions/form">
+        <ButtonCreate disabled={isLoading} />
+      </Link>
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
-      {/* {error.isError && <div>{error.message}</div>} */}
     </div>
   );
 }

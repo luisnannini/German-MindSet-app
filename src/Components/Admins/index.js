@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './admins.module.css';
-import Modal from './Modal';
-import ModalError from '../Shared/Modal-Error/modal-error';
+import ModalError from '../Shared/ModalError';
+import Modal from '../Shared/Modal';
+import ButtonCreate from '../Shared/ButtonCreate';
+import ButtonUpdate from '../Shared/ButtonUpdate';
+import ButtonDelete from '../Shared/ButtonDelete';
 
 function Admins() {
   const [admins, setAdmins] = useState([]);
@@ -74,10 +77,13 @@ function Admins() {
     <section className={styles.container}>
       <Modal
         show={showModal}
+        title="Delete Admin"
+        message="Are you sure you want to delete this Admin?"
         isLoading={isLoading}
         onCancel={() => setShowModal(false)}
         onConfirm={deleteAdmin}
       />
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />
       <h2 className={styles.title}>Administrators</h2>
       <table className={styles.title}>
         <thead>
@@ -93,21 +99,18 @@ function Admins() {
               <td>{admin.username}</td>
               <td>
                 <Link to={`admins/form?id=${admin._id}`}>
-                  <button className={styles.button}>Edit</button>
+                  <ButtonUpdate />
                 </Link>
               </td>
               <td>
-                <button onClick={(event) => handleDelete(event, admin)} className={styles.button}>
-                  Delete
-                </button>
+                <ButtonDelete onClick={(event) => handleDelete(event, admin)} />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <ModalError error={error} onConfirm={() => setError({ show: false })} />{' '}
       <Link to="/admins/form">
-        <button className={styles.button}>Add</button>
+        <ButtonCreate />
       </Link>
     </section>
   );

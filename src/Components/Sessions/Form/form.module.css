@@ -22,13 +22,6 @@
   width: 300px;
   margin: 1px;
 }
-.formContainer label {
-  display: flex;
-  flex-direction: column;
-  width: fit-content;
-  margin-left: 30%;
-}
-.formContainer input,
 .formContainer select {
   background: white;
   width: 200px;

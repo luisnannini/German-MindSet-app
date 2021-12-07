@@ -1,12 +1,15 @@
-import style from '../postulants-Form.module.css';
 import { useState, useEffect } from 'react';
-import ModalError from '../../Shared/Modal-Error/modal-error';
+import ModalError from '../../Shared/ModalError';
+import { Link } from 'react-router-dom';
+import style from '../postulants-Form.module.css';
 import validatePostulant from './validations';
 import ArrayInput from './ArrayInput';
 import InitialStudies from './InitialStudies';
 import PrimitiveFormInput from './PrimitiveFormInput';
 import ContactRange from './ContactRange';
 import Profiles from './Profiles';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
+import ButtonCancel from '../../Shared/ButtonCancel';
 
 function Form() {
   const params = new URLSearchParams(window.location.search);
@@ -110,12 +113,10 @@ function Form() {
     setUniversityStudies(formPostulants[0].studies.universityStudies);
     setInformalStudies(formPostulants[0].studies.informalStudies);
   };
-
   useEffect(() => {
     if (postulantId) usePostulant();
   }, []);
-
-  const submit = async (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const body = {
       contactRange,
@@ -173,8 +174,8 @@ function Form() {
     <section className={style.section}>
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
       <div className={style.formHeader}></div>
-      <h1 className={style.textCenter}>{postulantId ? `Edit ${postulantId}` : 'Add postulant'}</h1>
-      <form>
+      <h1 className={style.textCenter}>{postulantId ? `Edit ${postulantId}` : `Add Postulant`}</h1>
+      <form onSubmit={(e) => onSubmit(e)}>
         <div>
           <h2 className={style.textCenter}>Studies</h2>
           <div className={style.inputSection}>
@@ -195,7 +196,7 @@ function Form() {
                 dataTemplate={{
                   startDate: '2000-01-01T00:00:00.000Z',
                   endDate: '2000-01-01T00:00:00.000Z',
-                  Insistute: '',
+                  Institute: '',
                   description: ''
                 }}
               />
@@ -209,7 +210,7 @@ function Form() {
                 dataTemplate={{
                   startDate: '2000-01-01T00:00:00.000Z',
                   endDate: '2000-01-01T00:00:00.000Z',
-                  Insistute: '',
+                  Institute: '',
                   description: ''
                 }}
               />
@@ -223,7 +224,7 @@ function Form() {
                 dataTemplate={{
                   startDate: '2000-01-01T00:00:00.000Z',
                   endDate: '2000-01-01T00:00:00.000Z',
-                  Insistute: '',
+                  Institute: '',
                   description: ''
                 }}
               />
@@ -296,7 +297,7 @@ function Form() {
             />
           </div>
           <div>
-            <h2>Udated At</h2>
+            <h2>Updated At</h2>
             <PrimitiveFormInput
               postulantData={updatedAt}
               dataName="updatedAt"
@@ -326,7 +327,10 @@ function Form() {
             }}
           />
         </div>
-        <button onClick={(e) => submit(e)}>{postulantId ? 'Save' : 'Add'}</button>
+        <Link to="/postulants">
+          <ButtonCancel />
+        </Link>
+        <ButtonConfirm onClick={(e) => onSubmit(e)} />
       </form>
     </section>
   );

@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './psychologists.module.css';
-import Button from './Button';
-import ModalDelete from './ModalDelete';
-import ModalError from '../Shared/Modal-Error/modal-error';
+import ModalError from '../Shared/ModalError';
+import Modal from '../Shared/Modal';
+import ButtonCreate from '../Shared/ButtonCreate';
+import ButtonUpdate from '../Shared/ButtonUpdate';
+import ButtonDelete from '../Shared/ButtonDelete';
 
 function Psychologists() {
   const [psychologists, savePsychologists] = useState([]);
@@ -77,7 +79,13 @@ function Psychologists() {
 
   return (
     <section className={styles.container}>
-      <ModalDelete visible={showModalDelete} action={deletePsychologist} close={closeModal} />
+      <Modal
+        show={showModalDelete}
+        title="Delete Psychologist"
+        message="Are you sure you want to delete this Psychologist?"
+        onConfirm={deletePsychologist}
+        onCancel={closeModal}
+      />
       <div>
         <h2 className={styles.title}>Psychologist</h2>
       </div>
@@ -105,18 +113,18 @@ function Psychologists() {
               <li>{psychologist.address}</li>
               <li>
                 <Link to={`psychologists/form?id=${psychologist._id}`}>
-                  <button>Update</button>
+                  <ButtonUpdate />
                 </Link>
               </li>
               <li>
-                <button onClick={(event) => handleDelete(event, psychologist)}>Delete</button>
+                <ButtonDelete onClick={(event) => handleDelete(event, psychologist)} />
               </li>
             </ul>
           );
         })}
       </div>
-      <Link to="./psychologists/form">
-        <Button className={styles.button} name={'ADD'} />
+      <Link to="/psychologists/form">
+        <ButtonCreate />
       </Link>
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
     </section>

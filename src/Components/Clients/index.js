@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Modal from './Modal';
+import Modal from '../Shared/Modal';
 import styles from './clients.module.css';
-import AddButton from './AddButton';
-import EditButton from './EditButton';
-import RemoveButton from './RemoveButton';
-import ModalError from '../Shared/Modal-Error/modal-error';
+import ModalError from '../Shared/ModalError';
+import ButtonCreate from '../Shared/ButtonCreate';
+import ButtonUpdate from '../Shared/ButtonUpdate';
+import ButtonDelete from '../Shared/ButtonDelete';
 
 function Clients() {
   const [clients, setClients] = useState([]);
@@ -85,9 +85,10 @@ function Clients() {
     <section className={styles.container}>
       <Modal
         show={showModal}
-        title="Are you sure you want to delete this client?"
-        onCancel={closeModal}
+        title="Delete Client"
+        message="Are you sure you want to delete this client?"
         isLoading={isLoading}
+        onCancel={closeModal}
         onConfirm={deleteClient}
       />
       <h2>Clients List</h2>
@@ -118,9 +119,9 @@ function Clients() {
               <td>{client.description}</td>
               <td>
                 <Link to={`clients/form?id=${client._id}`}>
-                  <EditButton />
+                  <ButtonUpdate />
                 </Link>
-                <RemoveButton onClick={(event) => handleDelete(event, client)} />
+                <ButtonDelete onClick={(event) => handleDelete(event, client)} />
               </td>
             </tr>
           ))}
@@ -128,7 +129,7 @@ function Clients() {
       </table>
       <ModalError error={error} onConfirm={() => setError({ show: false })} />{' '}
       <Link to="./clients/form">
-        <AddButton />
+        <ButtonCreate />
       </Link>
     </section>
   );

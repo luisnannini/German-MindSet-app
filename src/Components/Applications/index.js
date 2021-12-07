@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import styles from './applications.module.css';
 import Table from './Table';
-import Modal from './Modal';
-import ModalError from '../Shared/Modal-Error/modal-error';
+import ModalError from '../Shared/ModalError';
+import ModalForm from './ModalForm';
+import Modal from '../Shared/Modal';
+import ButtonCreate from '../Shared/ButtonCreate';
 
 function Applications() {
   const [applications, setApplications] = useState([]);
@@ -40,7 +42,6 @@ function Applications() {
     setRemoveId(id);
     setShowForm(false);
     setShowUpdate(false);
-    setShowModal(true);
     setShowRemove(true);
   };
   const updateReq = (id) => {
@@ -75,32 +76,38 @@ function Applications() {
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
       <div className={styles.header}>
         <h2 className={styles.title}>Applications</h2>
-        <button
-          className={styles.button}
+        <ButtonCreate
           onClick={() => {
             setShowModal(true);
             setShowForm(true);
             setShowUpdate(false);
             setShowRemove(false);
           }}
-        >
-          Add Application
-        </button>
+        />
       </div>
       <Table applications={applications} updateReq={updateReq} removeReq={removeReq} />
       <Modal
+        show={showRemove}
+        title="Delete Application"
+        message="Are you sure you want to delete this application?"
+        onCancel={() => {
+          setShowRemove(false);
+        }}
+        onConfirm={() => {
+          remove(removeId);
+          setShowRemove(false);
+        }}
+      />
+      <ModalForm
         onClose={() => {
           setShowModal(false);
           setShowForm(false);
           setShowUpdate(false);
-          setShowRemove(false);
         }}
         show={showModal}
         showForm={showForm}
         showUpdate={showUpdate}
         updateId={updateId}
-        showRemove={showRemove}
-        removeConfirm={() => remove(removeId)}
       />
     </section>
   );

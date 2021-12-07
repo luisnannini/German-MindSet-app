@@ -1,3 +1,5 @@
+import ButtonLittleAdd from '../../Shared/ButtonLittleAdd';
+
 const Profiles = ({ postulantData, setData, dataTemplate }) => {
   postulantData.forEach((data, index) => {
     if (!data.profileId) postulantData[index].profileId = { id: '', name: '' };
@@ -7,7 +9,10 @@ const Profiles = ({ postulantData, setData, dataTemplate }) => {
       {postulantData.map((profile, index) => {
         return (
           <div key={index}>
+            <label htmlFor="id"></label>
             <input
+              required
+              name="id"
               placeholder="ID"
               defaultValue={profile.profileId._id}
               onChange={(e) => {
@@ -15,7 +20,10 @@ const Profiles = ({ postulantData, setData, dataTemplate }) => {
                 setData([...postulantData]);
               }}
             />
+            <label htmlFor="id"></label>
             <input
+              required
+              name="name"
               placeholder="Name"
               defaultValue={profile.profileId.name}
               onChange={(e) => {
@@ -26,14 +34,12 @@ const Profiles = ({ postulantData, setData, dataTemplate }) => {
           </div>
         );
       })}
-      <button
+      <ButtonLittleAdd
         onClick={(e) => {
           e.preventDefault();
           setData([...postulantData, { ...dataTemplate, id: Math.floor(Math.random() * 10000) }]);
         }}
-      >
-        Add
-      </button>
+      />
     </div>
   );
 };

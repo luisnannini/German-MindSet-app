@@ -1,8 +1,10 @@
 import { React, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './form.module.css';
-import Input from '../Input';
-import Button from '../Button';
-import ModalError from '../../Shared/Modal-Error/modal-error';
+import ModalError from '../../Shared/ModalError';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
+import ButtonCancel from '../../Shared/ButtonCancel';
+import Input from '../../Shared/Input';
 
 const Form = () => {
   const [profileValue, setProfileValue] = useState('');
@@ -97,20 +99,20 @@ const Form = () => {
         <div className={styles.header}>
           <h2 className={styles.title}>{profileId ? 'Update a Profile' : 'Create a Profile'}</h2>
         </div>
-        <div className={styles.fields}>
-          <div className={styles.columns}>
-            <Input
-              label={'Profile'}
-              value={profileValue}
-              onChange={onChangeProfileValue}
-              placeholder={'Write a new profile'}
-              required
-              pattern="[A-Za-z ]*"
-            />
-          </div>
-        </div>
+        <Input
+          label={'Profile'}
+          name={'profile'}
+          value={profileValue}
+          onChange={onChangeProfileValue}
+          placeholder={'Write a new profile'}
+          required={true}
+          pattern="[A-Za-z ]*"
+        />
         <div className={styles.button}>
-          <Button type={'submit'} label={'Confirm'} />
+          <Link to="/profiles">
+            <ButtonCancel />
+          </Link>
+          <ButtonConfirm type={'submit'} />
         </div>
       </form>
     </div>

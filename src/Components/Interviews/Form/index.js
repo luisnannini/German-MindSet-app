@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import styles from './form.module.css';
-import Input from '../Inputs';
-import SelectPostulant from '../SelectPostulant';
-import SelectClient from '../SelectClient';
-import SelectApplication from '../SelectApplication';
 import { Link } from 'react-router-dom';
-import ModalError from '../../Shared/Modal-Error/modal-error';
+import styles from './form.module.css';
+import ModalError from '../../Shared/ModalError';
+import Input from '../../Shared/Input';
+import Select from '../../Shared/Select';
+import ButtonCancel from '../../Shared/ButtonCancel';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
 
 const Form = () => {
   const [clients, setClients] = useState([]);
@@ -52,7 +52,13 @@ const Form = () => {
         return response.json();
       })
       .then((response) => {
-        setPostulants(response.data);
+        setPostulants(
+          response.data.map((postulant) => ({
+            _id: postulant._id,
+            value: postulant._id,
+            name: `${postulant.firstName} ${postulant.lastName}`
+          }))
+        );
       })
       .catch((error) => setError({ show: true, message: error.message, title: error.status }));
     fetch(`${process.env.REACT_APP_API}/applications`)
@@ -67,7 +73,13 @@ const Form = () => {
         return response.json();
       })
       .then((response) => {
-        setApplications(response.data);
+        setApplications(
+          response.data.map((application) => ({
+            _id: application._id,
+            value: application._id,
+            name: application.result
+          }))
+        );
       })
       .catch((error) => setError({ show: true, message: error.message, title: error.status }));
   }, []);
@@ -182,6 +194,14 @@ const Form = () => {
     else setErrorDate(null);
   }
 
+  const result = [
+    { _id: 'assigned', value: 'assigned', name: 'Assigned' },
+    { _id: 'successful', value: 'successful', name: 'Successful' },
+    { _id: 'cancelled', value: 'cancelled', name: 'Cancelled' },
+    { _id: 'failed', value: 'failed', name: 'Failed' },
+    { _id: 'confirmed', value: 'confirmed', name: 'Confirmed' }
+  ];
+
   return (
     <form className={styles.form} onSubmit={onSubmit}>
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
@@ -190,27 +210,29 @@ const Form = () => {
       </h2>
       <div className={styles.formDiv1}>
         <div className={styles.formDiv2}>
-          <h3>Postulant</h3>
-          <SelectPostulant
+          <Select
             value={postulantValue}
+            title="Postulant Name"
+            label="Postulant Name"
             object={postulants}
             onChange={onChangePostulantValue}
             required
           />
         </div>
         <div className={styles.formDiv2}>
-          <h3>Client</h3>
-          <SelectClient
+          <Select
             value={clientValue}
+            title="Client Name"
+            label="Client Name"
             object={clients}
             onChange={onChangeClientValue}
             required
           />
         </div>
         <div className={styles.formDiv2}>
-          <h3>Application</h3>
-          <SelectApplication
+          <Select
             value={applicationValue}
+            label="Application"
             object={applications}
             onChange={onChangeApplicationValue}
             required
@@ -218,30 +240,26 @@ const Form = () => {
         </div>
       </div>
       <div className={styles.formDiv1}>
-        <h3>Status</h3>
-        <select
-          className={styles.select}
+        <Select
           value={statusValue}
+          title="Status"
+          label="Status"
+          object={result}
           onChange={onChangeStatusValue}
           required
-        >
-          <option value=""></option>
-          <option value="failed">Failed</option>
-          <option value="assigned">Assigned</option>
-          <option value="successful">Successful</option>
-          <option value="cancelled">Cancelled</option>
-          <option value="confirmed">Confirmed</option>
-        </select>
+        />
         <h3>Date</h3>
         <Input
-          name="date"
+          label={'Date'}
+          type={'datetime-local'}
+          name={'date'}
           value={dateValue}
-          placeholder="yyyy-mm-dd"
+          placeholder={'yyyy-mm-dd'}
           onChange={(e) => {
             setDateValue(e.target.value);
             handleChangeDate(e);
           }}
-          required
+          required={true}
         />
       </div>
       <label className={styles.formLabel} htmlFor="messageDate">
@@ -260,11 +278,9 @@ const Form = () => {
       </div>
       <div className={styles.buttons}>
         <Link to="/interviews">
-          <button className={styles.cancel}>Cancel</button>
+          <ButtonCancel />
         </Link>
-        <button type="submit" className={styles.confirm}>
-          Confirm
-        </button>
+        <ButtonConfirm type="submit" />
       </div>
     </form>
   );

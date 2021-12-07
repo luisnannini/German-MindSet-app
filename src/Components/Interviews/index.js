@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './interviews.module.css';
-import CreateButton from './CreateButton';
-import EditButton from './EditButton';
-import RemoveModal from './RemoveModal';
-import ModalError from '../Shared/Modal-Error/modal-error';
+import ModalError from '../Shared/ModalError';
+import Modal from '../Shared/Modal';
+import ButtonCreate from '../Shared/ButtonCreate';
+import ButtonUpdate from '../Shared/ButtonUpdate';
+import ButtonDelete from '../Shared/ButtonDelete';
 
 function Interviews() {
   const [interviews, setInterviews] = useState([]);
@@ -62,7 +63,9 @@ function Interviews() {
           });
         }
       })
-      .then(() => {})
+      .then(() => {
+        setShowRemoveModal(false);
+      })
       .catch((error) => {
         setShowRemoveModal(false);
         setError({ show: true, message: error.message, title: error.status });
@@ -99,29 +102,29 @@ function Interviews() {
             <li>{interview.notes}</li>
             <li className={styles.buttons}>
               <Link to={`interviews/form?id=${interview._id}`}>
-                <EditButton />
+                <ButtonUpdate />
               </Link>
             </li>
             <li className={styles.buttons}>
-              <button
+              <ButtonDelete
                 onClick={(event) => {
                   handleDelete(event, interview);
                   setShowRemoveModal(true);
                 }}
-              >
-                Delete
-              </button>
+              />
             </li>
           </ul>
         );
       })}
-      <RemoveModal
+      <Modal
         show={showRemoveModal}
-        confirmRemoveModal={confirmRemoveModal}
-        closeRemoveModal={closeRemoveModal}
+        title="Delete Interview"
+        message="Are you sure you want to delete this interview?"
+        onConfirm={confirmRemoveModal}
+        onCancel={closeRemoveModal}
       />
       <Link to="interviews/form">
-        <CreateButton />
+        <ButtonCreate />
       </Link>
     </div>
   );

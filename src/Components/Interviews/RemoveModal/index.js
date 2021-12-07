@@ -1,5 +1,7 @@
 import React from 'react';
 import styles from './removemodal.module.css';
+import ButtonCancel from '../../Shared/ButtonCancel';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
 
 const RemoveModal = (props) => {
   if (!props.show) {
@@ -10,12 +12,8 @@ const RemoveModal = (props) => {
       <h2>Remove</h2>
       <h3>Are you sure ?</h3>
       <div className={styles.buttons}>
-        <button className={styles.cancel} onClick={props.closeRemoveModal}>
-          Cancel
-        </button>
-        <button className={styles.confirm} onClick={props.confirmRemoveModal}>
-          Confirm
-        </button>
+        <ButtonCancel onClick={props.closeRemoveModal} />
+        <ButtonConfirm onClick={props.confirmRemoveModal} />
       </div>
     </div>
   );

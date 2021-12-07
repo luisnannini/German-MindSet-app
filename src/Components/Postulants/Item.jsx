@@ -1,11 +1,13 @@
 // import style from './postulants-Item.module.css';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Modal from './Modal';
-import ModalError from '../Shared/Modal-Error/modal-error';
+import ModalError from '../Shared/ModalError';
+import Modal from '../Shared/Modal/';
+import ButtonUpdate from '../Shared/ButtonUpdate';
+import ButtonDelete from '../Shared/ButtonDelete';
 
 function Item({ postulant, fetchData, url }) {
-  const [modalState, setModalState] = useState({ state: false });
+  const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState({
     show: false,
     message: '',
@@ -22,10 +24,10 @@ function Item({ postulant, fetchData, url }) {
         if (message.message) throw { message: message.message, status };
         throw { message, status };
       }
-      setModalState({ state: false });
+      setShowModal(false);
       fetchData();
     } catch (error) {
-      setModalState({ state: false });
+      setShowModal({ state: false });
       setError({ show: true, message: error.message, title: error.status });
     }
   };
@@ -44,27 +46,19 @@ function Item({ postulant, fetchData, url }) {
       })}
       <td>
         <Link to={`postulants/form?id=${postulant._id}`}>
-          <button>Edit</button>
+          <ButtonUpdate />
         </Link>
       </td>
       <td>
-        <button
-          onClick={() =>
-            setModalState({
-              action: confirmDelete,
-              actionParam: postulant._id,
-              state: !modalState.state,
-              title: 'Delete',
-              message: 'Are you sure?',
-              type: 'confirm',
-              close: () => setModalState({ state: modalState.state })
-            })
-          }
-        >
-          Delete
-        </button>
-        {modalState.state && <Modal modal={modalState} closeModal={setModalState} />}
+        <ButtonDelete onClick={() => setShowModal(true)} />
         <ModalError error={error} onConfirm={() => setError({ show: false })} />
+        <Modal
+          show={showModal}
+          title="Delete Postulant"
+          message="Are you sure you want to delete this postulant?"
+          onCancel={() => setShowModal(false)}
+          onConfirm={() => confirmDelete(postulant._id)}
+        />
       </td>
     </tr>
   );
