@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './admins.module.css';
-import Modal from './Modal';
+import Modal from '../Shared/Modal';
 import ButtonCreate from '../Shared/ButtonCreate';
 import ButtonUpdate from '../Shared/ButtonUpdate';
 import ButtonDelete from '../Shared/ButtonDelete';
@@ -59,6 +59,8 @@ function Admins() {
     <section className={styles.container}>
       <Modal
         show={showModal}
+        title="Delete Admin"
+        message="Are you sure you want to delete this Admin?"
         isLoading={isLoading}
         onCancel={() => setShowModal(false)}
         onConfirm={deleteAdmin}

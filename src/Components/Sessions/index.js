@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './sessions.module.css';
 import Session from './Session';
-import ConfirmModal from './ConfirmModal';
+import Modal from '../Shared/Modal';
 import ButtonCreate from '../Shared/ButtonCreate';
 
 function Sessions() {
@@ -65,9 +65,12 @@ function Sessions() {
   return (
     <div className={styles.container}>
       {ShowConfirmModal.show && (
-        <ConfirmModal
-          onClose={() => setShowConfirmModal({ show: false, id: '' })}
-          onDelete={deleteSession}
+        <Modal
+          show={ShowConfirmModal}
+          title="Delete Session"
+          message="Are you sure you want to delete this Session?"
+          onCancel={() => setShowConfirmModal({ show: false, id: '' })}
+          onConfirm={deleteSession}
         />
       )}
       <section className={styles.section}>

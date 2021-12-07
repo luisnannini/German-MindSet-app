@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Modal from './Modal';
+import Modal from '../Shared/Modal';
 import styles from './clients.module.css';
 import ButtonCreate from '../Shared/ButtonCreate';
 import ButtonUpdate from '../Shared/ButtonUpdate';
@@ -71,9 +71,10 @@ function Clients() {
     <section className={styles.container}>
       <Modal
         show={showModal}
-        title="Are you sure you want to delete this client?"
-        onCancel={closeModal}
+        title="Delete Client"
+        message="Are you sure you want to delete this client?"
         isLoading={isLoading}
+        onCancel={closeModal}
         onConfirm={deleteClient}
       />
       <h2>Clients List</h2>

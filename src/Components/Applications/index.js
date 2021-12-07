@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import styles from './applications.module.css';
 import Table from './Table';
-import Modal from './Modal';
+import ModalForm from './ModalForm';
+import Modal from '../Shared/Modal';
 import ButtonCreate from '../Shared/ButtonCreate';
 
 function Applications() {
@@ -25,7 +26,6 @@ function Applications() {
     setRemoveId(id);
     setShowForm(false);
     setShowUpdate(false);
-    setShowModal(true);
     setShowRemove(true);
   };
   const updateReq = (id) => {
@@ -68,18 +68,27 @@ function Applications() {
       </div>
       <Table applications={applications} updateReq={updateReq} removeReq={removeReq} />
       <Modal
+        show={showRemove}
+        title="Delete Application"
+        message="Are you sure you want to delete this application?"
+        onCancel={() => {
+          setShowRemove(false);
+        }}
+        onConfirm={() => {
+          remove(removeId);
+          setShowRemove(false);
+        }}
+      />
+      <ModalForm
         onClose={() => {
           setShowModal(false);
           setShowForm(false);
           setShowUpdate(false);
-          setShowRemove(false);
         }}
         show={showModal}
         showForm={showForm}
         showUpdate={showUpdate}
         updateId={updateId}
-        showRemove={showRemove}
-        removeConfirm={() => remove(removeId)}
       />
     </section>
   );

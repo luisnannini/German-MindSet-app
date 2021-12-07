@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './positions.module.css';
-import Modal from './Modal';
+import Modal from '../Shared/Modal';
 import ButtonCreate from '../Shared/ButtonCreate';
 import ButtonUpdate from '../Shared/ButtonUpdate';
 import ButtonDelete from '../Shared/ButtonDelete';
@@ -11,9 +11,7 @@ function Positions() {
   const [showModal, setShowModal] = useState(false);
   const [selectedPosition, setSelectedPosition] = useState(undefined);
   const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/positions`)
@@ -53,8 +51,6 @@ function Positions() {
           .then((response) => {
             setShowModal(false);
             setPositions(response.data);
-            setShowSuccessModal(true);
-            setSuccess('You request was successful!');
           });
       })
       .catch((error) => {
@@ -66,7 +62,6 @@ function Positions() {
   const closeModal = () => {
     setShowModal(false);
     setShowErrorModal(false);
-    setShowSuccessModal(false);
   };
 
   return (
@@ -77,13 +72,6 @@ function Positions() {
         message="Are you sure you want to delete this position?"
         onCancel={closeModal}
         onConfirm={deletePosition}
-      />
-      <Modal
-        show={showSuccessModal}
-        title="Successful"
-        message={success}
-        onCancel={closeModal}
-        hideButton={true}
       />
       <Modal
         show={showErrorModal}
