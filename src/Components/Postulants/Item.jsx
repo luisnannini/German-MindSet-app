@@ -1,43 +1,35 @@
 // import style from './postulants-Item.module.css';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Modal from './Modal';
+import ModalError from '../Shared/ModalError';
+import Modal from '../Shared/Modal/';
 import ButtonUpdate from '../Shared/ButtonUpdate';
 import ButtonDelete from '../Shared/ButtonDelete';
 
 function Item({ postulant, fetchData, url }) {
-  const [modalState, setModalState] = useState({ state: false });
+  const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState({
+    show: false,
+    message: '',
+    title: ''
+  });
   const confirmDelete = async (id) => {
-    let responseRaw;
-    let status;
-    let serverError;
     try {
-      responseRaw = await fetch(`${url}/${id}`, {
+      const responseRaw = await fetch(`${url}/${id}`, {
         method: 'DELETE'
       });
+      if (responseRaw.status !== 200 && responseRaw.status !== 201 && responseRaw.status !== 204) {
+        const status = `${responseRaw.status} ${responseRaw.statusText}`;
+        const { message } = await responseRaw.json();
+        if (message.message) throw { message: message.message, status };
+        throw { message, status };
+      }
+      setShowModal(false);
+      fetchData();
     } catch (error) {
-      setModalState({
-        title: 'Error',
-        state: true,
-        message: 'A local error has ocurred',
-        action: () => setModalState({ state: false })
-      });
+      setShowModal({ state: false });
+      setError({ show: true, message: error.message, title: error.status });
     }
-    status = responseRaw.status + ' ' + responseRaw.statusText;
-    if (responseRaw.status !== 200 && responseRaw.status !== 201 && responseRaw.status !== 204) {
-      serverError = true;
-    }
-    const responseJson = await responseRaw.json();
-    if (serverError) {
-      setModalState({
-        title: 'Server Error',
-        state: true,
-        message: `${status}: ${responseJson.message}`,
-        action: () => setModalState({ state: false })
-      });
-    }
-    setModalState({ state: false });
-    fetchData();
   };
 
   return (
@@ -58,20 +50,15 @@ function Item({ postulant, fetchData, url }) {
         </Link>
       </td>
       <td>
-        <ButtonDelete
-          onClick={() =>
-            setModalState({
-              action: confirmDelete,
-              actionParam: postulant._id,
-              state: !modalState.state,
-              title: 'Delete',
-              message: 'Are you sure?',
-              type: 'confirm',
-              close: () => setModalState({ state: modalState.state })
-            })
-          }
+        <ButtonDelete onClick={() => setShowModal(true)} />
+        <ModalError error={error} onConfirm={() => setError({ show: false })} />
+        <Modal
+          show={showModal}
+          title="Delete Postulant"
+          message="Are you sure you want to delete this postulant?"
+          onCancel={() => setShowModal(false)}
+          onConfirm={() => confirmDelete(postulant._id)}
         />
-        {modalState.state && <Modal modal={modalState} closeModal={setModalState} />}
       </td>
     </tr>
   );

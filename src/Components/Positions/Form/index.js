@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './form.module.css';
-import Modal from '../Modal';
+import ModalError from '../../Shared/ModalError';
 import Input from '../../Shared/Input';
 import Checkbox from '../../Shared/Checkbox';
 import Select from '../../Shared/Select';
@@ -16,10 +16,11 @@ const Form = () => {
   const [jobDescriptionValue, setJobDescriptionValue] = useState('');
   const [vacancyValue, setVacancyValue] = useState('');
   const [isOpenValue, setIsOpenValue] = useState(false);
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [error, setError] = useState({
+    show: false,
+    message: '',
+    title: ''
+  });
   const [positionId, setPositionId] = useState(undefined);
 
   useEffect(() => {
@@ -29,14 +30,23 @@ const Form = () => {
     if (positionId) {
       fetch(`${process.env.REACT_APP_API}/positions?_id=${positionId}`)
         .then((response) => {
-          if (response.status !== 200) {
+          if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+            const status = `${response.status} ${response.statusText}`;
             return response.json().then(({ message }) => {
-              throw new Error(message);
+              if (message.message) throw { message: message.message, status };
+              throw { message, status };
             });
           }
           return response.json();
         })
         .then((response) => {
+          if (!response.data[0]) {
+            return setError({
+              show: true,
+              message: 'Position not found',
+              title: '404: Not Found'
+            });
+          }
           setClientValue(response.data[0].client._id);
           setProfilesValue(response.data[0].professionalProfiles._id);
           setJobDescriptionValue(response.data[0].jobDescription);
@@ -44,29 +54,44 @@ const Form = () => {
           setIsOpenValue(response.data[0].isOpen);
         })
         .catch((error) => {
-          setShowErrorModal(true);
-          setError(error.toString());
+          setError({ show: true, message: error.message, title: error.status });
         });
     }
 
     fetch(`${process.env.REACT_APP_API}/clients`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
+          });
+        }
+        return response.json();
+      })
       .then((response) => {
         setClients(response.data);
       })
       .catch((error) => {
-        setShowErrorModal(true);
-        setError(error.toString());
+        setError({ show: true, message: error.message, title: error.status });
       });
 
     fetch(`${process.env.REACT_APP_API}/profiles`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
+          });
+        }
+        return response.json();
+      })
       .then((response) => {
         setProfiles(response.data);
       })
       .catch((error) => {
-        setShowErrorModal(true);
-        setError(error.toString());
+        setError({ show: true, message: error.message, title: error.status });
       });
   }, []);
 
@@ -120,47 +145,24 @@ const Form = () => {
 
     fetch(url, options)
       .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
           });
         }
         return response.json();
       })
-      .then(() => {
-        setShowSuccessModal(true);
-        setSuccess('You request was successful!');
-      })
+      .then(() => {})
       .catch((error) => {
-        setShowErrorModal(true);
-        setError(error.toString());
+        setError({ show: true, message: error.message, title: error.status });
       });
-  };
-
-  const closeErrorModal = () => {
-    setShowErrorModal(false);
-  };
-
-  const closeSuccessModal = () => {
-    window.location.href = '/positions';
   };
 
   return (
     <div className={styles.container}>
-      <Modal
-        show={showSuccessModal}
-        title="Successful"
-        message={success}
-        onCancel={closeSuccessModal}
-        hideButton={true}
-      />
-      <Modal
-        show={showErrorModal}
-        title="Error"
-        message={error}
-        onCancel={closeErrorModal}
-        hideButton={true}
-      />
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />
       <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.header}>
           <h2 className={styles.title}>{positionId ? 'Update a Position' : 'Create a Position'}</h2>

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './profiles.module.css';
-import Modal from './Modal';
+import ModalError from '../Shared/ModalError';
+import Modal from '../Shared/Modal';
 import ButtonCreate from '../Shared/ButtonCreate';
 import ButtonUpdate from '../Shared/ButtonUpdate';
 import ButtonDelete from '../Shared/ButtonDelete';
@@ -10,20 +11,29 @@ function Profiles() {
   const [profiles, setProfiles] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState(undefined);
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [error, setError] = useState({
+    show: false,
+    message: '',
+    title: ''
+  });
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/profiles`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
+          });
+        }
+        return response.json();
+      })
       .then((response) => {
         setProfiles(response.data);
       })
       .catch((error) => {
-        setShowErrorModal(true);
-        setError(error.toString());
+        setError({ show: true, message: error.message, title: error.status });
       });
   }, []);
 
@@ -36,16 +46,20 @@ function Profiles() {
   const deleteProfile = () => {
     fetch(`${process.env.REACT_APP_API}/profiles/${selectedProfile}`, { method: 'DELETE' })
       .then((response) => {
-        if (response.status !== 204) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
           });
         }
         return fetch(`${process.env.REACT_APP_API}/profiles`)
           .then((response) => {
-            if (response.status !== 200) {
+            if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+              const status = `${response.status} ${response.statusText}`;
               return response.json().then(({ message }) => {
-                throw new Error(message);
+                if (message.message) throw { message: message.message, status };
+                throw { message, status };
               });
             }
             return response.json();
@@ -53,20 +67,12 @@ function Profiles() {
           .then((response) => {
             setShowModal(false);
             setProfiles(response.data);
-            setShowSuccessModal(true);
-            setSuccess('You request was successful!');
           });
       })
       .catch((error) => {
-        setShowErrorModal(true);
-        setError(error.toString());
+        setShowModal(false);
+        setError({ show: true, message: error.message, title: error.status });
       });
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-    setShowErrorModal(false);
-    setShowSuccessModal(false);
   };
 
   return (
@@ -75,23 +81,10 @@ function Profiles() {
         show={showModal}
         title="Delete a Profile"
         message="Are you sure you want to delete this profile?"
-        onCancel={closeModal}
         onConfirm={deleteProfile}
+        onCancel={() => setShowModal(false)}
       />
-      <Modal
-        show={showSuccessModal}
-        title="Successful"
-        message={success}
-        onCancel={closeModal}
-        hideButton={true}
-      />
-      <Modal
-        show={showErrorModal}
-        title="Error"
-        message={error}
-        onCancel={closeModal}
-        hideButton={true}
-      />
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Profiles</h2>

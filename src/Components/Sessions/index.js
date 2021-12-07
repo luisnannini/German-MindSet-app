@@ -2,18 +2,21 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './sessions.module.css';
 import Session from './Session';
-import ConfirmModal from './ConfirmModal';
+import ModalError from '../Shared/ModalError';
+import Modal from '../Shared/Modal';
 import ButtonCreate from '../Shared/ButtonCreate';
 
 function Sessions() {
   const [Sessions, setSessions] = useState([]);
   const [ShowConfirmModal, setShowConfirmModal] = useState({
     show: false,
-    session: {}
+    session: {},
+    id: ''
   });
   const [error, setError] = useState({
-    isError: false,
-    message: ''
+    show: false,
+    message: '',
+    title: ''
   });
   const [isLoading, setLoading] = useState(false);
 
@@ -25,9 +28,11 @@ function Sessions() {
     setLoading(true);
     fetch(`${process.env.REACT_APP_API}/sessions`)
       .then((response) => {
-        if (response.status !== 200) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
           });
         }
         return response.json();
@@ -36,7 +41,7 @@ function Sessions() {
         setSessions(response.data);
       })
       .catch((error) => {
-        setError({ isError: true, message: error.message.toString() });
+        setError({ show: true, message: error.message, title: error.status });
       })
       .finally(() => setLoading(false));
   }
@@ -46,30 +51,33 @@ function Sessions() {
     fetch(`${process.env.REACT_APP_API}/sessions/${ShowConfirmModal.id}`, {
       method: 'DELETE'
     })
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
+          });
+        }
+        return response.json();
+      })
       .then(() => {
         getSessions();
       })
       .catch((error) => {
-        setError({ isError: true, message: error.message.toString() });
+        setError({ show: true, message: error.message, title: error.status });
       });
   }
 
-  const showForm = (session) => {
-    if (session) {
-      window.location.href = `sessions/form?id=${session._id}`;
-    } else {
-      window.location.href = `sessions/form`;
-    }
-  };
-
   return (
     <section className={styles.section}>
-      {ShowConfirmModal.show && (
-        <ConfirmModal
-          onClose={() => setShowConfirmModal({ show: false, id: '' })}
-          onDelete={deleteSession}
-        />
-      )}
+      <Modal
+        show={ShowConfirmModal}
+        title="Delete Session"
+        message="Are you sure you want to delete this Session?"
+        onCancel={() => setShowConfirmModal({ show: false, id: '' })}
+        onConfirm={deleteSession}
+      />
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Sessions</h2>
@@ -106,14 +114,13 @@ function Sessions() {
                   status={session.status}
                   date={session.date}
                   onDelete={() => setShowConfirmModal({ show: true, id: session._id })}
-                  onEdit={() => showForm(session)}
                 />
               );
             })}
           </tbody>
         </table>
       </div>
-      {error.isError && <div>{error.message}</div>}
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />
     </section>
   );
 }

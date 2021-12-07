@@ -1,25 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './interviews.module.css';
-import RemoveModal from './RemoveModal';
-import Modal from './Modal';
+import ModalError from '../Shared/ModalError';
+import Modal from '../Shared/Modal';
 import ButtonCreate from '../Shared/ButtonCreate';
 import ButtonUpdate from '../Shared/ButtonUpdate';
 import ButtonDelete from '../Shared/ButtonDelete';
 
 function Interviews() {
   const [interviews, setInterviews] = useState([]);
-  const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [selectedInterview, setSelectedInterview] = useState(undefined);
-  const [showSuccessDelete, setShowSuccessDelete] = useState(false);
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
+  const [error, setError] = useState({
+    show: false,
+    message: '',
+    title: ''
+  });
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/interviews`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
+          });
+        }
+
+        return response.json();
+      })
       .then((response) => {
         setInterviews(response.data);
       })
-      .catch((error) => error);
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
   }, []);
 
   const handleDelete = (event, interview) => {
@@ -29,11 +43,6 @@ function Interviews() {
 
   const closeRemoveModal = () => {
     setShowRemoveModal(false);
-  };
-
-  const closeModalSuccess = () => {
-    setShowSuccessDelete(false);
-    window.location.href = '/interviews';
   };
 
   const confirmRemoveModal = () => {
@@ -46,27 +55,25 @@ function Interviews() {
       }
     })
       .then((response) => {
-        if (response.status !== 204) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
           });
         }
       })
       .then(() => {
         setShowRemoveModal(false);
-        setShowSuccessDelete(true);
       })
-      .catch((error) => error);
+      .catch((error) => {
+        setShowRemoveModal(false);
+        setError({ show: true, message: error.message, title: error.status });
+      });
   };
 
   return (
     <section>
-      <Modal
-        show={showSuccessDelete}
-        title="Successful"
-        message={'Interview deleted'}
-        onCancel={closeModalSuccess}
-      />
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Interviews</h2>
@@ -122,12 +129,15 @@ function Interviews() {
             </ul>
           );
         })}
-        <RemoveModal
+        <Modal
           show={showRemoveModal}
-          confirmRemoveModal={confirmRemoveModal}
-          closeRemoveModal={closeRemoveModal}
+          title="Delete Interview"
+          message="Are you sure you want to delete this interview?"
+          onConfirm={confirmRemoveModal}
+          onCancel={closeRemoveModal}
         />
       </div>
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />
     </section>
   );
 }
