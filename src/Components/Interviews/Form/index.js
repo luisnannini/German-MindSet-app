@@ -177,11 +177,7 @@ const Form = () => {
 
   function handleChangeDate(event) {
     const value = event.target.value;
-    if (
-      !value.match(
-        /(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([0-5][0-9]):([0-5][0-9])((:[0-5][0-9].\d{3}Z)?)$)|(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$)/
-      )
-    )
+    if (!value.match(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/))
       setErrorDate('Date must be yyyy-mm-dd');
     else setErrorDate(null);
   }
