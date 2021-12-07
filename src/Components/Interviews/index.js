@@ -62,9 +62,21 @@ function Interviews() {
             throw { message, status };
           });
         }
-      })
-      .then(() => {
-        setShowRemoveModal(false);
+        return fetch(`${process.env.REACT_APP_API}/interviews`)
+          .then((response) => {
+            if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+              const status = `${response.status} ${response.statusText}`;
+              return response.json().then(({ message }) => {
+                if (message.message) throw { message: message.message, status };
+                throw { message, status };
+              });
+            }
+            return response.json();
+          })
+          .then((response) => {
+            setInterviews(response.data);
+            setShowRemoveModal(false);
+          });
       })
       .catch((error) => {
         setShowRemoveModal(false);

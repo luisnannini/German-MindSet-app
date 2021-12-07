@@ -86,7 +86,9 @@ const Form = () => {
         }
         return response.json();
       })
-      .then(() => {})
+      .then(() => {
+        window.location.href = '/profiles';
+      })
       .catch((error) => {
         setError({ show: true, message: error.message, title: error.status });
       });

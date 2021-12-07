@@ -63,10 +63,21 @@ function Applications() {
             throw { message, status };
           });
         }
-        return response.json(`Id: ${id}`);
-      })
-      .then(() => {
-        window.location.href = `${window.location.origin}/applications`;
+        return fetch(`${process.env.REACT_APP_API}/applications`)
+          .then((response) => {
+            if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+              const status = `${response.status} ${response.statusText}`;
+              return response.json().then(({ message }) => {
+                if (message.message) throw { message: message.message, status };
+                throw { message, status };
+              });
+            }
+            return response.json();
+          })
+          .then((response) => {
+            setApplications(response.data);
+            setShowModal(false);
+          });
       })
       .catch((error) => setError({ show: true, message: error.message, title: error.status }));
   };
