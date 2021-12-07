@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import ModalError from '../../Shared/ModalError';
 import { Link } from 'react-router-dom';
 import styles from './form.module.css';
 import Input from '../../Shared/Input';
@@ -7,7 +8,7 @@ import ButtonConfirm from '../../Shared/ButtonConfirm';
 import ButtonCancel from '../../Shared/ButtonCancel';
 
 const Form = () => {
-  const [error, setError] = useState('');
+  const [error, setError] = useState({ show: false });
   const [firstNameForm, setFirstName] = useState('');
   const [lastNameForm, setLastName] = useState('');
   const [usernameForm, setUsername] = useState('');
@@ -40,18 +41,26 @@ const Form = () => {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const psychologistId = params.get('id');
-    // setPsychologistId(psychologistId);
     if (psychologistId) {
       fetch(`${process.env.REACT_APP_API}/psychologists?_id=${psychologistId}`)
         .then((response) => {
-          if (response.status !== 200) {
+          if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+            const status = `${response.status} ${response.statusText}`;
             return response.json().then(({ message }) => {
-              throw new Error(message);
+              if (message.message) throw { message: message.message, status };
+              throw { message, status };
             });
           }
           return response.json();
         })
         .then((response) => {
+          if (!response.data[0]) {
+            return setError({
+              show: true,
+              message: 'Psychologist not found',
+              title: '404: Not Found'
+            });
+          }
           setFirstName(response.data[0].firstName);
           setLastName(response.data[0].lastName);
           setUsername(response.data[0].username);
@@ -82,7 +91,7 @@ const Form = () => {
           setSundayTo(response.data[0].availability.sunday.to);
         })
         .catch((error) => {
-          setError(error.toString());
+          setError({ show: true, message: error.message, title: error.status });
         });
     }
   }, []);
@@ -249,9 +258,11 @@ const Form = () => {
 
     fetch(url, options)
       .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
           });
         }
         return response.json();
@@ -260,7 +271,7 @@ const Form = () => {
         window.location.href = '/psychologists';
       })
       .catch((error) => {
-        setError(error.toString());
+        setError({ show: true, message: error.message, title: error.status });
       });
   };
 
@@ -522,16 +533,14 @@ const Form = () => {
             value={sundayTo}
           />
         </div>
+        <ModalError error={error} onConfirm={() => setError({ show: false })} />
         <Link to="/psychologists">
           <ButtonCancel />
         </Link>
         <ButtonConfirm type="submit" />
-        <div className={styles.error}>{error}</div>
       </form>
     </div>
   );
 };
-
-// Form.propTypes = {};
 
 export default Form;

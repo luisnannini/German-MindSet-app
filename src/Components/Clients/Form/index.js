@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Input from '../../Shared/Input';
 import styles from './form.module.css';
+import ModalError from '../../Shared/ModalError';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
 import ButtonCancel from '../../Shared/ButtonCancel';
 
@@ -14,7 +15,11 @@ function Form() {
   const [addressValue, setAddressValue] = useState('');
   const [logoValue, setLogoValue] = useState('');
   const [descriptionValue, setDescriptionValue] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState({
+    show: false,
+    message: '',
+    title: ''
+  });
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -24,14 +29,23 @@ function Form() {
     if (clientId) {
       fetch(`${process.env.REACT_APP_API}/clients?_id=${clientId}`)
         .then((response) => {
-          if (response.status !== 200) {
+          if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+            const status = `${response.status} ${response.statusText}`;
             return response.json().then(({ message }) => {
-              throw new Error(message);
+              if (message.message) throw { message: message.message, status };
+              throw { message, status };
             });
           }
           return response.json();
         })
         .then((response) => {
+          if (!response.data[0]) {
+            return setError({
+              show: true,
+              message: 'Client not found',
+              title: '404: Not Found'
+            });
+          }
           setNameValue(response.data[0].name);
           setPhoneValue(response.data[0].phone);
           setCountryValue(response.data[0].location.country);
@@ -42,7 +56,7 @@ function Form() {
           setDescriptionValue(response.data[0].description);
         })
         .catch((error) => {
-          setError(error.toString());
+          setError({ show: true, message: error.message, title: error.status });
         })
         .finally(() => setLoading(false));
     }
@@ -117,9 +131,11 @@ function Form() {
 
     fetch(url, options)
       .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
           });
         }
         return response.json();
@@ -128,7 +144,7 @@ function Form() {
         window.location.href = '/clients';
       })
       .catch((error) => {
-        setError(error.toString());
+        setError({ show: true, message: error.message, title: error.status });
       })
       .finally(() => setLoading(false));
   };
@@ -220,11 +236,11 @@ function Form() {
           type={'text'}
           disabled={isLoading}
         />
+        <ModalError error={error} onConfirm={() => setError({ show: false })} />
         <Link to="/clients">
           <ButtonCancel />
         </Link>
         <ButtonConfirm disabled={isLoading} type="submit" />
-        <div className={styles.error}>{error}</div>
       </form>
     </section>
   );

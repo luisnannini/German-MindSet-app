@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './form.module.css';
+import ModalError from '../../Shared/ModalError';
 import ButtonCancel from '../../Shared/ButtonCancel';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
 import Input from '../../Shared/Input';
@@ -16,9 +17,24 @@ const Form = (props) => {
   const [postulantValue, setPostulantValue] = useState('');
   const [interviewValue, setInterviewValue] = useState('');
   const [resultValue, setResultValue] = useState('');
+  const [error, setError] = useState({
+    show: false,
+    message: '',
+    title: ''
+  });
+
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/positions`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
+          });
+        }
+        return response.json();
+      })
       .then((response) => {
         setPosition(
           response.data.map((position) => ({
@@ -28,9 +44,18 @@ const Form = (props) => {
           }))
         );
       })
-      .catch((error) => error);
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
     fetch(`${process.env.REACT_APP_API}/postulants`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
+          });
+        }
+        return response.json();
+      })
       .then((response) => {
         setPostulant(
           response.data.map((postulant) => ({
@@ -40,9 +65,18 @@ const Form = (props) => {
           }))
         );
       })
-      .catch((error) => error);
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
     fetch(`${process.env.REACT_APP_API}/interviews`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
+          });
+        }
+        return response.json();
+      })
       .then((response) => {
         setInterview(
           response.data.map((interview) => ({
@@ -52,8 +86,9 @@ const Form = (props) => {
           }))
         );
       })
-      .catch((error) => error);
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
   }, []);
+
   const onChangePosition = (input) => {
     setPositionValue(input.target.value);
   };
@@ -84,9 +119,11 @@ const Form = (props) => {
 
     fetch(url, options)
       .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
           });
         }
         return response.json();
@@ -95,11 +132,12 @@ const Form = (props) => {
         window.location.href = '/applications';
       })
       .catch((error) => {
-        return error;
+        setError({ show: true, message: error.message, title: error.status });
       });
   };
   return (
     <form onSubmit={onSubmit}>
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />
       <h2>Create Application</h2>
       <div className={styles.inputs}>
         <Select

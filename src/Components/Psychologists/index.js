@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './psychologists.module.css';
+import ModalError from '../Shared/ModalError';
 import Modal from '../Shared/Modal';
 import ButtonCreate from '../Shared/ButtonCreate';
 import ButtonUpdate from '../Shared/ButtonUpdate';
@@ -10,20 +11,26 @@ function Psychologists() {
   const [psychologists, savePsychologists] = useState([]);
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [selectedPsychologist, setSelectedPsychologist] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState({
+    show: false,
+    message: '',
+    title: ''
+  });
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/psychologists`)
       .then((response) => {
-        if (response.status !== 200) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
           });
         }
         return response.json();
       })
       .then((response) => savePsychologists(response.data))
-      .catch((error) => setError(error.toString()));
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
   }, []);
 
   const handleDelete = (event, psy) => {
@@ -37,26 +44,33 @@ function Psychologists() {
       method: 'DELETE'
     })
       .then((response) => {
-        if (response.status !== 204) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
           });
         }
         return fetch(`${process.env.REACT_APP_API}/psychologists`)
           .then((response) => {
-            if (response.status !== 200) {
+            if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+              const status = `${response.status} ${response.statusText}`;
               return response.json().then(({ message }) => {
-                throw new Error(message);
+                if (message.message) throw { message: message.message, status };
+                throw { message, status };
               });
             }
             return response.json();
           })
-          .then(async (response) => {
-            await savePsychologists(response.data);
-            await setShowModalDelete(false);
+          .then((response) => {
+            savePsychologists(response.data);
+            setShowModalDelete(false);
           });
       })
-      .catch((error) => setError(error.toString()));
+      .catch((error) => {
+        setShowModalDelete(false);
+        setError({ show: true, message: error.message, title: error.status });
+      });
   };
 
   const closeModal = () => {
@@ -109,10 +123,10 @@ function Psychologists() {
           );
         })}
       </div>
-      <div className={styles.error}>{error}</div>
-      <Link to="./psychologists/form">
+      <Link to="/psychologists/form">
         <ButtonCreate />
       </Link>
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />
     </section>
   );
 }

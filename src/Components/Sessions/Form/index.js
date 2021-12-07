@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './form.module.css';
 import Input from '../../Shared/Input';
 import TextArea from '../TextArea';
+import ModalError from '../../Shared/ModalError';
 import Select from '../../Shared/Select';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
 import ButtonCancel from '../../Shared/ButtonCancel';
@@ -14,7 +15,11 @@ const Form = () => {
   const [notesValue, setNotesValue] = useState('');
   const [postulants, setPostulants] = useState([]);
   const [psychologists, setPsychologists] = useState([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState({
+    show: false,
+    title: '',
+    message: ''
+  });
   const [isLoading, setLoading] = useState(false);
   const [title, setTitle] = useState('');
 
@@ -26,14 +31,23 @@ const Form = () => {
     if (sessionId) {
       fetch(`${process.env.REACT_APP_API}/sessions?_id=${sessionId}`)
         .then((response) => {
-          if (response.status !== 200) {
+          if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+            const status = `${response.status} ${response.statusText}`;
             return response.json().then(({ message }) => {
-              throw new Error(message);
+              if (message.message) throw { message: message.message, status };
+              throw { message, status };
             });
           }
           return response.json();
         })
         .then((response) => {
+          if (!response.data[0]) {
+            return setError({
+              show: true,
+              message: 'Session not found',
+              title: '404: Not Found'
+            });
+          }
           setDateValue(response.data[0].date);
           setPostulantValue(response.data[0].postulant?._id);
           setPsychologistValue(response.data[0].psychologist?._id);
@@ -41,21 +55,30 @@ const Form = () => {
           setNotesValue(response.data[0].notes);
         })
         .catch((error) => {
-          setError(error.toString());
+          setError({ show: true, message: error.message, title: error.status });
         })
         .finally(() => setLoading(false));
     }
 
     fetch(`${process.env.REACT_APP_API}/postulants`)
       .then((response) => {
-        if (response.status !== 200) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
           });
         }
         return response.json();
       })
       .then((response) => {
+        if (!response.data[0]) {
+          return setError({
+            show: true,
+            message: 'Postulant not found',
+            title: '404: Not Found'
+          });
+        }
         setPostulants(
           response.data.map((postulant) => ({
             _id: postulant._id,
@@ -65,20 +88,29 @@ const Form = () => {
         );
       })
       .catch((error) => {
-        setError(error.toString());
+        setError({ show: true, message: error.message, title: error.status });
       })
       .finally(() => setLoading(false));
 
     fetch(`${process.env.REACT_APP_API}/psychologists`)
       .then((response) => {
-        if (response.status !== 200) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
           });
         }
         return response.json();
       })
       .then((response) => {
+        if (!response.data[0]) {
+          return setError({
+            show: true,
+            message: 'Psychologist not found',
+            title: '404: Not Found'
+          });
+        }
         setPsychologists(
           response.data.map((psychologist) => ({
             _id: psychologist._id,
@@ -88,7 +120,7 @@ const Form = () => {
         );
       })
       .catch((error) => {
-        setError(error.toString());
+        setError({ show: true, message: error.message, title: error.status });
       })
       .finally(() => setLoading(false));
   }, []);
@@ -122,9 +154,11 @@ const Form = () => {
 
     fetch(url, options)
       .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
           });
         }
         return response.json();
@@ -133,7 +167,7 @@ const Form = () => {
         window.location.href = '/sessions';
       })
       .catch((error) => {
-        setError(error.toString());
+        setError({ show: true, message: error.message, title: error.status });
       })
       .finally(() => setLoading(false));
   };
@@ -212,8 +246,8 @@ const Form = () => {
             <ButtonConfirm type="submit" name={title} />
           </label>
         </div>
-        <div className={styles.error}>{error}</div>
       </form>
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />
     </div>
   );
 };

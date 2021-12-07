@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './form.module.css';
+import ModalError from '../../Shared/ModalError';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
 import ButtonCancel from '../../Shared/ButtonCancel';
 import Input from '../../Shared/Input';
@@ -10,29 +11,42 @@ const Form = () => {
   const [usernameValue, setUsernameValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
   const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState({
+    show: false,
+    message: '',
+    title: ''
+  });
 
   useEffect(() => {
-    setLoading(true);
     const params = new URLSearchParams(window.location.search);
     const adminId = params.get('id');
     if (adminId) {
+      setLoading(true);
       fetch(`${process.env.REACT_APP_API}/admins?_id=${adminId}`)
         .then((response) => {
-          if (response.status !== 200) {
+          if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+            const status = `${response.status} ${response.statusText}`;
             return response.json().then(({ message }) => {
-              throw new Error(message);
+              if (message.message) throw { message: message.message, status };
+              throw { message, status };
             });
           }
           return response.json();
         })
         .then((response) => {
+          if (!response.data[0]) {
+            return setError({
+              show: true,
+              message: 'Admin not found',
+              title: '404: Not Found'
+            });
+          }
           setFullNameValue(response.data[0].name);
           setUsernameValue(response.data[0].username);
           setPasswordValue(response.data[0].password);
         })
         .catch((error) => {
-          setError(error.toString());
+          setError({ show: true, message: error.message, title: error.status });
         })
         .finally(() => setLoading(false));
     }
@@ -77,9 +91,11 @@ const Form = () => {
 
     fetch(url, options)
       .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
           });
         }
         return response.json();
@@ -88,7 +104,7 @@ const Form = () => {
         window.location.href = '/admins';
       })
       .catch((error) => {
-        setError(error.toString());
+        setError({ show: true, message: error.message, title: error.status });
       })
       .finally(() => setLoading(false));
   };
@@ -128,7 +144,7 @@ const Form = () => {
           <ButtonCancel />
         </Link>
         <ButtonConfirm disabled={isLoading} type="submit" />
-        <div className={styles.error}>{error}</div>
+        <ModalError error={error} onConfirm={() => setError({ show: false })} />
       </form>
     </div>
   );

@@ -1,47 +1,35 @@
 // import style from './postulants-Item.module.css';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Modal from '../Shared/Modal';
+import ModalError from '../Shared/ModalError';
+import Modal from '../Shared/Modal/';
 import ButtonUpdate from '../Shared/ButtonUpdate';
+import ButtonDelete from '../Shared/ButtonDelete';
 
 function Item({ postulant, fetchData, url }) {
   const [showModal, setShowModal] = useState(false);
-  const [showModalError, setShowModalError] = useState(false);
-
+  const [error, setError] = useState({
+    show: false,
+    message: '',
+    title: ''
+  });
   const confirmDelete = async (id) => {
-    let responseRaw;
-    let status;
-    let serverError;
     try {
-      responseRaw = await fetch(`${url}/${id}`, {
+      const responseRaw = await fetch(`${url}/${id}`, {
         method: 'DELETE'
       });
-      status = responseRaw.status + ' ' + responseRaw.statusText;
       if (responseRaw.status !== 200 && responseRaw.status !== 201 && responseRaw.status !== 204) {
-        serverError = status;
-        throw new Error(serverError);
+        const status = `${responseRaw.status} ${responseRaw.statusText}`;
+        const { message } = await responseRaw.json();
+        if (message.message) throw { message: message.message, status };
+        throw { message, status };
       }
       setShowModal(false);
       fetchData();
     } catch (error) {
-      if (serverError) {
-        setShowModalError({
-          title: 'Error',
-          state: true,
-          message: serverError,
-          action: () => setShowModalError(false)
-        });
-      } else {
-        showModalError({
-          title: 'Error',
-          state: true,
-          message: 'A local error has ocurred',
-          action: () => setShowModalError(false)
-        });
-      }
+      setShowModal({ state: false });
+      setError({ show: true, message: error.message, title: error.status });
     }
-    setShowModal({ state: false });
-    fetchData();
   };
 
   return (
@@ -62,7 +50,8 @@ function Item({ postulant, fetchData, url }) {
         </Link>
       </td>
       <td>
-        <button onClick={() => setShowModal(true)}>Delete</button>
+        <ButtonDelete onClick={() => setShowModal(true)} />
+        <ModalError error={error} onConfirm={() => setError({ show: false })} />
         <Modal
           show={showModal}
           title="Delete Postulant"

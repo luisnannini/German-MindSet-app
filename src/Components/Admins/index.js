@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './admins.module.css';
+import ModalError from '../Shared/ModalError';
 import Modal from '../Shared/Modal';
 import ButtonCreate from '../Shared/ButtonCreate';
 import ButtonUpdate from '../Shared/ButtonUpdate';
@@ -11,15 +12,28 @@ function Admins() {
   const [selectedAdmin, setSelectedAdmin] = useState(undefined);
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState({
+    show: false,
+    message: '',
+    title: ''
+  });
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/admins`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
+          });
+        }
+        return response.json();
+      })
       .then((response) => {
         setAdmins(response.data);
       })
-      .catch((error) => setError(error.toString()));
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
   }, []);
 
   const handleDelete = (event, admin) => {
@@ -32,16 +46,20 @@ function Admins() {
     setLoading(true);
     fetch(`${process.env.REACT_APP_API}/admins/${selectedAdmin}`, { method: 'DELETE' })
       .then((response) => {
-        if (response.status !== 204) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
           });
         }
         return fetch(`${process.env.REACT_APP_API}/admins`)
           .then((response) => {
-            if (response.status !== 200) {
+            if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+              const status = `${response.status} ${response.statusText}`;
               return response.json().then(({ message }) => {
-                throw new Error(message);
+                if (message.message) throw { message: message.message, status };
+                throw { message, status };
               });
             }
             return response.json();
@@ -51,7 +69,7 @@ function Admins() {
             setShowModal(false);
           });
       })
-      .catch((error) => setError(error.toString()))
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }))
       .finally(() => setLoading(false));
   };
 
@@ -65,6 +83,7 @@ function Admins() {
         onCancel={() => setShowModal(false)}
         onConfirm={deleteAdmin}
       />
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />
       <h2 className={styles.title}>Administrators</h2>
       <table className={styles.title}>
         <thead>
@@ -90,7 +109,6 @@ function Admins() {
           ))}
         </tbody>
       </table>
-      <div className={styles.error}>{error}</div>
       <Link to="/admins/form">
         <ButtonCreate />
       </Link>

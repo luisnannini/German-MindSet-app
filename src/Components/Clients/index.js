@@ -2,13 +2,18 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Modal from '../Shared/Modal';
 import styles from './clients.module.css';
+import ModalError from '../Shared/ModalError';
 import ButtonCreate from '../Shared/ButtonCreate';
 import ButtonUpdate from '../Shared/ButtonUpdate';
 import ButtonDelete from '../Shared/ButtonDelete';
 
 function Clients() {
   const [clients, setClients] = useState([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState({
+    show: false,
+    message: '',
+    title: ''
+  });
   const [showModal, setShowModal] = useState(false);
   const [selectedClient, setSelectedClient] = useState(undefined);
   const [isLoading, setLoading] = useState(false);
@@ -17,15 +22,17 @@ function Clients() {
     setLoading(true);
     fetch(`${process.env.REACT_APP_API}/clients`)
       .then((response) => {
-        if (response.status !== 200) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
           });
         }
         return response.json();
       })
       .then((response) => setClients(response.data))
-      .catch((error) => setError(error.toString()))
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }))
       .finally(() => setLoading(false));
   }, []);
 
@@ -37,18 +44,22 @@ function Clients() {
 
   const deleteClient = () => {
     setLoading(true);
-    fetch(`${process.env.REACT_APP_API}/clients/${selectedClient}`, { method: 'DELETE' })
+    fetch(`${process.env.REACT_APP_API}/clients/${selectedClient}asd`, { method: 'DELETE' })
       .then((response) => {
-        if (response.status !== 204) {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
           return response.json().then(({ message }) => {
-            throw new Error(message);
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
           });
         }
         return fetch(`${process.env.REACT_APP_API}/clients`)
           .then((response) => {
-            if (response.status !== 200) {
+            if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+              const status = `${response.status} ${response.statusText}`;
               return response.json().then(({ message }) => {
-                throw new Error(message);
+                if (message.message) throw { message: message.message, status };
+                throw { message, status };
               });
             }
             return response.json();
@@ -58,7 +69,10 @@ function Clients() {
             closeModal();
           });
       })
-      .catch((error) => setError(error.toString()))
+      .catch((error) => {
+        setError({ show: true, message: error.message, title: error.status });
+        setShowModal(false);
+      })
       .finally(() => setLoading(false));
   };
 
@@ -113,7 +127,7 @@ function Clients() {
           ))}
         </tbody>
       </table>
-      <div className={styles.error}>{error}</div>
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />{' '}
       <Link to="./clients/form">
         <ButtonCreate />
       </Link>
