@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './psychologists.module.css';
-import Button from './Button';
 import Modal from '../Shared/Modal';
+import ButtonCreate from '../Shared/ButtonCreate';
+import ButtonUpdate from '../Shared/ButtonUpdate';
+import ButtonDelete from '../Shared/ButtonDelete';
 
 function Psychologists() {
   const [psychologists, savePsychologists] = useState([]);
@@ -97,11 +99,11 @@ function Psychologists() {
               <li>{psychologist.address}</li>
               <li>
                 <Link to={`psychologists/form?id=${psychologist._id}`}>
-                  <button>Update</button>
+                  <ButtonUpdate />
                 </Link>
               </li>
               <li>
-                <button onClick={(event) => handleDelete(event, psychologist)}>Delete</button>
+                <ButtonDelete onClick={(event) => handleDelete(event, psychologist)} />
               </li>
             </ul>
           );
@@ -109,7 +111,7 @@ function Psychologists() {
       </div>
       <div className={styles.error}>{error}</div>
       <Link to="./psychologists/form">
-        <Button className={styles.button} name={'ADD'} />
+        <ButtonCreate />
       </Link>
     </section>
   );

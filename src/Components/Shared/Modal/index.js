@@ -1,5 +1,7 @@
 import React from 'react';
 import styles from './modal.module.css';
+import ButtonConfirm from '../ButtonConfirm';
+import ButtonCancel from '../ButtonCancel';
 
 const Modal = (props) => {
   if (!props.show) {
@@ -13,20 +15,8 @@ const Modal = (props) => {
         </div>
         <div className={styles.message}>{props.message}</div>
         <div className={styles.btnContainer}>
-          <button
-            disabled={props.isLoading}
-            className={styles.cancelButton}
-            onClick={props.onCancel}
-          >
-            Cancel
-          </button>
-          <button
-            disabled={props.isLoading}
-            className={styles.confirmButton}
-            onClick={props.onConfirm}
-          >
-            Confirm
-          </button>
+          <ButtonCancel disabled={props.isLoading} onClick={props.onCancel} />
+          <ButtonConfirm disabled={props.isLoading} onClick={props.onConfirm} />
         </div>
       </div>
     </div>

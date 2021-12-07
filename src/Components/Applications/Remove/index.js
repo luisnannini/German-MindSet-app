@@ -1,4 +1,7 @@
 import styles from './remove.module.css';
+import ButtonCancel from '../../Shared/ButtonCancel';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
+
 const Remove = (props) => {
   if (props.showRemove == false) {
     return null;
@@ -7,8 +10,8 @@ const Remove = (props) => {
     <div className={styles.container}>
       <h2 className={styles.title}>Do you want to delete ?</h2>
       <div className={styles.buttons}>
-        <button onClick={props.onClose}>Cancel</button>
-        <button onClick={props.removeConfirm}>Confirm</button>
+        <ButtonCancel onClick={props.onClose} />
+        <ButtonConfirm onClick={props.removeConfirm} />
       </div>
     </div>
   );

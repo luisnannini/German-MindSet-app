@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './interviews.module.css';
-import CreateButton from './CreateButton';
-import EditButton from './EditButton';
-import RemoveButton from './RemoveButton';
 import Modal from '../Shared/Modal';
+import ButtonCreate from '../Shared/ButtonCreate';
+import ButtonUpdate from '../Shared/ButtonUpdate';
+import ButtonDelete from '../Shared/ButtonDelete';
 
 function Interviews() {
   const [interviews, setInterviews] = useState([]);
@@ -80,11 +80,11 @@ function Interviews() {
             <li>{interview.notes}</li>
             <li className={styles.buttons}>
               <Link to={`interviews/form?id=${interview._id}`}>
-                <EditButton />
+                <ButtonUpdate />
               </Link>
             </li>
             <li className={styles.buttons}>
-              <RemoveButton
+              <ButtonDelete
                 onClick={(event) => {
                   handleDelete(event, interview);
                   setShowRemoveModal(true);
@@ -102,7 +102,7 @@ function Interviews() {
         onCancel={closeRemoveModal}
       />
       <Link to="interviews/form">
-        <CreateButton />
+        <ButtonCreate />
       </Link>
     </div>
   );

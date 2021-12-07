@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Modal from '../Shared/Modal';
+import ButtonUpdate from '../Shared/ButtonUpdate';
 
 function Item({ postulant, fetchData, url }) {
   const [showModal, setShowModal] = useState(false);
@@ -39,6 +40,8 @@ function Item({ postulant, fetchData, url }) {
         });
       }
     }
+    setShowModal({ state: false });
+    fetchData();
   };
 
   return (
@@ -55,7 +58,7 @@ function Item({ postulant, fetchData, url }) {
       })}
       <td>
         <Link to={`postulants/form?id=${postulant._id}`}>
-          <button>Edit</button>
+          <ButtonUpdate />
         </Link>
       </td>
       <td>

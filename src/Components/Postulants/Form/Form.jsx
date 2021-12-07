@@ -1,5 +1,6 @@
-import style from '../postulants-Form.module.css';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import style from '../postulants-Form.module.css';
 import Modal from '../Modal';
 import validatePostulant from './validations';
 import ArrayInput from './ArrayInput';
@@ -7,6 +8,8 @@ import InitialStudies from './InitialStudies';
 import PrimitiveFormInput from './PrimitiveFormInput';
 import ContactRange from './ContactRange';
 import Profiles from './Profiles';
+import ButtonConfirm from '../../Shared/ButtonConfirm';
+import ButtonCancel from '../../Shared/ButtonCancel';
 
 function Form() {
   const [modal, setModal] = useState({ state: false, action: '', message: '' });
@@ -93,12 +96,10 @@ function Form() {
     setUniversityStudies(formPostulant.studies.universityStudies);
     setInformalStudies(formPostulant.studies.informalStudies);
   };
-
   useEffect(() => {
     if (postulantId) usePostulant();
   }, []);
-
-  const submit = async (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     let serverError = false;
     let status;
@@ -157,16 +158,16 @@ function Form() {
       if (responseRaw.status !== 200 && responseRaw.status !== 201 && responseRaw.status !== 204) {
         serverError = true;
       }
+      const responseJson = await responseRaw.json();
       if (serverError) {
         setModal({
           title: 'Server Error',
           state: true,
-          message: status,
+          message: `${status}: ${responseJson.message}`,
           action: () => setModal({ state: modal.state })
         });
         return;
       }
-      const responseJson = await responseRaw.json();
       setModal({
         title: 'Operation Successful',
         state: true,
@@ -186,8 +187,8 @@ function Form() {
   return (
     <section className={style.section}>
       <div className={style.formHeader}></div>
-      <h1 className={style.textCenter}>{`Edit ${postulantId}`}</h1>
-      <form>
+      <h1 className={style.textCenter}>{postulantId ? `Edit ${postulantId}` : `Add Postulant`}</h1>
+      <form onSubmit={(e) => onSubmit(e)}>
         <div>
           <h2 className={style.textCenter}>Studies</h2>
           <div className={style.inputSection}>
@@ -208,7 +209,7 @@ function Form() {
                 dataTemplate={{
                   startDate: '2000-01-01T00:00:00.000Z',
                   endDate: '2000-01-01T00:00:00.000Z',
-                  Insistute: '',
+                  Institute: '',
                   description: ''
                 }}
               />
@@ -222,7 +223,7 @@ function Form() {
                 dataTemplate={{
                   startDate: '2000-01-01T00:00:00.000Z',
                   endDate: '2000-01-01T00:00:00.000Z',
-                  Insistute: '',
+                  Institute: '',
                   description: ''
                 }}
               />
@@ -236,7 +237,7 @@ function Form() {
                 dataTemplate={{
                   startDate: '2000-01-01T00:00:00.000Z',
                   endDate: '2000-01-01T00:00:00.000Z',
-                  Insistute: '',
+                  Institute: '',
                   description: ''
                 }}
               />
@@ -309,7 +310,7 @@ function Form() {
             />
           </div>
           <div>
-            <h2>Udated At</h2>
+            <h2>Updated At</h2>
             <PrimitiveFormInput
               postulantData={updatedAt}
               dataName="updatedAt"
@@ -339,7 +340,10 @@ function Form() {
             }}
           />
         </div>
-        <button onClick={(e) => submit(e)}>Save</button>
+        <Link to="/postulants">
+          <ButtonCancel />
+        </Link>
+        <ButtonConfirm onClick={(e) => onSubmit(e)} />
       </form>
       {modal.state && <Modal modal={modal} />}
     </section>

@@ -1,4 +1,6 @@
 import style from './postulants-Modal.module.css';
+import ButtonCancel from '../Shared/ButtonCancel';
+import ButtonConfirm from '../Shared/ButtonConfirm';
 
 const Modal = ({ modal }) => {
   if (modal.type === 'confirm') {
@@ -8,12 +10,8 @@ const Modal = ({ modal }) => {
           <h2>{modal.title}</h2>
           <p>{modal.message}</p>
           <div>
-            <button onClick={() => modal.close()} title="Cancel">
-              Cancel
-            </button>
-            <button onClick={() => modal.action(modal.actionParam)} title="Ok">
-              Ok
-            </button>
+            <ButtonCancel onClick={() => modal.close()} />
+            <ButtonConfirm onClick={() => modal.action(modal.actionParam)} />
           </div>
         </div>
       </div>
@@ -24,13 +22,11 @@ const Modal = ({ modal }) => {
       <div className={style.modal}>
         <h2>{modal.title}</h2>
         <p>{modal.message}</p>
-        <button
+        <ButtonConfirm
           onClick={() => {
             modal.action(modal.actionParam);
           }}
-        >
-          Ok
-        </button>
+        />
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
-import { FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { FaPen } from 'react-icons/fa';
 import styles from './session.module.css';
+import ButtonUpdate from '../../Shared/ButtonUpdate';
+import ButtonDelete from '../../Shared/ButtonDelete';
 
 const Session = ({ postulant, psychologist, status, date, onDelete, id }) => {
   return (
@@ -12,9 +12,9 @@ const Session = ({ postulant, psychologist, status, date, onDelete, id }) => {
       <td>{date}</td>
       <td>
         <Link to={`sessions/form?id=${id}`}>
-          <FaPen />
+          <ButtonUpdate />
         </Link>
-        <FaTrash onClick={() => onDelete()} />
+        <ButtonDelete onClick={() => onDelete()} />
       </td>
     </tr>
   );
