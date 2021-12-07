@@ -143,74 +143,74 @@ const Form = () => {
   };
 
   return (
-    <div className={styles.formContainer}>
-      <div className={styles.modalHeader}>
-        <h3>{title} Session</h3>
-      </div>
-      <form onSubmit={onSubmit} className={styles.createForm}>
-        <div className={styles.inputContainer}>
-          <Select
-            className={styles.select}
-            label="Postulant:"
-            value={postulantValue}
-            onChange={(e) => setPostulantValue(e.target.value)}
-            object={postulants}
-            required
-            disabled={isLoading}
-            title="Postulant"
-          />
+    <div className={styles.container}>
+      <form onSubmit={onSubmit} className={styles.form}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>{title} Session</h2>
         </div>
-        <div className={styles.inputContainer}>
-          <Select
-            className={styles.select}
-            value={psychologistValue}
-            label="Psychologist:"
-            onChange={(e) => setPsychologistValue(e.target.value)}
-            object={psychologists}
-            required
-            disabled={isLoading}
-            title="Psychologist"
-          />
+        <div className={styles.fields}>
+          <div className={styles.columns}>
+            <Select
+              className={styles.select}
+              label="Postulant:"
+              value={postulantValue}
+              onChange={(e) => setPostulantValue(e.target.value)}
+              object={postulants}
+              required
+              disabled={isLoading}
+              title="Postulant"
+            />
+            <Select
+              className={styles.select}
+              value={psychologistValue}
+              label="Psychologist:"
+              onChange={(e) => setPsychologistValue(e.target.value)}
+              object={psychologists}
+              required
+              disabled={isLoading}
+              title="Psychologist"
+            />
+            <Select
+              className={styles.select}
+              name="status"
+              label="Status:"
+              value={statusValue}
+              onChange={(e) => setStatusValue(e.target.value)}
+              object={[
+                { _id: 'assigned', value: 'assigned', name: 'Assigned' },
+                { _id: 'succesful', value: 'succesful', name: 'Successful' },
+                { _id: 'cancelled', value: 'cancelled', name: 'Cancelled' }
+              ]}
+              required
+              title="Status"
+              disabled={isLoading}
+            />
+          </div>
+          <div className={styles.columns}>
+            <Input
+              label={'Date'}
+              type={'datetime-local'}
+              value={dateValue}
+              name={'date'}
+              onChange={(e) => setDateValue(e.target.value)}
+              required={true}
+              disabled={isLoading}
+            />
+            <TextArea
+              name="notes"
+              value={notesValue}
+              onChange={(e) => setNotesValue(e.target.value)}
+              disabled={isLoading}
+            />
+          </div>
         </div>
-        <div className={styles.inputContainer}>
-          <Select
-            className={styles.select}
-            name="status"
-            label="Status:"
-            value={statusValue}
-            onChange={(e) => setStatusValue(e.target.value)}
-            object={[
-              { _id: 'assigned', value: 'assigned', name: 'Assigned' },
-              { _id: 'succesful', value: 'succesful', name: 'Successful' },
-              { _id: 'cancelled', value: 'cancelled', name: 'Cancelled' }
-            ]}
-            required
-            title="Status"
-            disabled={isLoading}
-          />
-        </div>
-        <Input
-          label={'Date'}
-          type={'datetime-local'}
-          value={dateValue}
-          name={'date'}
-          onChange={(e) => setDateValue(e.target.value)}
-          required={true}
-          disabled={isLoading}
-        />
-        <div className={styles.inputContainer}>
-          <TextArea
-            name="notes"
-            value={notesValue}
-            onChange={(e) => setNotesValue(e.target.value)}
-            disabled={isLoading}
-          />
-        </div>
-        <ButtonCancel onClick={closeForm} />
-        <div className={styles.inputContainer}>
-          <label className={styles.label} htmlFor="submit">
-            <ButtonConfirm type="submit" name={title} />
-          </label>
+        <div className={styles.button}>
+          <ButtonCancel onClick={closeForm} />
+          <div className={styles.inputContainer}>
+            <label className={styles.label} htmlFor="submit">
+              <ButtonConfirm type="submit" name={title} />
+            </label>
+          </div>
         </div>
         <div className={styles.error}>{error}</div>
       </form>

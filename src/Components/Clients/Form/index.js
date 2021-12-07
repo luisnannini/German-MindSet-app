@@ -16,11 +16,13 @@ function Form() {
   const [descriptionValue, setDescriptionValue] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setLoading] = useState(false);
+  const [clientId, setClientId] = useState(undefined);
 
   useEffect(() => {
     setLoading(true);
     const params = new URLSearchParams(window.location.search);
     const clientId = params.get('id');
+    setClientId(clientId);
     if (clientId) {
       fetch(`${process.env.REACT_APP_API}/clients?_id=${clientId}`)
         .then((response) => {
@@ -136,94 +138,104 @@ function Form() {
   return (
     <section className={styles.container}>
       <form className={styles.form} onSubmit={onSubmit}>
-        <h2>Clients Form</h2>
-        <Input
-          label={'Name'}
-          name={'name'}
-          value={nameValue}
-          placeholder={'Insert Client name...'}
-          onChange={onChangeNameInput}
-          type={'text'}
-          required={true}
-          pattern={'[A-Za-z ]*'}
-          disabled={isLoading}
-        />
-        <Input
-          label={'Phone Number'}
-          name={'phone'}
-          value={phoneValue}
-          placeholder={'Insert Client phone...'}
-          onChange={onChangePhoneInput}
-          type={'number'}
-          required={true}
-          pattern={'[0-9]'}
-          disabled={isLoading}
-        />
-        <Input
-          label={'Country'}
-          name={'country'}
-          value={countryValue}
-          placeholder={'Insert Client country...'}
-          onChange={onChangeCountryInput}
-          type={'text'}
-          required={true}
-          pattern={'[A-Za-z ]*'}
-          disabled={isLoading}
-        />
-        <Input
-          label={'State'}
-          name={'state'}
-          value={stateValue}
-          placeholder={'Insert Client state...'}
-          onChange={onChangeStateInput}
-          type={'text'}
-          pattern={'[A-Za-z ]*'}
-          required={true}
-          disabled={isLoading}
-        />
-        <Input
-          label={'City'}
-          name={'city'}
-          value={cityValue}
-          placeholder={'Insert Client city...'}
-          onChange={onChangeCityInput}
-          type={'text'}
-          required={true}
-          pattern={'[A-Za-z ]*'}
-          disabled={isLoading}
-        />
-        <Input
-          label={'Address'}
-          name={'address'}
-          value={addressValue}
-          placeholder={'Insert Client address...'}
-          onChange={onChangeAddressInput}
-          type={'address'}
-          required={true}
-          disabled={isLoading}
-        />
-        <Input
-          label={'Logo'}
-          name={'logo'}
-          value={logoValue}
-          placeholder={'Insert Client logo...'}
-          onChange={onChangeLogoInput}
-          type={'text'}
-          disabled={isLoading}
-        />
-        <Input
-          label={'Description'}
-          name={'description'}
-          value={descriptionValue}
-          placeholder={'Insert Client description...'}
-          onChange={onChangeDescriptionInput}
-          type={'text'}
-          disabled={isLoading}
-        />
-        <Link to="/clients">
-          <ButtonCancel />
-        </Link>
-        <ButtonConfirm disabled={isLoading} type="submit" />
+        <div className={styles.header}>
+          <h2 className={styles.title}>{clientId ? 'Update Client' : 'Create a Client'}</h2>
+        </div>
+        <div className={styles.fields}>
+          <div className={styles.columns}>
+            <Input
+              label={'Name'}
+              name={'name'}
+              value={nameValue}
+              placeholder={'Insert Client name...'}
+              onChange={onChangeNameInput}
+              type={'text'}
+              required={true}
+              pattern={'[A-Za-z ]*'}
+              disabled={isLoading}
+            />
+            <Input
+              label={'Address'}
+              name={'address'}
+              value={addressValue}
+              placeholder={'Insert Client address...'}
+              onChange={onChangeAddressInput}
+              type={'address'}
+              required={true}
+              disabled={isLoading}
+            />
+            <Input
+              label={'Country'}
+              name={'country'}
+              value={countryValue}
+              placeholder={'Insert Client country...'}
+              onChange={onChangeCountryInput}
+              type={'text'}
+              required={true}
+              pattern={'[A-Za-z ]*'}
+              disabled={isLoading}
+            />
+            <Input
+              label={'Logo'}
+              name={'logo'}
+              value={logoValue}
+              placeholder={'Insert Client logo...'}
+              onChange={onChangeLogoInput}
+              type={'text'}
+              disabled={isLoading}
+            />
+          </div>
+          <div className={styles.columns}>
+            <Input
+              label={'Phone Number'}
+              name={'phone'}
+              value={phoneValue}
+              placeholder={'Insert Client phone...'}
+              onChange={onChangePhoneInput}
+              type={'number'}
+              required={true}
+              pattern={'[0-9]'}
+              disabled={isLoading}
+            />
+            <Input
+              label={'City'}
+              name={'city'}
+              value={cityValue}
+              placeholder={'Insert Client city...'}
+              onChange={onChangeCityInput}
+              type={'text'}
+              required={true}
+              pattern={'[A-Za-z ]*'}
+              disabled={isLoading}
+            />
+            <Input
+              label={'State'}
+              name={'state'}
+              value={stateValue}
+              placeholder={'Insert Client state...'}
+              onChange={onChangeStateInput}
+              type={'text'}
+              pattern={'[A-Za-z ]*'}
+              required={true}
+              disabled={isLoading}
+            />
+            <Input
+              label={'Description'}
+              name={'description'}
+              value={descriptionValue}
+              placeholder={'Insert Client description...'}
+              onChange={onChangeDescriptionInput}
+              type={'text'}
+              disabled={isLoading}
+            />
+          </div>
+        </div>
+        <div className={styles.button}>
+          <Link to="/clients">
+            <ButtonCancel />
+          </Link>
+          <ButtonConfirm disabled={isLoading} type="submit" />
+        </div>
         <div className={styles.error}>{error}</div>
       </form>
     </section>

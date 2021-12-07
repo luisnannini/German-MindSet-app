@@ -1,53 +1,50 @@
-.formContainer {
-  margin: 80px auto;
-}
-.createForm {
-  background-color: white;
-  margin: auto;
+.container {
   display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  width: 60%;
-  padding-top: 20px;
-  box-shadow: -5px 7px 8px rgba(139, 139, 139, 0.432),
-              5px 0px 8px rgba(139, 139, 139, 0.432);
+  flex-direction: column;
+  margin: 5em 10em;
 }
-.formContainer svg {
-  margin: 5px;
-  cursor: pointer;
-}
-.inputContainer {
+
+.form {
   display: flex;
-  align-items: center;
-  width: 300px;
-  margin: 1px;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 0.1em solid #888888;
+  background-color: #FFFFFF;
 }
-.formContainer select {
-  background: white;
-  width: 200px;
-  height: 40px;
-  border: 1px solid gray;
-  border-radius: 3px;
-  margin-bottom: 20px;
-  cursor: pointer;
-}
-.submitBtn {
-  border: none;
-  color: white;
-  background-color: #fc692f;
-  cursor: pointer;
-  width: 140px;
-  height: 30px;
-}
-.modalHeader {
+
+.header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin: auto;
-  width: 60%;
-  background-color: #232f3e;
-  color: white;
+  padding-bottom: 1em;
+  height: 5em;
+  background-color: #232F3E;
 }
-.modalHeader * {
-  padding: 0 40px;
+
+.fields {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 3em auto;
+}
+
+.columns {
+  margin: 0 20px;
+  font-weight: bold;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  margin-bottom: 1em;
+}
+
+.title {
+  margin: auto;
+  font-size: 20px;
+  color: #FFFFFF;
+}
+
+.form select, .form input {
+  margin: 0.8em 0;
 }
