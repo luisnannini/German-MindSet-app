@@ -93,10 +93,15 @@ function Profiles() {
         hideButton={true}
       />
       <div className={styles.container}>
-        <h2 className={styles.title}>Profiles</h2>
+        <div className={styles.header}>
+          <h2 className={styles.title}>Profiles</h2>
+          <Link to="./profiles/form">
+            <ButtonCreate />
+          </Link>
+        </div>
         <ul className={styles.listHeader}>
           <li>Profiles</li>
-          <li></li>
+          <li>Actions</li>
           <li></li>
         </ul>
         {profiles.map((profile) => {
@@ -114,11 +119,6 @@ function Profiles() {
             </ul>
           );
         })}
-      </div>
-      <div className={styles.button}>
-        <Link to="./profiles/form">
-          <ButtonCreate />
-        </Link>
       </div>
     </section>
   );

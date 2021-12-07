@@ -68,7 +68,7 @@ function Clients() {
   };
 
   return (
-    <section className={styles.container}>
+    <section>
       <Modal
         show={showModal}
         title="Are you sure you want to delete this client?"
@@ -76,46 +76,50 @@ function Clients() {
         isLoading={isLoading}
         onConfirm={deleteClient}
       />
-      <h2>Clients List</h2>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Country</th>
-            <th>State</th>
-            <th>City</th>
-            <th>Address</th>
-            <th>Logo</th>
-            <th>Description</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {clients.map((client) => (
-            <tr key={client._id}>
-              <td>{client.name}</td>
-              <td>{client.phone}</td>
-              <td>{client.location.country}</td>
-              <td>{client.location.state}</td>
-              <td>{client.location.city}</td>
-              <td>{client.location.address}</td>
-              <td>{client.logo}</td>
-              <td>{client.description}</td>
-              <td>
-                <Link to={`clients/form?id=${client._id}`}>
-                  <ButtonUpdate />
-                </Link>
-                <ButtonDelete onClick={(event) => handleDelete(event, client)} />
-              </td>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>Clients List</h2>
+          <Link to="./clients/form">
+            <ButtonCreate />
+          </Link>
+        </div>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Country</th>
+              <th>State</th>
+              <th>City</th>
+              <th>Address</th>
+              <th>Logo</th>
+              <th>Description</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {clients.map((client) => (
+              <tr key={client._id}>
+                <td>{client.name}</td>
+                <td>{client.phone}</td>
+                <td>{client.location.country}</td>
+                <td>{client.location.state}</td>
+                <td>{client.location.city}</td>
+                <td>{client.location.address}</td>
+                <td>{client.logo}</td>
+                <td>{client.description}</td>
+                <td>
+                  <Link to={`clients/form?id=${client._id}`}>
+                    <ButtonUpdate />
+                  </Link>
+                  <ButtonDelete onClick={(event) => handleDelete(event, client)} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <div className={styles.error}>{error}</div>
-      <Link to="./clients/form">
-        <ButtonCreate />
-      </Link>
     </section>
   );
 }

@@ -93,14 +93,19 @@ function Positions() {
         hideButton={true}
       />
       <div className={styles.container}>
-        <h2 className={styles.title}>Positions</h2>
+        <div className={styles.header}>
+          <h2 className={styles.title}>Positions</h2>
+          <Link to="./positions/form">
+            <ButtonCreate />
+          </Link>
+        </div>
         <ul className={styles.listHeader}>
           <li>Client</li>
           <li>Profiles</li>
           <li>Job Description</li>
           <li>Vacancy</li>
           <li>Is Open</li>
-          <li></li>
+          <li>Actions</li>
           <li></li>
         </ul>
         {positions.map((position) => {
@@ -122,11 +127,6 @@ function Positions() {
             </ul>
           );
         })}
-      </div>
-      <div className={styles.button}>
-        <Link to="./positions/form">
-          <ButtonCreate />
-        </Link>
       </div>
     </section>
   );

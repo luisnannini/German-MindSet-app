@@ -63,23 +63,28 @@ function Sessions() {
   };
 
   return (
-    <div className={styles.container}>
+    <section className={styles.section}>
       {ShowConfirmModal.show && (
         <ConfirmModal
           onClose={() => setShowConfirmModal({ show: false, id: '' })}
           onDelete={deleteSession}
         />
       )}
-      <section className={styles.section}>
-        <h2>Sessions</h2>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>Sessions</h2>
+          <Link to="sessions/form">
+            <ButtonCreate disabled={isLoading} />
+          </Link>
+        </div>
         <table className={styles.table}>
           <thead>
-            <tr className={styles.tr}>
-              <th className={styles.th}>Postulant</th>
-              <th className={styles.th}>Psychologist</th>
-              <th className={styles.th}>Status</th>
-              <th className={styles.th}>Date</th>
-              <th className={styles.th}>Actions</th>
+            <tr>
+              <th>Postulant</th>
+              <th>Psychologist</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -107,14 +112,9 @@ function Sessions() {
             })}
           </tbody>
         </table>
-      </section>
-      <>
-        <Link to="sessions/form">
-          <ButtonCreate disabled={isLoading} />
-        </Link>
-      </>
+      </div>
       {error.isError && <div>{error.message}</div>}
-    </div>
+    </section>
   );
 }
 
