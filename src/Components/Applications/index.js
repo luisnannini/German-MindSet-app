@@ -14,8 +14,10 @@ function Applications() {
     message: '',
     title: ''
   });
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     fetch(`${process.env.REACT_APP_API}/applications`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -30,7 +32,8 @@ function Applications() {
       .then((response) => {
         setApplications(response.data);
       })
-      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }))
+      .finally(() => setLoading(false));
   }, []);
 
   const remove = async (id) => {
@@ -66,7 +69,7 @@ function Applications() {
   };
 
   return (
-    <section>
+    <section className={styles.section}>
       <Modal
         show={!!showRemove}
         title="Delete Application"
@@ -116,6 +119,7 @@ function Applications() {
           </tbody>
         </table>
       </div>
+      {isLoading && <div className={styles.loader}></div>}
     </section>
   );
 }
