@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './form.module.css';
 import ModalError from '../../Shared/ModalError';
 import ButtonCancel from '../../Shared/ButtonCancel';
@@ -6,10 +7,7 @@ import ButtonConfirm from '../../Shared/ButtonConfirm';
 import Input from '../../Shared/Input';
 import Select from '../../Shared/Select';
 
-const Form = (props) => {
-  if (props.showForm == false) {
-    return null;
-  }
+const Form = () => {
   const [position, setPosition] = useState([]);
   const [postulant, setPostulant] = useState([]);
   const [interview, setInterview] = useState([]);
@@ -181,7 +179,9 @@ const Form = (props) => {
           </div>
         </div>
         <div className={styles.button}>
-          <ButtonCancel onClick={props.onClose} />
+          <Link to="/applications">
+            <ButtonCancel />
+          </Link>
           <ButtonConfirm type="submit" />
         </div>
       </form>

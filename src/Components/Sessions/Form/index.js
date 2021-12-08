@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './form.module.css';
 import Input from '../../Shared/Input';
-import TextArea from '../TextArea';
+import TextArea from '../../Shared/TextArea';
 import ModalError from '../../Shared/ModalError';
 import Select from '../../Shared/Select';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
@@ -230,9 +230,11 @@ const Form = () => {
             />
             <TextArea
               name="notes"
+              label="Notes"
               value={notesValue}
               onChange={(e) => setNotesValue(e.target.value)}
               disabled={isLoading}
+              placeholder="Notes"
             />
           </div>
         </div>

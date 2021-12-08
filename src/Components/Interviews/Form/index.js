@@ -192,13 +192,9 @@ const Form = () => {
     setStatusValue(event.target.value);
   };
 
-  const [errorDate, setErrorDate] = useState(null);
-
   function handleChangeDate(event) {
-    const value = event.target.value;
-    if (!value.match(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/))
-      setErrorDate('Date must be yyyy-mm-dd');
-    else setErrorDate(null);
+    const value = event.target.value.substring(0, 10);
+    setDateValue(value);
   }
 
   const result = [
@@ -270,7 +266,6 @@ const Form = () => {
               required={true}
               disabled={isLoading}
             />
-            <label htmlFor="messageDate">{errorDate}</label>
             <h3>Notes</h3>
             <Input
               name="notes"
