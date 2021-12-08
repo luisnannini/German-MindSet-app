@@ -48,6 +48,7 @@ function Profiles() {
 
   const deleteProfile = () => {
     setShowModal(false);
+    setLoading(true);
     fetch(`${process.env.REACT_APP_API}/profiles/${selectedProfile}`, { method: 'DELETE' })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -74,7 +75,8 @@ function Profiles() {
       })
       .catch((error) => {
         setError({ show: true, message: error.message, title: error.status });
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (

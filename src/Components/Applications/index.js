@@ -38,6 +38,7 @@ function Applications() {
 
   const remove = async (id) => {
     setShowRemove(false);
+    setLoading(true);
     await fetch(`${process.env.REACT_APP_API}/applications/${id}`, {
       method: 'DELETE'
     })
@@ -62,10 +63,10 @@ function Applications() {
           })
           .then((response) => {
             setApplications(response.data);
-          })
-          .catch((error) => setError({ show: true, message: error.message, title: error.status }));
+          });
       })
-      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }))
+      .finally(() => setLoading(false));
   };
 
   return (

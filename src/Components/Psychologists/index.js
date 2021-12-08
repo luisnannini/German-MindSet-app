@@ -44,6 +44,7 @@ function Psychologists() {
 
   const deletePsychologist = () => {
     setShowModalDelete(false);
+    setLoading(true);
     fetch(`${process.env.REACT_APP_API}/psychologists/${selectedPsychologist}`, {
       method: 'DELETE'
     })
@@ -72,7 +73,8 @@ function Psychologists() {
       })
       .catch((error) => {
         setError({ show: true, message: error.message, title: error.status });
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (

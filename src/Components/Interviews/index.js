@@ -36,7 +36,7 @@ function Interviews() {
         setInterviews(response.data);
       })
       .catch((error) => setError({ show: true, message: error.message, title: error.status }))
-      .finally(() => setLoading(true));
+      .finally(() => setLoading(false));
   }, []);
 
   const handleDelete = (event, interview) => {
@@ -84,7 +84,7 @@ function Interviews() {
       .catch((error) => {
         setError({ show: true, message: error.message, title: error.status });
       })
-      .finally(() => setLoading(true));
+      .finally(() => setLoading(false));
   };
 
   return (

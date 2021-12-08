@@ -77,7 +77,8 @@ function Sessions() {
       })
       .catch((error) => {
         setError({ show: true, message: error.message, title: error.status });
-      });
+      })
+      .finally(() => setLoading(false));
   }
 
   return (
