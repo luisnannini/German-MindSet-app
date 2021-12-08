@@ -74,7 +74,7 @@ function Admins() {
   };
 
   return (
-    <section className={styles.container}>
+    <section>
       <Modal
         show={showModal}
         title="Delete Admin"
@@ -83,35 +83,35 @@ function Admins() {
         onCancel={() => setShowModal(false)}
         onConfirm={deleteAdmin}
       />
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>Administrators</h2>
+          <Link to="/admins/form">
+            <ButtonCreate />
+          </Link>
+        </div>
+        <ul className={styles.listHeader}>
+          <li>Name</li>
+          <li>Username</li>
+          <li>Actions</li>
+          <li></li>
+        </ul>
+        {admins.map((admin) => (
+          <ul key={admin._id} className={styles.list}>
+            <li>{admin.name}</li>
+            <li>{admin.username}</li>
+            <li>
+              <Link to={`admins/form?id=${admin._id}`}>
+                <ButtonUpdate />
+              </Link>
+            </li>
+            <li>
+              <ButtonDelete onClick={(event) => handleDelete(event, admin)} />
+            </li>
+          </ul>
+        ))}
+      </div>
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
-      <h2 className={styles.title}>Administrators</h2>
-      <table className={styles.title}>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Username</th>
-          </tr>
-        </thead>
-        <tbody>
-          {admins.map((admin) => (
-            <tr key={admin._id}>
-              <td>{admin.name}</td>
-              <td>{admin.username}</td>
-              <td>
-                <Link to={`admins/form?id=${admin._id}`}>
-                  <ButtonUpdate />
-                </Link>
-              </td>
-              <td>
-                <ButtonDelete onClick={(event) => handleDelete(event, admin)} />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <Link to="/admins/form">
-        <ButtonCreate />
-      </Link>
     </section>
   );
 }

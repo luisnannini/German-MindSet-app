@@ -44,7 +44,7 @@ function Clients() {
 
   const deleteClient = () => {
     setLoading(true);
-    fetch(`${process.env.REACT_APP_API}/clients/${selectedClient}asd`, { method: 'DELETE' })
+    fetch(`${process.env.REACT_APP_API}/clients/${selectedClient}`, { method: 'DELETE' })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           const status = `${response.status} ${response.statusText}`;
@@ -82,7 +82,7 @@ function Clients() {
   };
 
   return (
-    <section className={styles.container}>
+    <section>
       <Modal
         show={showModal}
         title="Delete Client"
@@ -91,46 +91,50 @@ function Clients() {
         onCancel={closeModal}
         onConfirm={deleteClient}
       />
-      <h2>Clients List</h2>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Country</th>
-            <th>State</th>
-            <th>City</th>
-            <th>Address</th>
-            <th>Logo</th>
-            <th>Description</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {clients.map((client) => (
-            <tr key={client._id}>
-              <td>{client.name}</td>
-              <td>{client.phone}</td>
-              <td>{client.location.country}</td>
-              <td>{client.location.state}</td>
-              <td>{client.location.city}</td>
-              <td>{client.location.address}</td>
-              <td>{client.logo}</td>
-              <td>{client.description}</td>
-              <td>
-                <Link to={`clients/form?id=${client._id}`}>
-                  <ButtonUpdate />
-                </Link>
-                <ButtonDelete onClick={(event) => handleDelete(event, client)} />
-              </td>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>Clients List</h2>
+          <Link to="./clients/form">
+            <ButtonCreate />
+          </Link>
+        </div>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Country</th>
+              <th>State</th>
+              <th>City</th>
+              <th>Address</th>
+              <th>Logo</th>
+              <th>Description</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {clients.map((client) => (
+              <tr key={client._id}>
+                <td>{client.name}</td>
+                <td>{client.phone}</td>
+                <td>{client.location.country}</td>
+                <td>{client.location.state}</td>
+                <td>{client.location.city}</td>
+                <td>{client.location.address}</td>
+                <td>{client.logo}</td>
+                <td>{client.description}</td>
+                <td>
+                  <Link to={`clients/form?id=${client._id}`}>
+                    <ButtonUpdate />
+                  </Link>
+                  <ButtonDelete onClick={(event) => handleDelete(event, client)} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <ModalError error={error} onConfirm={() => setError({ show: false })} />{' '}
-      <Link to="./clients/form">
-        <ButtonCreate />
-      </Link>
     </section>
   );
 }

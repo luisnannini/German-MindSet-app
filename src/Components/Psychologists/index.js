@@ -78,7 +78,7 @@ function Psychologists() {
   };
 
   return (
-    <section className={styles.container}>
+    <section>
       <Modal
         show={showModalDelete}
         title="Delete Psychologist"
@@ -86,46 +86,48 @@ function Psychologists() {
         onConfirm={deletePsychologist}
         onCancel={closeModal}
       />
-      <div>
-        <h2 className={styles.title}>Psychologist</h2>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>Psychologist</h2>
+          <Link to="./psychologists/form">
+            <ButtonCreate />
+          </Link>
+        </div>
+        <div>
+          <ul className={styles.listHeader}>
+            <li>First Name</li>
+            <li>Last Name</li>
+            <li>Username</li>
+            <li>Email</li>
+            <li>Phone Number</li>
+            <li>Address</li>
+            <li>Actions</li>
+            <li></li>
+          </ul>
+        </div>
+        <div>
+          {psychologists.map((psychologist) => {
+            return (
+              <ul key={psychologist._id} className={styles.list}>
+                <li>{psychologist.firstName}</li>
+                <li>{psychologist.lastName}</li>
+                <li>{psychologist.username}</li>
+                <li>{psychologist.email}</li>
+                <li>{psychologist.phone}</li>
+                <li>{psychologist.address}</li>
+                <li>
+                  <Link to={`psychologists/form?id=${psychologist._id}`}>
+                    <ButtonUpdate />
+                  </Link>
+                </li>
+                <li>
+                  <ButtonDelete onClick={(event) => handleDelete(event, psychologist)} />
+                </li>
+              </ul>
+            );
+          })}
+        </div>
       </div>
-      <div>
-        <ul className={styles.listHeader}>
-          <li>First Name</li>
-          <li>Last Name</li>
-          <li>Username</li>
-          <li>Email</li>
-          <li>Phone Number</li>
-          <li>Address</li>
-          <li>EDIT</li>
-          <li>DELETE</li>
-        </ul>
-      </div>
-      <div>
-        {psychologists.map((psychologist) => {
-          return (
-            <ul key={psychologist._id} className={styles.list}>
-              <li>{psychologist.firstName}</li>
-              <li>{psychologist.lastName}</li>
-              <li>{psychologist.username}</li>
-              <li>{psychologist.email}</li>
-              <li>{psychologist.phone}</li>
-              <li>{psychologist.address}</li>
-              <li>
-                <Link to={`psychologists/form?id=${psychologist._id}`}>
-                  <ButtonUpdate />
-                </Link>
-              </li>
-              <li>
-                <ButtonDelete onClick={(event) => handleDelete(event, psychologist)} />
-              </li>
-            </ul>
-          );
-        })}
-      </div>
-      <Link to="/psychologists/form">
-        <ButtonCreate />
-      </Link>
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
     </section>
   );

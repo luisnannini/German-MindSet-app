@@ -11,7 +11,7 @@ const Table = ({ applications, removeReq }) => {
           <th>Postulant</th>
           <th>ID Interview</th>
           <th>Result</th>
-          <th></th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>

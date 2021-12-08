@@ -203,86 +203,82 @@ const Form = () => {
   ];
 
   return (
-    <form className={styles.form} onSubmit={onSubmit}>
-      <ModalError error={error} onConfirm={() => setError({ show: false })} />
-      <h2 className={styles.title}>
-        {interviewId ? 'Update an Interview' : 'Create an Interview'}
-      </h2>
-      <div className={styles.formDiv1}>
-        <div className={styles.formDiv2}>
-          <Select
-            value={postulantValue}
-            title="Postulant Name"
-            label="Postulant Name"
-            object={postulants}
-            onChange={onChangePostulantValue}
-            required
-          />
+    <div className={styles.container}>
+      <form className={styles.form} onSubmit={onSubmit}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>
+            {interviewId ? 'Update an Interview' : 'Create an Interview'}
+          </h2>
         </div>
-        <div className={styles.formDiv2}>
-          <Select
-            value={clientValue}
-            title="Client Name"
-            label="Client Name"
-            object={clients}
-            onChange={onChangeClientValue}
-            required
-          />
+        <div className={styles.fields}>
+          <div className={styles.columns}>
+            <Select
+              value={postulantValue}
+              title="Postulant Name"
+              label="Postulant Name"
+              object={postulants}
+              onChange={onChangePostulantValue}
+              required
+            />
+            <Select
+              value={clientValue}
+              title="Client Name"
+              label="Client Name"
+              object={clients}
+              onChange={onChangeClientValue}
+              required
+            />
+            <Select
+              value={applicationValue}
+              title="Application Id"
+              label="Application"
+              object={applications}
+              onChange={onChangeApplicationValue}
+              required
+            />
+          </div>
+          <div className={styles.columns}>
+            <Select
+              value={statusValue}
+              title="Status"
+              label="Status"
+              object={result}
+              onChange={onChangeStatusValue}
+              required
+            />
+            <Input
+              label={'Date'}
+              type={'datetime-local'}
+              name={'date'}
+              value={dateValue}
+              placeholder={'yyyy-mm-dd'}
+              onChange={(e) => {
+                setDateValue(e.target.value);
+                handleChangeDate(e);
+              }}
+              required={true}
+            />
+            <label htmlFor="messageDate">{errorDate}</label>
+            <h3>Notes</h3>
+            <Input
+              name="notes"
+              value={notesValue}
+              placeholder="Notes"
+              onChange={(e) => {
+                setNotesValue(e.target.value);
+              }}
+            />
+          </div>
         </div>
-        <div className={styles.formDiv2}>
-          <Select
-            value={applicationValue}
-            label="Application"
-            object={applications}
-            onChange={onChangeApplicationValue}
-            required
-          />
+        <div className={styles.button}>
+          <Link to="/interviews">
+            <ButtonCancel />
+          </Link>
+          <ButtonConfirm type="submit" />
         </div>
-      </div>
-      <div className={styles.formDiv1}>
-        <Select
-          value={statusValue}
-          title="Status"
-          label="Status"
-          object={result}
-          onChange={onChangeStatusValue}
-          required
-        />
-        <h3>Date</h3>
-        <Input
-          label={'Date'}
-          type={'datetime-local'}
-          name={'date'}
-          value={dateValue}
-          placeholder={'yyyy-mm-dd'}
-          onChange={(e) => {
-            setDateValue(e.target.value);
-            handleChangeDate(e);
-          }}
-          required={true}
-        />
-      </div>
-      <label className={styles.formLabel} htmlFor="messageDate">
-        {errorDate}
-      </label>
-      <div className={styles.formDiv2}>
-        <h3>Notes</h3>
-        <Input
-          name="notes"
-          value={notesValue}
-          placeholder="Notes"
-          onChange={(e) => {
-            setNotesValue(e.target.value);
-          }}
-        />
-      </div>
-      <div className={styles.buttons}>
-        <Link to="/interviews">
-          <ButtonCancel />
-        </Link>
-        <ButtonConfirm type="submit" />
-      </div>
-    </form>
+        <ModalError error={error} onConfirm={() => setError({ show: false })} />
+      </form>
+    </div>
   );
 };
 

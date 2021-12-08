@@ -136,51 +136,57 @@ const Form = (props) => {
       });
   };
   return (
-    <form onSubmit={onSubmit}>
+    <div className={styles.container}>
+      <form className={styles.form} onSubmit={onSubmit}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>Create Application</h2>
+        </div>
+        <div className={styles.fields}>
+          <div className={styles.columns}>
+            <Select
+              label="Positions:"
+              onChange={onChangePosition}
+              value={positionValue}
+              object={position}
+              title="- Select a position -"
+              required
+            />
+            <Select
+              label="Postulants:"
+              onChange={onChangePostulant}
+              value={postulantValue}
+              object={postulant}
+              title="- Select a postulant -"
+              required
+            />
+          </div>
+          <div className={styles.columns}>
+            <Select
+              label="Id interview:"
+              onChange={onChangeInterview}
+              value={interviewValue}
+              object={interview}
+              title="- Select an interview -"
+              required
+            />
+            <Input
+              label={'Result'}
+              name={'result'}
+              value={resultValue}
+              onChange={onChangeResult}
+              placeholder="Result"
+              required={true}
+              type={'text'}
+            />
+          </div>
+        </div>
+        <div className={styles.button}>
+          <ButtonCancel onClick={props.onClose} />
+          <ButtonConfirm type="submit" />
+        </div>
+      </form>
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
-      <h2>Create Application</h2>
-      <div className={styles.inputs}>
-        <Select
-          label="Positions:"
-          onChange={onChangePosition}
-          value={positionValue}
-          object={position}
-          title="- Select a position -"
-          required
-        />
-      </div>
-      <div className={styles.inputs}>
-        <Select
-          label="Postulants:"
-          onChange={onChangePostulant}
-          value={postulantValue}
-          object={postulant}
-          title="- Select a postulant -"
-          required
-        />
-      </div>
-      <div className={styles.inputs}>
-        <Select
-          label="Id interview:"
-          onChange={onChangeInterview}
-          value={interviewValue}
-          object={interview}
-          title="- Select an interview -"
-          required
-        />
-      </div>
-      <Input
-        label={'Result'}
-        name={'result'}
-        value={resultValue}
-        onChange={onChangeResult}
-        placeholder="Result"
-        required={true}
-        type={'text'}
-      />
-      <ButtonCancel onClick={props.onClose} />
-      <ButtonConfirm type="submit" />
-    </form>
+    </div>
   );
 };
 

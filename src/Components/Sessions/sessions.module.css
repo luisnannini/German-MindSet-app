@@ -1,42 +1,53 @@
 .container {
-  height: 500px
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 100px;
+  box-shadow: 5px 7px 8px rgba(139, 139, 139, 0.432), -5px -2px 8px rgba(139, 139, 139, 0.26);
 }
+
+.title {
+  margin: 10px;
+  font-size: 30px;
+  color: #232F3E;
+}
+
+.button {
+  display: flex;
+  justify-content:flex-end;
+  margin: 1em 5em;
+}
+
 .table {
-  width: 100%;
-  text-align: left;
-  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  height: 3em;
+  border-bottom: 1px solid #c5c5c5;
+  list-style: none;
 }
-.container h2 {
-  padding: 10px 0px 0px 10px;
+
+.table th, .table td {
+  border-bottom: 1px solid #c5c5c5;
+  padding: 13px;
+  text-align: center;
 }
-.container tr {
-  border-bottom: 1px solid grey;
-  font-weight: 600;
+
+.table th {
+  color: #FC6225;
+  font-size: 18px;
+  font-weight: normal;
 }
-.th {
-  color: #fc692f;
+
+.table td {
+  font-weight: bold;
+  font-size: 15px;
+  color: #232F3E;
 }
-.container svg {
-  margin: 5px;
-  cursor: pointer;
-}
-input::-webkit-calendar-picker-indicator {
-  cursor: pointer;
-}
-.addButton {
-  margin-top: 30px;
-  margin-left: 90%;
-  font-size: 40px;
-  border: none;
-  text-align: right;
-  background-color: transparent;
-  color: #fc692f;
-  cursor: pointer;
-}
-.section {
-  width: 90%;
-  margin: auto;
-  margin-top: 8%;
-  box-shadow: -5px 7px 8px rgba(139, 139, 139, 0.432),
-              5px 0px 8px rgba(139, 139, 139, 0.432);
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px;
 }

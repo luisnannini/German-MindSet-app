@@ -1,56 +1,50 @@
 .container {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  display: flex;
+  flex-direction: column;
+  margin: 5em 10em;
+}
 
-  .form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 0.1em solid #888888;
+  background-color: #FFFFFF;
+}
 
-  .form h2 {
-    padding: 20px 20px;
-    background-color: #232F3E;
-    color: #fff;
-    margin-top: 0;
-  }
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 1em;
+  height: 5em;
+  background-color: #232F3E;
+}
 
-  .form Input {
-    width: 40%;
-    align-self: center;
-  }
+.fields {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 3em auto;
+}
 
-  .form label {
-    align-self: flex-start;
-    margin-left: 30%;
-    font-weight: bold;
-    font-size: 15px;
-  }
+.columns {
+  margin: 0 20px;
+  font-weight: bold;
+}
 
-  .button {
-    align-self: center;
-    width: 20%;
-    margin: 20px;
-    height: 56px;
-    border: none;
-    padding: 0 20px;
-    background: #FC6225;
-    color: #FFFFFF;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+.button {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  margin-bottom: 1em;
+}
 
-  .button:hover {
-    background-color: #232F3E;
-  }
+.title {
+  margin: auto;
+  font-size: 20px;
+  color: #FFFFFF;
+}
 
-  .error {
-    color: #f00;
-    font-weight: bold;
-    font-size: 18px;
-  }
+.form select, .form input {
+  margin: 0.8em 0;
+}

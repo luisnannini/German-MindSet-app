@@ -12,19 +12,17 @@
 .modal {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  margin: 15% auto;
-  padding-bottom: 1em;
+  margin: 100px auto;
   border: 0.1em solid #888888;
-  width: 50%;
-  height: 40%;
+  width: 400px;
   background-color: #FFFFFF;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
-  padding: 0 1em;
+  margin-bottom: 20px;
+  padding: 10px;
   background-color: #232F3E;
   color: #FFFFFF;
 }
@@ -33,11 +31,14 @@
   display: flex;
   justify-content: center;
   align-self: center;
-  font-size: 2em;
+  margin-bottom: 20px;
+  padding: 10px;
+  font-size: 15px;
 }
 
 .button {
   display: flex;
   justify-content: center;
   align-self: center;
+  width: 400px;
 }

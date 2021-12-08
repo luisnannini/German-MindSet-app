@@ -154,7 +154,9 @@ const Form = () => {
         }
         return response.json();
       })
-      .then(() => {})
+      .then(() => {
+        window.location.href = '/positions';
+      })
       .catch((error) => {
         setError({ show: true, message: error.message, title: error.status });
       });

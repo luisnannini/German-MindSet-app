@@ -11,6 +11,7 @@ const Form = () => {
   const [usernameValue, setUsernameValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
   const [isLoading, setLoading] = useState(false);
+  const [adminId, setAdminId] = useState(undefined);
   const [error, setError] = useState({
     show: false,
     message: '',
@@ -20,6 +21,7 @@ const Form = () => {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const adminId = params.get('id');
+    setAdminId(adminId);
     if (adminId) {
       setLoading(true);
       fetch(`${process.env.REACT_APP_API}/admins?_id=${adminId}`)
@@ -111,39 +113,47 @@ const Form = () => {
 
   return (
     <div className={styles.container}>
-      <form onSubmit={submitAdmin}>
-        <h2>Form</h2>
-        <Input
-          label={'Full Name'}
-          type={'text'}
-          value={fullNameValue}
-          placeholder={'Full name'}
-          onChange={onChangeFullNameValue}
-          required={true}
-          disabled={isLoading}
-        />
-        <Input
-          label={'Username'}
-          type={'text'}
-          value={usernameValue}
-          placeholder={'Username'}
-          onChange={onChangeUsernameValue}
-          required={true}
-          disabled={isLoading}
-        />
-        <Input
-          label={'Password'}
-          type={'password'}
-          value={passwordValue}
-          placeholder={'Password'}
-          onChange={onChangePasswordValue}
-          required={true}
-          disabled={isLoading}
-        />
-        <Link to="/admins">
-          <ButtonCancel />
-        </Link>
-        <ButtonConfirm disabled={isLoading} type="submit" />
+      <form className={styles.form} onSubmit={submitAdmin}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>{adminId ? 'Update Admin' : 'Create Admin'}</h2>
+        </div>
+        <div className={styles.fields}>
+          <div className={styles.columns}>
+            <Input
+              label={'Full Name'}
+              type={'text'}
+              value={fullNameValue}
+              placeholder={'Full name'}
+              onChange={onChangeFullNameValue}
+              required={true}
+              disabled={isLoading}
+            />
+            <Input
+              label={'Username'}
+              type={'text'}
+              value={usernameValue}
+              placeholder={'Username'}
+              onChange={onChangeUsernameValue}
+              required={true}
+              disabled={isLoading}
+            />
+            <Input
+              label={'Password'}
+              type={'password'}
+              value={passwordValue}
+              placeholder={'Password'}
+              onChange={onChangePasswordValue}
+              required={true}
+              disabled={isLoading}
+            />
+          </div>
+        </div>
+        <div className={styles.button}>
+          <Link to="/admins">
+            <ButtonCancel />
+          </Link>
+          <ButtonConfirm disabled={isLoading} type="submit" />
+        </div>
         <ModalError error={error} onConfirm={() => setError({ show: false })} />
       </form>
     </div>

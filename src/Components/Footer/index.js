@@ -3,11 +3,11 @@ import styles from './footer.module.css';
 function Footer() {
   return (
     <footer className={styles.container}>
-      <div className={styles.main}>
+      {/* <div className={styles.main}>
         <div className={styles.appName}>
-          Mind<span>SET</span>
+          <span>MindSET</span>
         </div>
-        <ul className={styles.rutes}>
+        <ul className={styles.routes}>
           <li>
             <a href="/admins">admins</a>
           </li>
@@ -36,7 +36,7 @@ function Footer() {
             <a href="/sessions">sessions</a>
           </li>
         </ul>
-      </div>
+      </div> */}
       <div className={styles.license}>
         <div className={styles.copyright}>Copyright © 2021 Radium Rocket</div>
         <div>

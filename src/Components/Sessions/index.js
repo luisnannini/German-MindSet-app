@@ -59,10 +59,21 @@ function Sessions() {
             throw { message, status };
           });
         }
-        return response.json();
-      })
-      .then(() => {
-        getSessions();
+        return fetch(`${process.env.REACT_APP_API}/sessions`)
+          .then((response) => {
+            if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+              const status = `${response.status} ${response.statusText}`;
+              return response.json().then(({ message }) => {
+                if (message.message) throw { message: message.message, status };
+                throw { message, status };
+              });
+            }
+            return response.json();
+          })
+          .then((response) => {
+            setSessions(response.data);
+            setShowConfirmModal(false);
+          });
       })
       .catch((error) => {
         setError({ show: true, message: error.message, title: error.status });
@@ -70,24 +81,29 @@ function Sessions() {
   }
 
   return (
-    <div className={styles.container}>
+    <section className={styles.section}>
       <Modal
-        show={ShowConfirmModal}
+        show={ShowConfirmModal.show}
         title="Delete Session"
         message="Are you sure you want to delete this Session?"
         onCancel={() => setShowConfirmModal({ show: false, id: '' })}
         onConfirm={deleteSession}
       />
-      <section className={styles.section}>
-        <h2>Sessions</h2>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>Sessions</h2>
+          <Link to="sessions/form">
+            <ButtonCreate disabled={isLoading} />
+          </Link>
+        </div>
         <table className={styles.table}>
           <thead>
-            <tr className={styles.tr}>
-              <th className={styles.th}>Postulant</th>
-              <th className={styles.th}>Psychologist</th>
-              <th className={styles.th}>Status</th>
-              <th className={styles.th}>Date</th>
-              <th className={styles.th}>Actions</th>
+            <tr>
+              <th>Postulant</th>
+              <th>Psychologist</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -114,12 +130,9 @@ function Sessions() {
             })}
           </tbody>
         </table>
-      </section>
-      <Link to="sessions/form">
-        <ButtonCreate disabled={isLoading} />
-      </Link>
+      </div>
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
-    </div>
+    </section>
   );
 }
 

@@ -86,7 +86,9 @@ const Form = () => {
         }
         return response.json();
       })
-      .then(() => {})
+      .then(() => {
+        window.location.href = '/profiles';
+      })
       .catch((error) => {
         setError({ show: true, message: error.message, title: error.status });
       });
@@ -99,15 +101,19 @@ const Form = () => {
         <div className={styles.header}>
           <h2 className={styles.title}>{profileId ? 'Update a Profile' : 'Create a Profile'}</h2>
         </div>
-        <Input
-          label={'Profile'}
-          name={'profile'}
-          value={profileValue}
-          onChange={onChangeProfileValue}
-          placeholder={'Write a new profile'}
-          required={true}
-          pattern="[A-Za-z ]*"
-        />
+        <div className={styles.fields}>
+          <div className={styles.columns}>
+            <Input
+              label={'Profile'}
+              name={'profile'}
+              value={profileValue}
+              onChange={onChangeProfileValue}
+              placeholder={'Write a new profile'}
+              required={true}
+              pattern="[A-Za-z ]*"
+            />
+          </div>
+        </div>
         <div className={styles.button}>
           <Link to="/profiles">
             <ButtonCancel />
