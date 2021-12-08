@@ -5,7 +5,6 @@ import Modal from '../Shared/Modal';
 import { Link } from 'react-router-dom';
 import ButtonCreate from '../Shared/ButtonCreate';
 import ButtonDelete from '../Shared/ButtonDelete';
-import tableStyles from './table.module.css';
 
 function Applications() {
   const [applications, setApplications] = useState([]);
@@ -67,41 +66,7 @@ function Applications() {
   };
 
   return (
-    <section className={styles.container}>
-      <div className={styles.header}>
-        <h2 className={styles.title}>Applications</h2>
-        <Link to="/applications/form">
-          <ButtonCreate />
-        </Link>
-      </div>
-      <table className={tableStyles.table}>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Position</th>
-            <th>Postulant</th>
-            <th>ID Interview</th>
-            <th>Result</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {applications.map((app) => (
-            <tr key={app._id}>
-              <td>{app._id}</td>
-              <td>{app.positions.jobDescription}</td>
-              <td>
-                {app.postulants.firstName} {app.postulants.lastName}
-              </td>
-              <td>{app.interview._id}</td>
-              <td>{app.result}</td>
-              <td>
-                <ButtonDelete onClick={() => setShowRemove(app._id)} />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <section>
       <Modal
         show={!!showRemove}
         title="Delete Application"
@@ -115,6 +80,42 @@ function Applications() {
         }}
       />
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>Applications</h2>
+          <Link to="/applications/form">
+            <ButtonCreate />
+          </Link>
+        </div>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Position</th>
+              <th>Postulant</th>
+              <th>ID Interview</th>
+              <th>Result</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {applications.map((app) => (
+              <tr key={app._id}>
+                <td>{app._id}</td>
+                <td>{app.positions.jobDescription}</td>
+                <td>
+                  {app.postulants.firstName} {app.postulants.lastName}
+                </td>
+                <td>{app.interview._id}</td>
+                <td>{app.result}</td>
+                <td>
+                  <ButtonDelete onClick={() => setShowRemove(app._id)} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </section>
   );
 }
