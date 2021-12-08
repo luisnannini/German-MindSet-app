@@ -38,12 +38,14 @@ const Form = () => {
   const [sundayFrom, setSundayFrom] = useState(0);
   const [sundayTo, setSundayTo] = useState(0);
   const [psychologistId, setPsychologistId] = useState(0);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const psychologistId = params.get('id');
     setPsychologistId(psychologistId);
     if (psychologistId) {
+      setLoading(true);
       fetch(`${process.env.REACT_APP_API}/psychologists?_id=${psychologistId}`)
         .then((response) => {
           if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -94,7 +96,8 @@ const Form = () => {
         })
         .catch((error) => {
           setError({ show: true, message: error.message, title: error.status });
-        });
+        })
+        .finally(() => setLoading(false));
     }
   }, []);
 
@@ -194,6 +197,7 @@ const Form = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
+    setLoading(true);
     const params = new URLSearchParams(window.location.search);
     const psychologistId = params.get('id');
     let url;
@@ -274,7 +278,8 @@ const Form = () => {
       })
       .catch((error) => {
         setError({ show: true, message: error.message, title: error.status });
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -296,6 +301,7 @@ const Form = () => {
               required={true}
               pattern={'[A-Za-z ]*'}
               value={firstNameForm}
+              disabled={isLoading}
             />
             {/* <span className={styles.hiddenError}>Invalid First Name</span> */}
             <Input
@@ -307,6 +313,7 @@ const Form = () => {
               required={true}
               pattern={'[A-Za-z ]*'}
               value={lastNameForm}
+              disabled={isLoading}
             />
             {/* <span className={styles.hiddenError}>Invalid Last Name</span> */}
             <Input
@@ -318,6 +325,7 @@ const Form = () => {
               required={true}
               pattern={'[A-Za-z ]*'}
               value={usernameForm}
+              disabled={isLoading}
             />
             {/* <span className={styles.hiddenError}>Invalid Username</span> */}
             <Input
@@ -327,6 +335,7 @@ const Form = () => {
               type="password"
               required={true}
               value={passwordForm}
+              disabled={isLoading}
             />
             {/* <span className={styles.hiddenError}>Invalid Password</span> */}
             <Input
@@ -337,6 +346,7 @@ const Form = () => {
               required={true}
               pattern={'^[^@]+@[^@]+.[a-zA-Z]{2,}$'}
               value={emailForm}
+              disabled={isLoading}
             />
             {/* <span className={styles.hiddenError}>Invalid E-Mail</span> */}
             <Input
@@ -347,6 +357,7 @@ const Form = () => {
               type={'number'}
               required={true}
               value={phoneForm}
+              disabled={isLoading}
             />
             {/* <span className={styles.hiddenError}>Invalid Phone Number</span> */}
             <Input
@@ -357,6 +368,7 @@ const Form = () => {
               type={'text'}
               required={true}
               value={addressForm}
+              disabled={isLoading}
             />
             {/* <span className={styles.hiddenError}>Invalid Address</span> */}
           </div>
@@ -366,6 +378,7 @@ const Form = () => {
               value={mondayBool}
               onChange={onChangeMondayBool}
               day="monday"
+              disabled={isLoading}
             />
             <div className={styles.dayColumns}>
               <Input
@@ -375,6 +388,7 @@ const Form = () => {
                 type={'text'}
                 onChange={onChangeMondayFrom}
                 value={mondayFrom}
+                disabled={isLoading}
               />
               <Input
                 label={'To'}
@@ -383,6 +397,7 @@ const Form = () => {
                 type={'text'}
                 onChange={onChangeMondayTo}
                 value={mondayTo}
+                disabled={isLoading}
               />
             </div>
             <Checkbox
@@ -390,6 +405,7 @@ const Form = () => {
               value={tuesdayBool}
               onChange={onChangeTuesdayBool}
               day="tuesday"
+              disabled={isLoading}
             />
             <div className={styles.dayColumns}>
               <Input
@@ -399,6 +415,7 @@ const Form = () => {
                 type={'string'}
                 onChange={onChangeTuesdayFrom}
                 value={tuesdayFrom}
+                disabled={isLoading}
               />
               <Input
                 label={'To'}
@@ -407,6 +424,7 @@ const Form = () => {
                 type={'text'}
                 onChange={onChangeTuesdayTo}
                 value={tuesdayTo}
+                disabled={isLoading}
               />
             </div>
             <Checkbox
@@ -414,6 +432,7 @@ const Form = () => {
               value={wednesdayBool}
               onChange={onChangeWednesdayBool}
               day="wednesday"
+              disabled={isLoading}
             />
             <div className={styles.dayColumns}>
               <Input
@@ -423,6 +442,7 @@ const Form = () => {
                 type={'text'}
                 onChange={onChangeWednesdayFrom}
                 value={wednesdayFrom}
+                disabled={isLoading}
               />
               <Input
                 label={'to'}
@@ -431,6 +451,7 @@ const Form = () => {
                 type={'text'}
                 onChange={onChangeWednesdayTo}
                 value={wednesdayTo}
+                disabled={isLoading}
               />
             </div>
             <Checkbox
@@ -438,6 +459,7 @@ const Form = () => {
               value={thursdayBool}
               onChange={onChangeThursdayBool}
               day="thursday"
+              disabled={isLoading}
             />
             <div className={styles.dayColumns}>
               <Input
@@ -447,6 +469,7 @@ const Form = () => {
                 type={'text'}
                 onChange={onChangeThursdayFrom}
                 value={thursdayFrom}
+                disabled={isLoading}
               />
               <Input
                 label={'To'}
@@ -455,6 +478,7 @@ const Form = () => {
                 type={'text'}
                 onChange={onChangeThursdayTo}
                 value={thursdayTo}
+                disabled={isLoading}
               />
             </div>
             <Checkbox
@@ -462,6 +486,7 @@ const Form = () => {
               value={fridayBool}
               onChange={onChangeFridayBool}
               day="friday"
+              disabled={isLoading}
             />
             <div className={styles.dayColumns}>
               <Input
@@ -471,6 +496,7 @@ const Form = () => {
                 type={'text'}
                 onChange={onChangeFridayFrom}
                 value={fridayFrom}
+                disabled={isLoading}
               />
               <Input
                 label={'To'}
@@ -479,6 +505,7 @@ const Form = () => {
                 type={'text'}
                 onChange={onChangeFridayTo}
                 value={fridayTo}
+                disabled={isLoading}
               />
             </div>
             <Checkbox
@@ -486,6 +513,7 @@ const Form = () => {
               value={saturdayBool}
               onChange={onChangeSaturdayBool}
               day="saturday"
+              disabled={isLoading}
             />
             <div className={styles.dayColumns}>
               <Input
@@ -495,6 +523,7 @@ const Form = () => {
                 type={'text'}
                 onChange={onChangeSaturdayFrom}
                 value={saturdayFrom}
+                disabled={isLoading}
               />
               <Input
                 label={'To'}
@@ -503,6 +532,7 @@ const Form = () => {
                 type={'text'}
                 onChange={onChangeSaturdayTo}
                 value={saturdayTo}
+                disabled={isLoading}
               />
             </div>
             <Checkbox
@@ -510,6 +540,7 @@ const Form = () => {
               value={sundayBool}
               onChange={onChangeSundayBool}
               day="sunday"
+              disabled={isLoading}
             />
             <div className={styles.dayColumns}>
               <Input
@@ -519,6 +550,7 @@ const Form = () => {
                 type={'text'}
                 onChange={onChangeSundayFrom}
                 value={sundayFrom}
+                disabled={isLoading}
               />
               <Input
                 label={'To'}
@@ -527,15 +559,16 @@ const Form = () => {
                 type={'text'}
                 onChange={onChangeSundayTo}
                 value={sundayTo}
+                disabled={isLoading}
               />
             </div>
           </div>
         </div>
         <div className={styles.button}>
           <Link to="/psychologists">
-            <ButtonCancel />
+            <ButtonCancel disabled={isLoading} />
           </Link>
-          <ButtonConfirm type="submit" />
+          <ButtonConfirm disabled={isLoading} type="submit" />
         </div>
         <ModalError error={error} onConfirm={() => setError({ show: false })} />
       </form>

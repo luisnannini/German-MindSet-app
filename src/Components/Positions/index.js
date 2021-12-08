@@ -11,6 +11,7 @@ function Positions() {
   const [positions, setPositions] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedPosition, setSelectedPosition] = useState(undefined);
+  const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState({
     show: false,
     message: '',
@@ -18,6 +19,7 @@ function Positions() {
   });
 
   useEffect(() => {
+    setLoading(true);
     fetch(`${process.env.REACT_APP_API}/positions`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -34,7 +36,8 @@ function Positions() {
       })
       .catch((error) => {
         setError({ show: true, message: error.message, title: error.status });
-      });
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const handleDelete = (event, position) => {
@@ -44,6 +47,8 @@ function Positions() {
   };
 
   const deletePosition = () => {
+    setShowModal(false);
+    setLoading(true);
     fetch(`${process.env.REACT_APP_API}/positions/${selectedPosition}`, { method: 'DELETE' })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -65,14 +70,13 @@ function Positions() {
             return response.json();
           })
           .then((response) => {
-            setShowModal(false);
             setPositions(response.data);
           });
       })
       .catch((error) => {
-        setShowModal(false);
         setError({ show: true, message: error.message, title: error.status });
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -89,7 +93,7 @@ function Positions() {
         <div className={styles.header}>
           <h2 className={styles.title}>Positions</h2>
           <Link to="./positions/form">
-            <ButtonCreate />
+            <ButtonCreate disabled={isLoading} />
           </Link>
         </div>
         <ul className={styles.listHeader}>
@@ -111,11 +115,14 @@ function Positions() {
               <li>{position.isOpen ? 'Yes' : 'No'}</li>
               <li>
                 <Link to={`positions/form?id=${position._id}`}>
-                  <ButtonUpdate />
+                  <ButtonUpdate disabled={isLoading} />
                 </Link>
               </li>
               <li>
-                <ButtonDelete onClick={(event) => handleDelete(event, position)} />
+                <ButtonDelete
+                  disabled={isLoading}
+                  onClick={(event) => handleDelete(event, position)}
+                />
               </li>
             </ul>
           );

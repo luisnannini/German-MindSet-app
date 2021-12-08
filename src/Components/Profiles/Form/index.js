@@ -8,6 +8,7 @@ import Input from '../../Shared/Input';
 
 const Form = () => {
   const [profileValue, setProfileValue] = useState('');
+  const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState({
     show: false,
     message: '',
@@ -20,6 +21,7 @@ const Form = () => {
     const profileId = params.get('id');
     setProfileId(profileId);
     if (profileId) {
+      setLoading(true);
       fetch(`${process.env.REACT_APP_API}/profiles?_id=${profileId}`)
         .then((response) => {
           if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -43,7 +45,8 @@ const Form = () => {
         })
         .catch((error) => {
           setError({ show: true, message: error.message, title: error.status });
-        });
+        })
+        .finally(() => setLoading(false));
     }
   }, []);
 
@@ -53,6 +56,7 @@ const Form = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
+    setLoading(true);
     const params = new URLSearchParams(window.location.search);
     const profileId = params.get('id');
     setProfileId(profileId);
@@ -91,7 +95,8 @@ const Form = () => {
       })
       .catch((error) => {
         setError({ show: true, message: error.message, title: error.status });
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -111,14 +116,15 @@ const Form = () => {
               placeholder={'Write a new profile'}
               required={true}
               pattern="[A-Za-z ]*"
+              disabled={isLoading}
             />
           </div>
         </div>
         <div className={styles.button}>
           <Link to="/profiles">
-            <ButtonCancel />
+            <ButtonCancel disabled={isLoading} />
           </Link>
-          <ButtonConfirm type={'submit'} />
+          <ButtonConfirm disabled={isLoading} type={'submit'} />
         </div>
       </form>
     </div>

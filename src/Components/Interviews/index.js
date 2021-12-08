@@ -11,6 +11,7 @@ function Interviews() {
   const [interviews, setInterviews] = useState([]);
   const [selectedInterview, setSelectedInterview] = useState(undefined);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState({
     show: false,
     message: '',
@@ -18,6 +19,7 @@ function Interviews() {
   });
 
   useEffect(() => {
+    setLoading(true);
     fetch(`${process.env.REACT_APP_API}/interviews`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -33,7 +35,8 @@ function Interviews() {
       .then((response) => {
         setInterviews(response.data);
       })
-      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }))
+      .finally(() => setLoading(true));
   }, []);
 
   const handleDelete = (event, interview) => {
@@ -46,8 +49,9 @@ function Interviews() {
   };
 
   const confirmRemoveModal = () => {
+    setLoading(true);
+    setShowRemoveModal(false);
     const url = `${process.env.REACT_APP_API}/interviews/${selectedInterview}`;
-
     fetch(url, {
       method: 'DELETE',
       headers: {
@@ -75,13 +79,12 @@ function Interviews() {
           })
           .then((response) => {
             setInterviews(response.data);
-            setShowRemoveModal(false);
           });
       })
       .catch((error) => {
-        setShowRemoveModal(false);
         setError({ show: true, message: error.message, title: error.status });
-      });
+      })
+      .finally(() => setLoading(true));
   };
 
   return (
@@ -90,7 +93,7 @@ function Interviews() {
         <div className={styles.header}>
           <h2 className={styles.title}>Interviews</h2>
           <Link to="interviews/form">
-            <ButtonCreate />
+            <ButtonCreate disabled={isLoading} />
           </Link>
         </div>
         <ul className={styles.listHeader}>
@@ -127,11 +130,12 @@ function Interviews() {
               <li>{interview.notes}</li>
               <li>
                 <Link to={`interviews/form?id=${interview._id}`}>
-                  <ButtonUpdate />
+                  <ButtonUpdate disabled={isLoading} />
                 </Link>
               </li>
               <li>
                 <ButtonDelete
+                  disabled={isLoading}
                   onClick={(event) => {
                     handleDelete(event, interview);
                     setShowRemoveModal(true);

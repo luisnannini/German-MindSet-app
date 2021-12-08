@@ -4,7 +4,7 @@ import { FaPen } from 'react-icons/fa';
 
 const ButtonUpdate = (props) => {
   return (
-    <button className={styles.button}>
+    <button className={styles.button} disabled={props.disabled}>
       <FaPen onClick={props.onClick} />
     </button>
   );

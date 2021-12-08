@@ -3,7 +3,7 @@ import styles from './session.module.css';
 import ButtonUpdate from '../../Shared/ButtonUpdate';
 import ButtonDelete from '../../Shared/ButtonDelete';
 
-const Session = ({ postulant, psychologist, status, date, onDelete, id }) => {
+const Session = ({ postulant, psychologist, status, date, onDelete, id, disabled }) => {
   return (
     <tr className={styles.tr}>
       <td>{postulant}</td>
@@ -12,9 +12,9 @@ const Session = ({ postulant, psychologist, status, date, onDelete, id }) => {
       <td>{date}</td>
       <td>
         <Link to={`sessions/form?id=${id}`}>
-          <ButtonUpdate />
+          <ButtonUpdate disabled={disabled} />
         </Link>
-        <ButtonDelete onClick={() => onDelete()} />
+        <ButtonDelete disabled={disabled} onClick={() => onDelete()} />
       </td>
     </tr>
   );

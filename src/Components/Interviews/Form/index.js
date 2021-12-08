@@ -17,6 +17,7 @@ const Form = () => {
   const [statusValue, setStatusValue] = useState('');
   const [dateValue, setDateValue] = useState('');
   const [notesValue, setNotesValue] = useState('');
+  const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState({
     show: false,
     message: '',
@@ -25,6 +26,7 @@ const Form = () => {
   const [interviewId, setInterviewId] = useState(undefined);
 
   useEffect(() => {
+    setLoading(true);
     fetch(`${process.env.REACT_APP_API}/clients`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -81,7 +83,8 @@ const Form = () => {
           }))
         );
       })
-      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }))
+      .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
@@ -89,6 +92,7 @@ const Form = () => {
     const interviewId = params.get('id');
     setInterviewId(interviewId);
     if (interviewId) {
+      setLoading(true);
       fetch(`${process.env.REACT_APP_API}/interviews?_id=${interviewId}`)
         .then((response) => {
           if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -117,12 +121,14 @@ const Form = () => {
         })
         .catch((error) => {
           setError({ show: true, message: error.message, title: error.status });
-        });
+        })
+        .finally(() => setLoading(false));
     }
   }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     let url;
     const params = new URLSearchParams(window.location.search);
     const interviewId = params.get('id');
@@ -166,7 +172,8 @@ const Form = () => {
       })
       .catch((error) => {
         setError({ show: true, message: error.message, title: error.status });
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   const onChangeClientValue = (event) => {
@@ -219,6 +226,7 @@ const Form = () => {
               object={postulants}
               onChange={onChangePostulantValue}
               required
+              disabled={isLoading}
             />
             <Select
               value={clientValue}
@@ -227,6 +235,7 @@ const Form = () => {
               object={clients}
               onChange={onChangeClientValue}
               required
+              disabled={isLoading}
             />
             <Select
               value={applicationValue}
@@ -235,6 +244,7 @@ const Form = () => {
               object={applications}
               onChange={onChangeApplicationValue}
               required
+              disabled={isLoading}
             />
           </div>
           <div className={styles.columns}>
@@ -245,6 +255,7 @@ const Form = () => {
               object={result}
               onChange={onChangeStatusValue}
               required
+              disabled={isLoading}
             />
             <Input
               label={'Date'}
@@ -257,6 +268,7 @@ const Form = () => {
                 handleChangeDate(e);
               }}
               required={true}
+              disabled={isLoading}
             />
             <label htmlFor="messageDate">{errorDate}</label>
             <h3>Notes</h3>
@@ -267,6 +279,7 @@ const Form = () => {
               onChange={(e) => {
                 setNotesValue(e.target.value);
               }}
+              disabled={isLoading}
             />
           </div>
         </div>

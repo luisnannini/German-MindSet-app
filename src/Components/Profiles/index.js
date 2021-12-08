@@ -11,6 +11,7 @@ function Profiles() {
   const [profiles, setProfiles] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState(undefined);
+  const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState({
     show: false,
     message: '',
@@ -18,6 +19,7 @@ function Profiles() {
   });
 
   useEffect(() => {
+    setLoading(true);
     fetch(`${process.env.REACT_APP_API}/profiles`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -34,7 +36,8 @@ function Profiles() {
       })
       .catch((error) => {
         setError({ show: true, message: error.message, title: error.status });
-      });
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const handleDelete = (event, profile) => {
@@ -44,6 +47,7 @@ function Profiles() {
   };
 
   const deleteProfile = () => {
+    setShowModal(false);
     fetch(`${process.env.REACT_APP_API}/profiles/${selectedProfile}`, { method: 'DELETE' })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -65,12 +69,10 @@ function Profiles() {
             return response.json();
           })
           .then((response) => {
-            setShowModal(false);
             setProfiles(response.data);
           });
       })
       .catch((error) => {
-        setShowModal(false);
         setError({ show: true, message: error.message, title: error.status });
       });
   };
@@ -89,7 +91,7 @@ function Profiles() {
         <div className={styles.header}>
           <h2 className={styles.title}>Profiles</h2>
           <Link to="./profiles/form">
-            <ButtonCreate />
+            <ButtonCreate d />
           </Link>
         </div>
         <ul className={styles.listHeader}>
@@ -103,11 +105,14 @@ function Profiles() {
               <li>{profile.name}</li>
               <li>
                 <Link to={`profiles/form?id=${profile._id}`}>
-                  <ButtonUpdate />
+                  <ButtonUpdate disabled={isLoading} />
                 </Link>
               </li>
               <li>
-                <ButtonDelete onClick={(event) => handleDelete(event, profile)} />
+                <ButtonDelete
+                  disabled={isLoading}
+                  onClick={(event) => handleDelete(event, profile)}
+                />
               </li>
             </ul>
           );
