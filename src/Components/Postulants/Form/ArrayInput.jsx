@@ -1,4 +1,5 @@
 import ButtonLittleAdd from '../../Shared/ButtonLittleAdd';
+import TextArea from '../../Shared/TextArea';
 
 const ArrayInput = ({ postulantData, setData, dataName, dataTemplate }) => {
   return (
@@ -45,8 +46,8 @@ const ArrayInput = ({ postulantData, setData, dataName, dataTemplate }) => {
               }}
             />
             <label htmlFor={dataName}></label>
-            <textarea
-              required
+            <TextArea
+              required={true}
               name={dataName}
               defaultValue={inputElement.description}
               placeholder="Description"
@@ -54,7 +55,7 @@ const ArrayInput = ({ postulantData, setData, dataName, dataTemplate }) => {
                 postulantData[index].description = value;
                 setData([...postulantData]);
               }}
-            ></textarea>
+            />
           </div>
         );
       })}
