@@ -16,6 +16,7 @@ const Form = () => {
   const [jobDescriptionValue, setJobDescriptionValue] = useState('');
   const [vacancyValue, setVacancyValue] = useState('');
   const [isOpenValue, setIsOpenValue] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState({
     show: false,
     message: '',
@@ -24,6 +25,7 @@ const Form = () => {
   const [positionId, setPositionId] = useState(undefined);
 
   useEffect(() => {
+    setLoading(true);
     const params = new URLSearchParams(window.location.search);
     const positionId = params.get('id');
     setPositionId(positionId);
@@ -92,7 +94,8 @@ const Form = () => {
       })
       .catch((error) => {
         setError({ show: true, message: error.message, title: error.status });
-      });
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const onChangeClientValue = (event) => {
@@ -117,6 +120,7 @@ const Form = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
+    setLoading(true);
     const params = new URLSearchParams(window.location.search);
     const positionId = params.get('id');
     setPositionId(positionId);
@@ -159,7 +163,8 @@ const Form = () => {
       })
       .catch((error) => {
         setError({ show: true, message: error.message, title: error.status });
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -178,6 +183,7 @@ const Form = () => {
               onChange={onChangeClientValue}
               title={'Select a Client'}
               required
+              disabled={isLoading}
             />
             <Input
               label={'Job Description'}
@@ -186,6 +192,7 @@ const Form = () => {
               onChange={onChangeJobDescriptionValue}
               placeholder={'Write a job description'}
               required={true}
+              disabled={isLoading}
             />
             <Checkbox label={'Is Open?'} value={isOpenValue} onChange={onChangeIsOpenValue} />
           </div>
@@ -197,6 +204,7 @@ const Form = () => {
               onChange={onChangeProfilesValue}
               title={'Select a Profile'}
               required
+              disabled={isLoading}
             />
             <Input
               label={'Vacancy'}
@@ -208,14 +216,15 @@ const Form = () => {
               type={'number'}
               min={1}
               step={1}
+              disabled={isLoading}
             />
           </div>
         </div>
         <div className={styles.button}>
           <Link to="/positions">
-            <ButtonCancel />
+            <ButtonCancel disabled={isLoading} />
           </Link>
-          <ButtonConfirm type="submit" />
+          <ButtonConfirm disabled={isLoading} type="submit" />
         </div>
       </form>
     </div>

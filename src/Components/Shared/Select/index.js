@@ -10,6 +10,7 @@ const Select = (props) => {
         className={styles.select}
         onChange={props.onChange}
         required={props.required}
+        disabled={props.disabled}
       >
         <option value="" disabled hidden>
           {props.title}

@@ -11,6 +11,7 @@ function Psychologists() {
   const [psychologists, savePsychologists] = useState([]);
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [selectedPsychologist, setSelectedPsychologist] = useState('');
+  const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState({
     show: false,
     message: '',
@@ -18,6 +19,7 @@ function Psychologists() {
   });
 
   useEffect(() => {
+    setLoading(true);
     fetch(`${process.env.REACT_APP_API}/psychologists`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -30,7 +32,8 @@ function Psychologists() {
         return response.json();
       })
       .then((response) => savePsychologists(response.data))
-      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }))
+      .finally(() => setLoading(false));
   }, []);
 
   const handleDelete = (event, psy) => {
@@ -40,6 +43,8 @@ function Psychologists() {
   };
 
   const deletePsychologist = () => {
+    setShowModalDelete(false);
+    setLoading(true);
     fetch(`${process.env.REACT_APP_API}/psychologists/${selectedPsychologist}`, {
       method: 'DELETE'
     })
@@ -64,33 +69,28 @@ function Psychologists() {
           })
           .then((response) => {
             savePsychologists(response.data);
-            setShowModalDelete(false);
           });
       })
       .catch((error) => {
-        setShowModalDelete(false);
         setError({ show: true, message: error.message, title: error.status });
-      });
-  };
-
-  const closeModal = () => {
-    setShowModalDelete(false);
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
-    <section>
+    <section className={styles.section}>
       <Modal
         show={showModalDelete}
         title="Delete Psychologist"
         message="Are you sure you want to delete this Psychologist?"
         onConfirm={deletePsychologist}
-        onCancel={closeModal}
+        onCancel={() => setShowModalDelete(false)}
       />
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Psychologist</h2>
           <Link to="./psychologists/form">
-            <ButtonCreate />
+            <ButtonCreate disabled={isLoading} />
           </Link>
         </div>
         <div>
@@ -117,17 +117,21 @@ function Psychologists() {
                 <li>{psychologist.address}</li>
                 <li>
                   <Link to={`psychologists/form?id=${psychologist._id}`}>
-                    <ButtonUpdate />
+                    <ButtonUpdate disabled={isLoading} />
                   </Link>
                 </li>
                 <li>
-                  <ButtonDelete onClick={(event) => handleDelete(event, psychologist)} />
+                  <ButtonDelete
+                    disabled={isLoading}
+                    onClick={(event) => handleDelete(event, psychologist)}
+                  />
                 </li>
               </ul>
             );
           })}
         </div>
       </div>
+      {isLoading && <div className={styles.loader}></div>}
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
     </section>
   );

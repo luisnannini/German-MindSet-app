@@ -43,6 +43,7 @@ function Clients() {
   };
 
   const deleteClient = () => {
+    setShowModal(false);
     setLoading(true);
     fetch(`${process.env.REACT_APP_API}/clients/${selectedClient}`, { method: 'DELETE' })
       .then((response) => {
@@ -82,12 +83,11 @@ function Clients() {
   };
 
   return (
-    <section>
+    <section className={styles.section}>
       <Modal
         show={showModal}
         title="Delete Client"
         message="Are you sure you want to delete this client?"
-        isLoading={isLoading}
         onCancel={closeModal}
         onConfirm={deleteClient}
       />
@@ -95,7 +95,7 @@ function Clients() {
         <div className={styles.header}>
           <h2 className={styles.title}>Clients List</h2>
           <Link to="./clients/form">
-            <ButtonCreate />
+            <ButtonCreate disable={isLoading} />
           </Link>
         </div>
         <table className={styles.table}>
@@ -127,13 +127,17 @@ function Clients() {
                   <Link to={`clients/form?id=${client._id}`}>
                     <ButtonUpdate />
                   </Link>
-                  <ButtonDelete onClick={(event) => handleDelete(event, client)} />
+                  <ButtonDelete
+                    disabled={isLoading}
+                    onClick={(event) => handleDelete(event, client)}
+                  />
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      {isLoading && <div className={styles.loader}></div>}
       <ModalError error={error} onConfirm={() => setError({ show: false })} />{' '}
     </section>
   );

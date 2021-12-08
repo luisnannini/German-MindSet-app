@@ -19,6 +19,7 @@ function Admins() {
   });
 
   useEffect(() => {
+    setLoading(true);
     fetch(`${process.env.REACT_APP_API}/admins`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -33,7 +34,8 @@ function Admins() {
       .then((response) => {
         setAdmins(response.data);
       })
-      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }))
+      .finally(() => setLoading(false));
   }, []);
 
   const handleDelete = (event, admin) => {
@@ -74,7 +76,7 @@ function Admins() {
   };
 
   return (
-    <section>
+    <section className={styles.section}>
       <Modal
         show={showModal}
         title="Delete Admin"
@@ -111,6 +113,7 @@ function Admins() {
           </ul>
         ))}
       </div>
+      {isLoading && <div className={styles.loader}></div>}
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
     </section>
   );

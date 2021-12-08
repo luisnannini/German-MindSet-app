@@ -56,8 +56,7 @@ const Form = () => {
         })
         .catch((error) => {
           setError({ show: true, message: error.message, title: error.status });
-        })
-        .finally(() => setLoading(false));
+        });
     }
 
     fetch(`${process.env.REACT_APP_API}/postulants`)
@@ -89,8 +88,7 @@ const Form = () => {
       })
       .catch((error) => {
         setError({ show: true, message: error.message, title: error.status });
-      })
-      .finally(() => setLoading(false));
+      });
 
     fetch(`${process.env.REACT_APP_API}/psychologists`)
       .then((response) => {
@@ -241,10 +239,10 @@ const Form = () => {
           </div>
         </div>
         <div className={styles.button}>
-          <ButtonCancel onClick={closeForm} />
+          <ButtonCancel disabled={isLoading} onClick={closeForm} />
           <div className={styles.inputContainer}>
             <label className={styles.label} htmlFor="submit">
-              <ButtonConfirm type="submit" name={title} />
+              <ButtonConfirm disabled={isLoading} type="submit" name={title} />
             </label>
           </div>
         </div>

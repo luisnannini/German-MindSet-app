@@ -48,6 +48,7 @@ function Sessions() {
 
   function deleteSession() {
     setShowConfirmModal({ show: false });
+    setLoading(true);
     fetch(`${process.env.REACT_APP_API}/sessions/${ShowConfirmModal.id}`, {
       method: 'DELETE'
     })
@@ -72,12 +73,12 @@ function Sessions() {
           })
           .then((response) => {
             setSessions(response.data);
-            setShowConfirmModal(false);
           });
       })
       .catch((error) => {
         setError({ show: true, message: error.message, title: error.status });
-      });
+      })
+      .finally(() => setLoading(false));
   }
 
   return (
@@ -125,12 +126,14 @@ function Sessions() {
                   status={session.status}
                   date={session.date}
                   onDelete={() => setShowConfirmModal({ show: true, id: session._id })}
+                  disabled={isLoading}
                 />
               );
             })}
           </tbody>
         </table>
       </div>
+      {isLoading && <div className={styles.loader}></div>}
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
     </section>
   );

@@ -1,3 +1,9 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 30px;
+}
+
 .container {
   flex: 1;
   display: flex;
@@ -54,4 +60,21 @@
   padding: 0;
   color: #FC6225;
   font-size: 18px;
+}
+
+.loader {
+  position: flex;
+  justify-content: center;
+  align-self: center;
+  border: 5px solid #c5c5c5;
+  border-top: 5px solid #FC6225;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

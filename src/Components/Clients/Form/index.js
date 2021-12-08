@@ -248,7 +248,7 @@ function Form() {
         </div>
         <div className={styles.button}>
           <Link to="/clients">
-            <ButtonCancel />
+            <ButtonCancel disabled={isLoading} />
           </Link>
           <ButtonConfirm disabled={isLoading} type="submit" />
         </div>

@@ -4,7 +4,7 @@ import { FaTrash } from 'react-icons/fa';
 
 const ButtonDelete = (props) => {
   return (
-    <button className={styles.button}>
+    <button className={styles.button} disabled={props.disabled}>
       <FaTrash onClick={props.onClick} />
     </button>
   );
