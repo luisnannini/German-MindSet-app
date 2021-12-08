@@ -1,0 +1,14 @@
+.textAreaContainer {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+.textArea {
+  resize: vertical;
+  box-sizing: border-box;
+  background: white;
+  margin: 0.8em 0;
+  border: 1px solid gray;
+  border-radius: 3px;
+}
