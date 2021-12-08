@@ -78,7 +78,7 @@ function Profiles() {
   };
 
   return (
-    <section>
+    <section className={styles.section}>
       <Modal
         show={showModal}
         title="Delete a Profile"
@@ -118,6 +118,7 @@ function Profiles() {
           );
         })}
       </div>
+      {isLoading && <div className={styles.loader}></div>}
     </section>
   );
 }

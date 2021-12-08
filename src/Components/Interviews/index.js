@@ -88,7 +88,7 @@ function Interviews() {
   };
 
   return (
-    <section>
+    <section className={styles.section}>
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Interviews</h2>
@@ -153,6 +153,7 @@ function Interviews() {
           onCancel={closeRemoveModal}
         />
       </div>
+      {isLoading && <div className={styles.loader}></div>}
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
     </section>
   );

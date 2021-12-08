@@ -83,7 +83,7 @@ function Clients() {
   };
 
   return (
-    <section>
+    <section className={styles.section}>
       <Modal
         show={showModal}
         title="Delete Client"
@@ -137,6 +137,7 @@ function Clients() {
           </tbody>
         </table>
       </div>
+      {isLoading && <div className={styles.loader}></div>}
       <ModalError error={error} onConfirm={() => setError({ show: false })} />{' '}
     </section>
   );

@@ -76,7 +76,7 @@ function Psychologists() {
   };
 
   return (
-    <section>
+    <section className={styles.section}>
       <Modal
         show={showModalDelete}
         title="Delete Psychologist"
@@ -129,6 +129,7 @@ function Psychologists() {
           })}
         </div>
       </div>
+      {isLoading && <div className={styles.loader}></div>}
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
     </section>
   );

@@ -132,6 +132,7 @@ function Sessions() {
           </tbody>
         </table>
       </div>
+      {isLoading && <div className={styles.loader}></div>}
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
     </section>
   );

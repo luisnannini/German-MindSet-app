@@ -80,7 +80,7 @@ function Positions() {
   };
 
   return (
-    <section>
+    <section className={styles.section}>
       <Modal
         show={showModal}
         title="Delete a Position"
@@ -128,6 +128,7 @@ function Positions() {
           );
         })}
       </div>
+      {isLoading && <div className={styles.loader}></div>}
     </section>
   );
 }
