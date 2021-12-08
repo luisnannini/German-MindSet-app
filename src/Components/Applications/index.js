@@ -2,18 +2,13 @@ import { useEffect, useState } from 'react';
 import styles from './applications.module.css';
 import Table from './Table';
 import ModalError from '../Shared/ModalError';
-import ModalForm from './ModalForm';
 import Modal from '../Shared/Modal';
+import { Link } from 'react-router-dom';
 import ButtonCreate from '../Shared/ButtonCreate';
 
 function Applications() {
   const [applications, setApplications] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [showForm, setShowForm] = useState(false);
-  const [showUpdate, setShowUpdate] = useState(false);
-  const [updateId, setUpdateId] = useState('');
   const [showRemove, setShowRemove] = useState(false);
-  const [removeId, setRemoveId] = useState('');
   const [error, setError] = useState({
     show: false,
     message: '',
@@ -38,20 +33,8 @@ function Applications() {
       .catch((error) => setError({ show: true, message: error.message, title: error.status }));
   }, []);
 
-  const removeReq = (id) => {
-    setRemoveId(id);
-    setShowForm(false);
-    setShowUpdate(false);
-    setShowRemove(true);
-  };
-  const updateReq = (id) => {
-    setUpdateId(id);
-    setShowModal(true);
-    setShowUpdate(true);
-    setShowForm(false);
-    setShowRemove(false);
-  };
   const remove = async (id) => {
+    setShowRemove(false);
     await fetch(`${process.env.REACT_APP_API}/applications/${id}`, {
       method: 'DELETE'
     })
@@ -76,8 +59,8 @@ function Applications() {
           })
           .then((response) => {
             setApplications(response.data);
-            setShowModal(false);
-          });
+          })
+          .catch((error) => setError({ show: true, message: error.message, title: error.status }));
       })
       .catch((error) => setError({ show: true, message: error.message, title: error.status }));
   };
@@ -86,38 +69,22 @@ function Applications() {
     <section className={styles.container}>
       <div className={styles.header}>
         <h2 className={styles.title}>Applications</h2>
-        <ButtonCreate
-          onClick={() => {
-            setShowModal(true);
-            setShowForm(true);
-            setShowUpdate(false);
-            setShowRemove(false);
-          }}
-        />
+        <Link to="/applications/form">
+          <ButtonCreate />
+        </Link>
       </div>
-      <Table applications={applications} updateReq={updateReq} removeReq={removeReq} />
+      <Table applications={applications} removeReq={setShowRemove} />
       <Modal
-        show={showRemove}
+        show={!!showRemove}
         title="Delete Application"
         message="Are you sure you want to delete this application?"
         onCancel={() => {
           setShowRemove(false);
         }}
         onConfirm={() => {
-          remove(removeId);
+          remove(showRemove);
           setShowRemove(false);
         }}
-      />
-      <ModalForm
-        onClose={() => {
-          setShowModal(false);
-          setShowForm(false);
-          setShowUpdate(false);
-        }}
-        show={showModal}
-        showForm={showForm}
-        showUpdate={showUpdate}
-        updateId={updateId}
       />
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
     </section>
