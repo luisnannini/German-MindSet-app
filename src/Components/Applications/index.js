@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import styles from './applications.module.css';
-import Table from './Table';
 import ModalError from '../Shared/ModalError';
 import Modal from '../Shared/Modal';
 import { Link } from 'react-router-dom';
 import ButtonCreate from '../Shared/ButtonCreate';
+import ButtonDelete from '../Shared/ButtonDelete';
+import tableStyles from './table.module.css';
 
 function Applications() {
   const [applications, setApplications] = useState([]);
@@ -73,7 +74,34 @@ function Applications() {
           <ButtonCreate />
         </Link>
       </div>
-      <Table applications={applications} removeReq={setShowRemove} />
+      <table className={tableStyles.table}>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Position</th>
+            <th>Postulant</th>
+            <th>ID Interview</th>
+            <th>Result</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {applications.map((app) => (
+            <tr key={app._id}>
+              <td>{app._id}</td>
+              <td>{app.positions.jobDescription}</td>
+              <td>
+                {app.postulants.firstName} {app.postulants.lastName}
+              </td>
+              <td>{app.interview._id}</td>
+              <td>{app.result}</td>
+              <td>
+                <ButtonDelete onClick={() => setShowRemove(app._id)} />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       <Modal
         show={!!showRemove}
         title="Delete Application"
