@@ -85,6 +85,7 @@ function Admins() {
         onCancel={() => setShowModal(false)}
         onConfirm={deleteAdmin}
       />
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Administrators</h2>
@@ -92,29 +93,31 @@ function Admins() {
             <ButtonCreate />
           </Link>
         </div>
-        <ul className={styles.listHeader}>
-          <li>Name</li>
-          <li>Username</li>
-          <li>Actions</li>
-          <li></li>
-        </ul>
-        {admins.map((admin) => (
-          <ul key={admin._id} className={styles.list}>
-            <li>{admin.name}</li>
-            <li>{admin.username}</li>
-            <li>
-              <Link to={`admins/form?id=${admin._id}`}>
-                <ButtonUpdate />
-              </Link>
-            </li>
-            <li>
-              <ButtonDelete onClick={(event) => handleDelete(event, admin)} />
-            </li>
-          </ul>
-        ))}
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Username</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {admins.map((admin) => (
+              <tr key={admin._id}>
+                <td>{admin.name}</td>
+                <td>{admin.username}</td>
+                <td>
+                  <Link to={`admins/form?id=${admin._id}`}>
+                    <ButtonUpdate />
+                  </Link>
+                  <ButtonDelete onClick={(event) => handleDelete(event, admin)} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
       {isLoading && <div className={styles.loader}></div>}
-      <ModalError error={error} onConfirm={() => setError({ show: false })} />
     </section>
   );
 }

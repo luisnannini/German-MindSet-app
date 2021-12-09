@@ -27,13 +27,14 @@
   padding: 2em 1em;
   background-color: #232F3E;
   color: #FFFFFF;
+  font-size: 20px;
 }
 
 .message {
   display: flex;
   justify-content: center;
   align-self: center;
-  font-size: 18px;
+  font-size: 30px;
 }
 
 .btnContainer {

@@ -36,6 +36,7 @@
 .table th, .table td {
   border-bottom: 1px solid #c5c5c5;
   padding: 13px;
+  text-align: center;
 }
 
 .table th {

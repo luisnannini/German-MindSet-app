@@ -96,29 +96,32 @@ function Profiles() {
             <ButtonCreate d />
           </Link>
         </div>
-        <ul className={styles.listHeader}>
-          <li>Profiles</li>
-          <li>Actions</li>
-          <li></li>
-        </ul>
-        {profiles.map((profile) => {
-          return (
-            <ul key={profile._id} className={styles.list}>
-              <li>{profile.name}</li>
-              <li>
-                <Link to={`profiles/form?id=${profile._id}`}>
-                  <ButtonUpdate disabled={isLoading} />
-                </Link>
-              </li>
-              <li>
-                <ButtonDelete
-                  disabled={isLoading}
-                  onClick={(event) => handleDelete(event, profile)}
-                />
-              </li>
-            </ul>
-          );
-        })}
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>Profiles</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {profiles.map((profile) => {
+              return (
+                <tr key={profile._id}>
+                  <td>{profile.name}</td>
+                  <td>
+                    <Link to={`profiles/form?id=${profile._id}`}>
+                      <ButtonUpdate disabled={isLoading} />
+                    </Link>
+                    <ButtonDelete
+                      disabled={isLoading}
+                      onClick={(event) => handleDelete(event, profile)}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
       {isLoading && <div className={styles.loader}></div>}
     </section>
