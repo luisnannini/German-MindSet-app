@@ -5,8 +5,12 @@ import ModalError from '../../Shared/ModalError';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
 import ButtonCancel from '../../Shared/ButtonCancel';
 import Input from '../../Shared/Input';
+import { useLocation } from 'react-router';
 
 const Form = () => {
+  const {
+    state: { profile }
+  } = useLocation();
   const [profileValue, setProfileValue] = useState('');
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState({
@@ -19,34 +23,9 @@ const Form = () => {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const profileId = params.get('id');
-    setProfileId(profileId);
     if (profileId) {
-      setLoading(true);
-      fetch(`${process.env.REACT_APP_API}/profiles?_id=${profileId}`)
-        .then((response) => {
-          if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-            const status = `${response.status} ${response.statusText}`;
-            return response.json().then(({ message }) => {
-              if (message.message) throw { message: message.message, status };
-              throw { message, status };
-            });
-          }
-          return response.json();
-        })
-        .then((response) => {
-          if (!response.data[0]) {
-            return setError({
-              show: true,
-              message: 'Profile not found',
-              title: '404: Not Found'
-            });
-          }
-          setProfileValue(response.data[0].name);
-        })
-        .catch((error) => {
-          setError({ show: true, message: error.message, title: error.status });
-        })
-        .finally(() => setLoading(false));
+      setProfileId(profileId);
+      setProfileValue(profile.name);
     }
   }, []);
 

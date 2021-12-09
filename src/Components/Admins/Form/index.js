@@ -5,8 +5,12 @@ import ModalError from '../../Shared/ModalError';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
 import ButtonCancel from '../../Shared/ButtonCancel';
 import Input from '../../Shared/Input';
+import { useLocation } from 'react-router';
 
 const Form = () => {
+  const {
+    state: { admin }
+  } = useLocation();
   const [fullNameValue, setFullNameValue] = useState('');
   const [usernameValue, setUsernameValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
@@ -23,34 +27,9 @@ const Form = () => {
     const adminId = params.get('id');
     setAdminId(adminId);
     if (adminId) {
-      setLoading(true);
-      fetch(`${process.env.REACT_APP_API}/admins?_id=${adminId}`)
-        .then((response) => {
-          if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-            const status = `${response.status} ${response.statusText}`;
-            return response.json().then(({ message }) => {
-              if (message.message) throw { message: message.message, status };
-              throw { message, status };
-            });
-          }
-          return response.json();
-        })
-        .then((response) => {
-          if (!response.data[0]) {
-            return setError({
-              show: true,
-              message: 'Admin not found',
-              title: '404: Not Found'
-            });
-          }
-          setFullNameValue(response.data[0].name);
-          setUsernameValue(response.data[0].username);
-          setPasswordValue(response.data[0].password);
-        })
-        .catch((error) => {
-          setError({ show: true, message: error.message, title: error.status });
-        })
-        .finally(() => setLoading(false));
+      setFullNameValue(admin.name);
+      setUsernameValue(admin.username);
+      setPasswordValue(admin.password);
     }
   }, []);
 

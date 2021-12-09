@@ -6,8 +6,12 @@ import ModalError from '../../Shared/ModalError';
 import Select from '../../Shared/Select';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
 import ButtonCancel from '../../Shared/ButtonCancel';
+import { useLocation } from 'react-router';
 
 const Form = () => {
+  const {
+    state: { postulant, psychologist, status, date, notes }
+  } = useLocation();
   const [dateValue, setDateValue] = useState('');
   const [postulantValue, setPostulantValue] = useState('');
   const [psychologistValue, setPsychologistValue] = useState('');
@@ -21,42 +25,19 @@ const Form = () => {
     message: ''
   });
   const [isLoading, setLoading] = useState(false);
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState('Create');
 
   useEffect(() => {
     setLoading(true);
     const params = new URLSearchParams(window.location.search);
     const sessionId = params.get('id');
-    sessionId ? setTitle('Update') : setTitle('Create');
     if (sessionId) {
-      fetch(`${process.env.REACT_APP_API}/sessions?_id=${sessionId}`)
-        .then((response) => {
-          if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-            const status = `${response.status} ${response.statusText}`;
-            return response.json().then(({ message }) => {
-              if (message.message) throw { message: message.message, status };
-              throw { message, status };
-            });
-          }
-          return response.json();
-        })
-        .then((response) => {
-          if (!response.data[0]) {
-            return setError({
-              show: true,
-              message: 'Session not found',
-              title: '404: Not Found'
-            });
-          }
-          setDateValue(response.data[0].date);
-          setPostulantValue(response.data[0].postulant?._id);
-          setPsychologistValue(response.data[0].psychologist?._id);
-          setStatusValue(response.data[0].status);
-          setNotesValue(response.data[0].notes);
-        })
-        .catch((error) => {
-          setError({ show: true, message: error.message, title: error.status });
-        });
+      setTitle('Update');
+      setDateValue(date);
+      setPostulantValue(postulant);
+      setPsychologistValue(psychologist);
+      setStatusValue(status);
+      setNotesValue(notes);
     }
 
     fetch(`${process.env.REACT_APP_API}/postulants`)

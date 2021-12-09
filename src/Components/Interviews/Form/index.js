@@ -6,8 +6,12 @@ import Input from '../../Shared/Input';
 import Select from '../../Shared/Select';
 import ButtonCancel from '../../Shared/ButtonCancel';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
+import { useLocation } from 'react-router';
 
 const Form = () => {
+  const {
+    state: { interview }
+  } = useLocation();
   const [clients, setClients] = useState([]);
   const [clientValue, setClientValue] = useState('');
   const [postulants, setPostulants] = useState([]);
@@ -90,39 +94,14 @@ const Form = () => {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const interviewId = params.get('id');
-    setInterviewId(interviewId);
     if (interviewId) {
-      setLoading(true);
-      fetch(`${process.env.REACT_APP_API}/interviews?_id=${interviewId}`)
-        .then((response) => {
-          if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-            const status = `${response.status} ${response.statusText}`;
-            return response.json().then(({ message }) => {
-              if (message.message) throw { message: message.message, status };
-              throw { message, status };
-            });
-          }
-          return response.json();
-        })
-        .then((response) => {
-          if (!response.data[0]) {
-            return setError({
-              show: true,
-              message: 'Interview not found',
-              title: '404: Not Found'
-            });
-          }
-          setPostulantValue(response.data[0].postulant?._id);
-          setClientValue(response.data[0].client?._id);
-          setApplicationValue(response.data[0].application?._id);
-          setDateValue(response.data[0].date);
-          setStatusValue(response.data[0].status);
-          setNotesValue(response.data[0].notes);
-        })
-        .catch((error) => {
-          setError({ show: true, message: error.message, title: error.status });
-        })
-        .finally(() => setLoading(false));
+      setInterviewId(interviewId);
+      setPostulantValue(interview.postulant?._id);
+      setClientValue(interview.client?._id);
+      setApplicationValue(interview.application?._id);
+      setDateValue(interview.date);
+      setStatusValue(interview.status);
+      setNotesValue(interview.notes);
     }
   }, []);
 

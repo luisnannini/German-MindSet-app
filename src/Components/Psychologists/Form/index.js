@@ -6,8 +6,12 @@ import Input from '../../Shared/Input';
 import Checkbox from '../../Shared/Checkbox';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
 import ButtonCancel from '../../Shared/ButtonCancel';
+import { useLocation } from 'react-router';
 
 const Form = () => {
+  const {
+    state: { psychologist }
+  } = useLocation();
   const [error, setError] = useState({ show: false });
   const [firstNameForm, setFirstName] = useState('');
   const [lastNameForm, setLastName] = useState('');
@@ -43,61 +47,36 @@ const Form = () => {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const psychologistId = params.get('id');
-    setPsychologistId(psychologistId);
     if (psychologistId) {
-      setLoading(true);
-      fetch(`${process.env.REACT_APP_API}/psychologists?_id=${psychologistId}`)
-        .then((response) => {
-          if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-            const status = `${response.status} ${response.statusText}`;
-            return response.json().then(({ message }) => {
-              if (message.message) throw { message: message.message, status };
-              throw { message, status };
-            });
-          }
-          return response.json();
-        })
-        .then((response) => {
-          if (!response.data[0]) {
-            return setError({
-              show: true,
-              message: 'Psychologist not found',
-              title: '404: Not Found'
-            });
-          }
-          setFirstName(response.data[0].firstName);
-          setLastName(response.data[0].lastName);
-          setUsername(response.data[0].username);
-          setEmail(response.data[0].email);
-          setPhone(response.data[0].phone);
-          setPassword(response.data[0].password);
-          setAddress(response.data[0].address);
-          setMondayBool(response.data[0].availability.monday.availability);
-          setTuesdayBool(response.data[0].availability.tuesday.availability);
-          setWednesdayBool(response.data[0].availability.wednesday.availability);
-          setThursdayBool(response.data[0].availability.thursday.availability);
-          setFridayBool(response.data[0].availability.friday.availability);
-          setSaturdayBool(response.data[0].availability.saturday.availability);
-          setSundayBool(response.data[0].availability.sunday.availability);
-          setMondayFrom(response.data[0].availability.monday.from);
-          setTuesdayFrom(response.data[0].availability.tuesday.from);
-          setWednesdayFrom(response.data[0].availability.wednesday.from);
-          setThursdayFrom(response.data[0].availability.thursday.from);
-          setFridayFrom(response.data[0].availability.friday.from);
-          setSaturdayFrom(response.data[0].availability.saturday.from);
-          setSundayFrom(response.data[0].availability.sunday.from);
-          setMondayTo(response.data[0].availability.monday.to);
-          setTuesdayTo(response.data[0].availability.tuesday.to);
-          setWednesdayTo(response.data[0].availability.wednesday.to);
-          setThursdayTo(response.data[0].availability.thursday.to);
-          setFridayTo(response.data[0].availability.friday.to);
-          setSaturdayTo(response.data[0].availability.saturday.to);
-          setSundayTo(response.data[0].availability.sunday.to);
-        })
-        .catch((error) => {
-          setError({ show: true, message: error.message, title: error.status });
-        })
-        .finally(() => setLoading(false));
+      setPsychologistId(psychologistId);
+      setFirstName(psychologist.firstName);
+      setLastName(psychologist.lastName);
+      setUsername(psychologist.username);
+      setEmail(psychologist.email);
+      setPhone(psychologist.phone);
+      setPassword(psychologist.password);
+      setAddress(psychologist.address);
+      setMondayBool(psychologist.availability.monday.availability);
+      setTuesdayBool(psychologist.availability.tuesday.availability);
+      setWednesdayBool(psychologist.availability.wednesday.availability);
+      setThursdayBool(psychologist.availability.thursday.availability);
+      setFridayBool(psychologist.availability.friday.availability);
+      setSaturdayBool(psychologist.availability.saturday.availability);
+      setSundayBool(psychologist.availability.sunday.availability);
+      setMondayFrom(psychologist.availability.monday.from);
+      setTuesdayFrom(psychologist.availability.tuesday.from);
+      setWednesdayFrom(psychologist.availability.wednesday.from);
+      setThursdayFrom(psychologist.availability.thursday.from);
+      setFridayFrom(psychologist.availability.friday.from);
+      setSaturdayFrom(psychologist.availability.saturday.from);
+      setSundayFrom(psychologist.availability.sunday.from);
+      setMondayTo(psychologist.availability.monday.to);
+      setTuesdayTo(psychologist.availability.tuesday.to);
+      setWednesdayTo(psychologist.availability.wednesday.to);
+      setThursdayTo(psychologist.availability.thursday.to);
+      setFridayTo(psychologist.availability.friday.to);
+      setSaturdayTo(psychologist.availability.saturday.to);
+      setSundayTo(psychologist.availability.sunday.to);
     }
   }, []);
 

@@ -124,7 +124,13 @@ function Clients() {
                 <td>{client.logo}</td>
                 <td>{client.description}</td>
                 <td>
-                  <Link to={`clients/form?id=${client._id}`}>
+                  <Link
+                    to={{
+                      pathname: '/clients/form',
+                      search: `id=${client._id}`,
+                      state: { client }
+                    }}
+                  >
                     <ButtonUpdate />
                   </Link>
                   <ButtonDelete

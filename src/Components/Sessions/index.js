@@ -113,16 +113,9 @@ function Sessions() {
                 <Session
                   key={session._id}
                   id={session._id}
-                  postulant={
-                    session.postulant
-                      ? `${session.postulant.firstName} ${session.postulant.lastName}`
-                      : 'Unassigned'
-                  }
-                  psychologist={
-                    session.psychologist
-                      ? `${session.psychologist.firstName} ${session.psychologist.lastName}`
-                      : 'Unassigned'
-                  }
+                  postulant={session.postulant}
+                  psychologist={session.psychologist}
+                  notes={session.notes}
                   status={session.status}
                   date={session.date}
                   onDelete={() => setShowConfirmModal({ show: true, id: session._id })}

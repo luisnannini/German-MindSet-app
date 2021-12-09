@@ -5,8 +5,12 @@ import styles from './form.module.css';
 import ModalError from '../../Shared/ModalError';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
 import ButtonCancel from '../../Shared/ButtonCancel';
+import { useLocation } from 'react-router';
 
 function Form() {
+  const {
+    state: { client }
+  } = useLocation();
   const [nameValue, setNameValue] = useState('');
   const [phoneValue, setPhoneValue] = useState('');
   const [countryValue, setCountryValue] = useState('');
@@ -24,45 +28,19 @@ function Form() {
   const [clientId, setClientId] = useState(undefined);
 
   useEffect(() => {
-    setLoading(true);
     const params = new URLSearchParams(window.location.search);
     const clientId = params.get('id');
-    setClientId(clientId);
     if (clientId) {
-      fetch(`${process.env.REACT_APP_API}/clients?_id=${clientId}`)
-        .then((response) => {
-          if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-            const status = `${response.status} ${response.statusText}`;
-            return response.json().then(({ message }) => {
-              if (message.message) throw { message: message.message, status };
-              throw { message, status };
-            });
-          }
-          return response.json();
-        })
-        .then((response) => {
-          if (!response.data[0]) {
-            return setError({
-              show: true,
-              message: 'Client not found',
-              title: '404: Not Found'
-            });
-          }
-          setNameValue(response.data[0].name);
-          setPhoneValue(response.data[0].phone);
-          setCountryValue(response.data[0].location.country);
-          setStateValue(response.data[0].location.state);
-          setCityValue(response.data[0].location.city);
-          setAddressValue(response.data[0].location.address);
-          setLogoValue(response.data[0].logo);
-          setDescriptionValue(response.data[0].description);
-        })
-        .catch((error) => {
-          setError({ show: true, message: error.message, title: error.status });
-        })
-        .finally(() => setLoading(false));
+      setClientId(clientId);
+      setNameValue(client.name);
+      setPhoneValue(client.phone);
+      setCountryValue(client.location.country);
+      setStateValue(client.location.state);
+      setCityValue(client.location.city);
+      setAddressValue(client.location.address);
+      setLogoValue(client.logo);
+      setDescriptionValue(client.description);
     }
-    setLoading(false);
   }, []);
 
   const onChangeNameInput = (event) => {

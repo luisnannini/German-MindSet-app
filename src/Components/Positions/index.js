@@ -114,7 +114,13 @@ function Positions() {
               <li>{position.vacancy}</li>
               <li>{position.isOpen ? 'Yes' : 'No'}</li>
               <li>
-                <Link to={`positions/form?id=${position._id}`}>
+                <Link
+                  to={{
+                    pathname: '/positions/form',
+                    search: `id=${position._id}`,
+                    state: { position }
+                  }}
+                >
                   <ButtonUpdate disabled={isLoading} />
                 </Link>
               </li>

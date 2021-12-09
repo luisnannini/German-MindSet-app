@@ -129,7 +129,13 @@ function Interviews() {
               <li>{interview.date.replace('T00:00:00.000Z', '')}</li>
               <li>{interview.notes}</li>
               <li>
-                <Link to={`interviews/form?id=${interview._id}`}>
+                <Link
+                  to={{
+                    pathname: '/interviews/form',
+                    search: `id=${interview._id}`,
+                    state: { interview }
+                  }}
+                >
                   <ButtonUpdate disabled={isLoading} />
                 </Link>
               </li>

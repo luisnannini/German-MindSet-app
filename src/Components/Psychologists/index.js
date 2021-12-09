@@ -116,7 +116,13 @@ function Psychologists() {
                 <li>{psychologist.phone}</li>
                 <li>{psychologist.address}</li>
                 <li>
-                  <Link to={`psychologists/form?id=${psychologist._id}`}>
+                  <Link
+                    to={{
+                      pathname: '/psychologists/form',
+                      search: `id=${psychologist._id}`,
+                      state: { psychologist }
+                    }}
+                  >
                     <ButtonUpdate disabled={isLoading} />
                   </Link>
                 </li>

@@ -103,7 +103,13 @@ function Admins() {
             <li>{admin.name}</li>
             <li>{admin.username}</li>
             <li>
-              <Link to={`admins/form?id=${admin._id}`}>
+              <Link
+                to={{
+                  pathname: '/admins/form',
+                  search: `id=${admin._id}`,
+                  state: { admin }
+                }}
+              >
                 <ButtonUpdate />
               </Link>
             </li>

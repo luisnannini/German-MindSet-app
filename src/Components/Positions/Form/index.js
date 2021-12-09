@@ -7,8 +7,13 @@ import Checkbox from '../../Shared/Checkbox';
 import Select from '../../Shared/Select';
 import ButtonConfirm from '../../Shared/ButtonConfirm';
 import ButtonCancel from '../../Shared/ButtonCancel';
+import { useLocation } from 'react-router';
 
 const Form = () => {
+  const {
+    state: { position }
+  } = useLocation();
+  console.log(position);
   const [clients, setClients] = useState([]);
   const [profiles, setProfiles] = useState([]);
   const [clientValue, setClientValue] = useState('');
@@ -28,36 +33,13 @@ const Form = () => {
     setLoading(true);
     const params = new URLSearchParams(window.location.search);
     const positionId = params.get('id');
-    setPositionId(positionId);
     if (positionId) {
-      fetch(`${process.env.REACT_APP_API}/positions?_id=${positionId}`)
-        .then((response) => {
-          if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-            const status = `${response.status} ${response.statusText}`;
-            return response.json().then(({ message }) => {
-              if (message.message) throw { message: message.message, status };
-              throw { message, status };
-            });
-          }
-          return response.json();
-        })
-        .then((response) => {
-          if (!response.data[0]) {
-            return setError({
-              show: true,
-              message: 'Position not found',
-              title: '404: Not Found'
-            });
-          }
-          setClientValue(response.data[0].client._id);
-          setProfilesValue(response.data[0].professionalProfiles._id);
-          setJobDescriptionValue(response.data[0].jobDescription);
-          setVacancyValue(response.data[0].vacancy);
-          setIsOpenValue(response.data[0].isOpen);
-        })
-        .catch((error) => {
-          setError({ show: true, message: error.message, title: error.status });
-        });
+      setPositionId(positionId);
+      setClientValue(position.client._id);
+      setProfilesValue(position.professionalProfiles._id);
+      setJobDescriptionValue(position.jobDescription);
+      setVacancyValue(position.vacancy);
+      setIsOpenValue(position.isOpen);
     }
 
     fetch(`${process.env.REACT_APP_API}/clients`)

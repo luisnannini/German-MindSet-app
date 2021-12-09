@@ -106,7 +106,13 @@ function Profiles() {
             <ul key={profile._id} className={styles.list}>
               <li>{profile.name}</li>
               <li>
-                <Link to={`profiles/form?id=${profile._id}`}>
+                <Link
+                  to={{
+                    pathname: '/profiles/form',
+                    search: `id=${profile._id}`,
+                    state: { profile }
+                  }}
+                >
                   <ButtonUpdate disabled={isLoading} />
                 </Link>
               </li>
