@@ -90,8 +90,8 @@ const Form = () => {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const interviewId = params.get('id');
-    setInterviewId(interviewId);
     if (interviewId) {
+      setInterviewId(interviewId);
       setLoading(true);
       fetch(`${process.env.REACT_APP_API}/interviews?_id=${interviewId}`)
         .then((response) => {
@@ -280,9 +280,9 @@ const Form = () => {
         </div>
         <div className={styles.button}>
           <Link to="/interviews">
-            <ButtonCancel />
+            <ButtonCancel disabled={isLoading} />
           </Link>
-          <ButtonConfirm type="submit" />
+          <ButtonConfirm type="submit" disabled={isLoading} />
         </div>
         <ModalError error={error} onConfirm={() => setError({ show: false })} />
       </form>

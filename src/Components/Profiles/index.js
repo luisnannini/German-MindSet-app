@@ -93,7 +93,7 @@ function Profiles() {
         <div className={styles.header}>
           <h2 className={styles.title}>Profiles</h2>
           <Link to="./profiles/form">
-            <ButtonCreate d />
+            <ButtonCreate disabled={isLoading} />
           </Link>
         </div>
         <ul className={styles.listHeader}>
