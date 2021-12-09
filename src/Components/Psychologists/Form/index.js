@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import ModalError from '../../Shared/ModalError';
 import { Link } from 'react-router-dom';
 import styles from './form.module.css';
 import Input from '../../Shared/Input';
 import Checkbox from '../../Shared/Checkbox';
-import ButtonConfirm from '../../Shared/ButtonConfirm';
-import ButtonCancel from '../../Shared/ButtonCancel';
+import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
+import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
+import ModalError from '../../Shared/ModalError';
 
 const Form = () => {
-  const [error, setError] = useState({ show: false });
+  const [psychologistId, setPsychologistId] = useState(0);
   const [firstNameForm, setFirstName] = useState('');
   const [lastNameForm, setLastName] = useState('');
   const [usernameForm, setUsername] = useState('');
@@ -17,28 +17,28 @@ const Form = () => {
   const [phoneForm, setPhone] = useState('');
   const [addressForm, setAddress] = useState('');
   const [mondayBool, setMondayBool] = useState(false);
-  const [mondayFrom, setMondayFrom] = useState(0);
-  const [mondayTo, setMondayTo] = useState(0);
   const [tuesdayBool, setTuesdayBool] = useState(false);
-  const [tuesdayFrom, setTuesdayFrom] = useState(0);
-  const [tuesdayTo, setTuesdayTo] = useState(0);
   const [wednesdayBool, setWednesdayBool] = useState(false);
-  const [wednesdayFrom, setWednesdayFrom] = useState(0);
-  const [wednesdayTo, setWednesdayTo] = useState(0);
   const [thursdayBool, setThursdayBool] = useState(false);
-  const [thursdayFrom, setThursdayFrom] = useState(0);
-  const [thursdayTo, setThursdayTo] = useState(0);
   const [fridayBool, setFridayBool] = useState(false);
-  const [fridayFrom, setFridayFrom] = useState(0);
-  const [fridayTo, setFridayTo] = useState(0);
   const [saturdayBool, setSaturdayBool] = useState(false);
-  const [saturdayFrom, setSaturdayFrom] = useState(0);
-  const [saturdayTo, setSaturdayTo] = useState(0);
   const [sundayBool, setSundayBool] = useState(false);
+  const [mondayFrom, setMondayFrom] = useState(0);
+  const [tuesdayFrom, setTuesdayFrom] = useState(0);
+  const [wednesdayFrom, setWednesdayFrom] = useState(0);
+  const [thursdayFrom, setThursdayFrom] = useState(0);
+  const [fridayFrom, setFridayFrom] = useState(0);
+  const [saturdayFrom, setSaturdayFrom] = useState(0);
   const [sundayFrom, setSundayFrom] = useState(0);
+  const [mondayTo, setMondayTo] = useState(0);
+  const [tuesdayTo, setTuesdayTo] = useState(0);
+  const [wednesdayTo, setWednesdayTo] = useState(0);
+  const [thursdayTo, setThursdayTo] = useState(0);
+  const [fridayTo, setFridayTo] = useState(0);
+  const [saturdayTo, setSaturdayTo] = useState(0);
   const [sundayTo, setSundayTo] = useState(0);
-  const [psychologistId, setPsychologistId] = useState(0);
   const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState({ show: false });
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -100,6 +100,28 @@ const Form = () => {
         .finally(() => setLoading(false));
     }
   }, []);
+
+  const onChangeFirstNameValue = (event) => {
+    setFirstName(event.target.value);
+  };
+  const onChangeLastNameValue = (event) => {
+    setLastName(event.target.value);
+  };
+  const onChangeUsernameValue = (event) => {
+    setUsername(event.target.value);
+  };
+  const onChangePasswordValue = (event) => {
+    setPassword(event.target.value);
+  };
+  const onChangeEmailValue = (event) => {
+    setEmail(event.target.value);
+  };
+  const onChangePhoneValue = (event) => {
+    setPhone(event.target.value);
+  };
+  const onChangeAddressValue = (event) => {
+    setAddress(event.target.value);
+  };
 
   // Availability
 
@@ -173,29 +195,7 @@ const Form = () => {
     setSundayTo(event.target.value);
   };
 
-  const onChangeFirstNameValue = (event) => {
-    setFirstName(event.target.value);
-  };
-  const onChangeLastNameValue = (event) => {
-    setLastName(event.target.value);
-  };
-  const onChangeUsernameValue = (event) => {
-    setUsername(event.target.value);
-  };
-  const onChangePasswordValue = (event) => {
-    setPassword(event.target.value);
-  };
-  const onChangeEmailValue = (event) => {
-    setEmail(event.target.value);
-  };
-  const onChangePhoneValue = (event) => {
-    setPhone(event.target.value);
-  };
-  const onChangeAddressValue = (event) => {
-    setAddress(event.target.value);
-  };
-
-  const onSubmit = (event) => {
+  const submitPsychologist = (event) => {
     event.preventDefault();
     setLoading(true);
     const params = new URLSearchParams(window.location.search);
@@ -284,7 +284,7 @@ const Form = () => {
 
   return (
     <div className={styles.container}>
-      <form className={styles.form} onSubmit={onSubmit}>
+      <form className={styles.form} onSubmit={submitPsychologist}>
         <div className={styles.header}>
           <h2 className={styles.title}>
             {psychologistId ? 'Update Psychologist' : 'Create a Psychologist'}
@@ -295,270 +295,263 @@ const Form = () => {
             <Input
               label={'First Name'}
               name={'firstName'}
-              placeholder={'First Name'}
-              onChange={onChangeFirstNameValue}
               type={'text'}
-              required={true}
-              pattern={'[A-Za-z ]*'}
               value={firstNameForm}
+              placeholder={'First Name'}
+              pattern={'[A-Za-z ]*'}
+              onChange={onChangeFirstNameValue}
+              required={true}
               disabled={isLoading}
             />
-            {/* <span className={styles.hiddenError}>Invalid First Name</span> */}
             <Input
               label={'Last Name'}
               name={'lastName'}
-              placeholder={'Last Name'}
-              onChange={onChangeLastNameValue}
               type={'text'}
-              required={true}
-              pattern={'[A-Za-z ]*'}
               value={lastNameForm}
+              placeholder={'Last Name'}
+              pattern={'[A-Za-z ]*'}
+              onChange={onChangeLastNameValue}
+              required={true}
               disabled={isLoading}
             />
-            {/* <span className={styles.hiddenError}>Invalid Last Name</span> */}
             <Input
               label={'Username'}
               name={'username'}
-              placeholder={'Username'}
-              onChange={onChangeUsernameValue}
               type={'text'}
-              required={true}
-              pattern={'[A-Za-z ]*'}
               value={usernameForm}
+              placeholder={'Username'}
+              pattern={'[A-Za-z ]*'}
+              onChange={onChangeUsernameValue}
+              required={true}
               disabled={isLoading}
             />
-            {/* <span className={styles.hiddenError}>Invalid Username</span> */}
             <Input
               label={'Password'}
               name={'password'}
-              onChange={onChangePasswordValue}
               type="password"
-              required={true}
               value={passwordForm}
+              onChange={onChangePasswordValue}
+              required={true}
               disabled={isLoading}
             />
-            {/* <span className={styles.hiddenError}>Invalid Password</span> */}
             <Input
               label={'Email'}
-              placeholder={'Email'}
-              onChange={onChangeEmailValue}
               type={'email'}
-              required={true}
-              pattern={'^[^@]+@[^@]+.[a-zA-Z]{2,}$'}
               value={emailForm}
+              placeholder={'Email'}
+              pattern={'^[^@]+@[^@]+.[a-zA-Z]{2,}$'}
+              onChange={onChangeEmailValue}
+              required={true}
               disabled={isLoading}
             />
-            {/* <span className={styles.hiddenError}>Invalid E-Mail</span> */}
             <Input
               label={'Phone'}
               name={'phone'}
+              type={'number'}
+              value={phoneForm}
               placeholder={'Phone'}
               onChange={onChangePhoneValue}
-              type={'number'}
               required={true}
-              value={phoneForm}
               disabled={isLoading}
             />
-            {/* <span className={styles.hiddenError}>Invalid Phone Number</span> */}
             <Input
               label={'Address'}
               name={'address'}
-              onChange={onChangeAddressValue}
-              placeholder={'Address'}
               type={'text'}
-              required={true}
               value={addressForm}
+              placeholder={'Address'}
+              onChange={onChangeAddressValue}
+              required={true}
               disabled={isLoading}
             />
-            {/* <span className={styles.hiddenError}>Invalid Address</span> */}
           </div>
           <div className={styles.columns}>
             <Checkbox
               label="Monday Availability"
               value={mondayBool}
-              onChange={onChangeMondayBool}
               day="monday"
+              onChange={onChangeMondayBool}
               disabled={isLoading}
             />
             <div className={styles.dayColumns}>
               <Input
                 label={'From'}
                 name={'monday-from'}
-                placeholder={'From'}
                 type={'text'}
-                onChange={onChangeMondayFrom}
                 value={mondayFrom}
+                placeholder={'From'}
+                onChange={onChangeMondayFrom}
                 disabled={isLoading}
               />
               <Input
                 label={'To'}
                 name={'monday-to'}
-                placeholder={'To'}
                 type={'text'}
-                onChange={onChangeMondayTo}
                 value={mondayTo}
+                placeholder={'To'}
+                onChange={onChangeMondayTo}
                 disabled={isLoading}
               />
             </div>
             <Checkbox
               label="Tuesday availability"
               value={tuesdayBool}
-              onChange={onChangeTuesdayBool}
               day="tuesday"
+              onChange={onChangeTuesdayBool}
               disabled={isLoading}
             />
             <div className={styles.dayColumns}>
               <Input
                 label={'From'}
                 name={'tuesday-to'}
-                placeholder={'To'}
                 type={'string'}
-                onChange={onChangeTuesdayFrom}
+                placeholder={'To'}
                 value={tuesdayFrom}
+                onChange={onChangeTuesdayFrom}
                 disabled={isLoading}
               />
               <Input
                 label={'To'}
                 name={'tuesday-to'}
-                placeholder={'To'}
                 type={'text'}
-                onChange={onChangeTuesdayTo}
+                placeholder={'To'}
                 value={tuesdayTo}
+                onChange={onChangeTuesdayTo}
                 disabled={isLoading}
               />
             </div>
             <Checkbox
               label="Wednesday Availability"
               value={wednesdayBool}
-              onChange={onChangeWednesdayBool}
               day="wednesday"
+              onChange={onChangeWednesdayBool}
               disabled={isLoading}
             />
             <div className={styles.dayColumns}>
               <Input
                 label={'From'}
                 name={'wednesday-from'}
-                placeholder={'From'}
                 type={'text'}
-                onChange={onChangeWednesdayFrom}
                 value={wednesdayFrom}
+                placeholder={'From'}
+                onChange={onChangeWednesdayFrom}
                 disabled={isLoading}
               />
               <Input
                 label={'to'}
                 name={'wednesday-to'}
-                placeholder={'To'}
                 type={'text'}
-                onChange={onChangeWednesdayTo}
                 value={wednesdayTo}
+                placeholder={'To'}
+                onChange={onChangeWednesdayTo}
                 disabled={isLoading}
               />
             </div>
             <Checkbox
               label="Thursday Availability"
               value={thursdayBool}
-              onChange={onChangeThursdayBool}
               day="thursday"
+              onChange={onChangeThursdayBool}
               disabled={isLoading}
             />
             <div className={styles.dayColumns}>
               <Input
                 label={'From'}
                 name={'thursday-from'}
-                placeholder={'From'}
                 type={'text'}
-                onChange={onChangeThursdayFrom}
                 value={thursdayFrom}
+                placeholder={'From'}
+                onChange={onChangeThursdayFrom}
                 disabled={isLoading}
               />
               <Input
                 label={'To'}
                 name={'thursday-to'}
-                placeholder={'To'}
                 type={'text'}
-                onChange={onChangeThursdayTo}
                 value={thursdayTo}
+                placeholder={'To'}
+                onChange={onChangeThursdayTo}
                 disabled={isLoading}
               />
             </div>
             <Checkbox
               label="Friday Availability"
               value={fridayBool}
-              onChange={onChangeFridayBool}
               day="friday"
+              onChange={onChangeFridayBool}
               disabled={isLoading}
             />
             <div className={styles.dayColumns}>
               <Input
                 label={'From'}
                 name={'friday-from'}
-                placeholder={'From'}
                 type={'text'}
-                onChange={onChangeFridayFrom}
                 value={fridayFrom}
+                placeholder={'From'}
+                onChange={onChangeFridayFrom}
                 disabled={isLoading}
               />
               <Input
                 label={'To'}
                 name={'friday-to'}
-                placeholder={'To'}
                 type={'text'}
-                onChange={onChangeFridayTo}
                 value={fridayTo}
+                placeholder={'To'}
+                onChange={onChangeFridayTo}
                 disabled={isLoading}
               />
             </div>
             <Checkbox
               label="Saturday Availability"
               value={saturdayBool}
-              onChange={onChangeSaturdayBool}
               day="saturday"
+              onChange={onChangeSaturdayBool}
               disabled={isLoading}
             />
             <div className={styles.dayColumns}>
               <Input
                 label={'From'}
                 name={'saturday-from'}
-                placeholder={'From'}
                 type={'text'}
-                onChange={onChangeSaturdayFrom}
                 value={saturdayFrom}
+                placeholder={'From'}
+                onChange={onChangeSaturdayFrom}
                 disabled={isLoading}
               />
               <Input
                 label={'To'}
                 name={'saturday-to'}
-                placeholder={'To'}
                 type={'text'}
-                onChange={onChangeSaturdayTo}
                 value={saturdayTo}
+                placeholder={'To'}
+                onChange={onChangeSaturdayTo}
                 disabled={isLoading}
               />
             </div>
             <Checkbox
               label="Sunday Availability"
               value={sundayBool}
-              onChange={onChangeSundayBool}
               day="sunday"
+              onChange={onChangeSundayBool}
               disabled={isLoading}
             />
             <div className={styles.dayColumns}>
               <Input
                 label={'From'}
                 name={'sunday-from'}
-                placeholder={'From'}
                 type={'text'}
-                onChange={onChangeSundayFrom}
                 value={sundayFrom}
+                placeholder={'From'}
+                onChange={onChangeSundayFrom}
                 disabled={isLoading}
               />
               <Input
                 label={'To'}
                 name={'sunday-to'}
-                placeholder={'To'}
                 type={'text'}
-                onChange={onChangeSundayTo}
                 value={sundayTo}
+                placeholder={'To'}
+                onChange={onChangeSundayTo}
                 disabled={isLoading}
               />
             </div>

@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom';
-import styles from './session.module.css';
-import ButtonUpdate from '../../Shared/ButtonUpdate';
-import ButtonDelete from '../../Shared/ButtonDelete';
+import ButtonDelete from '../../Shared/Buttons/ButtonDelete';
+import ButtonUpdate from '../../Shared/Buttons/ButtonUpdate';
 
-const Session = ({ postulant, psychologist, status, date, onDelete, id, disabled }) => {
+const Session = ({ postulant, psychologist, status, date, notes, id, disabled, onDelete }) => {
   return (
-    <tr className={styles.tr}>
+    <tr>
       <td>{postulant}</td>
       <td>{psychologist}</td>
       <td>{status}</td>
       <td>{date}</td>
+      <td>{notes}</td>
       <td>
         <Link to={`sessions/form?id=${id}`}>
           <ButtonUpdate disabled={disabled} />

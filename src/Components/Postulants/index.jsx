@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './postulants.module.css';
 import Items from './Items.jsx';
 import ModalError from '../Shared/ModalError';
-import ButtonCreate from '../Shared/ButtonCreate';
+import ButtonCreate from '../Shared/Buttons/ButtonCreate';
 
 function Postulants() {
   const [postulants, setPostulants] = useState([]);
@@ -37,7 +36,7 @@ function Postulants() {
   }, []);
 
   return (
-    <section className={styles.container}>
+    <section>
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
       <h2>Postulants</h2>
       <Items

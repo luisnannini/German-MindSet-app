@@ -6,10 +6,10 @@ const Checkbox = (props) => {
     <div className={styles.container}>
       <label className={styles.label}>{props.label}</label>
       <input
-        type={'checkbox'}
         className={styles.checkbox}
-        onChange={props.onChange}
+        type={'checkbox'}
         checked={props.value}
+        onChange={props.onChange}
         disabled={props.disabled}
       ></input>
     </div>

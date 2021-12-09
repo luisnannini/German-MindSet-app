@@ -1,12 +1,13 @@
 import { React, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './form.module.css';
-import ModalError from '../../Shared/ModalError';
-import ButtonConfirm from '../../Shared/ButtonConfirm';
-import ButtonCancel from '../../Shared/ButtonCancel';
 import Input from '../../Shared/Input';
+import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
+import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
+import ModalError from '../../Shared/ModalError';
 
 const Form = () => {
+  const [profileId, setProfileId] = useState(undefined);
   const [profileValue, setProfileValue] = useState('');
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState({
@@ -14,7 +15,6 @@ const Form = () => {
     message: '',
     title: ''
   });
-  const [profileId, setProfileId] = useState(undefined);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -54,7 +54,7 @@ const Form = () => {
     setProfileValue(event.target.value);
   };
 
-  const onSubmit = (event) => {
+  const submitProfile = (event) => {
     event.preventDefault();
     setLoading(true);
     const params = new URLSearchParams(window.location.search);
@@ -101,8 +101,7 @@ const Form = () => {
 
   return (
     <div className={styles.container}>
-      <ModalError error={error} onConfirm={() => setError({ show: false })} />
-      <form className={styles.form} onSubmit={onSubmit}>
+      <form className={styles.form} onSubmit={submitProfile}>
         <div className={styles.header}>
           <h2 className={styles.title}>{profileId ? 'Update a Profile' : 'Create a Profile'}</h2>
         </div>
@@ -112,10 +111,10 @@ const Form = () => {
               label={'Profile'}
               name={'profile'}
               value={profileValue}
-              onChange={onChangeProfileValue}
               placeholder={'Write a new profile'}
-              required={true}
               pattern="[A-Za-z ]*"
+              onChange={onChangeProfileValue}
+              required={true}
               disabled={isLoading}
             />
           </div>
@@ -126,6 +125,7 @@ const Form = () => {
           </Link>
           <ButtonConfirm disabled={isLoading} type={'submit'} />
         </div>
+        <ModalError error={error} onConfirm={() => setError({ show: false })} />
       </form>
     </div>
   );

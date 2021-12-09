@@ -6,8 +6,8 @@ const Select = (props) => {
     <div className={styles.container}>
       <label className={styles.label}>{props.label}</label>
       <select
-        value={props.value}
         className={styles.select}
+        value={props.value}
         onChange={props.onChange}
         required={props.required}
         disabled={props.disabled}

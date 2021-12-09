@@ -5,19 +5,19 @@ const Input = (props) => {
     <div className={styles.inputContainer}>
       <label htmlFor={props.name}>{props.label}</label>
       <input
+        className={styles.input}
+        id={props.name}
+        name={props.name}
         type={props.type}
         value={props.value}
-        name={props.name}
-        id={props.name}
-        onChange={props.onChange}
-        required={props.required}
-        disabled={props.disabled}
         placeholder={props.placeholder}
+        pattern={props.pattern}
         min={props.min}
         max={props.max}
         step={props.step}
-        pattern={props.pattern}
-        className={styles.input}
+        onChange={props.onChange}
+        required={props.required}
+        disabled={props.disabled}
       ></input>
     </div>
   );

@@ -6,15 +6,15 @@ const TextArea = (props) => {
       <label htmlFor={props.name}>{props.label}</label>
       <textarea
         className={styles.textArea}
+        id={props.name}
+        name={props.name}
         type={props.type}
         value={props.value}
-        name={props.name}
-        id={props.name}
+        placeholder={props.placeholder}
+        maxLength={250}
         onChange={props.onChange}
         required={props.required}
         disabled={props.disabled}
-        placeholder={props.placeholder}
-        maxLength={250}
       ></textarea>
     </div>
   );

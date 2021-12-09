@@ -8,8 +8,8 @@ import InitialStudies from './InitialStudies';
 import PrimitiveFormInput from './PrimitiveFormInput';
 import ContactRange from './ContactRange';
 import Profiles from './Profiles';
-import ButtonConfirm from '../../Shared/ButtonConfirm';
-import ButtonCancel from '../../Shared/ButtonCancel';
+import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
+import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 
 function Form() {
   const params = new URLSearchParams(window.location.search);

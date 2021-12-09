@@ -3,11 +3,12 @@
   flex-direction: column;
   width: 300px;
 }
+
 .input {
-  background: white;
+  margin-bottom: 20px;
   height: 40px;
   border: 1px solid gray;
   border-radius: 3px;
-  margin-bottom: 20px;
+  background: white;
   cursor: pointer;
 }

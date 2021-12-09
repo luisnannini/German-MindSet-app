@@ -12,10 +12,20 @@
   background-color: #FFFFFF;
 }
 
+.form select, .form input {
+  margin: 0.8em 0;
+}
+
 .header {
   display: flex;
   height: 5em;
   background-color: #232F3E;
+  font-size: 20px;
+}
+
+.title {
+  margin: auto;
+  color: #FFFFFF;
   font-size: 20px;
 }
 
@@ -37,16 +47,3 @@
   align-self: center;
   margin-bottom: 1em;
 }
-
-.title {
-  margin: auto;
-  font-size: 20px;
-  color: #FFFFFF;
-}
-
-.form select, .form input {
-  margin: 0.8em 0;
-}
-
-
-

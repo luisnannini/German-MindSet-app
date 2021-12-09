@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './form.module.css';
-import ModalError from '../../Shared/ModalError';
-import ButtonConfirm from '../../Shared/ButtonConfirm';
-import ButtonCancel from '../../Shared/ButtonCancel';
 import Input from '../../Shared/Input';
+import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
+import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
+import ModalError from '../../Shared/ModalError';
 
 const Form = () => {
+  const [adminId, setAdminId] = useState(undefined);
   const [fullNameValue, setFullNameValue] = useState('');
   const [usernameValue, setUsernameValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
   const [isLoading, setLoading] = useState(false);
-  const [adminId, setAdminId] = useState(undefined);
   const [error, setError] = useState({
     show: false,
     message: '',

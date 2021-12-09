@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ModalError from '../Shared/ModalError';
 import Modal from '../Shared/Modal/';
-import ButtonUpdate from '../Shared/ButtonUpdate';
-import ButtonDelete from '../Shared/ButtonDelete';
+import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
+import ButtonDelete from '../Shared/Buttons/ButtonDelete';
 
 function Item({ postulant, fetchData, url }) {
   const [showModal, setShowModal] = useState(false);

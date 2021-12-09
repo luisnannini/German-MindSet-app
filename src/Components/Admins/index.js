@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './admins.module.css';
-import ModalError from '../Shared/ModalError';
+import ButtonCreate from '../Shared/Buttons/ButtonCreate';
+import ButtonDelete from '../Shared/Buttons/ButtonDelete';
+import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
 import Modal from '../Shared/Modal';
-import ButtonCreate from '../Shared/ButtonCreate';
-import ButtonUpdate from '../Shared/ButtonUpdate';
-import ButtonDelete from '../Shared/ButtonDelete';
+import ModalError from '../Shared/ModalError';
 
 function Admins() {
   const [admins, setAdmins] = useState([]);
   const [selectedAdmin, setSelectedAdmin] = useState(undefined);
-  const [showModal, setShowModal] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState({
     show: false,
@@ -41,7 +41,7 @@ function Admins() {
   const handleDelete = (event, admin) => {
     event.stopPropagation();
     setSelectedAdmin(admin._id);
-    setShowModal(true);
+    setShowDelete(true);
   };
 
   const deleteAdmin = () => {
@@ -68,7 +68,7 @@ function Admins() {
           })
           .then((response) => {
             setAdmins(response.data);
-            setShowModal(false);
+            setShowDelete(false);
           });
       })
       .catch((error) => setError({ show: true, message: error.message, title: error.status }))
@@ -78,11 +78,11 @@ function Admins() {
   return (
     <section className={styles.section}>
       <Modal
-        show={showModal}
+        show={showDelete}
         title="Delete Admin"
         message="Are you sure you want to delete this Admin?"
         isLoading={isLoading}
-        onCancel={() => setShowModal(false)}
+        onCancel={() => setShowDelete(false)}
         onConfirm={deleteAdmin}
       />
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
