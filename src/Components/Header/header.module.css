@@ -37,9 +37,10 @@
 
 .routes > li > a {
   display: block;
-  margin-top: 25px;
-  margin-left: 20px;
+  margin: 15px 0px;
+  /*margin-left: 20px; */
   font-size: 18px;
+  text-align: center;
   text-decoration: none;
   text-transform: capitalize;
   color: white;

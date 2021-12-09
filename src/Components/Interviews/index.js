@@ -85,6 +85,14 @@ function Interviews() {
 
   return (
     <section className={styles.section}>
+      <Modal
+        show={showRemoveModal}
+        title="Delete Interview"
+        message="Are you sure you want to delete this interview?"
+        onConfirm={confirmRemoveModal}
+        onCancel={() => setShowRemoveModal(false)}
+      />
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Interviews</h2>
@@ -92,65 +100,60 @@ function Interviews() {
             <ButtonCreate disabled={isLoading} />
           </Link>
         </div>
-        <ul className={styles.listHeader}>
-          <li>Postulant</li>
-          <li></li>
-          <li>Client</li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
-        <ul className={styles.listHeader}>
-          <li>First Name</li>
-          <li>Last Name</li>
-          <li>Name</li>
-          <li>ID</li>
-          <li>Status</li>
-          <li>Date</li>
-          <li>Notes</li>
-          <li>Actions</li>
-          <li></li>
-        </ul>
-        {interviews.map((interview) => {
-          return (
-            <ul className={styles.list} key={interview._id}>
-              <li>{interview.postulant.firstName}</li>
-              <li>{interview.postulant.lastName}</li>
-              <li>{interview.client.name}</li>
-              <li>{interview.application.result}</li>
-              <li>{interview.status}</li>
-              <li>{interview.date.replace('T00:00:00.000Z', '')}</li>
-              <li>{interview.notes}</li>
-              <li>
-                <Link to={`interviews/form?id=${interview._id}`}>
-                  <ButtonUpdate disabled={isLoading} />
-                </Link>
-              </li>
-              <li>
-                <ButtonDelete
-                  disabled={isLoading}
-                  onClick={(event) => {
-                    handleDelete(event, interview);
-                    setShowRemoveModal(true);
-                  }}
-                />
-              </li>
-            </ul>
-          );
-        })}
-        <Modal
-          show={showRemoveModal}
-          title="Delete Interview"
-          message="Are you sure you want to delete this interview?"
-          onConfirm={confirmRemoveModal}
-          onCancel={() => setShowRemoveModal(false)}
-        />
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>Postulant</th>
+              <th></th>
+              <th>Client</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Name</th>
+              <th>ID</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Notes</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {interviews.map((interview) => {
+              return (
+                <tr className={styles.list} key={interview._id}>
+                  <td>{interview.postulant.firstName}</td>
+                  <td>{interview.postulant.lastName}</td>
+                  <td>{interview.client.name}</td>
+                  <td>{interview.application.result}</td>
+                  <td>{interview.status}</td>
+                  <td>{interview.date.replace('T00:00:00.000Z', '')}</td>
+                  <td>{interview.notes}</td>
+                  <td>
+                    <Link to={`interviews/form?id=${interview._id}`}>
+                      <ButtonUpdate disabled={isLoading} />
+                    </Link>
+                    <ButtonDelete
+                      disabled={isLoading}
+                      onClick={(event) => {
+                        handleDelete(event, interview);
+                        setShowRemoveModal(true);
+                      }}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
       {isLoading && <div className={styles.loader}></div>}
-      <ModalError error={error} onConfirm={() => setError({ show: false })} />
     </section>
   );
 }

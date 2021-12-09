@@ -90,6 +90,7 @@ function Sessions() {
         onCancel={() => setShowConfirmModal({ show: false, id: '' })}
         onConfirm={deleteSession}
       />
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Sessions</h2>
@@ -134,7 +135,6 @@ function Sessions() {
         </table>
       </div>
       {isLoading && <div className={styles.loader}></div>}
-      <ModalError error={error} onConfirm={() => setError({ show: false })} />
     </section>
   );
 }

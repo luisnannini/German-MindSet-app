@@ -96,37 +96,40 @@ function Positions() {
             <ButtonCreate disabled={isLoading} />
           </Link>
         </div>
-        <ul className={styles.listHeader}>
-          <li>Client</li>
-          <li>Profiles</li>
-          <li>Job Description</li>
-          <li>Vacancy</li>
-          <li>Is Open</li>
-          <li>Actions</li>
-          <li></li>
-        </ul>
-        {positions.map((position) => {
-          return (
-            <ul key={position._id} className={styles.list}>
-              <li>{position.client.name}</li>
-              <li>{position.professionalProfiles.name}</li>
-              <li>{position.jobDescription}</li>
-              <li>{position.vacancy}</li>
-              <li>{position.isOpen ? 'Yes' : 'No'}</li>
-              <li>
-                <Link to={`positions/form?id=${position._id}`}>
-                  <ButtonUpdate disabled={isLoading} />
-                </Link>
-              </li>
-              <li>
-                <ButtonDelete
-                  disabled={isLoading}
-                  onClick={(event) => handleDelete(event, position)}
-                />
-              </li>
-            </ul>
-          );
-        })}
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>Client</th>
+              <th>Profiles</th>
+              <th>Job Description</th>
+              <th>Vacancy</th>
+              <th>Is Open</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {positions.map((position) => {
+              return (
+                <tr key={position._id}>
+                  <td>{position.client.name}</td>
+                  <td>{position.professionalProfiles.name}</td>
+                  <td>{position.jobDescription}</td>
+                  <td>{position.vacancy}</td>
+                  <td>{position.isOpen ? 'Yes' : 'No'}</td>
+                  <td>
+                    <Link to={`positions/form?id=${position._id}`}>
+                      <ButtonUpdate disabled={isLoading} />
+                    </Link>
+                    <ButtonDelete
+                      disabled={isLoading}
+                      onClick={(event) => handleDelete(event, position)}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
       {isLoading && <div className={styles.loader}></div>}
     </section>

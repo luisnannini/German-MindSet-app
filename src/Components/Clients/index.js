@@ -85,9 +85,10 @@ function Clients() {
         onCancel={() => setShowModal(false)}
         onConfirm={deleteClient}
       />
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2 className={styles.title}>Clients List</h2>
+          <h2 className={styles.title}>Clients</h2>
           <Link to="./clients/form">
             <ButtonCreate disable={isLoading} />
           </Link>
@@ -132,7 +133,6 @@ function Clients() {
         </table>
       </div>
       {isLoading && <div className={styles.loader}></div>}
-      <ModalError error={error} onConfirm={() => setError({ show: false })} />
     </section>
   );
 }
