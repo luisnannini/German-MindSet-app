@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './clients.module.css';
-import ButtonCreate from '../Shared/ButtonCreate';
-import ButtonDelete from '../Shared/ButtonDelete';
-import ButtonUpdate from '../Shared/ButtonUpdate';
+import ButtonCreate from '../Shared/Buttons/ButtonCreate';
+import ButtonDelete from '../Shared/Buttons/ButtonDelete';
+import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
 import Modal from '../Shared/Modal';
 import ModalError from '../Shared/ModalError';
 
 function Clients() {
   const [clients, setClients] = useState([]);
   const [selectedClient, setSelectedClient] = useState(undefined);
-  const [showModal, setShowModal] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState({
     show: false,
@@ -39,11 +39,11 @@ function Clients() {
   const handleDelete = (event, client) => {
     event.stopPropagation();
     setSelectedClient(client._id);
-    setShowModal(true);
+    setShowDelete(true);
   };
 
   const deleteClient = () => {
-    setShowModal(false);
+    setShowDelete(false);
     setLoading(true);
     fetch(`${process.env.REACT_APP_API}/clients/${selectedClient}`, { method: 'DELETE' })
       .then((response) => {
@@ -79,10 +79,10 @@ function Clients() {
   return (
     <section className={styles.section}>
       <Modal
-        show={showModal}
+        show={showDelete}
         title="Delete Client"
         message="Are you sure you want to delete this client?"
-        onCancel={() => setShowModal(false)}
+        onCancel={() => setShowDelete(false)}
         onConfirm={deleteClient}
       />
       <ModalError error={error} onConfirm={() => setError({ show: false })} />

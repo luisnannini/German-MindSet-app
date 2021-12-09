@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './form.module.css';
-import ModalError from '../../Shared/ModalError';
-import ButtonCancel from '../../Shared/ButtonCancel';
-import ButtonConfirm from '../../Shared/ButtonConfirm';
-import Input from '../../Shared/Input';
 import Select from '../../Shared/Select';
+import Input from '../../Shared/Input';
+import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
+import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
+import ModalError from '../../Shared/ModalError';
 
 const Form = () => {
   const [position, setPosition] = useState([]);
@@ -102,7 +102,7 @@ const Form = () => {
   const onChangeResult = (input) => {
     setResultValue(input.target.value);
   };
-  const onSubmit = (e) => {
+  const submitApplications = (e) => {
     e.preventDefault();
     setLoading(true);
     const url = `${process.env.REACT_APP_API}/applications`;
@@ -140,7 +140,7 @@ const Form = () => {
   };
   return (
     <div className={styles.container}>
-      <form className={styles.form} onSubmit={onSubmit}>
+      <form className={styles.form} onSubmit={submitApplications}>
         <div className={styles.header}>
           <h2 className={styles.title}>Create Application</h2>
         </div>
@@ -148,19 +148,19 @@ const Form = () => {
           <div className={styles.columns}>
             <Select
               label="Positions:"
-              onChange={onChangePosition}
+              title="- Select a position -"
               value={positionValue}
               object={position}
-              title="- Select a position -"
+              onChange={onChangePosition}
               required
               disabled={isLoading}
             />
             <Select
               label="Postulants:"
-              onChange={onChangePostulant}
+              title="- Select a postulant -"
               value={postulantValue}
               object={postulant}
-              title="- Select a postulant -"
+              onChange={onChangePostulant}
               required
               disabled={isLoading}
             />
@@ -168,21 +168,21 @@ const Form = () => {
           <div className={styles.columns}>
             <Select
               label="Id interview:"
-              onChange={onChangeInterview}
+              title="- Select an interview -"
               value={interviewValue}
               object={interview}
-              title="- Select an interview -"
+              onChange={onChangeInterview}
               required
               disabled={isLoading}
             />
             <Input
               label={'Result'}
               name={'result'}
-              value={resultValue}
-              onChange={onChangeResult}
-              placeholder="Result"
-              required={true}
               type={'text'}
+              value={resultValue}
+              placeholder="Result"
+              onChange={onChangeResult}
+              required={true}
               disabled={isLoading}
             />
           </div>
@@ -193,8 +193,8 @@ const Form = () => {
           </Link>
           <ButtonConfirm type="submit" disabled={isLoading} />
         </div>
+        <ModalError error={error} onConfirm={() => setError({ show: false })} />
       </form>
-      <ModalError error={error} onConfirm={() => setError({ show: false })} />
     </div>
   );
 };

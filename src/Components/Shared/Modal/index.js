@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './modal.module.css';
-import ButtonConfirm from '../ButtonConfirm';
-import ButtonCancel from '../ButtonCancel';
+import ButtonCancel from '../Buttons/ButtonCancel';
+import ButtonConfirm from '../Buttons/ButtonConfirm';
 
 const Modal = (props) => {
   if (!props.show) {
@@ -11,7 +11,7 @@ const Modal = (props) => {
     <div className={styles.container}>
       <div className={styles.modal}>
         <div className={styles.header}>
-          <h3 className={styles.title}>{props.title}</h3>
+          <h3>{props.title}</h3>
         </div>
         <div className={styles.message}>{props.message}</div>
         <div className={styles.btnContainer}>

@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './positions.module.css';
-import ButtonCreate from '../Shared/ButtonCreate';
-import ButtonDelete from '../Shared/ButtonDelete';
-import ButtonUpdate from '../Shared/ButtonUpdate';
+import ButtonCreate from '../Shared/Buttons/ButtonCreate';
+import ButtonDelete from '../Shared/Buttons/ButtonDelete';
+import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
 import Modal from '../Shared/Modal';
 import ModalError from '../Shared/ModalError';
 
 function Positions() {
   const [positions, setPositions] = useState([]);
   const [selectedPosition, setSelectedPosition] = useState(undefined);
-  const [showModal, setShowModal] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState({
     show: false,
@@ -43,11 +43,11 @@ function Positions() {
   const handleDelete = (event, position) => {
     event.stopPropagation();
     setSelectedPosition(position._id);
-    setShowModal(true);
+    setShowDelete(true);
   };
 
   const deletePosition = () => {
-    setShowModal(false);
+    setShowDelete(false);
     setLoading(true);
     fetch(`${process.env.REACT_APP_API}/positions/${selectedPosition}`, { method: 'DELETE' })
       .then((response) => {
@@ -82,10 +82,10 @@ function Positions() {
   return (
     <section className={styles.section}>
       <Modal
-        show={showModal}
+        show={showDelete}
         title="Delete a Position"
         message="Are you sure you want to delete this position?"
-        onCancel={() => setShowModal(false)}
+        onCancel={() => setShowDelete(false)}
         onConfirm={deletePosition}
       />
       <ModalError error={error} onConfirm={() => setError({ show: false })} />

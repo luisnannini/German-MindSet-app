@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './form.module.css';
-import ModalError from '../../Shared/ModalError';
-import Input from '../../Shared/Input';
 import Select from '../../Shared/Select';
-import ButtonCancel from '../../Shared/ButtonCancel';
-import ButtonConfirm from '../../Shared/ButtonConfirm';
+import Input from '../../Shared/Input';
+import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
+import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
+import ModalError from '../../Shared/ModalError';
 
 const Form = () => {
-  const [clients, setClients] = useState([]);
-  const [clientValue, setClientValue] = useState('');
+  const [interviewId, setInterviewId] = useState(undefined);
   const [postulants, setPostulants] = useState([]);
-  const [postulantValue, setPostulantValue] = useState('');
+  const [clients, setClients] = useState([]);
   const [applications, setApplications] = useState([]);
+  const [postulantValue, setPostulantValue] = useState('');
+  const [clientValue, setClientValue] = useState('');
   const [applicationValue, setApplicationValue] = useState('');
   const [statusValue, setStatusValue] = useState('');
   const [dateValue, setDateValue] = useState('');
@@ -23,25 +24,9 @@ const Form = () => {
     message: '',
     title: ''
   });
-  const [interviewId, setInterviewId] = useState(undefined);
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${process.env.REACT_APP_API}/clients`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setClients(response.data);
-      })
-      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
     fetch(`${process.env.REACT_APP_API}/postulants`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -61,6 +46,21 @@ const Form = () => {
             name: `${postulant.firstName} ${postulant.lastName}`
           }))
         );
+      })
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
+    fetch(`${process.env.REACT_APP_API}/clients`)
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
+          });
+        }
+        return response.json();
+      })
+      .then((response) => {
+        setClients(response.data);
       })
       .catch((error) => setError({ show: true, message: error.message, title: error.status }));
     fetch(`${process.env.REACT_APP_API}/applications`)
@@ -126,7 +126,7 @@ const Form = () => {
     }
   }, []);
 
-  const onSubmit = (e) => {
+  const submitInterview = (e) => {
     e.preventDefault();
     setLoading(true);
     let url;
@@ -176,12 +176,12 @@ const Form = () => {
       .finally(() => setLoading(false));
   };
 
-  const onChangeClientValue = (event) => {
-    setClientValue(event.target.value);
-  };
-
   const onChangePostulantValue = (event) => {
     setPostulantValue(event.target.value);
+  };
+
+  const onChangeClientValue = (event) => {
+    setClientValue(event.target.value);
   };
 
   const onChangeApplicationValue = (event) => {
@@ -207,7 +207,7 @@ const Form = () => {
 
   return (
     <div className={styles.container}>
-      <form className={styles.form} onSubmit={onSubmit}>
+      <form className={styles.form} onSubmit={submitInterview}>
         <div className={styles.header}>
           <h2 className={styles.title}>
             {interviewId ? 'Update an Interview' : 'Create an Interview'}
@@ -216,27 +216,27 @@ const Form = () => {
         <div className={styles.fields}>
           <div className={styles.columns}>
             <Select
-              value={postulantValue}
-              title="Postulant Name"
               label="Postulant Name"
+              title="Postulant Name"
+              value={postulantValue}
               object={postulants}
               onChange={onChangePostulantValue}
               required
               disabled={isLoading}
             />
             <Select
-              value={clientValue}
-              title="Client Name"
               label="Client Name"
+              title="Client Name"
+              value={clientValue}
               object={clients}
               onChange={onChangeClientValue}
               required
               disabled={isLoading}
             />
             <Select
-              value={applicationValue}
-              title="Application Id"
               label="Application"
+              title="Application Id"
+              value={applicationValue}
               object={applications}
               onChange={onChangeApplicationValue}
               required
@@ -245,9 +245,9 @@ const Form = () => {
           </div>
           <div className={styles.columns}>
             <Select
-              value={statusValue}
-              title="Status"
               label="Status"
+              title="Status"
+              value={statusValue}
               object={result}
               onChange={onChangeStatusValue}
               required
@@ -255,8 +255,8 @@ const Form = () => {
             />
             <Input
               label={'Date'}
-              type={'datetime-local'}
               name={'date'}
+              type={'datetime-local'}
               value={dateValue}
               placeholder={'yyyy-mm-dd'}
               onChange={(e) => {

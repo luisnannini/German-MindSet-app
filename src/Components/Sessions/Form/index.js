@@ -1,27 +1,27 @@
 import { useEffect, useState } from 'react';
 import styles from './form.module.css';
+import Select from '../../Shared/Select';
 import Input from '../../Shared/Input';
 import TextArea from '../../Shared/TextArea';
+import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
+import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
-import Select from '../../Shared/Select';
-import ButtonConfirm from '../../Shared/ButtonConfirm';
-import ButtonCancel from '../../Shared/ButtonCancel';
 
 const Form = () => {
-  const [dateValue, setDateValue] = useState('');
+  const [title, setTitle] = useState('');
+  const [postulants, setPostulants] = useState([]);
+  const [psychologists, setPsychologists] = useState([]);
   const [postulantValue, setPostulantValue] = useState('');
   const [psychologistValue, setPsychologistValue] = useState('');
   const [statusValue, setStatusValue] = useState('');
+  const [dateValue, setDateValue] = useState('');
   const [notesValue, setNotesValue] = useState('');
-  const [postulants, setPostulants] = useState([]);
-  const [psychologists, setPsychologists] = useState([]);
+  const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState({
     show: false,
     title: '',
     message: ''
   });
-  const [isLoading, setLoading] = useState(false);
-  const [title, setTitle] = useState('');
 
   useEffect(() => {
     setLoading(true);
@@ -48,10 +48,10 @@ const Form = () => {
               title: '404: Not Found'
             });
           }
-          setDateValue(response.data[0].date);
           setPostulantValue(response.data[0].postulant?._id);
           setPsychologistValue(response.data[0].psychologist?._id);
           setStatusValue(response.data[0].status);
+          setDateValue(response.data[0].date);
           setNotesValue(response.data[0].notes);
         })
         .catch((error) => {
@@ -122,7 +122,8 @@ const Form = () => {
       })
       .finally(() => setLoading(false));
   }, []);
-  const onSubmit = (event) => {
+
+  const submitSession = (event) => {
     event.preventDefault();
     setLoading(true);
     const params = new URLSearchParams(window.location.search);
@@ -134,10 +135,10 @@ const Form = () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        date: dateValue,
         postulant: postulantValue,
         psychologist: psychologistValue,
         status: statusValue,
+        date: dateValue,
         notes: notesValue
       })
     };
@@ -176,7 +177,7 @@ const Form = () => {
 
   return (
     <div className={styles.container}>
-      <form onSubmit={onSubmit} className={styles.form}>
+      <form className={styles.form} onSubmit={submitSession}>
         <div className={styles.header}>
           <h2 className={styles.title}>{title} Session</h2>
         </div>
@@ -185,56 +186,56 @@ const Form = () => {
             <Select
               className={styles.select}
               label="Postulant:"
-              value={postulantValue}
-              onChange={(e) => setPostulantValue(e.target.value)}
-              object={postulants}
-              required
-              disabled={isLoading}
               title="Postulant"
-            />
-            <Select
-              className={styles.select}
-              value={psychologistValue}
-              label="Psychologist:"
-              onChange={(e) => setPsychologistValue(e.target.value)}
-              object={psychologists}
+              value={postulantValue}
+              object={postulants}
+              onChange={(e) => setPostulantValue(e.target.value)}
               required
               disabled={isLoading}
-              title="Psychologist"
             />
             <Select
               className={styles.select}
-              name="status"
+              label="Psychologist:"
+              title="Psychologist"
+              value={psychologistValue}
+              object={psychologists}
+              onChange={(e) => setPsychologistValue(e.target.value)}
+              required
+              disabled={isLoading}
+            />
+            <Select
+              className={styles.select}
               label="Status:"
+              name="status"
+              title="Status"
               value={statusValue}
-              onChange={(e) => setStatusValue(e.target.value)}
               object={[
                 { _id: 'assigned', value: 'assigned', name: 'Assigned' },
                 { _id: 'succesful', value: 'succesful', name: 'Successful' },
                 { _id: 'cancelled', value: 'cancelled', name: 'Cancelled' }
               ]}
+              onChange={(e) => setStatusValue(e.target.value)}
               required
-              title="Status"
               disabled={isLoading}
             />
           </div>
           <div className={styles.columns}>
             <Input
               label={'Date'}
+              name={'date'}
               type={'datetime-local'}
               value={dateValue}
-              name={'date'}
               onChange={(e) => setDateValue(e.target.value)}
               required={true}
               disabled={isLoading}
             />
             <TextArea
-              name="notes"
               label="Notes"
+              name="notes"
               value={notesValue}
+              placeholder="Notes"
               onChange={(e) => setNotesValue(e.target.value)}
               disabled={isLoading}
-              placeholder="Notes"
             />
           </div>
         </div>
@@ -246,8 +247,8 @@ const Form = () => {
             </label>
           </div>
         </div>
+        <ModalError error={error} onConfirm={() => setError({ show: false })} />
       </form>
-      <ModalError error={error} onConfirm={() => setError({ show: false })} />
     </div>
   );
 };

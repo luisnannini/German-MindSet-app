@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './applications.module.css';
-import ButtonCreate from '../Shared/ButtonCreate';
-import ButtonDelete from '../Shared/ButtonDelete';
+import ButtonCreate from '../Shared/Buttons/ButtonCreate';
+import ButtonDelete from '../Shared/Buttons/ButtonDelete';
 import Modal from '../Shared/Modal';
 import ModalError from '../Shared/ModalError';
 
 function Applications() {
   const [applications, setApplications] = useState([]);
-  const [showRemove, setShowRemove] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState({
     show: false,
@@ -36,8 +36,8 @@ function Applications() {
       .finally(() => setLoading(false));
   }, []);
 
-  const remove = async (id) => {
-    setShowRemove(false);
+  const deleteApplications = async (id) => {
+    setShowDelete(false);
     setLoading(true);
     await fetch(`${process.env.REACT_APP_API}/applications/${id}`, {
       method: 'DELETE'
@@ -72,15 +72,15 @@ function Applications() {
   return (
     <section className={styles.section}>
       <Modal
-        show={!!showRemove}
+        show={!!showDelete}
         title="Delete Application"
         message="Are you sure you want to delete this application?"
         onCancel={() => {
-          setShowRemove(false);
+          setShowDelete(false);
         }}
         onConfirm={() => {
-          remove(showRemove);
-          setShowRemove(false);
+          deleteApplications(showDelete);
+          setShowDelete(false);
         }}
       />
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
@@ -113,7 +113,7 @@ function Applications() {
                 <td>{app.interview._id}</td>
                 <td>{app.result}</td>
                 <td>
-                  <ButtonDelete onClick={() => setShowRemove(app._id)} disabled={isLoading} />
+                  <ButtonDelete onClick={() => setShowDelete(app._id)} disabled={isLoading} />
                 </td>
               </tr>
             ))}

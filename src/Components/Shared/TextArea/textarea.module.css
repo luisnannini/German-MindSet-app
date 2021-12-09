@@ -5,10 +5,10 @@
 }
 
 .textArea {
-  box-sizing: border-box;
-  height: 107px;
   margin: 0.8em 0;
+  height: 107px;
   border: 1px solid gray;
   border-radius: 3px;
+  box-sizing: border-box;
   background: white;
 }

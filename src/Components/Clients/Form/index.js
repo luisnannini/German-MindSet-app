@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Input from '../../Shared/Input';
 import styles from './form.module.css';
+import Input from '../../Shared/Input';
+import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
+import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
-import ButtonConfirm from '../../Shared/ButtonConfirm';
-import ButtonCancel from '../../Shared/ButtonCancel';
 
 function Form() {
+  const [clientId, setClientId] = useState(undefined);
   const [nameValue, setNameValue] = useState('');
   const [phoneValue, setPhoneValue] = useState('');
   const [countryValue, setCountryValue] = useState('');
@@ -15,13 +16,12 @@ function Form() {
   const [addressValue, setAddressValue] = useState('');
   const [logoValue, setLogoValue] = useState('');
   const [descriptionValue, setDescriptionValue] = useState('');
+  const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState({
     show: false,
     message: '',
     title: ''
   });
-  const [isLoading, setLoading] = useState(false);
-  const [clientId, setClientId] = useState(undefined);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -96,7 +96,7 @@ function Form() {
     setDescriptionValue(event.target.value);
   };
 
-  const onSubmit = (event) => {
+  const submitClients = (event) => {
     event.preventDefault();
     setLoading(true);
 
@@ -151,8 +151,8 @@ function Form() {
   };
 
   return (
-    <section className={styles.container}>
-      <form className={styles.form} onSubmit={onSubmit}>
+    <div className={styles.container}>
+      <form className={styles.form} onSubmit={submitClients}>
         <div className={styles.header}>
           <h2 className={styles.title}>{clientId ? 'Update Client' : 'Create a Client'}</h2>
         </div>
@@ -161,42 +161,42 @@ function Form() {
             <Input
               label={'Name'}
               name={'name'}
+              type={'text'}
               value={nameValue}
               placeholder={'Insert Client name...'}
-              onChange={onChangeNameInput}
-              type={'text'}
-              required={true}
               pattern={'[A-Za-z ]*'}
+              onChange={onChangeNameInput}
+              required={true}
               disabled={isLoading}
             />
             <Input
               label={'Address'}
               name={'address'}
+              type={'address'}
               value={addressValue}
               placeholder={'Insert Client address...'}
               onChange={onChangeAddressInput}
-              type={'address'}
               required={true}
               disabled={isLoading}
             />
             <Input
               label={'Country'}
               name={'country'}
+              type={'text'}
               value={countryValue}
               placeholder={'Insert Client country...'}
-              onChange={onChangeCountryInput}
-              type={'text'}
-              required={true}
               pattern={'[A-Za-z ]*'}
+              onChange={onChangeCountryInput}
+              required={true}
               disabled={isLoading}
             />
             <Input
               label={'Logo'}
               name={'logo'}
+              type={'text'}
               value={logoValue}
               placeholder={'Insert Client logo...'}
               onChange={onChangeLogoInput}
-              type={'text'}
               disabled={isLoading}
             />
           </div>
@@ -204,43 +204,43 @@ function Form() {
             <Input
               label={'Phone Number'}
               name={'phone'}
+              type={'number'}
               value={phoneValue}
               placeholder={'Insert Client phone...'}
-              onChange={onChangePhoneInput}
-              type={'number'}
-              required={true}
               pattern={'[0-9]'}
+              onChange={onChangePhoneInput}
+              required={true}
               disabled={isLoading}
             />
             <Input
               label={'City'}
               name={'city'}
+              type={'text'}
               value={cityValue}
               placeholder={'Insert Client city...'}
-              onChange={onChangeCityInput}
-              type={'text'}
-              required={true}
               pattern={'[A-Za-z ]*'}
+              onChange={onChangeCityInput}
+              required={true}
               disabled={isLoading}
             />
             <Input
               label={'State'}
               name={'state'}
+              type={'text'}
               value={stateValue}
               placeholder={'Insert Client state...'}
-              onChange={onChangeStateInput}
-              type={'text'}
               pattern={'[A-Za-z ]*'}
+              onChange={onChangeStateInput}
               required={true}
               disabled={isLoading}
             />
             <Input
               label={'Description'}
               name={'description'}
+              type={'text'}
               value={descriptionValue}
               placeholder={'Insert Client description...'}
               onChange={onChangeDescriptionInput}
-              type={'text'}
               disabled={isLoading}
             />
           </div>
@@ -253,7 +253,7 @@ function Form() {
         </div>
         <ModalError error={error} onConfirm={() => setError({ show: false })} />
       </form>
-    </section>
+    </div>
   );
 }
 

@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './sessions.module.css';
 import Session from './Session';
-import ButtonCreate from '../Shared/ButtonCreate';
+import ButtonCreate from '../Shared/Buttons/ButtonCreate';
 import Modal from '../Shared/Modal';
 import ModalError from '../Shared/ModalError';
 
 function Sessions() {
   const [Sessions, setSessions] = useState([]);
-  const [ShowConfirmModal, setShowConfirmModal] = useState({
+  const [showDelete, setShowDelete] = useState({
     show: false,
     session: {},
     id: ''
@@ -47,9 +47,9 @@ function Sessions() {
   }
 
   function deleteSession() {
-    setShowConfirmModal({ show: false });
+    setShowDelete({ show: false });
     setLoading(true);
-    fetch(`${process.env.REACT_APP_API}/sessions/${ShowConfirmModal.id}`, {
+    fetch(`${process.env.REACT_APP_API}/sessions/${showDelete.id}`, {
       method: 'DELETE'
     })
       .then((response) => {
@@ -84,10 +84,10 @@ function Sessions() {
   return (
     <section className={styles.section}>
       <Modal
-        show={ShowConfirmModal.show}
+        show={showDelete.show}
         title="Delete Session"
         message="Are you sure you want to delete this Session?"
-        onCancel={() => setShowConfirmModal({ show: false, id: '' })}
+        onCancel={() => setShowDelete({ show: false, id: '' })}
         onConfirm={deleteSession}
       />
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
@@ -105,6 +105,7 @@ function Sessions() {
               <th>Psychologist</th>
               <th>Status</th>
               <th>Date</th>
+              <th>Notes</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -125,8 +126,9 @@ function Sessions() {
                       : 'Unassigned'
                   }
                   status={session.status}
-                  date={session.date}
-                  onDelete={() => setShowConfirmModal({ show: true, id: session._id })}
+                  date={session.date.replace('T00:00:00.000Z', '')}
+                  notes={session.notes}
+                  onDelete={() => setShowDelete({ show: true, id: session._id })}
                   disabled={isLoading}
                 />
               );

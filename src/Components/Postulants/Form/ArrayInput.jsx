@@ -1,4 +1,4 @@
-import ButtonLittleAdd from '../../Shared/ButtonLittleAdd';
+import ButtonLittleAdd from '../../Shared/Buttons/ButtonLittleAdd';
 import TextArea from '../../Shared/TextArea';
 
 const ArrayInput = ({ postulantData, setData, dataName, dataTemplate }) => {

@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './form.module.css';
-import ModalError from '../../Shared/ModalError';
+import Select from '../../Shared/Select';
 import Input from '../../Shared/Input';
 import Checkbox from '../../Shared/Checkbox';
-import Select from '../../Shared/Select';
-import ButtonConfirm from '../../Shared/ButtonConfirm';
-import ButtonCancel from '../../Shared/ButtonCancel';
+import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
+import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
+import ModalError from '../../Shared/ModalError';
 
 const Form = () => {
+  const [positionId, setPositionId] = useState(undefined);
   const [clients, setClients] = useState([]);
   const [profiles, setProfiles] = useState([]);
   const [clientValue, setClientValue] = useState('');
@@ -22,7 +23,6 @@ const Form = () => {
     message: '',
     title: ''
   });
-  const [positionId, setPositionId] = useState(undefined);
 
   useEffect(() => {
     setLoading(true);
@@ -118,7 +118,7 @@ const Form = () => {
     setIsOpenValue(event.target.checked);
   };
 
-  const onSubmit = (event) => {
+  const submitPosition = (event) => {
     event.preventDefault();
     setLoading(true);
     const params = new URLSearchParams(window.location.search);
@@ -169,28 +169,27 @@ const Form = () => {
 
   return (
     <div className={styles.container}>
-      <ModalError error={error} onConfirm={() => setError({ show: false })} />
-      <form className={styles.form} onSubmit={onSubmit}>
+      <form className={styles.form} onSubmit={submitPosition}>
         <div className={styles.header}>
           <h2 className={styles.title}>{positionId ? 'Update a Position' : 'Create a Position'}</h2>
         </div>
         <div className={styles.fields}>
           <div className={styles.columns}>
             <Select
-              object={clients}
               label={'Clients'}
-              value={clientValue}
-              onChange={onChangeClientValue}
               title={'Select a Client'}
+              value={clientValue}
+              object={clients}
+              onChange={onChangeClientValue}
               required
               disabled={isLoading}
             />
             <Input
               label={'Job Description'}
-              value={jobDescriptionValue}
               name={'job-description'}
-              onChange={onChangeJobDescriptionValue}
+              value={jobDescriptionValue}
               placeholder={'Write a job description'}
+              onChange={onChangeJobDescriptionValue}
               required={true}
               disabled={isLoading}
             />
@@ -203,24 +202,24 @@ const Form = () => {
           </div>
           <div className={styles.columns}>
             <Select
-              object={profiles}
               label={'Profiles'}
-              value={profilesValue}
-              onChange={onChangeProfilesValue}
               title={'Select a Profile'}
+              value={profilesValue}
+              object={profiles}
+              onChange={onChangeProfilesValue}
               required
               disabled={isLoading}
             />
             <Input
               label={'Vacancy'}
-              value={vacancyValue}
               name={'vacancy'}
-              onChange={onChangeVacancyValue}
-              placeholder={'Set the number of vacancies'}
-              required={true}
               type={'number'}
+              value={vacancyValue}
+              placeholder={'Set the number of vacancies'}
               min={1}
               step={1}
+              onChange={onChangeVacancyValue}
+              required={true}
               disabled={isLoading}
             />
           </div>
@@ -231,6 +230,7 @@ const Form = () => {
           </Link>
           <ButtonConfirm disabled={isLoading} type="submit" />
         </div>
+        <ModalError error={error} onConfirm={() => setError({ show: false })} />
       </form>
     </div>
   );

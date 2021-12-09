@@ -1,6 +1,6 @@
 import style from './postulants-Modal.module.css';
-import ButtonCancel from '../Shared/ButtonCancel';
-import ButtonConfirm from '../Shared/ButtonConfirm';
+import ButtonCancel from '../Shared/Buttons/ButtonCancel';
+import ButtonConfirm from '../Shared/Buttons/ButtonConfirm';
 
 const Modal = ({ modal }) => {
   if (modal.type === 'confirm') {

@@ -1,4 +1,4 @@
-import ButtonLittleAdd from '../../Shared/ButtonLittleAdd';
+import ButtonLittleAdd from '../../Shared/Buttons/ButtonLittleAdd';
 
 const Profiles = ({ postulantData, setData, dataTemplate }) => {
   postulantData.forEach((data, index) => {

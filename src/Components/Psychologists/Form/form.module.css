@@ -9,14 +9,24 @@
   flex-direction: column;
   justify-content: space-between;
   border: 0.1em solid #888888;
-  background-color: #ffffff;
+  background-color: #FFFFFF;
+}
+
+.form select, .form input {
+  margin: 0.8em 0;
 }
 
 .header {
   display: flex;
-  justify-content: space-between;
   height: 5em;
-  background-color: #232f3e;
+  background-color: #232F3E;
+  font-size: 20px;
+}
+
+.title {
+  margin: auto;
+  color: #FFFFFF;
+  font-size: 20px;
 }
 
 .fields {
@@ -34,9 +44,9 @@
 .dayColumns {
   display: flex;
   flex-direction: row;
+  margin-bottom: 10px;
   width: 100px;
   font-size: 15px;
-  margin-bottom: 10px;
   font-weight: normal;
 }
 
@@ -51,15 +61,4 @@
   justify-content: center;
   align-self: center;
   margin-bottom: 1em;
-}
-
-.title {
-  margin: auto;
-  font-size: 20px;
-  color: #ffffff;
-}
-
-.form select,
-.form input {
-  margin: 0.8em 0;
 }

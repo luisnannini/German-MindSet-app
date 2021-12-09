@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './psychologists.module.css';
-import ButtonCreate from '../Shared/ButtonCreate';
-import ButtonDelete from '../Shared/ButtonDelete';
-import ButtonUpdate from '../Shared/ButtonUpdate';
+import ButtonCreate from '../Shared/Buttons/ButtonCreate';
+import ButtonDelete from '../Shared/Buttons/ButtonDelete';
+import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
 import Modal from '../Shared/Modal';
 import ModalError from '../Shared/ModalError';
 
 function Psychologists() {
   const [psychologists, savePsychologists] = useState([]);
   const [selectedPsychologist, setSelectedPsychologist] = useState('');
-  const [showModalDelete, setShowModalDelete] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState({
     show: false,
@@ -38,12 +38,12 @@ function Psychologists() {
 
   const handleDelete = (event, psy) => {
     event.stopPropagation();
-    setShowModalDelete(true);
+    setShowDelete(true);
     setSelectedPsychologist(psy._id);
   };
 
   const deletePsychologist = () => {
-    setShowModalDelete(false);
+    setShowDelete(false);
     setLoading(true);
     fetch(`${process.env.REACT_APP_API}/psychologists/${selectedPsychologist}`, {
       method: 'DELETE'
@@ -80,11 +80,11 @@ function Psychologists() {
   return (
     <section className={styles.section}>
       <Modal
-        show={showModalDelete}
+        show={showDelete}
         title="Delete Psychologist"
         message="Are you sure you want to delete this Psychologist?"
         onConfirm={deletePsychologist}
-        onCancel={() => setShowModalDelete(false)}
+        onCancel={() => setShowDelete(false)}
       />
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
       <div className={styles.container}>
