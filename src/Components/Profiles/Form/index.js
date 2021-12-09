@@ -19,9 +19,9 @@ const Form = () => {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const profileId = params.get('id');
-    setProfileId(profileId);
     if (profileId) {
       setLoading(true);
+      setProfileId(profileId);
       fetch(`${process.env.REACT_APP_API}/profiles?_id=${profileId}`)
         .then((response) => {
           if (response.status !== 200 && response.status !== 201 && response.status !== 204) {

@@ -43,8 +43,8 @@ const Form = () => {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const psychologistId = params.get('id');
-    setPsychologistId(psychologistId);
     if (psychologistId) {
+      setPsychologistId(psychologistId);
       setLoading(true);
       fetch(`${process.env.REACT_APP_API}/psychologists?_id=${psychologistId}`)
         .then((response) => {

@@ -67,19 +67,13 @@ function Clients() {
           })
           .then((response) => {
             setClients(response.data);
-            closeModal();
+            setSelectedClient(undefined);
           });
       })
       .catch((error) => {
         setError({ show: true, message: error.message, title: error.status });
-        setShowModal(false);
       })
       .finally(() => setLoading(false));
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-    setSelectedClient(undefined);
   };
 
   return (
@@ -88,10 +82,10 @@ function Clients() {
         show={showModal}
         title="Delete Client"
         message="Are you sure you want to delete this client?"
-        onCancel={closeModal}
+        onCancel={() => setShowModal(false)}
         onConfirm={deleteClient}
       />
-      <ModalError error={error} onConfirm={() => setError({ show: false })} />{' '}
+      <ModalError error={error} onConfirm={() => setError({ show: false })} />
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Clients</h2>
@@ -126,7 +120,7 @@ function Clients() {
                 <td>{client.description}</td>
                 <td>
                   <Link to={`clients/form?id=${client._id}`}>
-                    <ButtonUpdate />
+                    <ButtonUpdate disabled={isLoading} />
                   </Link>
                   <ButtonDelete
                     disabled={isLoading}

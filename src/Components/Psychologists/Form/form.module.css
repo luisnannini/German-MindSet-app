@@ -9,14 +9,14 @@
   flex-direction: column;
   justify-content: space-between;
   border: 0.1em solid #888888;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   height: 5em;
-  background-color: #232F3E;
+  background-color: #232f3e;
 }
 
 .fields {
@@ -56,9 +56,10 @@
 .title {
   margin: auto;
   font-size: 20px;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
-.form select, .form input {
+.form select,
+.form input {
   margin: 0.8em 0;
 }

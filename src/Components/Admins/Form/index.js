@@ -150,7 +150,7 @@ const Form = () => {
         </div>
         <div className={styles.button}>
           <Link to="/admins">
-            <ButtonCancel />
+            <ButtonCancel disabled={isLoading} />
           </Link>
           <ButtonConfirm disabled={isLoading} type="submit" />
         </div>

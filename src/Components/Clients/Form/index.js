@@ -24,11 +24,11 @@ function Form() {
   const [clientId, setClientId] = useState(undefined);
 
   useEffect(() => {
-    setLoading(true);
     const params = new URLSearchParams(window.location.search);
     const clientId = params.get('id');
-    setClientId(clientId);
     if (clientId) {
+      setClientId(clientId);
+      setLoading(true);
       fetch(`${process.env.REACT_APP_API}/clients?_id=${clientId}`)
         .then((response) => {
           if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -62,7 +62,6 @@ function Form() {
         })
         .finally(() => setLoading(false));
     }
-    setLoading(false);
   }, []);
 
   const onChangeNameInput = (event) => {

@@ -44,10 +44,6 @@ function Interviews() {
     setSelectedInterview(interview._id);
   };
 
-  const closeRemoveModal = () => {
-    setShowRemoveModal(false);
-  };
-
   const confirmRemoveModal = () => {
     setLoading(true);
     setShowRemoveModal(false);
@@ -94,7 +90,7 @@ function Interviews() {
         title="Delete Interview"
         message="Are you sure you want to delete this interview?"
         onConfirm={confirmRemoveModal}
-        onCancel={closeRemoveModal}
+        onCancel={() => setShowRemoveModal(false)}
       />
       <ModalError error={error} onConfirm={() => setError({ show: false })} />
       <div className={styles.container}>

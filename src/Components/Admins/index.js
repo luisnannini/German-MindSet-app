@@ -90,7 +90,7 @@ function Admins() {
         <div className={styles.header}>
           <h2 className={styles.title}>Administrators</h2>
           <Link to="/admins/form">
-            <ButtonCreate />
+            <ButtonCreate disabled={isLoading} />
           </Link>
         </div>
         <table className={styles.table}>
@@ -110,7 +110,10 @@ function Admins() {
                   <Link to={`admins/form?id=${admin._id}`}>
                     <ButtonUpdate />
                   </Link>
-                  <ButtonDelete onClick={(event) => handleDelete(event, admin)} />
+                  <ButtonDelete
+                    onClick={(event) => handleDelete(event, admin)}
+                    disabled={isLoading}
+                  />
                 </td>
               </tr>
             ))}

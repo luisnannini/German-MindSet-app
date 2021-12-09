@@ -88,7 +88,7 @@ function Applications() {
         <div className={styles.header}>
           <h2 className={styles.title}>Applications</h2>
           <Link to="/applications/form">
-            <ButtonCreate />
+            <ButtonCreate disabled={isLoading} />
           </Link>
         </div>
         <table className={styles.table}>
@@ -113,7 +113,7 @@ function Applications() {
                 <td>{app.interview._id}</td>
                 <td>{app.result}</td>
                 <td>
-                  <ButtonDelete onClick={() => setShowRemove(app._id)} />
+                  <ButtonDelete onClick={() => setShowRemove(app._id)} disabled={isLoading} />
                 </td>
               </tr>
             ))}
