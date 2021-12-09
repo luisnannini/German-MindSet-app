@@ -133,7 +133,7 @@ function Interviews() {
                   <td>{interview.client.name}</td>
                   <td>{interview.application.result}</td>
                   <td>{interview.status}</td>
-                  <td>{interview.date.replace('T00:00:00.000Z', '')}</td>
+                  <td>{interview.date.replace('T', ' ')}</td>
                   <td>{interview.notes}</td>
                   <td>
                     <Link to={`interviews/form?id=${interview._id}`}>

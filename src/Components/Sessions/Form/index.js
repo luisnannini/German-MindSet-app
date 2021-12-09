@@ -211,7 +211,7 @@ const Form = () => {
               value={statusValue}
               object={[
                 { _id: 'assigned', value: 'assigned', name: 'Assigned' },
-                { _id: 'succesful', value: 'succesful', name: 'Successful' },
+                { _id: 'successful', value: 'successful', name: 'Successful' },
                 { _id: 'cancelled', value: 'cancelled', name: 'Cancelled' }
               ]}
               onChange={(e) => setStatusValue(e.target.value)}

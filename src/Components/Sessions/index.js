@@ -126,7 +126,7 @@ function Sessions() {
                       : 'Unassigned'
                   }
                   status={session.status}
-                  date={session.date.replace('T00:00:00.000Z', '')}
+                  date={session.date.replace('T', ' ')}
                   notes={session.notes}
                   onDelete={() => setShowDelete({ show: true, id: session._id })}
                   disabled={isLoading}

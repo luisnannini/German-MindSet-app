@@ -143,7 +143,7 @@ const Form = () => {
         client: clientValue,
         application: applicationValue,
         status: statusValue,
-        date: dateValue.replace('T00:00:00.000Z', ''),
+        date: dateValue,
         notes: notesValue
       })
     };
@@ -192,10 +192,10 @@ const Form = () => {
     setStatusValue(event.target.value);
   };
 
-  function handleChangeDate(event) {
-    const value = event.target.value.substring(0, 10);
-    setDateValue(value);
-  }
+  // function handleChangeDate(event) {
+  //   const value = event.target.value.substring(0, 10);
+  //   setDateValue(value);
+  // }
 
   const result = [
     { _id: 'assigned', value: 'assigned', name: 'Assigned' },
@@ -258,11 +258,7 @@ const Form = () => {
               name={'date'}
               type={'datetime-local'}
               value={dateValue}
-              placeholder={'yyyy-mm-dd'}
-              onChange={(e) => {
-                setDateValue(e.target.value);
-                handleChangeDate(e);
-              }}
+              onChange={(e) => setDateValue(e.target.value)}
               required={true}
               disabled={isLoading}
             />
