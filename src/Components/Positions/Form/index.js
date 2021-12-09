@@ -28,8 +28,8 @@ const Form = () => {
     setLoading(true);
     const params = new URLSearchParams(window.location.search);
     const positionId = params.get('id');
-    setPositionId(positionId);
     if (positionId) {
+      setPositionId(positionId);
       fetch(`${process.env.REACT_APP_API}/positions?_id=${positionId}`)
         .then((response) => {
           if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -194,7 +194,12 @@ const Form = () => {
               required={true}
               disabled={isLoading}
             />
-            <Checkbox label={'Is Open?'} value={isOpenValue} onChange={onChangeIsOpenValue} />
+            <Checkbox
+              label={'Is Open?'}
+              value={isOpenValue}
+              onChange={onChangeIsOpenValue}
+              disabled={isLoading}
+            />
           </div>
           <div className={styles.columns}>
             <Select

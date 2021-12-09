@@ -15,6 +15,7 @@ const Form = () => {
   const [postulantValue, setPostulantValue] = useState('');
   const [interviewValue, setInterviewValue] = useState('');
   const [resultValue, setResultValue] = useState('');
+  const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState({
     show: false,
     message: '',
@@ -22,6 +23,7 @@ const Form = () => {
   });
 
   useEffect(() => {
+    setLoading(true);
     fetch(`${process.env.REACT_APP_API}/positions`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -84,7 +86,8 @@ const Form = () => {
           }))
         );
       })
-      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }))
+      .finally(() => setLoading(false));
   }, []);
 
   const onChangePosition = (input) => {
@@ -101,6 +104,7 @@ const Form = () => {
   };
   const onSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     const url = `${process.env.REACT_APP_API}/applications`;
     const options = {
       headers: {
@@ -131,7 +135,8 @@ const Form = () => {
       })
       .catch((error) => {
         setError({ show: true, message: error.message, title: error.status });
-      });
+      })
+      .finally(() => setLoading(true));
   };
   return (
     <div className={styles.container}>
@@ -148,6 +153,7 @@ const Form = () => {
               object={position}
               title="- Select a position -"
               required
+              disabled={isLoading}
             />
             <Select
               label="Postulants:"
@@ -156,6 +162,7 @@ const Form = () => {
               object={postulant}
               title="- Select a postulant -"
               required
+              disabled={isLoading}
             />
           </div>
           <div className={styles.columns}>
@@ -166,6 +173,7 @@ const Form = () => {
               object={interview}
               title="- Select an interview -"
               required
+              disabled={isLoading}
             />
             <Input
               label={'Result'}
@@ -175,14 +183,15 @@ const Form = () => {
               placeholder="Result"
               required={true}
               type={'text'}
+              disabled={isLoading}
             />
           </div>
         </div>
         <div className={styles.button}>
           <Link to="/applications">
-            <ButtonCancel />
+            <ButtonCancel disabled={isLoading} />
           </Link>
-          <ButtonConfirm type="submit" />
+          <ButtonConfirm type="submit" disabled={isLoading} />
         </div>
       </form>
       <ModalError error={error} onConfirm={() => setError({ show: false })} />

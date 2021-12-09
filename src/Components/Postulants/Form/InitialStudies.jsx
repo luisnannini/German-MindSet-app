@@ -1,5 +1,3 @@
-import TextArea from '../../Shared/TextArea';
-
 const InitialStudies = ({ postulantData, setStudies }) => {
   return (
     <div>
