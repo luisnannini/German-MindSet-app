@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './profiles.module.css';
-import ModalError from '../Shared/ModalError';
-import Modal from '../Shared/Modal';
 import ButtonCreate from '../Shared/ButtonCreate';
-import ButtonUpdate from '../Shared/ButtonUpdate';
 import ButtonDelete from '../Shared/ButtonDelete';
+import ButtonUpdate from '../Shared/ButtonUpdate';
+import Modal from '../Shared/Modal';
+import ModalError from '../Shared/ModalError';
 
 function Profiles() {
   const [profiles, setProfiles] = useState([]);
-  const [showModal, setShowModal] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState(undefined);
+  const [showModal, setShowModal] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState({
     show: false,

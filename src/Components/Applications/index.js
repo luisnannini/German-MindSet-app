@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react';
-import styles from './applications.module.css';
-import ModalError from '../Shared/ModalError';
-import Modal from '../Shared/Modal';
 import { Link } from 'react-router-dom';
+import styles from './applications.module.css';
 import ButtonCreate from '../Shared/ButtonCreate';
 import ButtonDelete from '../Shared/ButtonDelete';
+import Modal from '../Shared/Modal';
+import ModalError from '../Shared/ModalError';
 
 function Applications() {
   const [applications, setApplications] = useState([]);
   const [showRemove, setShowRemove] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState({
     show: false,
     message: '',
     title: ''
   });
-  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);

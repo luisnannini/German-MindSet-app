@@ -1,6 +1,8 @@
 import { Switch, Route, Redirect } from 'react-router-dom';
+import styles from './layout.module.css';
 import Header from '../Header/index';
 import Footer from '../Footer/index';
+import Home from '../Home/index';
 import Admins from '../Admins/index';
 import AdminsForm from '../Admins/Form';
 import Applications from '../Applications/index';
@@ -12,15 +14,13 @@ import InterviewsForm from '../Interviews/Form';
 import Positions from '../Positions/index';
 import PositionsForm from '../Positions/Form';
 import Postulants from '../Postulants/index';
-import PostulantsAddForm from '../Postulants/Form/Form';
+import PostulantsForm from '../Postulants/Form/Form';
 import Profiles from '../Profiles/index';
 import ProfilesForm from '../Profiles/Form';
 import Psychologists from '../Psychologists/index';
 import PsychologistsForm from '../Psychologists/Form';
 import Sessions from '../Sessions/index';
 import SessionsForm from '../Sessions/Form';
-import Home from '../Home/index';
-import styles from './layout.module.css';
 
 function Layout() {
   return (
@@ -44,8 +44,8 @@ function Layout() {
         <Route exact path="/positions/form" component={PositionsForm} />
         <Route path="/positions/form/:id" component={PositionsForm} />
         <Route exact path="/postulants" component={Postulants} />
-        <Route exact path="/postulants/form" component={PostulantsAddForm} />
-        <Route path="/postulants/form/:id" component={PostulantsAddForm} />
+        <Route exact path="/postulants/form" component={PostulantsForm} />
+        <Route path="/postulants/form/:id" component={PostulantsForm} />
         <Route exact path="/profiles" component={Profiles} />
         <Route exact path="/profiles/form" component={ProfilesForm} />
         <Route path="/profiles/form/:id" component={ProfilesForm} />

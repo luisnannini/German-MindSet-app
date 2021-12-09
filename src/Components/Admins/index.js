@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './admins.module.css';
-import ModalError from '../Shared/ModalError';
-import Modal from '../Shared/Modal';
 import ButtonCreate from '../Shared/ButtonCreate';
-import ButtonUpdate from '../Shared/ButtonUpdate';
 import ButtonDelete from '../Shared/ButtonDelete';
+import ButtonUpdate from '../Shared/ButtonUpdate';
+import Modal from '../Shared/Modal';
+import ModalError from '../Shared/ModalError';
 
 function Admins() {
   const [admins, setAdmins] = useState([]);

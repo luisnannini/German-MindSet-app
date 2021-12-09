@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './psychologists.module.css';
-import ModalError from '../Shared/ModalError';
-import Modal from '../Shared/Modal';
 import ButtonCreate from '../Shared/ButtonCreate';
-import ButtonUpdate from '../Shared/ButtonUpdate';
 import ButtonDelete from '../Shared/ButtonDelete';
+import ButtonUpdate from '../Shared/ButtonUpdate';
+import Modal from '../Shared/Modal';
+import ModalError from '../Shared/ModalError';
 
 function Psychologists() {
   const [psychologists, savePsychologists] = useState([]);
-  const [showModalDelete, setShowModalDelete] = useState(false);
   const [selectedPsychologist, setSelectedPsychologist] = useState('');
+  const [showModalDelete, setShowModalDelete] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState({
     show: false,

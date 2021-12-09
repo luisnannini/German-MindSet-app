@@ -8,8 +8,8 @@
 }
 
 .brand {
-  font-weight: bold;
   font-size: 1rem;
+  font-weight: bold;
 }
 
 .socialIcon {
@@ -24,38 +24,37 @@
   left: 0;
   width: 200px;
   height: 100%;
-  z-index: 1;
   background-color: #232F3E;
+  z-index: 1;
+}
+
+.appName {
+  padding: 20px 0px;
+  border-bottom: 1px solid #a5a5a5;
+  background-color: #3E4855;
+  text-align: center;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
 }
 
 .routes {
   display: flex;
-  flex-wrap: wrap;
   flex-direction: column;
+  flex-wrap: wrap;
   list-style-type: none;
 }
 
 .routes > li > a {
   display: block;
   margin: 15px 0px;
-  /*margin-left: 20px; */
-  font-size: 18px;
   text-align: center;
   text-decoration: none;
   text-transform: capitalize;
   color: white;
+  font-size: 18px;
 }
 
 .routes > li > a:hover {
   color: #FC6225;
-}
-
-.appName {
-  font-size: 40px;
-  font-weight: bold;
-  text-align: center;
-  color: white;
-  background-color: #3E4855;
-  padding: 20px 0px;
-  border-bottom: 1px solid #a5a5a5;
 }

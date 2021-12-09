@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './sessions.module.css';
 import Session from './Session';
-import ModalError from '../Shared/ModalError';
-import Modal from '../Shared/Modal';
 import ButtonCreate from '../Shared/ButtonCreate';
+import Modal from '../Shared/Modal';
+import ModalError from '../Shared/ModalError';
 
 function Sessions() {
   const [Sessions, setSessions] = useState([]);
