@@ -43,8 +43,9 @@ export const getAdminByIdRejected = () => ({
 export const addAdminFetching = () => ({
   type: ADD_ADMIN_FETCHING
 });
-export const addAdminFulfilled = () => ({
-  type: ADD_ADMIN_FULFILLED
+export const addAdminFulfilled = (payload) => ({
+  type: ADD_ADMIN_FULFILLED,
+  payload
 });
 export const addAdminRejected = () => ({
   type: ADD_ADMIN_REJECTED

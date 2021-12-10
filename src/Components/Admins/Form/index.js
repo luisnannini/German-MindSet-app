@@ -9,6 +9,7 @@ import {
   getAdmin,
   adminCloseErrorModal,
   addAdmin,
+  updateAdmin,
   setAdmin
 } from '../../../redux/actions/adminActions';
 import { useSelector, useDispatch } from 'react-redux';
@@ -52,11 +53,12 @@ const Form = () => {
     if (adminId) {
       options.method = 'PUT';
       url = `${process.env.REACT_APP_API}/admins/618da298735af3cddf27e7786`;
+      dispatch(updateAdmin(url, options));
     } else {
       options.method = 'POST';
       url = `${process.env.REACT_APP_API}/admins`;
+      dispatch(addAdmin(url, options));
     }
-    dispatch(addAdmin(url, options));
   };
 
   return (

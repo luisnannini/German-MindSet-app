@@ -45,10 +45,10 @@ export const getAdmins = () => {
   };
 };
 
-export const getAdmin = () => {
+export const getAdmin = (id) => {
   return (dispatch) => {
     dispatch(getAdminByIdFetching());
-    fetch(`${process.env.REACT_APP_API}/admins`)
+    fetch(`${process.env.REACT_APP_API}/admins?id=${id}`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           const status = `${response.status} ${response.statusText}`;

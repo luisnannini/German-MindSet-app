@@ -25,7 +25,7 @@ const initialState = {
   error: { show: false }
 };
 
-const reducerProfiles = (state = initialState, action) => {
+const reducerAdmins = (state = initialState, action) => {
   switch (action.type) {
     case GET_ADMINS_FETCHING: {
       return {
@@ -52,8 +52,7 @@ const reducerProfiles = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
-        error: initialState.error,
-        admin: initialState.admin
+        error: initialState.error
       };
     }
     case GET_ADMIN_BY_ID_FULFILLED: {
@@ -80,8 +79,7 @@ const reducerProfiles = (state = initialState, action) => {
     case ADD_ADMIN_FULFILLED: {
       return {
         ...state,
-        isLoading: false,
-        admins: [...state.admins, action.payload]
+        isLoading: false
       };
     }
     case ADD_ADMIN_REJECTED: {
@@ -101,13 +99,7 @@ const reducerProfiles = (state = initialState, action) => {
     case UPDATE_ADMIN_FULFILLED: {
       return {
         ...state,
-        isLoading: false,
-        admins: state.admins.map((item) => {
-          if (item._id === action.payload._id) {
-            return action.payload;
-          }
-          return item;
-        })
+        isLoading: false
       };
     }
     case UPDATE_ADMIN_REJECTED: {
@@ -121,14 +113,13 @@ const reducerProfiles = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
-        error: initialState
+        error: initialState.error
       };
     }
     case DELETE_ADMIN_FULFILLED: {
       return {
         ...state,
-        isLoading: false,
-        admins: state.admins.filter((item) => item._id !== action.payload)
+        isLoading: false
       };
     }
     case DELETE_ADMIN_REJECTED: {
@@ -147,9 +138,7 @@ const reducerProfiles = (state = initialState, action) => {
     case ADMIN_CLOSE_ERROR_MODAL: {
       return {
         ...state,
-        error: {
-          show: false
-        }
+        error: initialState.error
       };
     }
     default: {
@@ -158,4 +147,4 @@ const reducerProfiles = (state = initialState, action) => {
   }
 };
 
-export default reducerProfiles;
+export default reducerAdmins;
