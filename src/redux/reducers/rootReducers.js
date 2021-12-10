@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-//import reducers here
+import reducerInterviews from '../Interviews/reducer';
 
 const rootReducer = combineReducers({
-  //insert reducers here
+  interviews: reducerInterviews
 });
 
 export default rootReducer;
