@@ -5,48 +5,27 @@ import Input from '../../Shared/Input';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
+import { useDispatch, useSelector } from 'react-redux';
+import { createProfile, getProfileById, updateProfile } from '../../../redux/Profiles/thunks';
+import { closeErrorModal } from '../../../redux/Profiles/actions';
 
 const Form = () => {
-  const [profileId, setProfileId] = useState(undefined);
   const [profileValue, setProfileValue] = useState('');
-  const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState({
-    show: false,
-    message: '',
-    title: ''
-  });
+  const [id, setProfileId] = useState(undefined);
+
+  const error = useSelector((store) => store.profiles.error);
+  const isLoading = useSelector((store) => store.profiles.isLoading);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const profileId = params.get('id');
+    setProfileId(profileId);
     if (profileId) {
-      setLoading(true);
-      setProfileId(profileId);
-      fetch(`${process.env.REACT_APP_API}/profiles?_id=${profileId}`)
-        .then((response) => {
-          if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-            const status = `${response.status} ${response.statusText}`;
-            return response.json().then(({ message }) => {
-              if (message.message) throw { message: message.message, status };
-              throw { message, status };
-            });
-          }
-          return response.json();
-        })
-        .then((response) => {
-          if (!response.data[0]) {
-            return setError({
-              show: true,
-              message: 'Profile not found',
-              title: '404: Not Found'
-            });
-          }
-          setProfileValue(response.data[0].name);
-        })
-        .catch((error) => {
-          setError({ show: true, message: error.message, title: error.status });
-        })
-        .finally(() => setLoading(false));
+      dispatch(getProfileById(profileId)).then((selectedProfile) => {
+        setProfileValue(selectedProfile.name);
+      });
     }
   }, []);
 
@@ -56,54 +35,29 @@ const Form = () => {
 
   const submitProfile = (event) => {
     event.preventDefault();
-    setLoading(true);
+
     const params = new URLSearchParams(window.location.search);
     const profileId = params.get('id');
-    setProfileId(profileId);
-    let url;
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: profileValue
-      })
-    };
-
     if (profileId) {
-      options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/profiles/${profileId}`;
+      dispatch(
+        updateProfile(profileId, {
+          name: profileValue
+        })
+      );
     } else {
-      options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/profiles`;
+      dispatch(
+        createProfile({
+          name: profileValue
+        })
+      );
     }
-
-    fetch(url, options)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then(() => {
-        window.location.href = '/profiles';
-      })
-      .catch((error) => {
-        setError({ show: true, message: error.message, title: error.status });
-      })
-      .finally(() => setLoading(false));
   };
 
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={submitProfile}>
         <div className={styles.header}>
-          <h2 className={styles.title}>{profileId ? 'Update a Profile' : 'Create a Profile'}</h2>
+          <h2 className={styles.title}>{id ? 'Update a Profile' : 'Create a Profile'}</h2>
         </div>
         <div className={styles.fields}>
           <div className={styles.columns}>
@@ -125,7 +79,7 @@ const Form = () => {
           </Link>
           <ButtonConfirm disabled={isLoading} type={'submit'} />
         </div>
-        <ModalError error={error} onConfirm={() => setError({ show: false })} />
+        <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
       </form>
     </div>
   );

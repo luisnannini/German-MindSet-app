@@ -20,7 +20,7 @@ import {
 const initialState = {
   isLoading: false,
   list: [],
-  profile: {},
+  selectedItem: {},
   error: { show: false }
 };
 
@@ -30,7 +30,6 @@ const reducerProfiles = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
-        // Reset the error value with the initial error value
         error: initialState.error
       };
     }
@@ -53,14 +52,15 @@ const reducerProfiles = (state = initialState, action) => {
         ...state,
         isLoading: true,
         error: initialState.error,
-        profile: initialState.profile
+        selectedItem: initialState.selectedItem
       };
     }
     case GET_PROFILE_BY_ID_FULFILLED: {
       return {
         ...state,
         isLoading: false,
-        profile: action.payload
+        profile: action.payload,
+        selectedItem: action.payload
       };
     }
     case GET_PROFILE_BY_ID_REJECTED: {
@@ -81,7 +81,6 @@ const reducerProfiles = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        // Add the new profile created into the previous admin list
         list: [...state.list, action.payload]
       };
     }
@@ -103,7 +102,6 @@ const reducerProfiles = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        // Update the updated profile into the previous profile list
         list: state.list.map((item) => {
           if (item._id === action.payload._id) {
             return action.payload;
@@ -130,7 +128,6 @@ const reducerProfiles = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        // Remove the removed profile into the previous profile list
         list: state.list.filter((item) => item._id !== action.payload)
       };
     }
