@@ -25,8 +25,9 @@ export const getAdminsFulfilled = (payload) => ({
   type: GET_ADMINS_FULFILLED,
   payload
 });
-export const getAdminsRejected = () => ({
-  type: GET_ADMINS_REJECTED
+export const getAdminsRejected = (payload) => ({
+  type: GET_ADMINS_REJECTED,
+  payload
 });
 
 export const getAdminByIdFetching = () => ({
@@ -36,8 +37,9 @@ export const getAdminByIdFulfilled = (payload) => ({
   type: GET_ADMIN_BY_ID_FULFILLED,
   payload
 });
-export const getAdminByIdRejected = () => ({
-  type: GET_ADMIN_BY_ID_REJECTED
+export const getAdminByIdRejected = (payload) => ({
+  type: GET_ADMIN_BY_ID_REJECTED,
+  payload
 });
 
 export const addAdminFetching = () => ({
@@ -47,8 +49,9 @@ export const addAdminFulfilled = (payload) => ({
   type: ADD_ADMIN_FULFILLED,
   payload
 });
-export const addAdminRejected = () => ({
-  type: ADD_ADMIN_REJECTED
+export const addAdminRejected = (payload) => ({
+  type: ADD_ADMIN_REJECTED,
+  payload
 });
 
 export const deleteAdminFetching = () => ({
@@ -57,8 +60,9 @@ export const deleteAdminFetching = () => ({
 export const deleteAdminFulfilled = () => ({
   type: DELETE_ADMIN_FULFILLED
 });
-export const deleteAdminRejected = () => ({
-  type: DELETE_ADMIN_REJECTED
+export const deleteAdminRejected = (payload) => ({
+  type: DELETE_ADMIN_REJECTED,
+  payload
 });
 
 export const updateAdminFetching = () => ({
@@ -67,8 +71,9 @@ export const updateAdminFetching = () => ({
 export const updateAdminFulfilled = () => ({
   type: UPDATE_ADMIN_FULFILLED
 });
-export const updateAdminRejected = () => ({
-  type: UPDATE_ADMIN_REJECTED
+export const updateAdminRejected = (payload) => ({
+  type: UPDATE_ADMIN_REJECTED,
+  payload
 });
 
 export const setAdmin = (payload) => ({

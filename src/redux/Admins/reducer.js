@@ -79,7 +79,8 @@ const reducerAdmins = (state = initialState, action) => {
     case ADD_ADMIN_FULFILLED: {
       return {
         ...state,
-        isLoading: false
+        isLoading: false,
+        admin: initialState.admin
       };
     }
     case ADD_ADMIN_REJECTED: {
@@ -99,7 +100,8 @@ const reducerAdmins = (state = initialState, action) => {
     case UPDATE_ADMIN_FULFILLED: {
       return {
         ...state,
-        isLoading: false
+        isLoading: false,
+        admin: initialState.admin
       };
     }
     case UPDATE_ADMIN_REJECTED: {

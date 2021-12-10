@@ -5,13 +5,8 @@ import Input from '../../Shared/Input';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
-import {
-  getAdmin,
-  adminCloseErrorModal,
-  addAdmin,
-  updateAdmin,
-  setAdmin
-} from '../../../redux/actions/adminActions';
+import { getAdmin, addAdmin, updateAdmin } from '../../../redux/Admins/thunks';
+import { adminCloseErrorModal, setAdmin } from '../../../redux/Admins/actions';
 import { useSelector, useDispatch } from 'react-redux';
 
 const Form = () => {
@@ -52,7 +47,7 @@ const Form = () => {
 
     if (adminId) {
       options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/admins/618da298735af3cddf27e7786`;
+      url = `${process.env.REACT_APP_API}/admins/${adminId}`;
       dispatch(updateAdmin(url, options));
     } else {
       options.method = 'POST';

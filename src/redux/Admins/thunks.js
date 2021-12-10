@@ -14,7 +14,7 @@ import {
   updateAdminFetching,
   updateAdminFulfilled,
   updateAdminRejected
-} from '../../constants/actionTypes';
+} from './actions';
 
 export const getAdmins = () => {
   return (dispatch) => {
@@ -48,7 +48,7 @@ export const getAdmins = () => {
 export const getAdmin = (id) => {
   return (dispatch) => {
     dispatch(getAdminByIdFetching());
-    fetch(`${process.env.REACT_APP_API}/admins?id=${id}`)
+    fetch(`${process.env.REACT_APP_API}/admins?_id=${id}`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           const status = `${response.status} ${response.statusText}`;

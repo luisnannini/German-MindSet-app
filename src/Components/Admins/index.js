@@ -7,7 +7,8 @@ import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
 import Modal from '../Shared/Modal';
 import ModalError from '../Shared/ModalError';
 import { useSelector, useDispatch } from 'react-redux';
-import { getAdmins, deleteAdmin, adminCloseErrorModal } from '../../redux/actions/adminActions';
+import { getAdmins, deleteAdmin } from '../../redux/Admins/thunks';
+import { adminCloseErrorModal } from '../../redux/Admins/actions';
 
 function Admins() {
   const dispatch = useDispatch();
