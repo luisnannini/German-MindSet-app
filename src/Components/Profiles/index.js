@@ -6,77 +6,30 @@ import ButtonDelete from '../Shared/Buttons/ButtonDelete';
 import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
 import Modal from '../Shared/Modal';
 import ModalError from '../Shared/ModalError';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProfiles, deleteProfile } from '../../redux/Profiles/thunks';
+import { closeErrorModal } from '../../redux/Profiles/actions';
 
 function Profiles() {
-  const [profiles, setProfiles] = useState([]);
   const [selectedProfile, setSelectedProfile] = useState(undefined);
   const [showDelete, setShowDelete] = useState(false);
-  const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState({
-    show: false,
-    message: '',
-    title: ''
-  });
+
+  const dispatch = useDispatch();
+
+  const profiles = useSelector((store) => store.profiles.list);
+  const error = useSelector((store) => store.profiles.error);
+  const isLoading = useSelector((store) => store.profiles.isLoading);
 
   useEffect(() => {
-    setLoading(true);
-    fetch(`${process.env.REACT_APP_API}/profiles`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setProfiles(response.data);
-      })
-      .catch((error) => {
-        setError({ show: true, message: error.message, title: error.status });
-      })
-      .finally(() => setLoading(false));
-  }, []);
+    if (!profiles.length) {
+      dispatch(getProfiles());
+    }
+  }, [profiles]);
 
   const handleDelete = (event, profile) => {
     event.stopPropagation();
     setSelectedProfile(profile._id);
     setShowDelete(true);
-  };
-
-  const deleteProfile = () => {
-    setShowDelete(false);
-    setLoading(true);
-    fetch(`${process.env.REACT_APP_API}/profiles/${selectedProfile}`, { method: 'DELETE' })
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return fetch(`${process.env.REACT_APP_API}/profiles`)
-          .then((response) => {
-            if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-              const status = `${response.status} ${response.statusText}`;
-              return response.json().then(({ message }) => {
-                if (message.message) throw { message: message.message, status };
-                throw { message, status };
-              });
-            }
-            return response.json();
-          })
-          .then((response) => {
-            setProfiles(response.data);
-          });
-      })
-      .catch((error) => {
-        setError({ show: true, message: error.message, title: error.status });
-      })
-      .finally(() => setLoading(false));
   };
 
   return (
@@ -85,10 +38,15 @@ function Profiles() {
         show={showDelete}
         title="Delete a Profile"
         message="Are you sure you want to delete this profile?"
-        onConfirm={deleteProfile}
+        onConfirm={() => {
+          dispatch(deleteProfile(selectedProfile)).then(() => {
+            setSelectedProfile(undefined);
+            setShowDelete(false);
+          });
+        }}
         onCancel={() => setShowDelete(false)}
       />
-      <ModalError error={error} onConfirm={() => setError({ show: false })} />
+      <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Profiles</h2>
