@@ -22,7 +22,6 @@ import {
 const initialState = {
   isLoading: false,
   admins: [],
-  admin: {},
   error: { show: false }
 };
 
@@ -59,8 +58,7 @@ const reducerAdmins = (state = initialState, action) => {
     case GET_ADMIN_BY_ID_FULFILLED: {
       return {
         ...state,
-        isLoading: false,
-        admin: action.payload
+        isLoading: false
       };
     }
     case GET_ADMIN_BY_ID_REJECTED: {
@@ -80,8 +78,7 @@ const reducerAdmins = (state = initialState, action) => {
     case ADD_ADMIN_FULFILLED: {
       return {
         ...state,
-        isLoading: false,
-        admin: initialState.admin
+        isLoading: false
       };
     }
     case ADD_ADMIN_REJECTED: {
@@ -101,8 +98,7 @@ const reducerAdmins = (state = initialState, action) => {
     case UPDATE_ADMIN_FULFILLED: {
       return {
         ...state,
-        isLoading: false,
-        admin: initialState.admin
+        isLoading: false
       };
     }
     case UPDATE_ADMIN_REJECTED: {
@@ -130,18 +126,6 @@ const reducerAdmins = (state = initialState, action) => {
         ...state,
         isLoading: false,
         error: action.payload
-      };
-    }
-    case SET_ADMIN: {
-      return {
-        ...state,
-        admin: action.payload
-      };
-    }
-    case CLEAR_ADMIN: {
-      return {
-        ...state,
-        admin: initialState.admin
       };
     }
     case ADMIN_CLOSE_ERROR_MODAL: {

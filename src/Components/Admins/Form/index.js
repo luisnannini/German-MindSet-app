@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './form.module.css';
 import Input from '../../Shared/Input';
@@ -6,33 +6,37 @@ import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
 import { getAdmin, addAdmin, updateAdmin } from '../../../redux/Admins/thunks';
-import { adminCloseErrorModal, setAdmin, clearAdmin } from '../../../redux/Admins/actions';
+import { adminCloseErrorModal } from '../../../redux/Admins/actions';
 import { useSelector, useDispatch } from 'react-redux';
 
 const Form = () => {
   const dispatch = useDispatch();
   const params = new URLSearchParams(window.location.search);
   const adminId = params.get('id');
-  const admin = useSelector((store) => store.admins.admin);
+  const [admin, setAdmin] = useState({
+    name: '',
+    username: '',
+    password: ''
+  });
   const isLoading = useSelector((store) => store.admins.isLoading);
   const error = useSelector((store) => store.admins.error);
 
   useEffect(() => {
     if (adminId) {
-      dispatch(getAdmin(adminId));
+      dispatch(getAdmin(adminId, (admin) => setAdmin(admin)));
     }
   }, []);
 
   const onChangeFullNameValue = (event) => {
-    dispatch(setAdmin({ ...admin, name: event.target.value }));
+    setAdmin({ ...admin, name: event.target.value });
   };
 
   const onChangeUsernameValue = (event) => {
-    dispatch(setAdmin({ ...admin, username: event.target.value }));
+    setAdmin({ ...admin, username: event.target.value });
   };
 
   const onChangePasswordValue = (event) => {
-    dispatch(setAdmin({ ...admin, password: event.target.value }));
+    setAdmin({ ...admin, password: event.target.value });
   };
 
   const submitAdmin = (e) => {
@@ -95,7 +99,7 @@ const Form = () => {
         </div>
         <div className={styles.button}>
           <Link to="/admins">
-            <ButtonCancel disabled={isLoading} onClick={() => dispatch(clearAdmin())} />
+            <ButtonCancel disabled={isLoading} />
           </Link>
           <ButtonConfirm disabled={isLoading} type="submit" />
         </div>

@@ -45,7 +45,7 @@ export const getAdmins = () => {
   };
 };
 
-export const getAdmin = (id) => {
+export const getAdmin = (id, setAdmin) => {
   return (dispatch) => {
     dispatch(getAdminByIdFetching());
     fetch(`${process.env.REACT_APP_API}/admins?_id=${id}`)
@@ -60,7 +60,8 @@ export const getAdmin = (id) => {
         return response.json();
       })
       .then((response) => {
-        dispatch(getAdminByIdFulfilled(response.data[0]));
+        dispatch(getAdminByIdFulfilled());
+        setAdmin(response.data[0]);
       })
       .catch((err) =>
         dispatch(
