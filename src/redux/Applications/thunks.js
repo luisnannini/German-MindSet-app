@@ -2,9 +2,6 @@ import {
   getApplicationsFetching,
   getApplicationsFulfilled,
   getApplicationsRejected,
-  getApplicationByIdFetching,
-  getApplicationByIdFulfilled,
-  getApplicationByIdRejected,
   createApplicationFetching,
   createApplicationFulfilled,
   createApplicationRejected,
@@ -35,30 +32,6 @@ export const getApplications = () => {
           getApplicationsRejected({ show: true, message: error.message, title: error.status })
         )
       );
-  };
-};
-
-export const getApplicationById = (id) => {
-  return (dispatch) => {
-    dispatch(getApplicationByIdFetching());
-    return fetch(`${process.env.REACT_APP_API}/applications?_id=${id}`)
-      .then((response) => {
-        if (response.status !== 200) {
-          return response.json().then(({ message }) => {
-            throw new Error(message);
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        dispatch(getApplicationByIdFulfilled(response.data[0]));
-        return response.data[0];
-      })
-      .catch((error) => {
-        dispatch(
-          getApplicationByIdRejected({ show: true, message: error.message, title: error.status })
-        );
-      });
   };
 };
 

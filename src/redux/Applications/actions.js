@@ -2,9 +2,6 @@ import {
   GET_APPLICATIONS_FETCHING,
   GET_APPLICATIONS_FULFILLED,
   GET_APPLICATIONS_REJECTED,
-  GET_APPLICATION_BY_ID_FETCHING,
-  GET_APPLICATION_BY_ID_FULFILLED,
-  GET_APPLICATION_BY_ID_REJECTED,
   CREATE_APPLICATION_FETCHING,
   CREATE_APPLICATION_FULFILLED,
   CREATE_APPLICATION_REJECTED,
@@ -30,26 +27,6 @@ export const getApplicationsFulfilled = (data) => {
 export const getApplicationsRejected = (error) => {
   return {
     type: GET_APPLICATIONS_REJECTED,
-    payload: error
-  };
-};
-
-export const getApplicationByIdFetching = () => {
-  return {
-    type: GET_APPLICATION_BY_ID_FETCHING
-  };
-};
-
-export const getApplicationByIdFulfilled = (data) => {
-  return {
-    type: GET_APPLICATION_BY_ID_FULFILLED,
-    payload: data
-  };
-};
-
-export const getApplicationByIdRejected = (error) => {
-  return {
-    type: GET_APPLICATION_BY_ID_REJECTED,
     payload: error
   };
 };

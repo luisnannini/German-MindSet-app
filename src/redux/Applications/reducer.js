@@ -2,9 +2,6 @@ import {
   GET_APPLICATIONS_FETCHING,
   GET_APPLICATIONS_FULFILLED,
   GET_APPLICATIONS_REJECTED,
-  GET_APPLICATION_BY_ID_FETCHING,
-  GET_APPLICATION_BY_ID_FULFILLED,
-  GET_APPLICATION_BY_ID_REJECTED,
   CREATE_APPLICATION_FETCHING,
   CREATE_APPLICATION_FULFILLED,
   CREATE_APPLICATION_REJECTED,
@@ -38,28 +35,6 @@ const applicationsReducer = (state = initialState, action) => {
       };
     }
     case GET_APPLICATIONS_REJECTED: {
-      return {
-        ...state,
-        isLoading: false,
-        error: action.payload
-      };
-    }
-    case GET_APPLICATION_BY_ID_FETCHING: {
-      return {
-        ...state,
-        isLoading: true,
-        error: initialState.error,
-        selectedItem: initialState.selectedItem
-      };
-    }
-    case GET_APPLICATION_BY_ID_FULFILLED: {
-      return {
-        ...state,
-        isLoading: false,
-        selectedItem: action.payload
-      };
-    }
-    case GET_APPLICATION_BY_ID_REJECTED: {
       return {
         ...state,
         isLoading: false,
