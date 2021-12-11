@@ -1,11 +1,20 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import useQuery from '../../../Hooks/useQuery';
 import styles from './form.module.css';
 import Input from '../../Shared/Input';
 import Checkbox from '../../Shared/Checkbox';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  createPsychologist,
+  getPsychologistById,
+  updatePsychologist
+} from '../../../redux/Psychologists/thunks';
+import { closeErrorModal } from '../../../redux/Psychologists/actions';
 
 const Form = () => {
   const [psychologistId, setPsychologistId] = useState(0);
@@ -37,67 +46,49 @@ const Form = () => {
   const [fridayTo, setFridayTo] = useState(0);
   const [saturdayTo, setSaturdayTo] = useState(0);
   const [sundayTo, setSundayTo] = useState(0);
-  const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState({ show: false });
+
+  const error = useSelector((store) => store.psychologists.error);
+  const isLoading = useSelector((store) => store.psychologists.isLoading);
+
+  const dispatch = useDispatch();
+
+  const history = useHistory();
+  const query = useQuery();
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const psychologistId = params.get('id');
+    const psychologistId = query.get('_id');
     if (psychologistId) {
-      setPsychologistId(psychologistId);
-      setLoading(true);
-      fetch(`${process.env.REACT_APP_API}/psychologists?_id=${psychologistId}`)
-        .then((response) => {
-          if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-            const status = `${response.status} ${response.statusText}`;
-            return response.json().then(({ message }) => {
-              if (message.message) throw { message: message.message, status };
-              throw { message, status };
-            });
-          }
-          return response.json();
-        })
-        .then((response) => {
-          if (!response.data[0]) {
-            return setError({
-              show: true,
-              message: 'Psychologist not found',
-              title: '404: Not Found'
-            });
-          }
-          setFirstName(response.data[0].firstName);
-          setLastName(response.data[0].lastName);
-          setUsername(response.data[0].username);
-          setEmail(response.data[0].email);
-          setPhone(response.data[0].phone);
-          setPassword(response.data[0].password);
-          setAddress(response.data[0].address);
-          setMondayBool(response.data[0].availability.monday.availability);
-          setTuesdayBool(response.data[0].availability.tuesday.availability);
-          setWednesdayBool(response.data[0].availability.wednesday.availability);
-          setThursdayBool(response.data[0].availability.thursday.availability);
-          setFridayBool(response.data[0].availability.friday.availability);
-          setSaturdayBool(response.data[0].availability.saturday.availability);
-          setSundayBool(response.data[0].availability.sunday.availability);
-          setMondayFrom(response.data[0].availability.monday.from);
-          setTuesdayFrom(response.data[0].availability.tuesday.from);
-          setWednesdayFrom(response.data[0].availability.wednesday.from);
-          setThursdayFrom(response.data[0].availability.thursday.from);
-          setFridayFrom(response.data[0].availability.friday.from);
-          setSaturdayFrom(response.data[0].availability.saturday.from);
-          setSundayFrom(response.data[0].availability.sunday.from);
-          setMondayTo(response.data[0].availability.monday.to);
-          setTuesdayTo(response.data[0].availability.tuesday.to);
-          setWednesdayTo(response.data[0].availability.wednesday.to);
-          setThursdayTo(response.data[0].availability.thursday.to);
-          setFridayTo(response.data[0].availability.friday.to);
-          setSaturdayTo(response.data[0].availability.saturday.to);
-          setSundayTo(response.data[0].availability.sunday.to);
-        })
-        .catch((error) => {
-          setError({ show: true, message: error.message, title: error.status });
-        })
-        .finally(() => setLoading(false));
+      dispatch(getPsychologistById(psychologistId)).then((selectedPsychologist) => {
+        setPsychologistId(psychologistId);
+        setFirstName(selectedPsychologist.firstName);
+        setLastName(selectedPsychologist.lastName);
+        setUsername(selectedPsychologist.username);
+        setEmail(selectedPsychologist.email);
+        setPhone(selectedPsychologist.phone);
+        setPassword(selectedPsychologist.password);
+        setAddress(selectedPsychologist.address);
+        setMondayBool(selectedPsychologist.availability.monday.availability);
+        setTuesdayBool(selectedPsychologist.availability.tuesday.availability);
+        setWednesdayBool(selectedPsychologist.availability.wednesday.availability);
+        setThursdayBool(selectedPsychologist.availability.thursday.availability);
+        setFridayBool(selectedPsychologist.availability.friday.availability);
+        setSaturdayBool(selectedPsychologist.availability.saturday.availability);
+        setSundayBool(selectedPsychologist.availability.sunday.availability);
+        setMondayFrom(selectedPsychologist.availability.monday.from);
+        setTuesdayFrom(selectedPsychologist.availability.tuesday.from);
+        setWednesdayFrom(selectedPsychologist.availability.wednesday.from);
+        setThursdayFrom(selectedPsychologist.availability.thursday.from);
+        setFridayFrom(selectedPsychologist.availability.friday.from);
+        setSaturdayFrom(selectedPsychologist.availability.saturday.from);
+        setSundayFrom(selectedPsychologist.availability.sunday.from);
+        setMondayTo(selectedPsychologist.availability.monday.to);
+        setTuesdayTo(selectedPsychologist.availability.tuesday.to);
+        setWednesdayTo(selectedPsychologist.availability.wednesday.to);
+        setThursdayTo(selectedPsychologist.availability.thursday.to);
+        setFridayTo(selectedPsychologist.availability.friday.to);
+        setSaturdayTo(selectedPsychologist.availability.saturday.to);
+        setSundayTo(selectedPsychologist.availability.sunday.to);
+      });
     }
   }, []);
 
@@ -197,89 +188,111 @@ const Form = () => {
 
   const submitPsychologist = (event) => {
     event.preventDefault();
-    setLoading(true);
-    const params = new URLSearchParams(window.location.search);
-    const psychologistId = params.get('id');
-    let url;
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName: firstNameForm,
-        lastName: lastNameForm,
-        username: usernameForm,
-        password: passwordForm,
-        email: emailForm,
-        phone: parseInt(phoneForm),
-        address: addressForm,
-        availability: {
-          monday: {
-            availability: !!mondayBool,
-            from: parseInt(mondayFrom, 10),
-            to: parseInt(mondayTo, 10)
-          },
-          tuesday: {
-            availability: !!tuesdayBool,
-            from: parseInt(tuesdayFrom, 10),
-            to: parseInt(tuesdayTo, 10)
-          },
-          wednesday: {
-            availability: !!wednesdayBool,
-            from: parseInt(wednesdayFrom, 10),
-            to: parseInt(wednesdayTo, 10)
-          },
-          thursday: {
-            availability: !!thursdayBool,
-            from: parseInt(thursdayFrom, 10),
-            to: parseInt(thursdayTo, 10)
-          },
-          friday: {
-            availability: !!fridayBool,
-            from: parseInt(fridayFrom, 10),
-            to: parseInt(fridayTo, 10)
-          },
-          saturday: {
-            availability: !!saturdayBool,
-            from: parseInt(saturdayFrom, 10),
-            to: parseInt(saturdayTo, 10)
-          },
-          sunday: {
-            availability: !!sundayBool,
-            from: parseInt(sundayFrom, 10),
-            to: parseInt(sundayTo, 10)
-          }
-        }
-      })
-    };
 
+    const psychologistId = query.get('_id');
     if (psychologistId) {
-      options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/psychologists/${psychologistId}`;
+      dispatch(
+        updatePsychologist(psychologistId, {
+          firstName: firstNameForm,
+          lastName: lastNameForm,
+          username: usernameForm,
+          password: passwordForm,
+          email: emailForm,
+          phone: parseInt(phoneForm),
+          address: addressForm,
+          availability: {
+            monday: {
+              availability: !!mondayBool,
+              from: parseInt(mondayFrom, 10),
+              to: parseInt(mondayTo, 10)
+            },
+            tuesday: {
+              availability: !!tuesdayBool,
+              from: parseInt(tuesdayFrom, 10),
+              to: parseInt(tuesdayTo, 10)
+            },
+            wednesday: {
+              availability: !!wednesdayBool,
+              from: parseInt(wednesdayFrom, 10),
+              to: parseInt(wednesdayTo, 10)
+            },
+            thursday: {
+              availability: !!thursdayBool,
+              from: parseInt(thursdayFrom, 10),
+              to: parseInt(thursdayTo, 10)
+            },
+            friday: {
+              availability: !!fridayBool,
+              from: parseInt(fridayFrom, 10),
+              to: parseInt(fridayTo, 10)
+            },
+            saturday: {
+              availability: !!saturdayBool,
+              from: parseInt(saturdayFrom, 10),
+              to: parseInt(saturdayTo, 10)
+            },
+            sunday: {
+              availability: !!sundayBool,
+              from: parseInt(sundayFrom, 10),
+              to: parseInt(sundayTo, 10)
+            }
+          }
+        })
+      ).then((response) => {
+        if (response) history.push('/psychologists');
+      });
     } else {
-      options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/psychologists`;
+      dispatch(
+        createPsychologist({
+          firstName: firstNameForm,
+          lastName: lastNameForm,
+          username: usernameForm,
+          password: passwordForm,
+          email: emailForm,
+          phone: parseInt(phoneForm),
+          address: addressForm,
+          availability: {
+            monday: {
+              availability: !!mondayBool,
+              from: parseInt(mondayFrom, 10),
+              to: parseInt(mondayTo, 10)
+            },
+            tuesday: {
+              availability: !!tuesdayBool,
+              from: parseInt(tuesdayFrom, 10),
+              to: parseInt(tuesdayTo, 10)
+            },
+            wednesday: {
+              availability: !!wednesdayBool,
+              from: parseInt(wednesdayFrom, 10),
+              to: parseInt(wednesdayTo, 10)
+            },
+            thursday: {
+              availability: !!thursdayBool,
+              from: parseInt(thursdayFrom, 10),
+              to: parseInt(thursdayTo, 10)
+            },
+            friday: {
+              availability: !!fridayBool,
+              from: parseInt(fridayFrom, 10),
+              to: parseInt(fridayTo, 10)
+            },
+            saturday: {
+              availability: !!saturdayBool,
+              from: parseInt(saturdayFrom, 10),
+              to: parseInt(saturdayTo, 10)
+            },
+            sunday: {
+              availability: !!sundayBool,
+              from: parseInt(sundayFrom, 10),
+              to: parseInt(sundayTo, 10)
+            }
+          }
+        })
+      ).then((response) => {
+        if (response) history.push('/psychologists');
+      });
     }
-
-    fetch(url, options)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then(() => {
-        window.location.href = '/psychologists';
-      })
-      .catch((error) => {
-        setError({ show: true, message: error.message, title: error.status });
-      })
-      .finally(() => setLoading(false));
   };
 
   return (
@@ -563,7 +576,7 @@ const Form = () => {
           </Link>
           <ButtonConfirm disabled={isLoading} type="submit" />
         </div>
-        <ModalError error={error} onConfirm={() => setError({ show: false })} />
+        <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
       </form>
     </div>
   );

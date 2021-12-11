@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-//import reducers here
+import reducerPsychologists from '../Psychologists/reducer';
 
 const rootReducer = combineReducers({
-  //insert reducers here
+  psychologists: reducerPsychologists
 });
 
 export default rootReducer;
