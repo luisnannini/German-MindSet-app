@@ -1,5 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import useQuery from '../../../Hooks/useQuery';
 import styles from './form.module.css';
 import Input from '../../Shared/Input';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
@@ -18,12 +20,14 @@ const Form = () => {
 
   const dispatch = useDispatch();
 
+  const history = useHistory();
+  const query = useQuery();
+
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const profileId = params.get('id');
-    setProfileId(profileId);
+    const profileId = query.get('_id');
     if (profileId) {
       dispatch(getProfileById(profileId)).then((selectedProfile) => {
+        setProfileId(profileId);
         setProfileValue(selectedProfile.name);
       });
     }
@@ -36,20 +40,23 @@ const Form = () => {
   const submitProfile = (event) => {
     event.preventDefault();
 
-    const params = new URLSearchParams(window.location.search);
-    const profileId = params.get('id');
+    const profileId = query.get('_id');
     if (profileId) {
       dispatch(
         updateProfile(profileId, {
           name: profileValue
         })
-      );
+      ).then((response) => {
+        if (response) history.push('/profiles');
+      });
     } else {
       dispatch(
         createProfile({
           name: profileValue
         })
-      );
+      ).then((response) => {
+        if (response) history.push('/profiles');
+      });
     }
   };
 

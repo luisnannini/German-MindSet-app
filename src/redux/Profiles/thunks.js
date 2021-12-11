@@ -88,9 +88,6 @@ export const createProfile = (values) => {
         dispatch(createProfileFulfilled(response.data));
         return response.data;
       })
-      .then(() => {
-        window.location.href = '/profiles';
-      })
       .catch((error) => {
         dispatch(
           createProfileRejected({ show: true, message: error.message, title: error.status })
@@ -123,9 +120,6 @@ export const updateProfile = (id, values) => {
       .then((response) => {
         dispatch(updateProfileFulfilled(response.data));
         return response.data;
-      })
-      .then(() => {
-        window.location.href = '/profiles';
       })
       .catch((error) => {
         dispatch(

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styles from './profiles.module.css';
 import ButtonCreate from '../Shared/Buttons/ButtonCreate';
 import ButtonDelete from '../Shared/Buttons/ButtonDelete';
@@ -15,6 +15,8 @@ function Profiles() {
   const [showDelete, setShowDelete] = useState(false);
 
   const dispatch = useDispatch();
+
+  const history = useHistory();
 
   const profiles = useSelector((store) => store.profiles.list);
   const error = useSelector((store) => store.profiles.error);
@@ -50,9 +52,7 @@ function Profiles() {
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Profiles</h2>
-          <Link to="./profiles/form">
-            <ButtonCreate disabled={isLoading} />
-          </Link>
+          <ButtonCreate disabled={isLoading} onClick={() => history.push('/profiles/form')} />
         </div>
         <table className={styles.table}>
           <thead>
@@ -67,9 +67,10 @@ function Profiles() {
                 <tr key={profile._id}>
                   <td>{profile.name}</td>
                   <td>
-                    <Link to={`profiles/form?id=${profile._id}`}>
-                      <ButtonUpdate disabled={isLoading} />
-                    </Link>
+                    <ButtonUpdate
+                      disabled={isLoading}
+                      onClick={() => history.push(`/profiles/form?_id=${profile._id}`)}
+                    />
                     <ButtonDelete
                       disabled={isLoading}
                       onClick={(event) => handleDelete(event, profile)}
