@@ -6,7 +6,7 @@ import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
 import { getAdmin, addAdmin, updateAdmin } from '../../../redux/Admins/thunks';
-import { adminCloseErrorModal, setAdmin } from '../../../redux/Admins/actions';
+import { adminCloseErrorModal, setAdmin, clearAdmin } from '../../../redux/Admins/actions';
 import { useSelector, useDispatch } from 'react-redux';
 
 const Form = () => {
@@ -95,7 +95,7 @@ const Form = () => {
         </div>
         <div className={styles.button}>
           <Link to="/admins">
-            <ButtonCancel disabled={isLoading} />
+            <ButtonCancel disabled={isLoading} onClick={() => dispatch(clearAdmin())} />
           </Link>
           <ButtonConfirm disabled={isLoading} type="submit" />
         </div>

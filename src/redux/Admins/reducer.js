@@ -15,6 +15,7 @@ import {
   UPDATE_ADMIN_FULFILLED,
   UPDATE_ADMIN_REJECTED,
   SET_ADMIN,
+  CLEAR_ADMIN,
   ADMIN_CLOSE_ERROR_MODAL
 } from '../../constants/actionTypes';
 
@@ -135,6 +136,12 @@ const reducerAdmins = (state = initialState, action) => {
       return {
         ...state,
         admin: action.payload
+      };
+    }
+    case CLEAR_ADMIN: {
+      return {
+        ...state,
+        admin: initialState.admin
       };
     }
     case ADMIN_CLOSE_ERROR_MODAL: {

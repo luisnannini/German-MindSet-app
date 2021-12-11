@@ -15,6 +15,7 @@ import {
   UPDATE_ADMIN_FULFILLED,
   UPDATE_ADMIN_REJECTED,
   SET_ADMIN,
+  CLEAR_ADMIN,
   ADMIN_CLOSE_ERROR_MODAL
 } from '../../constants/actionTypes';
 
@@ -79,6 +80,10 @@ export const updateAdminRejected = (payload) => ({
 export const setAdmin = (payload) => ({
   type: SET_ADMIN,
   payload
+});
+
+export const clearAdmin = () => ({
+  type: CLEAR_ADMIN
 });
 
 export const adminCloseErrorModal = () => ({
