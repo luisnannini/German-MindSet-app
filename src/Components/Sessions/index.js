@@ -5,81 +5,28 @@ import Session from './Session';
 import ButtonCreate from '../Shared/Buttons/ButtonCreate';
 import Modal from '../Shared/Modal';
 import ModalError from '../Shared/ModalError';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSessions, deleteSession } from '../../redux/Sessions/thunks';
+import { closeErrorModal } from '../../redux/Sessions/actions';
 
 function Sessions() {
-  const [Sessions, setSessions] = useState([]);
   const [showDelete, setShowDelete] = useState({
     show: false,
     session: {},
     id: ''
   });
-  const [error, setError] = useState({
-    show: false,
-    message: '',
-    title: ''
-  });
-  const [isLoading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const sessions = useSelector((store) => store.sessions.list);
+  const error = useSelector((store) => store.sessions.error);
+  const isLoading = useSelector((store) => store.sessions.isLoading);
 
   useEffect(() => {
-    getSessions();
-  }, []);
-
-  function getSessions() {
-    setLoading(true);
-    fetch(`${process.env.REACT_APP_API}/sessions`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setSessions(response.data);
-      })
-      .catch((error) => {
-        setError({ show: true, message: error.message, title: error.status });
-      })
-      .finally(() => setLoading(false));
-  }
-
-  function deleteSession() {
-    setShowDelete({ show: false });
-    setLoading(true);
-    fetch(`${process.env.REACT_APP_API}/sessions/${showDelete.id}`, {
-      method: 'DELETE'
-    })
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return fetch(`${process.env.REACT_APP_API}/sessions`)
-          .then((response) => {
-            if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-              const status = `${response.status} ${response.statusText}`;
-              return response.json().then(({ message }) => {
-                if (message.message) throw { message: message.message, status };
-                throw { message, status };
-              });
-            }
-            return response.json();
-          })
-          .then((response) => {
-            setSessions(response.data);
-          });
-      })
-      .catch((error) => {
-        setError({ show: true, message: error.message, title: error.status });
-      })
-      .finally(() => setLoading(false));
-  }
+    if (!sessions.length) {
+      dispatch(getSessions());
+    }
+  }, [sessions]);
 
   return (
     <section className={styles.section}>
@@ -87,10 +34,15 @@ function Sessions() {
         show={showDelete.show}
         title="Delete Session"
         message="Are you sure you want to delete this Session?"
+        onConfirm={() => {
+          dispatch(deleteSession(selectedSession)).then(() => {
+            setSelectedSession(undefined);
+            setShowDelete(false);
+          });
+        }}
         onCancel={() => setShowDelete({ show: false, id: '' })}
-        onConfirm={deleteSession}
       />
-      <ModalError error={error} onConfirm={() => setError({ show: false })} />
+      <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Sessions</h2>
@@ -110,7 +62,7 @@ function Sessions() {
             </tr>
           </thead>
           <tbody>
-            {Sessions.map((session) => {
+            {sessions.map((session) => {
               return (
                 <Session
                   key={session._id}
