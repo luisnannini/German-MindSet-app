@@ -10,6 +10,7 @@ import { getSessions, deleteSession } from '../../redux/Sessions/thunks';
 import { closeErrorModal } from '../../redux/Sessions/actions';
 
 function Sessions() {
+  const [selectedSession, setSelectedSession] = useState(undefined);
   const [showDelete, setShowDelete] = useState({
     show: false,
     session: {},
