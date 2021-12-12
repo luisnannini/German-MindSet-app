@@ -21,7 +21,7 @@ const initialState = {
   isLoading: false,
   list: [],
   selectedItem: {},
-  error: { show: false }
+  error: { show: false, message: '' }
 };
 
 const reducerProfiles = (state = initialState, action) => {
@@ -120,7 +120,7 @@ const reducerProfiles = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
-        error: initialState
+        error: initialState.error
       };
     }
     case DELETE_PROFILE_FULFILLED: {
