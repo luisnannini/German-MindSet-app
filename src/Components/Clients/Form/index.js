@@ -1,10 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import useQuery from '../../../Hooks/useQuery';
 import styles from './form.module.css';
 import Input from '../../Shared/Input';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
+import { useDispatch, useSelector } from 'react-redux';
+import { createClient, getClientById, updateClient } from '../../../redux/Clients/thunks';
+import { closeErrorModal } from '../../../redux/Clients/actions';
 
 function Form() {
   const [clientId, setClientId] = useState(undefined);
@@ -16,51 +21,28 @@ function Form() {
   const [addressValue, setAddressValue] = useState('');
   const [logoValue, setLogoValue] = useState('');
   const [descriptionValue, setDescriptionValue] = useState('');
-  const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState({
-    show: false,
-    message: '',
-    title: ''
-  });
+  const error = useSelector((store) => store.clients.error);
+  const isLoading = useSelector((store) => store.clients.isLoading);
+
+  const dispatch = useDispatch();
+
+  const history = useHistory();
+  const query = useQuery();
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const clientId = params.get('id');
+    const clientId = query.get('_id');
     if (clientId) {
-      setClientId(clientId);
-      setLoading(true);
-      fetch(`${process.env.REACT_APP_API}/clients?_id=${clientId}`)
-        .then((response) => {
-          if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-            const status = `${response.status} ${response.statusText}`;
-            return response.json().then(({ message }) => {
-              if (message.message) throw { message: message.message, status };
-              throw { message, status };
-            });
-          }
-          return response.json();
-        })
-        .then((response) => {
-          if (!response.data[0]) {
-            return setError({
-              show: true,
-              message: 'Client not found',
-              title: '404: Not Found'
-            });
-          }
-          setNameValue(response.data[0].name);
-          setPhoneValue(response.data[0].phone);
-          setCountryValue(response.data[0].location.country);
-          setStateValue(response.data[0].location.state);
-          setCityValue(response.data[0].location.city);
-          setAddressValue(response.data[0].location.address);
-          setLogoValue(response.data[0].logo);
-          setDescriptionValue(response.data[0].description);
-        })
-        .catch((error) => {
-          setError({ show: true, message: error.message, title: error.status });
-        })
-        .finally(() => setLoading(false));
+      dispatch(getClientById(clientId)).then((selectedClient) => {
+        setClientId(clientId);
+        setNameValue(selectedClient.name);
+        setPhoneValue(selectedClient.phone);
+        setCountryValue(selectedClient.location.country);
+        setStateValue(selectedClient.location.state);
+        setCityValue(selectedClient.location.city);
+        setAddressValue(selectedClient.location.address);
+        setLogoValue(selectedClient.logo);
+        setDescriptionValue(selectedClient.description);
+      });
     }
   }, []);
 
@@ -98,56 +80,38 @@ function Form() {
 
   const submitClients = (event) => {
     event.preventDefault();
-    setLoading(true);
-
-    const params = new URLSearchParams(window.location.search);
-    const clientId = params.get('id');
-
-    let url;
-    const options = {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: nameValue,
-        phone: parseInt(phoneValue, 10),
-        location: {
+    const clientId = query.get('_id');
+    if (clientId) {
+      dispatch(
+        updateClient(clientId, {
+          name: nameValue,
+          phone: parseInt(phoneValue),
           country: countryValue,
           state: stateValue,
           city: cityValue,
-          address: addressValue
-        },
-        logo: logoValue,
-        description: descriptionValue
-      })
-    };
-
-    if (clientId) {
-      options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/clients/${clientId}`;
+          address: addressValue,
+          logo: logoValue,
+          description: descriptionValue
+        })
+      ).then((response) => {
+        if (response) history.push('/clients');
+      });
     } else {
-      options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/clients`;
+      dispatch(
+        createClient({
+          name: nameValue,
+          phone: parseInt(phoneValue),
+          country: countryValue,
+          state: stateValue,
+          city: cityValue,
+          address: addressValue,
+          logo: logoValue,
+          description: descriptionValue
+        })
+      ).then((response) => {
+        if (response) history.push('/clients');
+      });
     }
-
-    fetch(url, options)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then(() => {
-        window.location.href = '/clients';
-      })
-      .catch((error) => {
-        setError({ show: true, message: error.message, title: error.status });
-      })
-      .finally(() => setLoading(false));
   };
 
   return (
@@ -251,7 +215,7 @@ function Form() {
           </Link>
           <ButtonConfirm disabled={isLoading} type="submit" />
         </div>
-        <ModalError error={error} onConfirm={() => setError({ show: false })} />
+        <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
       </form>
     </div>
   );
