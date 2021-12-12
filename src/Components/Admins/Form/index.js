@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-/* import { Link } from 'react-router-dom';
- */ import styles from './form.module.css';
+import styles from './form.module.css';
 import Input from '../../Shared/Input';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
-import { getAdmin, addAdmin, updateAdmin } from '../../../redux/Admins/thunks';
+import { addAdmin, updateAdmin } from '../../../redux/Admins/thunks';
 import { adminCloseErrorModal } from '../../../redux/Admins/actions';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
