@@ -66,7 +66,7 @@ const applicationsReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
-        error: initialState
+        error: initialState.error
       };
     }
     case DELETE_APPLICATION_FULFILLED: {
