@@ -1,82 +1,45 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styles from './positions.module.css';
 import ButtonCreate from '../Shared/Buttons/ButtonCreate';
 import ButtonDelete from '../Shared/Buttons/ButtonDelete';
 import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
 import Modal from '../Shared/Modal';
 import ModalError from '../Shared/ModalError';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPositions, deletePosition } from '../../redux/Positions/thunks';
+import { closeErrorModal } from '../../redux/Positions/actions';
 
 function Positions() {
-  const [positions, setPositions] = useState([]);
+  //const [positions, setPositions] = useState([]);
   const [selectedPosition, setSelectedPosition] = useState(undefined);
   const [showDelete, setShowDelete] = useState(false);
-  const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState({
+  //const [isLoading, setLoading] = useState(false);
+  /*const [error, setError] = useState({
     show: false,
     message: '',
     title: ''
   });
+*/
+
+  const dispatch = useDispatch();
+
+  const history = useHistory();
+
+  const positions = useSelector((store) => store.positions.list);
+  const error = useSelector((store) => store.positions.error);
+  const isLoading = useSelector((store) => store.positions.isLoading);
 
   useEffect(() => {
-    setLoading(true);
-    fetch(`${process.env.REACT_APP_API}/positions`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setPositions(response.data);
-      })
-      .catch((error) => {
-        setError({ show: true, message: error.message, title: error.status });
-      })
-      .finally(() => setLoading(false));
-  }, []);
+    if (!positions.length) {
+      dispatch(getPositions());
+    }
+  }, [positions]);
 
-  const handleDelete = (event, position) => {
+  const handleDelete = (event, psy) => {
     event.stopPropagation();
-    setSelectedPosition(position._id);
     setShowDelete(true);
-  };
-
-  const deletePosition = () => {
-    setShowDelete(false);
-    setLoading(true);
-    fetch(`${process.env.REACT_APP_API}/positions/${selectedPosition}`, { method: 'DELETE' })
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return fetch(`${process.env.REACT_APP_API}/positions`)
-          .then((response) => {
-            if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-              const status = `${response.status} ${response.statusText}`;
-              return response.json().then(({ message }) => {
-                if (message.message) throw { message: message.message, status };
-                throw { message, status };
-              });
-            }
-            return response.json();
-          })
-          .then((response) => {
-            setPositions(response.data);
-          });
-      })
-      .catch((error) => {
-        setError({ show: true, message: error.message, title: error.status });
-      })
-      .finally(() => setLoading(false));
+    setSelectedPosition(psy._id);
   };
 
   return (
@@ -92,9 +55,7 @@ function Positions() {
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Positions</h2>
-          <Link to="./positions/form">
-            <ButtonCreate disabled={isLoading} />
-          </Link>
+          <ButtonCreate disabled={isLoading} onClick={() => history.push('positions/form')} />
         </div>
         <table className={styles.table}>
           <thead>
@@ -117,9 +78,10 @@ function Positions() {
                   <td>{position.vacancy}</td>
                   <td>{position.isOpen ? 'Yes' : 'No'}</td>
                   <td>
-                    <Link to={`positions/form?id=${position._id}`}>
-                      <ButtonUpdate disabled={isLoading} />
-                    </Link>
+                    <ButtonUpdate
+                      disabled={isLoading}
+                      onClick={() => history.push(`/positions/form?_id=${positions._id}`)}
+                    />
                     <ButtonDelete
                       disabled={isLoading}
                       onClick={(event) => handleDelete(event, position)}
