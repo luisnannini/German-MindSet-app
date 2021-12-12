@@ -1,5 +1,4 @@
 import { React, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import useQuery from '../../../Hooks/useQuery';
 import styles from './form.module.css';
@@ -81,9 +80,7 @@ const Form = () => {
           </div>
         </div>
         <div className={styles.button}>
-          <Link to="/profiles">
-            <ButtonCancel disabled={isLoading} />
-          </Link>
+          <ButtonCancel disabled={isLoading} onClick={() => history.push('/profiles')} />
           <ButtonConfirm disabled={isLoading} type={'submit'} />
         </div>
         <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
