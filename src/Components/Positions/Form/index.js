@@ -11,6 +11,7 @@ import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPosition, getPositionById, updatePosition } from '../../../redux/Positions/thunks';
+import { getProfiles } from '../../../redux/Profiles/thunks';
 import { closeErrorModal } from '../../../redux/Positions/actions';
 
 const Form = () => {
@@ -32,9 +33,10 @@ const Form = () => {
   const query = useQuery();
 
   useEffect(() => {
-    const positionID = query.get('_id');
-    if (positionID) {
-      dispatch(getPositionById(positionID)).then((selectedPosition) => {
+    const positionId = query.get('_id');
+    if (positionId) {
+      dispatch(getPositionById(positionId)).then((selectedPosition) => {
+        setPositionId(positionId);
         setClientValue(selectedPosition.client);
         setProfilesValue(selectedPosition.professionalProfiles);
         setJobDescriptionValue(selectedPosition.jobDescription);
@@ -42,6 +44,35 @@ const Form = () => {
         setIsOpenValue(selectedPosition.isOpen);
       });
     }
+    fetch(`${process.env.REACT_APP_API}/clients`)
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
+          });
+        }
+        return response.json();
+      })
+      .then((response) => setClients(response.data))
+      .catch((error) => console.log(error));
+
+    fetch(`${process.env.REACT_APP_API}/profiles`)
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
+          });
+        }
+        return response.json();
+      })
+      .then((response) => {
+        setProfiles(response.data);
+      })
+      .catch((error) => console.log(error));
   }, []);
 
   const onChangeClientValue = (event) => {

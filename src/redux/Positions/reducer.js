@@ -120,7 +120,7 @@ const reducerPositions = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
-        error: initialState
+        error: initialState.error
       };
     }
     case DELETE_POSITION_FULFILLED: {

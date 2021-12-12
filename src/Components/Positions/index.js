@@ -11,16 +11,8 @@ import { getPositions, deletePosition } from '../../redux/Positions/thunks';
 import { closeErrorModal } from '../../redux/Positions/actions';
 
 function Positions() {
-  //const [positions, setPositions] = useState([]);
   const [selectedPosition, setSelectedPosition] = useState(undefined);
   const [showDelete, setShowDelete] = useState(false);
-  //const [isLoading, setLoading] = useState(false);
-  /*const [error, setError] = useState({
-    show: false,
-    message: '',
-    title: ''
-  });
-*/
 
   const dispatch = useDispatch();
 
@@ -49,9 +41,12 @@ function Positions() {
         title="Delete a Position"
         message="Are you sure you want to delete this position?"
         onCancel={() => setShowDelete(false)}
-        onConfirm={deletePosition}
+        onConfirm={dispatch(deletePosition(selectedPosition)).then(() => {
+          setSelectedPosition(undefined);
+          setShowDelete(false);
+        })}
       />
-      <ModalError error={error} onConfirm={() => setError({ show: false })} />
+      <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Positions</h2>
