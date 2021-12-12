@@ -71,7 +71,7 @@ export const createApplication = (values) => {
 export const deleteApplication = (id) => {
   return (dispatch) => {
     dispatch(deleteApplicationFetching());
-    return fetch(`${process.env.REACT_APP_API}/profiles/${id}`, { method: 'DELETE' })
+    return fetch(`${process.env.REACT_APP_API}/applications/${id}`, { method: 'DELETE' })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           const status = `${response.status} ${response.statusText}`;

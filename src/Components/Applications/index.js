@@ -32,20 +32,18 @@ function Applications() {
     setShowDelete(true);
   };
 
-  const handleConfirm = () => {
-    dispatch(deleteApplication(selectedApplication)).then(() => {
-      setSelectedApplication(undefined);
-      setShowDelete(false);
-    });
-  };
-
   return (
     <section className={styles.section}>
       <Modal
         show={showDelete}
         title="Delete Application"
         message="Are you sure you want to delete this application?"
-        onConfirm={() => handleConfirm}
+        onConfirm={() => {
+          dispatch(deleteApplication(selectedApplication)).then(() => {
+            setSelectedApplication(undefined);
+            setShowDelete(false);
+          });
+        }}
         onCancel={() => setShowDelete(false)}
       />
       <ModalError error={error} onConfirm={() => dispatch(applicationsErrorModal())} />
