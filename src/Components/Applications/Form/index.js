@@ -8,7 +8,7 @@ import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
 import { useSelector, useDispatch } from 'react-redux';
-import { createApplication } from '../../../redux/Applications/thunks';
+import { createApplication, getApplications } from '../../../redux/Applications/thunks';
 import { applicationsErrorModal } from '../../../redux/Applications/actions';
 
 const Form = () => {
@@ -120,7 +120,10 @@ const Form = () => {
         result: resultValue
       })
     ).then((response) => {
-      if (response) history.push('/applications');
+      if (response) {
+        history.push('/applications');
+        dispatch(getApplications());
+      }
     });
   };
 
