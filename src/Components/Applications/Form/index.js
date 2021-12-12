@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import styles from './form.module.css';
 import Select from '../../Shared/Select';
@@ -177,9 +176,7 @@ const Form = () => {
           </div>
         </div>
         <div className={styles.button}>
-          <Link to="/applications">
-            <ButtonCancel disabled={isLoading} />
-          </Link>
+          <ButtonCancel disabled={isLoading} onClick={() => history.push('/applications')} />
           <ButtonConfirm type="submit" disabled={isLoading} />
         </div>
         <ModalError error={error} onConfirm={() => dispatch(applicationsErrorModal())} />
