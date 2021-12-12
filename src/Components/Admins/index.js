@@ -9,8 +9,11 @@ import ModalError from '../Shared/ModalError';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAdmins, deleteAdmin } from '../../redux/Admins/thunks';
 import { adminCloseErrorModal } from '../../redux/Admins/actions';
+import { useHistory } from 'react-router-dom';
 
 function Admins() {
+  const history = useHistory();
+
   const dispatch = useDispatch();
   const [adminId, setAdminId] = useState([]);
   const [showDelete, setShowDelete] = useState(false);
@@ -39,9 +42,7 @@ function Admins() {
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Administrators</h2>
-          <Link to="/admins/form">
-            <ButtonCreate disabled={isLoading} />
-          </Link>
+          <ButtonCreate disabled={isLoading} onClick={() => history.push(`/admins/form`)} />
         </div>
         <table className={styles.table}>
           <thead>
@@ -57,9 +58,10 @@ function Admins() {
                 <td>{admin.name}</td>
                 <td>{admin.username}</td>
                 <td>
-                  <Link to={`admins/form?id=${admin._id}`}>
-                    <ButtonUpdate />
-                  </Link>
+                  <ButtonUpdate
+                    disabled={isLoading}
+                    onClick={() => history.push(`/admins/form?_id=${admin._id}`)}
+                  />
                   <ButtonDelete
                     onClick={(event) => {
                       event.stopPropagation();

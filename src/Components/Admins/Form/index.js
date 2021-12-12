@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import styles from './form.module.css';
+/* import { Link } from 'react-router-dom';
+ */ import styles from './form.module.css';
 import Input from '../../Shared/Input';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
@@ -8,11 +8,14 @@ import ModalError from '../../Shared/ModalError';
 import { getAdmin, addAdmin, updateAdmin } from '../../../redux/Admins/thunks';
 import { adminCloseErrorModal } from '../../../redux/Admins/actions';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 const Form = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
-  const params = new URLSearchParams(window.location.search);
-  const adminId = params.get('id');
+  const params = new URLSearchParams(history.location.search);
+  const admins = useSelector((store) => store.admins.admins);
+  const adminId = params.get('_id');
   const [admin, setAdmin] = useState({
     name: '',
     username: '',
@@ -23,7 +26,7 @@ const Form = () => {
 
   useEffect(() => {
     if (adminId) {
-      dispatch(getAdmin(adminId, (admin) => setAdmin(admin)));
+      setAdmin(admins.find((admin) => admin._id === adminId));
     }
   }, []);
 
@@ -52,11 +55,11 @@ const Form = () => {
     if (adminId) {
       options.method = 'PUT';
       url = `${process.env.REACT_APP_API}/admins/${adminId}`;
-      dispatch(updateAdmin(url, options));
+      dispatch(updateAdmin(url, options, () => history.goBack()));
     } else {
       options.method = 'POST';
       url = `${process.env.REACT_APP_API}/admins`;
-      dispatch(addAdmin(url, options));
+      dispatch(addAdmin(url, options, () => history.goBack()));
     }
   };
 
@@ -98,9 +101,13 @@ const Form = () => {
           </div>
         </div>
         <div className={styles.button}>
-          <Link to="/admins">
-            <ButtonCancel disabled={isLoading} />
-          </Link>
+          <ButtonCancel
+            disabled={isLoading}
+            onClick={(e) => {
+              e.preventDefault();
+              history.goBack();
+            }}
+          />
           <ButtonConfirm disabled={isLoading} type="submit" />
         </div>
         <ModalError error={error} onConfirm={() => adminCloseErrorModal({ show: false })} />

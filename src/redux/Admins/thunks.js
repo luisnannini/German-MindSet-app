@@ -45,37 +45,7 @@ export const getAdmins = () => {
   };
 };
 
-export const getAdmin = (id, setAdmin) => {
-  return (dispatch) => {
-    dispatch(getAdminByIdFetching());
-    fetch(`${process.env.REACT_APP_API}/admins?_id=${id}`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        dispatch(getAdminByIdFulfilled());
-        setAdmin(response.data[0]);
-      })
-      .catch((err) =>
-        dispatch(
-          getAdminByIdRejected({
-            show: true,
-            message: err.message,
-            title: 'GET request failed: ' + err.status
-          })
-        )
-      );
-  };
-};
-
-export const addAdmin = (url, options) => {
+export const addAdmin = (url, options, cb) => {
   return (dispatch) => {
     dispatch(addAdminFetching());
     fetch(url, options)
@@ -88,7 +58,7 @@ export const addAdmin = (url, options) => {
           });
         }
         dispatch(addAdminFulfilled());
-        window.location.href = '/admins';
+        cb();
       })
       .catch((err) => {
         dispatch(
@@ -102,7 +72,7 @@ export const addAdmin = (url, options) => {
   };
 };
 
-export const updateAdmin = (url, options) => {
+export const updateAdmin = (url, options, cb) => {
   return (dispatch) => {
     dispatch(updateAdminFetching());
     fetch(url, options)
@@ -115,7 +85,7 @@ export const updateAdmin = (url, options) => {
           });
         }
         dispatch(updateAdminFulfilled());
-        window.location.href = '/admins';
+        cb();
       })
       .catch((err) => {
         dispatch(
