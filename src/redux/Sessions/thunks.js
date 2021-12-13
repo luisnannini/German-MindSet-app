@@ -88,9 +88,6 @@ export const createSession = (values) => {
         dispatch(createSessionFulfilled(response.data));
         return response.data;
       })
-      .then(() => {
-        window.location.href = '/sessions';
-      })
       .catch((error) => {
         dispatch(
           createSessionRejected({ show: true, message: error.message, title: error.status })
@@ -123,9 +120,6 @@ export const updateSession = (id, values) => {
       .then((response) => {
         dispatch(updateSessionFulfilled(response.data));
         return response.data;
-      })
-      .then(() => {
-        window.location.href = '/sessions';
       })
       .catch((error) => {
         dispatch(
