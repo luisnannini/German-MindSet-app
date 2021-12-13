@@ -1,24 +1,20 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import styles from './sessions.module.css';
-import Session from './Session';
-import ButtonCreate from '../Shared/Buttons/ButtonCreate';
-import Modal from '../Shared/Modal';
-import ModalError from '../Shared/ModalError';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSessions, deleteSession } from '../../redux/Sessions/thunks';
 import { closeErrorModal } from '../../redux/Sessions/actions';
+import { useHistory } from 'react-router-dom';
+import styles from './sessions.module.css';
+import ButtonCreate from '../Shared/Buttons/ButtonCreate';
+import ButtonDelete from '../Shared/Buttons/ButtonDelete';
+import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
+import Modal from '../Shared/Modal';
+import ModalError from '../Shared/ModalError';
 
 function Sessions() {
   const [selectedSession, setSelectedSession] = useState(undefined);
-  const [showDelete, setShowDelete] = useState({
-    show: false,
-    session: {},
-    id: ''
-  });
-
+  const [showDelete, setShowDelete] = useState(false);
   const dispatch = useDispatch();
-
+  const history = useHistory();
   const sessions = useSelector((store) => store.sessions.list);
   const error = useSelector((store) => store.sessions.error);
   const isLoading = useSelector((store) => store.sessions.isLoading);
@@ -29,10 +25,16 @@ function Sessions() {
     }
   }, [sessions]);
 
+  const handleDelete = (event, session) => {
+    event.stopPropagation();
+    setSelectedSession(session._id);
+    setShowDelete(true);
+  };
+
   return (
     <section className={styles.section}>
       <Modal
-        show={showDelete.show}
+        show={showDelete}
         title="Delete Session"
         message="Are you sure you want to delete this Session?"
         onConfirm={() => {
@@ -41,15 +43,13 @@ function Sessions() {
             setShowDelete(false);
           });
         }}
-        onCancel={() => setShowDelete({ show: false, id: '' })}
+        onCancel={() => setShowDelete(false)}
       />
       <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Sessions</h2>
-          <Link to="sessions/form">
-            <ButtonCreate disabled={isLoading} />
-          </Link>
+          <ButtonCreate disabled={isLoading} onClick={() => history.push('/sessions/form')} />
         </div>
         <table className={styles.table}>
           <thead>
@@ -65,25 +65,27 @@ function Sessions() {
           <tbody>
             {sessions.map((session) => {
               return (
-                <Session
-                  key={session._id}
-                  id={session._id}
-                  postulant={
-                    session.postulant
-                      ? `${session.postulant.firstName} ${session.postulant.lastName}`
-                      : 'Unassigned'
-                  }
-                  psychologist={
-                    session.psychologist
-                      ? `${session.psychologist.firstName} ${session.psychologist.lastName}`
-                      : 'Unassigned'
-                  }
-                  status={session.status}
-                  date={session.date.replace('T', ' ')}
-                  notes={session.notes}
-                  onDelete={() => setShowDelete({ show: true, id: session._id })}
-                  disabled={isLoading}
-                />
+                <tr className={styles.list} key={session._id}>
+                  <td>
+                    {session.postulant.firstName} {session.postulant.lastName}
+                  </td>
+                  <td>
+                    {session.psychologist.firstName} {session.psychologist.lastName}
+                  </td>
+                  <td>{session.status}</td>
+                  <td>{session.date.replace('T', ' ')}</td>
+                  <td>{session.notes}</td>
+                  <td>
+                    <ButtonUpdate
+                      disabled={isLoading}
+                      onClick={() => history.push(`/sessions/form?_id=${session._id}`)}
+                    />
+                    <ButtonDelete
+                      disabled={isLoading}
+                      onClick={(event) => handleDelete(event, session)}
+                    />
+                  </td>
+                </tr>
               );
             })}
           </tbody>

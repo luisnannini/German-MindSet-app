@@ -59,6 +59,7 @@ const reducerSessions = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
+        profile: action.payload,
         selectedItem: action.payload
       };
     }
