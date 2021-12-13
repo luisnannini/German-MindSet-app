@@ -86,10 +86,12 @@ function Form() {
         updateClient(clientId, {
           name: nameValue,
           phone: parseInt(phoneValue),
-          country: countryValue,
-          state: stateValue,
-          city: cityValue,
-          address: addressValue,
+          location: {
+            country: countryValue,
+            state: stateValue,
+            city: cityValue,
+            address: addressValue
+          },
           logo: logoValue,
           description: descriptionValue
         })
@@ -101,10 +103,12 @@ function Form() {
         createClient({
           name: nameValue,
           phone: parseInt(phoneValue),
-          country: countryValue,
-          state: stateValue,
-          city: cityValue,
-          address: addressValue,
+          location: {
+            country: countryValue,
+            state: stateValue,
+            city: cityValue,
+            address: addressValue
+          },
           logo: logoValue,
           description: descriptionValue
         })
