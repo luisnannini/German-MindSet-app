@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+// import { useSelector } from 'react-redux';
+import { createInterview, updateInterview } from '../../../redux/Interviews/thunks';
+// import { getInterviewById } from '../../../redux/Interviews/thunks';
+import { closeErrorModal } from '../../../redux/Interviews/actions';
+import useQuery from '../../../Hooks/useQuery.js';
 import styles from './form.module.css';
 import Select from '../../Shared/Select';
 import Input from '../../Shared/Input';
@@ -8,7 +15,6 @@ import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
 
 const Form = () => {
-  const [interviewId, setInterviewId] = useState(undefined);
   const [postulants, setPostulants] = useState([]);
   const [clients, setClients] = useState([]);
   const [applications, setApplications] = useState([]);
@@ -24,6 +30,15 @@ const Form = () => {
     message: '',
     title: ''
   });
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const query = useQuery();
+
+  // const error = useSelector((store) => store.interviews.error);
+  // const isLoading = useSelector((store) => store.interviews.isLoading);
+
+  const [id, setInterviewId] = useState(undefined);
 
   useEffect(() => {
     setLoading(true);
@@ -88,8 +103,7 @@ const Form = () => {
   }, []);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const interviewId = params.get('id');
+    const interviewId = query.get('_id');
     if (interviewId) {
       setInterviewId(interviewId);
       setLoading(true);
@@ -128,10 +142,11 @@ const Form = () => {
 
   const submitInterview = (e) => {
     e.preventDefault();
+    const interviewId = query.get('_id');
+    // eslint-disable-next-line no-console
+    console.log(interviewId);
     setLoading(true);
-    let url;
-    const params = new URLSearchParams(window.location.search);
-    const interviewId = params.get('id');
+    // let url;
 
     const options = {
       method: 'POST',
@@ -148,32 +163,45 @@ const Form = () => {
       })
     };
 
+    // if (interviewId) {
+    //   options.method = 'PUT';
+    //   url = `${process.env.REACT_APP_API}/interviews/${interviewId}`;
+    // } else {
+    //   options.method = 'POST';
+    //   url = `${process.env.REACT_APP_API}/interviews`;
+    // }
     if (interviewId) {
-      options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/interviews/${interviewId}`;
+      dispatch(updateInterview(interviewId, options.body)).then((response) => {
+        if (response) {
+          history.push('/interviews');
+        }
+      });
     } else {
-      options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/interviews`;
+      dispatch(createInterview(options.body)).then((response) => {
+        if (response) {
+          history.push('/interviews');
+        }
+      });
     }
 
-    fetch(url, options)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then(() => {
-        window.location.href = '/interviews';
-      })
-      .catch((error) => {
-        setError({ show: true, message: error.message, title: error.status });
-      })
-      .finally(() => setLoading(false));
+    //   fetch(url, options)
+    //     .then((response) => {
+    //       if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+    //         const status = `${response.status} ${response.statusText}`;
+    //         return response.json().then(({ message }) => {
+    //           if (message.message) throw { message: message.message, status };
+    //           throw { message, status };
+    //         });
+    //       }
+    //       return response.json();
+    //     })
+    //     .then(() => {
+    //       history.push(`/interviews`);
+    //     })
+    //     .catch((error) => {
+    //       setError({ show: true, message: error.message, title: error.status });
+    //     })
+    //     .finally(() => setLoading(false));
   };
 
   const onChangePostulantValue = (event) => {
@@ -192,11 +220,6 @@ const Form = () => {
     setStatusValue(event.target.value);
   };
 
-  // function handleChangeDate(event) {
-  //   const value = event.target.value.substring(0, 10);
-  //   setDateValue(value);
-  // }
-
   const result = [
     { _id: 'assigned', value: 'assigned', name: 'Assigned' },
     { _id: 'successful', value: 'successful', name: 'Successful' },
@@ -209,9 +232,7 @@ const Form = () => {
     <div className={styles.container}>
       <form className={styles.form} onSubmit={submitInterview}>
         <div className={styles.header}>
-          <h2 className={styles.title}>
-            {interviewId ? 'Update an Interview' : 'Create an Interview'}
-          </h2>
+          <h2 className={styles.title}>{id ? 'Update an Interview' : 'Create an Interview'}</h2>
         </div>
         <div className={styles.fields}>
           <div className={styles.columns}>
@@ -280,7 +301,7 @@ const Form = () => {
           </Link>
           <ButtonConfirm type="submit" disabled={isLoading} />
         </div>
-        <ModalError error={error} onConfirm={() => setError({ show: false })} />
+        <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
       </form>
     </div>
   );
