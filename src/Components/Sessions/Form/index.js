@@ -30,7 +30,7 @@ const Form = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const query = useQuery();
-  const [id, setSessionId] = useState(undefined);
+  const [sessionId, setSessionId] = useState(undefined);
 
   useEffect(() => {
     setLoading(true);
@@ -59,13 +59,6 @@ const Form = () => {
         return response.json();
       })
       .then((response) => {
-        if (!response.data[0]) {
-          return setError({
-            show: true,
-            message: 'Postulant not found',
-            title: '404: Not Found'
-          });
-        }
         setPostulants(
           response.data.map((postulant) => ({
             _id: postulant._id,
@@ -74,9 +67,7 @@ const Form = () => {
           }))
         );
       })
-      .catch((error) => {
-        setError({ show: true, message: error.message, title: error.status });
-      });
+      .catch((error) => error);
 
     fetch(`${process.env.REACT_APP_API}/psychologists`)
       .then((response) => {
@@ -90,13 +81,6 @@ const Form = () => {
         return response.json();
       })
       .then((response) => {
-        if (!response.data[0]) {
-          return setError({
-            show: true,
-            message: 'Psychologist not found',
-            title: '404: Not Found'
-          });
-        }
         setPsychologists(
           response.data.map((psychologist) => ({
             _id: psychologist._id,
@@ -105,9 +89,7 @@ const Form = () => {
           }))
         );
       })
-      .catch((error) => {
-        setError({ show: true, message: error.message, title: error.status });
-      })
+      .catch((error) => error)
       .finally(() => setLoading(false));
   }, []);
 
@@ -139,30 +121,11 @@ const Form = () => {
     }
   };
 
-  // fetch(url, options)
-  //   .then((response) => {
-  //     if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-  //       const status = `${response.status} ${response.statusText}`;
-  //       return response.json().then(({ message }) => {
-  //         if (message.message) throw { message: message.message, status };
-  //         throw { message, status };
-  //       });
-  //     }
-  //     return response.json();
-  //   })
-  //   .then(() => {
-  //     window.location.href = '/sessions';
-  //   })
-  //   .catch((error) => {
-  //     setError({ show: true, message: error.message, title: error.status });
-  //   })
-  //   .finally(() => setLoading(false));
-
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={submitSession}>
         <div className={styles.header}>
-          <h2 className={styles.title}>{title} Session</h2>
+          <h2 className={styles.title}>{sessionId ? title : 'Create '} Session</h2>
         </div>
         <div className={styles.fields}>
           <div className={styles.columns}>
