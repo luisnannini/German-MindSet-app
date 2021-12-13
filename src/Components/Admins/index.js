@@ -1,79 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import styles from './admins.module.css';
 import ButtonCreate from '../Shared/Buttons/ButtonCreate';
 import ButtonDelete from '../Shared/Buttons/ButtonDelete';
 import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
 import Modal from '../Shared/Modal';
 import ModalError from '../Shared/ModalError';
+import { useSelector, useDispatch } from 'react-redux';
+import { getAdmins, deleteAdmin } from '../../redux/Admins/thunks';
+import { adminCloseErrorModal } from '../../redux/Admins/actions';
+import { useHistory } from 'react-router-dom';
 
 function Admins() {
-  const [admins, setAdmins] = useState([]);
-  const [selectedAdmin, setSelectedAdmin] = useState(undefined);
+  const history = useHistory();
+
+  const dispatch = useDispatch();
+  const [adminId, setAdminId] = useState([]);
   const [showDelete, setShowDelete] = useState(false);
-  const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState({
-    show: false,
-    message: '',
-    title: ''
-  });
+  const admins = useSelector((store) => store.admins.admins);
+  const isLoading = useSelector((store) => store.admins.isLoading);
+  const error = useSelector((store) => store.admins.error);
 
   useEffect(() => {
-    setLoading(true);
-    fetch(`${process.env.REACT_APP_API}/admins`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setAdmins(response.data);
-      })
-      .catch((error) => setError({ show: true, message: error.message, title: error.status }))
-      .finally(() => setLoading(false));
+    if (!admins.length) dispatch(getAdmins());
   }, []);
-
-  const handleDelete = (event, admin) => {
-    event.stopPropagation();
-    setSelectedAdmin(admin._id);
-    setShowDelete(true);
-  };
-
-  const deleteAdmin = () => {
-    setLoading(true);
-    fetch(`${process.env.REACT_APP_API}/admins/${selectedAdmin}`, { method: 'DELETE' })
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return fetch(`${process.env.REACT_APP_API}/admins`)
-          .then((response) => {
-            if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-              const status = `${response.status} ${response.statusText}`;
-              return response.json().then(({ message }) => {
-                if (message.message) throw { message: message.message, status };
-                throw { message, status };
-              });
-            }
-            return response.json();
-          })
-          .then((response) => {
-            setAdmins(response.data);
-            setShowDelete(false);
-          });
-      })
-      .catch((error) => setError({ show: true, message: error.message, title: error.status }))
-      .finally(() => setLoading(false));
-  };
 
   return (
     <section className={styles.section}>
@@ -83,15 +32,16 @@ function Admins() {
         message="Are you sure you want to delete this Admin?"
         isLoading={isLoading}
         onCancel={() => setShowDelete(false)}
-        onConfirm={deleteAdmin}
+        onConfirm={() => {
+          setShowDelete(false);
+          dispatch(deleteAdmin(adminId));
+        }}
       />
-      <ModalError error={error} onConfirm={() => setError({ show: false })} />
+      <ModalError error={error} onConfirm={() => dispatch(adminCloseErrorModal({ show: false }))} />
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Administrators</h2>
-          <Link to="/admins/form">
-            <ButtonCreate disabled={isLoading} />
-          </Link>
+          <ButtonCreate disabled={isLoading} onClick={() => history.push(`/admins/form`)} />
         </div>
         <table className={styles.table}>
           <thead>
@@ -107,11 +57,16 @@ function Admins() {
                 <td>{admin.name}</td>
                 <td>{admin.username}</td>
                 <td>
-                  <Link to={`admins/form?id=${admin._id}`}>
-                    <ButtonUpdate />
-                  </Link>
+                  <ButtonUpdate
+                    disabled={isLoading}
+                    onClick={() => history.push(`/admins/form?_id=${admin._id}`)}
+                  />
                   <ButtonDelete
-                    onClick={(event) => handleDelete(event, admin)}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      setAdminId(admin._id);
+                      setShowDelete(true);
+                    }}
                     disabled={isLoading}
                   />
                 </td>
