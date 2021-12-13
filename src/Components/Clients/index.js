@@ -13,11 +13,11 @@ import { closeErrorModal } from '../../redux/Clients/actions';
 function Clients() {
   const [selectedClient, setSelectedClient] = useState(undefined);
   const [showDelete, setShowDelete] = useState(false);
-  const dispatch = useDispatch();
   const history = useHistory();
   const clients = useSelector((store) => store.clients.list);
   const error = useSelector((store) => store.clients.error);
   const isLoading = useSelector((store) => store.clients.isLoading);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!clients.length) {
