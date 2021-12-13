@@ -28,10 +28,10 @@ function Positions() {
     }
   }, [positions]);
 
-  const handleDelete = (event, psy) => {
+  const handleDelete = (event, pos) => {
     event.stopPropagation();
     setShowDelete(true);
-    setSelectedPosition(psy._id);
+    setSelectedPosition(pos._id);
   };
 
   return (
