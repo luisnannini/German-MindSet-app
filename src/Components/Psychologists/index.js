@@ -7,13 +7,16 @@ import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
 import ButtonAvailability from '../Shared/Buttons/ButtonAvailability';
 import Modal from '../Shared/Modal';
 import ModalError from '../Shared/ModalError';
+import ModalAvailability from '../Shared/ModalAvailability';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPsychologists, deletePsychologist } from '../../redux/Psychologists/thunks';
 import { closeErrorModal } from '../../redux/Psychologists/actions';
 
 function Psychologists() {
   const [selectedPsychologist, setSelectedPsychologist] = useState('');
+  const [availability, setAvailability] = useState({});
   const [showDelete, setShowDelete] = useState(false);
+  const [showAvailability, setShowAvailability] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -35,6 +38,13 @@ function Psychologists() {
     setSelectedPsychologist(psy._id);
   };
 
+  const handleAvailability = (event, psy) => {
+    event.stopPropagation();
+    // setSelectedPsychologist(psy._id);
+    setAvailability(psy.availability);
+    setShowAvailability(true);
+  };
+
   return (
     <section className={styles.section}>
       <Modal
@@ -48,6 +58,12 @@ function Psychologists() {
           });
         }}
         onCancel={() => setShowDelete(false)}
+      />
+      <ModalAvailability
+        show={showAvailability}
+        title="Availability"
+        data={availability}
+        onCancel={() => setShowAvailability(false)}
       />
       <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
       <div className={styles.container}>
@@ -79,7 +95,10 @@ function Psychologists() {
                   <td>{psychologist.phone}</td>
                   <td>{psychologist.address}</td>
                   <td>
-                    <ButtonAvailability />
+                    <ButtonAvailability
+                      disabled={isLoading}
+                      onClick={(event) => handleAvailability(event, psychologist)}
+                    />
                   </td>
                   <td>
                     <ButtonUpdate
