@@ -51,8 +51,9 @@
 }
 
 .dayColumns input {
-  width: 20px;
-  height: 20px;
+  margin-right: 8px;
+  width: 70px;
+  height: 30px;
   font-size: 10px;
 }
 
