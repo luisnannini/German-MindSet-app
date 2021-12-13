@@ -2,6 +2,9 @@ import {
   GET_ADMINS_FETCHING,
   GET_ADMINS_FULFILLED,
   GET_ADMINS_REJECTED,
+  GET_ADMIN_BY_ID_FETCHING,
+  GET_ADMIN_BY_ID_FULFILLED,
+  GET_ADMIN_BY_ID_REJECTED,
   ADD_ADMIN_FETCHING,
   ADD_ADMIN_FULFILLED,
   ADD_ADMIN_REJECTED,
@@ -37,6 +40,26 @@ const reducerAdmins = (state = initialState, action) => {
       };
     }
     case GET_ADMINS_REJECTED: {
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload
+      };
+    }
+    case GET_ADMIN_BY_ID_FETCHING: {
+      return {
+        ...state,
+        isLoading: true,
+        error: initialState.error
+      };
+    }
+    case GET_ADMIN_BY_ID_FULFILLED: {
+      return {
+        ...state,
+        isLoading: false
+      };
+    }
+    case GET_ADMIN_BY_ID_REJECTED: {
       return {
         ...state,
         isLoading: false,

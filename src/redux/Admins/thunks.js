@@ -2,6 +2,9 @@ import {
   getAdminsFetching,
   getAdminsFulfilled,
   getAdminsRejected,
+  getAdminByIdFetching,
+  getAdminByIdFulfilled,
+  getAdminByIdRejected,
   addAdminFetching,
   addAdminFulfilled,
   addAdminRejected,
@@ -33,6 +36,36 @@ export const getAdmins = () => {
       .catch((err) =>
         dispatch(
           getAdminsRejected({
+            show: true,
+            message: err.message,
+            title: 'GET request failed: ' + err.status
+          })
+        )
+      );
+  };
+};
+
+export const getAdmin = (id, setAdmin) => {
+  return (dispatch) => {
+    dispatch(getAdminByIdFetching());
+    fetch(`${process.env.REACT_APP_API}/admins?_id=${id}`)
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
+          });
+        }
+        return response.json();
+      })
+      .then((response) => {
+        dispatch(getAdminByIdFulfilled());
+        setAdmin(response.data[0]);
+      })
+      .catch((err) =>
+        dispatch(
+          getAdminByIdRejected({
             show: true,
             message: err.message,
             title: 'GET request failed: ' + err.status

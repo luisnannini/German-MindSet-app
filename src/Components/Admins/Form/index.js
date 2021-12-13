@@ -4,7 +4,7 @@ import Input from '../../Shared/Input';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
-import { addAdmin, updateAdmin } from '../../../redux/Admins/thunks';
+import { addAdmin, updateAdmin, getAdmin } from '../../../redux/Admins/thunks';
 import { adminCloseErrorModal } from '../../../redux/Admins/actions';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -13,7 +13,6 @@ const Form = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const params = new URLSearchParams(history.location.search);
-  const admins = useSelector((store) => store.admins.admins);
   const adminId = params.get('_id');
   const [admin, setAdmin] = useState({
     name: '',
@@ -22,10 +21,9 @@ const Form = () => {
   });
   const isLoading = useSelector((store) => store.admins.isLoading);
   const error = useSelector((store) => store.admins.error);
-
   useEffect(() => {
     if (adminId) {
-      setAdmin(admins.find((admin) => admin._id === adminId));
+      dispatch(getAdmin(adminId, (admin) => setAdmin(admin)));
     }
   }, []);
 
@@ -34,6 +32,7 @@ const Form = () => {
   };
 
   const onChangeUsernameValue = (event) => {
+    console.log(event.target.value);
     setAdmin({ ...admin, username: event.target.value });
   };
 
