@@ -22,19 +22,13 @@ const Form = () => {
   const [dateValue, setDateValue] = useState('');
   const [notesValue, setNotesValue] = useState('');
   const error = useSelector((store) => store.sessions.error);
-  // const [error, setError] = useState({
-  //   show: false,
-  //   message: '',
-  //   title: ''
-  // });
-  const [isLoading, setLoading] = useState(false);
+  const isLoading = useSelector((store) => store.sessions.isLoading);
   const dispatch = useDispatch();
   const history = useHistory();
   const query = useQuery();
   const [sessionId, setSessionId] = useState(undefined);
 
   useEffect(() => {
-    setLoading(true);
     const sessionId = query.get('_id');
     sessionId ? setTitle('Update') : setTitle('Create');
     if (sessionId) {
@@ -90,14 +84,12 @@ const Form = () => {
           }))
         );
       })
-      .catch((error) => error)
-      .finally(() => setLoading(false));
+      .catch((error) => error);
   }, []);
 
   const submitSession = (event) => {
     event.preventDefault();
     const sessionId = query.get('_id');
-    setLoading(true);
 
     const dataValues = {
       postulant: postulantValue,
