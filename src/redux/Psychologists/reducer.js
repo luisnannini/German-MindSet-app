@@ -21,7 +21,7 @@ const initialState = {
   isLoading: false,
   list: [],
   selectedItem: {},
-  error: { show: false }
+  error: { show: false, message: '' }
 };
 
 const reducerPsychologists = (state = initialState, action) => {
@@ -120,7 +120,7 @@ const reducerPsychologists = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
-        error: initialState
+        error: initialState.error
       };
     }
     case DELETE_PSYCHOLOGIST_FULFILLED: {
