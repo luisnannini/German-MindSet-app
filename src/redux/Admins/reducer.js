@@ -5,9 +5,9 @@ import {
   GET_ADMIN_BY_ID_FETCHING,
   GET_ADMIN_BY_ID_FULFILLED,
   GET_ADMIN_BY_ID_REJECTED,
-  ADD_ADMIN_FETCHING,
-  ADD_ADMIN_FULFILLED,
-  ADD_ADMIN_REJECTED,
+  CREATE_ADMIN_FETCHING,
+  CREATE_ADMIN_FULFILLED,
+  CREATE_ADMIN_REJECTED,
   DELETE_ADMIN_FETCHING,
   DELETE_ADMIN_FULFILLED,
   DELETE_ADMIN_REJECTED,
@@ -66,20 +66,20 @@ const reducerAdmins = (state = initialState, action) => {
         error: action.payload
       };
     }
-    case ADD_ADMIN_FETCHING: {
+    case CREATE_ADMIN_FETCHING: {
       return {
         ...state,
         isLoading: true,
         error: initialState.error
       };
     }
-    case ADD_ADMIN_FULFILLED: {
+    case CREATE_ADMIN_FULFILLED: {
       return {
         ...state,
         isLoading: false
       };
     }
-    case ADD_ADMIN_REJECTED: {
+    case CREATE_ADMIN_REJECTED: {
       return {
         ...state,
         isLoading: false,

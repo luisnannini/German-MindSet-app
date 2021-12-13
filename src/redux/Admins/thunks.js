@@ -5,9 +5,9 @@ import {
   getAdminByIdFetching,
   getAdminByIdFulfilled,
   getAdminByIdRejected,
-  addAdminFetching,
-  addAdminFulfilled,
-  addAdminRejected,
+  createAdminFetching,
+  createAdminFulfilled,
+  createAdminRejected,
   deleteAdminFetching,
   deleteAdminFulfilled,
   deleteAdminRejected,
@@ -75,9 +75,9 @@ export const getAdmin = (id, setAdmin) => {
   };
 };
 
-export const addAdmin = (url, options, cb) => {
+export const createAdmin = (url, options, cb) => {
   return (dispatch) => {
-    dispatch(addAdminFetching());
+    dispatch(createAdminFetching());
     fetch(url, options)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -87,13 +87,13 @@ export const addAdmin = (url, options, cb) => {
             throw { message, status };
           });
         }
-        dispatch(addAdminFulfilled());
+        dispatch(createAdminFulfilled());
         dispatch(getAdmins());
         cb();
       })
       .catch((err) => {
         dispatch(
-          addAdminRejected({
+          createAdminRejected({
             show: true,
             message: err.message,
             title: `${options.method} request failed: ${err.status}`

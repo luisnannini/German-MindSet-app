@@ -5,9 +5,9 @@ import {
   GET_ADMIN_BY_ID_FETCHING,
   GET_ADMIN_BY_ID_FULFILLED,
   GET_ADMIN_BY_ID_REJECTED,
-  ADD_ADMIN_FETCHING,
-  ADD_ADMIN_FULFILLED,
-  ADD_ADMIN_REJECTED,
+  CREATE_ADMIN_FETCHING,
+  CREATE_ADMIN_FULFILLED,
+  CREATE_ADMIN_REJECTED,
   DELETE_ADMIN_FETCHING,
   DELETE_ADMIN_FULFILLED,
   DELETE_ADMIN_REJECTED,
@@ -41,15 +41,15 @@ export const getAdminByIdRejected = (payload) => ({
   payload
 });
 
-export const addAdminFetching = () => ({
-  type: ADD_ADMIN_FETCHING
+export const createAdminFetching = () => ({
+  type: CREATE_ADMIN_FETCHING
 });
-export const addAdminFulfilled = (payload) => ({
-  type: ADD_ADMIN_FULFILLED,
+export const createAdminFulfilled = (payload) => ({
+  type: CREATE_ADMIN_FULFILLED,
   payload
 });
-export const addAdminRejected = (payload) => ({
-  type: ADD_ADMIN_REJECTED,
+export const createAdminRejected = (payload) => ({
+  type: CREATE_ADMIN_REJECTED,
   payload
 });
 

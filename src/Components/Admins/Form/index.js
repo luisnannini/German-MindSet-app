@@ -4,7 +4,7 @@ import Input from '../../Shared/Input';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
-import { addAdmin, updateAdmin, getAdmin } from '../../../redux/Admins/thunks';
+import { createAdmin, updateAdmin, getAdmin } from '../../../redux/Admins/thunks';
 import { adminCloseErrorModal } from '../../../redux/Admins/actions';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -56,7 +56,7 @@ const Form = () => {
     } else {
       options.method = 'POST';
       url = `${process.env.REACT_APP_API}/admins`;
-      dispatch(addAdmin(url, options, () => history.goBack()));
+      dispatch(createAdmin(url, options, () => history.goBack()));
     }
   };
 
