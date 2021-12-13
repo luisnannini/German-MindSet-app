@@ -4,6 +4,7 @@ import styles from './psychologists.module.css';
 import ButtonCreate from '../Shared/Buttons/ButtonCreate';
 import ButtonDelete from '../Shared/Buttons/ButtonDelete';
 import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
+import ButtonAvailability from '../Shared/Buttons/ButtonAvailability';
 import Modal from '../Shared/Modal';
 import ModalError from '../Shared/ModalError';
 import { useDispatch, useSelector } from 'react-redux';
@@ -63,6 +64,7 @@ function Psychologists() {
               <th>Email</th>
               <th>Phone Number</th>
               <th>Address</th>
+              <th>Availability</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -76,6 +78,9 @@ function Psychologists() {
                   <td>{psychologist.email}</td>
                   <td>{psychologist.phone}</td>
                   <td>{psychologist.address}</td>
+                  <td>
+                    <ButtonAvailability />
+                  </td>
                   <td>
                     <ButtonUpdate
                       disabled={isLoading}
