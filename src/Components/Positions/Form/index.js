@@ -16,7 +16,6 @@ import {
   getPositions,
   updatePosition
 } from '../../../redux/Positions/thunks';
-//import { getProfiles } from '../../../redux/Profiles/thunks';
 import { closeErrorModal } from '../../../redux/Positions/actions';
 
 const Form = () => {
@@ -51,7 +50,7 @@ const Form = () => {
         return response.json();
       })
       .then((response) => setClients(response.data))
-      .catch((error) => console.log(error));
+      .catch((error) => error);
 
     fetch(`${process.env.REACT_APP_API}/profiles`)
       .then((response) => {
@@ -67,12 +66,12 @@ const Form = () => {
       .then((response) => {
         setProfiles(response.data);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => error);
     if (positionId) {
       dispatch(getPositionById(positionId)).then((selectedPosition) => {
         setPositionId(positionId);
-        setClientValue(selectedPosition.client);
-        setProfilesValue(selectedPosition.professionalProfiles);
+        setClientValue(selectedPosition.client._id);
+        setProfilesValue(selectedPosition.professionalProfiles._id);
         setJobDescriptionValue(selectedPosition.jobDescription);
         setVacancyValue(selectedPosition.vacancy);
         setIsOpenValue(selectedPosition.isOpen);
@@ -135,8 +134,6 @@ const Form = () => {
       });
     }
   };
-  console.log(clientValue);
-  console.log(profilesValue);
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={submitPosition}>
