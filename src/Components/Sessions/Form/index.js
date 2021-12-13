@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { createSession, getSessionById, updateSession } from '../../../redux/Sessions/thunks';
+import {
+  createSession,
+  getSessionById,
+  getSessions,
+  updateSession
+} from '../../../redux/Sessions/thunks';
 import { closeErrorModal } from '../../../redux/Sessions/actions';
 import useQuery from '../../../Hooks/useQuery.js';
 import styles from './form.module.css';
@@ -103,12 +108,14 @@ const Form = () => {
       dispatch(updateSession(sessionId, dataValues)).then((response) => {
         if (response) {
           history.push('/sessions');
+          dispatch(getSessions());
         }
       });
     } else {
       dispatch(createSession(dataValues)).then((response) => {
         if (response) {
           history.push('/sessions');
+          dispatch(getSessions());
         }
       });
     }
