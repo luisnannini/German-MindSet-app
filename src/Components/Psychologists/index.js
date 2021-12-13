@@ -1,40 +1,32 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styles from './psychologists.module.css';
 import ButtonCreate from '../Shared/Buttons/ButtonCreate';
 import ButtonDelete from '../Shared/Buttons/ButtonDelete';
 import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
 import Modal from '../Shared/Modal';
 import ModalError from '../Shared/ModalError';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPsychologists, deletePsychologist } from '../../redux/Psychologists/thunks';
+import { closeErrorModal } from '../../redux/Psychologists/actions';
 
 function Psychologists() {
-  const [psychologists, savePsychologists] = useState([]);
   const [selectedPsychologist, setSelectedPsychologist] = useState('');
   const [showDelete, setShowDelete] = useState(false);
-  const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState({
-    show: false,
-    message: '',
-    title: ''
-  });
+
+  const dispatch = useDispatch();
+
+  const history = useHistory();
+
+  const psychologists = useSelector((store) => store.psychologists.list);
+  const error = useSelector((store) => store.psychologists.error);
+  const isLoading = useSelector((store) => store.psychologists.isLoading);
 
   useEffect(() => {
-    setLoading(true);
-    fetch(`${process.env.REACT_APP_API}/psychologists`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => savePsychologists(response.data))
-      .catch((error) => setError({ show: true, message: error.message, title: error.status }))
-      .finally(() => setLoading(false));
-  }, []);
+    if (!psychologists.length) {
+      dispatch(getPsychologists());
+    }
+  }, [psychologists]);
 
   const handleDelete = (event, psy) => {
     event.stopPropagation();
@@ -42,57 +34,25 @@ function Psychologists() {
     setSelectedPsychologist(psy._id);
   };
 
-  const deletePsychologist = () => {
-    setShowDelete(false);
-    setLoading(true);
-    fetch(`${process.env.REACT_APP_API}/psychologists/${selectedPsychologist}`, {
-      method: 'DELETE'
-    })
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return fetch(`${process.env.REACT_APP_API}/psychologists`)
-          .then((response) => {
-            if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-              const status = `${response.status} ${response.statusText}`;
-              return response.json().then(({ message }) => {
-                if (message.message) throw { message: message.message, status };
-                throw { message, status };
-              });
-            }
-            return response.json();
-          })
-          .then((response) => {
-            savePsychologists(response.data);
-          });
-      })
-      .catch((error) => {
-        setError({ show: true, message: error.message, title: error.status });
-      })
-      .finally(() => setLoading(false));
-  };
-
   return (
     <section className={styles.section}>
       <Modal
         show={showDelete}
-        title="Delete Psychologist"
-        message="Are you sure you want to delete this Psychologist?"
-        onConfirm={deletePsychologist}
+        title="Delete a Psychologist"
+        message="Are you sure you want to delete this psychologist?"
+        onConfirm={() => {
+          dispatch(deletePsychologist(selectedPsychologist)).then(() => {
+            setSelectedPsychologist(undefined);
+            setShowDelete(false);
+          });
+        }}
         onCancel={() => setShowDelete(false)}
       />
-      <ModalError error={error} onConfirm={() => setError({ show: false })} />
+      <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Psychologist</h2>
-          <Link to="./psychologists/form">
-            <ButtonCreate disabled={isLoading} />
-          </Link>
+          <ButtonCreate disabled={isLoading} onClick={() => history.push('/psychologists/form')} />
         </div>
         <table className={styles.table}>
           <thead>
@@ -117,9 +77,10 @@ function Psychologists() {
                   <td>{psychologist.phone}</td>
                   <td>{psychologist.address}</td>
                   <td>
-                    <Link to={`psychologists/form?id=${psychologist._id}`}>
-                      <ButtonUpdate disabled={isLoading} />
-                    </Link>
+                    <ButtonUpdate
+                      disabled={isLoading}
+                      onClick={() => history.push(`/psychologists/form?_id=${psychologist._id}`)}
+                    />
                     <ButtonDelete
                       disabled={isLoading}
                       onClick={(event) => handleDelete(event, psychologist)}
