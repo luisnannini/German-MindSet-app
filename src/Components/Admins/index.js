@@ -21,7 +21,7 @@ function Admins() {
   const error = useSelector((store) => store.admins.error);
 
   useEffect(() => {
-    dispatch(getAdmins());
+    if (!admins.length) dispatch(getAdmins());
   }, []);
 
   return (

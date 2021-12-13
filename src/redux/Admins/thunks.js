@@ -55,6 +55,7 @@ export const addAdmin = (url, options, cb) => {
           });
         }
         dispatch(addAdminFulfilled());
+        dispatch(getAdmins());
         cb();
       })
       .catch((err) => {
@@ -82,6 +83,7 @@ export const updateAdmin = (url, options, cb) => {
           });
         }
         dispatch(updateAdminFulfilled());
+        dispatch(getAdmins());
         cb();
       })
       .catch((err) => {
