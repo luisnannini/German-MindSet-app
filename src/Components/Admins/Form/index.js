@@ -32,7 +32,6 @@ const Form = () => {
   };
 
   const onChangeUsernameValue = (event) => {
-    console.log(event.target.value);
     setAdmin({ ...admin, username: event.target.value });
   };
 
