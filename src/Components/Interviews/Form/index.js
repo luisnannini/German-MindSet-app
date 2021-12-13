@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+// import { useSelector } from 'react-redux';
+import {
+  createInterview,
+  updateInterview,
+  getInterviewById
+} from '../../../redux/Interviews/thunks';
+import { closeErrorModal } from '../../../redux/Interviews/actions';
+import useQuery from '../../../Hooks/useQuery.js';
 import styles from './form.module.css';
 import Select from '../../Shared/Select';
 import Input from '../../Shared/Input';
@@ -8,7 +17,6 @@ import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
 
 const Form = () => {
-  const [interviewId, setInterviewId] = useState(undefined);
   const [postulants, setPostulants] = useState([]);
   const [clients, setClients] = useState([]);
   const [applications, setApplications] = useState([]);
@@ -25,8 +33,28 @@ const Form = () => {
     title: ''
   });
 
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const query = useQuery();
+
+  // const error = useSelector((store) => store.interviews.error);
+  // const isLoading = useSelector((store) => store.interviews.isLoading);
+  const [id, setInterviewId] = useState(undefined);
+
   useEffect(() => {
     setLoading(true);
+    const interviewId = query.get('_id');
+    if (interviewId) {
+      dispatch(getInterviewById(interviewId)).then((selectedInterview) => {
+        setInterviewId(interviewId);
+        setPostulantValue(selectedInterview.postulant?._id);
+        setClientValue(selectedInterview.client?._id);
+        setApplicationValue(selectedInterview.application?._id);
+        setDateValue(selectedInterview.date);
+        setStatusValue(selectedInterview.status);
+        setNotesValue(selectedInterview.notes);
+      });
+    }
     fetch(`${process.env.REACT_APP_API}/postulants`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -87,93 +115,32 @@ const Form = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const interviewId = params.get('id');
-    if (interviewId) {
-      setInterviewId(interviewId);
-      setLoading(true);
-      fetch(`${process.env.REACT_APP_API}/interviews?_id=${interviewId}`)
-        .then((response) => {
-          if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-            const status = `${response.status} ${response.statusText}`;
-            return response.json().then(({ message }) => {
-              if (message.message) throw { message: message.message, status };
-              throw { message, status };
-            });
-          }
-          return response.json();
-        })
-        .then((response) => {
-          if (!response.data[0]) {
-            return setError({
-              show: true,
-              message: 'Interview not found',
-              title: '404: Not Found'
-            });
-          }
-          setPostulantValue(response.data[0].postulant?._id);
-          setClientValue(response.data[0].client?._id);
-          setApplicationValue(response.data[0].application?._id);
-          setDateValue(response.data[0].date);
-          setStatusValue(response.data[0].status);
-          setNotesValue(response.data[0].notes);
-        })
-        .catch((error) => {
-          setError({ show: true, message: error.message, title: error.status });
-        })
-        .finally(() => setLoading(false));
-    }
-  }, []);
-
   const submitInterview = (e) => {
     e.preventDefault();
+    const interviewId = query.get('_id');
     setLoading(true);
-    let url;
-    const params = new URLSearchParams(window.location.search);
-    const interviewId = params.get('id');
 
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        postulant: postulantValue,
-        client: clientValue,
-        application: applicationValue,
-        status: statusValue,
-        date: dateValue,
-        notes: notesValue
-      })
+    const dataValues = {
+      postulant: postulantValue,
+      client: clientValue,
+      application: applicationValue,
+      status: statusValue,
+      date: dateValue,
+      notes: notesValue
     };
-
     if (interviewId) {
-      options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/interviews/${interviewId}`;
-    } else {
-      options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/interviews`;
-    }
-
-    fetch(url, options)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
+      dispatch(updateInterview(interviewId, dataValues)).then((response) => {
+        if (response) {
+          history.push('/interviews');
         }
-        return response.json();
-      })
-      .then(() => {
-        window.location.href = '/interviews';
-      })
-      .catch((error) => {
-        setError({ show: true, message: error.message, title: error.status });
-      })
-      .finally(() => setLoading(false));
+      });
+    } else {
+      dispatch(createInterview(dataValues)).then((response) => {
+        if (response) {
+          history.push('/interviews');
+        }
+      });
+    }
   };
 
   const onChangePostulantValue = (event) => {
@@ -192,11 +159,6 @@ const Form = () => {
     setStatusValue(event.target.value);
   };
 
-  // function handleChangeDate(event) {
-  //   const value = event.target.value.substring(0, 10);
-  //   setDateValue(value);
-  // }
-
   const result = [
     { _id: 'assigned', value: 'assigned', name: 'Assigned' },
     { _id: 'successful', value: 'successful', name: 'Successful' },
@@ -209,9 +171,7 @@ const Form = () => {
     <div className={styles.container}>
       <form className={styles.form} onSubmit={submitInterview}>
         <div className={styles.header}>
-          <h2 className={styles.title}>
-            {interviewId ? 'Update an Interview' : 'Create an Interview'}
-          </h2>
+          <h2 className={styles.title}>{id ? 'Update an Interview' : 'Create an Interview'}</h2>
         </div>
         <div className={styles.fields}>
           <div className={styles.columns}>
@@ -275,12 +235,10 @@ const Form = () => {
           </div>
         </div>
         <div className={styles.button}>
-          <Link to="/interviews">
-            <ButtonCancel disabled={isLoading} />
-          </Link>
+          <ButtonCancel disabled={isLoading} onClick={() => history.push('/interviews')} />
           <ButtonConfirm type="submit" disabled={isLoading} />
         </div>
-        <ModalError error={error} onConfirm={() => setError({ show: false })} />
+        <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
       </form>
     </div>
   );
