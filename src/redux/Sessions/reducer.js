@@ -121,7 +121,7 @@ const reducerSessions = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
-        error: initialState
+        error: initialState.error
       };
     }
     case DELETE_SESSION_FULFILLED: {

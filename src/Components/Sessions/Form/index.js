@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createSession, getSessionById, updateSession } from '../../../redux/Sessions/thunks';
 import { closeErrorModal } from '../../../redux/Sessions/actions';
 import useQuery from '../../../Hooks/useQuery.js';
@@ -21,11 +21,12 @@ const Form = () => {
   const [statusValue, setStatusValue] = useState('');
   const [dateValue, setDateValue] = useState('');
   const [notesValue, setNotesValue] = useState('');
-  const [error, setError] = useState({
-    show: false,
-    message: '',
-    title: ''
-  });
+  const error = useSelector((store) => store.sessions.error);
+  // const [error, setError] = useState({
+  //   show: false,
+  //   message: '',
+  //   title: ''
+  // });
   const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
