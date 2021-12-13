@@ -121,7 +121,7 @@ const reducerInterviews = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
-        error: initialState
+        error: initialState.error
       };
     }
     case DELETE_INTERVIEW_FULFILLED: {
