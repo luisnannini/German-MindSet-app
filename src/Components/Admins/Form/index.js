@@ -1,114 +1,63 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import styles from './form.module.css';
 import Input from '../../Shared/Input';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
+import { createAdmin, updateAdmin, getAdmin } from '../../../redux/Admins/thunks';
+import { adminCloseErrorModal } from '../../../redux/Admins/actions';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 const Form = () => {
-  const [adminId, setAdminId] = useState(undefined);
-  const [fullNameValue, setFullNameValue] = useState('');
-  const [usernameValue, setUsernameValue] = useState('');
-  const [passwordValue, setPasswordValue] = useState('');
-  const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState({
-    show: false,
-    message: '',
-    title: ''
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const params = new URLSearchParams(history.location.search);
+  const adminId = params.get('_id');
+  const [admin, setAdmin] = useState({
+    name: '',
+    username: '',
+    password: ''
   });
-
+  const isLoading = useSelector((store) => store.admins.isLoading);
+  const error = useSelector((store) => store.admins.error);
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const adminId = params.get('id');
-    setAdminId(adminId);
     if (adminId) {
-      setLoading(true);
-      fetch(`${process.env.REACT_APP_API}/admins?_id=${adminId}`)
-        .then((response) => {
-          if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-            const status = `${response.status} ${response.statusText}`;
-            return response.json().then(({ message }) => {
-              if (message.message) throw { message: message.message, status };
-              throw { message, status };
-            });
-          }
-          return response.json();
-        })
-        .then((response) => {
-          if (!response.data[0]) {
-            return setError({
-              show: true,
-              message: 'Admin not found',
-              title: '404: Not Found'
-            });
-          }
-          setFullNameValue(response.data[0].name);
-          setUsernameValue(response.data[0].username);
-          setPasswordValue(response.data[0].password);
-        })
-        .catch((error) => {
-          setError({ show: true, message: error.message, title: error.status });
-        })
-        .finally(() => setLoading(false));
+      dispatch(getAdmin(adminId, (admin) => setAdmin(admin)));
     }
   }, []);
 
   const onChangeFullNameValue = (event) => {
-    setFullNameValue(event.target.value);
+    setAdmin({ ...admin, name: event.target.value });
   };
 
   const onChangeUsernameValue = (event) => {
-    setUsernameValue(event.target.value);
+    setAdmin({ ...admin, username: event.target.value });
   };
 
   const onChangePasswordValue = (event) => {
-    setPasswordValue(event.target.value);
+    setAdmin({ ...admin, password: event.target.value });
   };
 
   const submitAdmin = (e) => {
     e.preventDefault();
-    setLoading(true);
-    const params = new URLSearchParams(window.location.search);
-    const adminId = params.get('id');
     let url;
     const options = {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        name: fullNameValue,
-        username: usernameValue,
-        password: passwordValue
-      })
+      body: JSON.stringify(admin)
     };
 
     if (adminId) {
       options.method = 'PUT';
       url = `${process.env.REACT_APP_API}/admins/${adminId}`;
+      dispatch(updateAdmin(url, options, () => history.goBack()));
     } else {
       options.method = 'POST';
       url = `${process.env.REACT_APP_API}/admins`;
+      dispatch(createAdmin(url, options, () => history.goBack()));
     }
-
-    fetch(url, options)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then(() => {
-        window.location.href = '/admins';
-      })
-      .catch((error) => {
-        setError({ show: true, message: error.message, title: error.status });
-      })
-      .finally(() => setLoading(false));
   };
 
   return (
@@ -122,7 +71,7 @@ const Form = () => {
             <Input
               label={'Full Name'}
               type={'text'}
-              value={fullNameValue}
+              value={admin.name}
               placeholder={'Full name'}
               onChange={onChangeFullNameValue}
               required={true}
@@ -131,7 +80,7 @@ const Form = () => {
             <Input
               label={'Username'}
               type={'text'}
-              value={usernameValue}
+              value={admin.username}
               placeholder={'Username'}
               onChange={onChangeUsernameValue}
               required={true}
@@ -140,7 +89,7 @@ const Form = () => {
             <Input
               label={'Password'}
               type={'password'}
-              value={passwordValue}
+              value={admin.password}
               placeholder={'Password'}
               onChange={onChangePasswordValue}
               required={true}
@@ -149,12 +98,16 @@ const Form = () => {
           </div>
         </div>
         <div className={styles.button}>
-          <Link to="/admins">
-            <ButtonCancel disabled={isLoading} />
-          </Link>
+          <ButtonCancel
+            disabled={isLoading}
+            onClick={(e) => {
+              e.preventDefault();
+              history.goBack();
+            }}
+          />
           <ButtonConfirm disabled={isLoading} type="submit" />
         </div>
-        <ModalError error={error} onConfirm={() => setError({ show: false })} />
+        <ModalError error={error} onConfirm={() => adminCloseErrorModal({ show: false })} />
       </form>
     </div>
   );
