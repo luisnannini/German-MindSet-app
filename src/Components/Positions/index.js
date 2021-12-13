@@ -41,10 +41,12 @@ function Positions() {
         title="Delete a Position"
         message="Are you sure you want to delete this position?"
         onCancel={() => setShowDelete(false)}
-        onConfirm={dispatch(deletePosition(selectedPosition)).then(() => {
-          setSelectedPosition(undefined);
-          setShowDelete(false);
-        })}
+        onConfirm={() =>
+          dispatch(deletePosition(selectedPosition)).then(() => {
+            setSelectedPosition(undefined);
+            setShowDelete(false);
+          })
+        }
       />
       <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
       <div className={styles.container}>
@@ -75,7 +77,7 @@ function Positions() {
                   <td>
                     <ButtonUpdate
                       disabled={isLoading}
-                      onClick={() => history.push(`/positions/form?_id=${positions._id}`)}
+                      onClick={() => history.push(`/positions/form?_id=${position._id}`)}
                     />
                     <ButtonDelete
                       disabled={isLoading}

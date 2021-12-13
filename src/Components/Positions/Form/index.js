@@ -10,8 +10,13 @@ import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
 import { useDispatch, useSelector } from 'react-redux';
-import { createPosition, getPositionById, updatePosition } from '../../../redux/Positions/thunks';
-import { getProfiles } from '../../../redux/Profiles/thunks';
+import {
+  createPosition,
+  getPositionById,
+  getPositions,
+  updatePosition
+} from '../../../redux/Positions/thunks';
+//import { getProfiles } from '../../../redux/Profiles/thunks';
 import { closeErrorModal } from '../../../redux/Positions/actions';
 
 const Form = () => {
@@ -34,16 +39,6 @@ const Form = () => {
 
   useEffect(() => {
     const positionId = query.get('_id');
-    if (positionId) {
-      dispatch(getPositionById(positionId)).then((selectedPosition) => {
-        setPositionId(positionId);
-        setClientValue(selectedPosition.client);
-        setProfilesValue(selectedPosition.professionalProfiles);
-        setJobDescriptionValue(selectedPosition.jobDescription);
-        setVacancyValue(selectedPosition.vacancy);
-        setIsOpenValue(selectedPosition.isOpen);
-      });
-    }
     fetch(`${process.env.REACT_APP_API}/clients`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -73,6 +68,16 @@ const Form = () => {
         setProfiles(response.data);
       })
       .catch((error) => console.log(error));
+    if (positionId) {
+      dispatch(getPositionById(positionId)).then((selectedPosition) => {
+        setPositionId(positionId);
+        setClientValue(selectedPosition.client);
+        setProfilesValue(selectedPosition.professionalProfiles);
+        setJobDescriptionValue(selectedPosition.jobDescription);
+        setVacancyValue(selectedPosition.vacancy);
+        setIsOpenValue(selectedPosition.isOpen);
+      });
+    }
   }, []);
 
   const onChangeClientValue = (event) => {
@@ -108,7 +113,10 @@ const Form = () => {
           isOpen: isOpenValue
         })
       ).then((response) => {
-        if (response) history.push('/positions');
+        if (response) {
+          history.push('/positions');
+          dispatch(getPositions());
+        }
       });
     } else {
       dispatch(
@@ -120,11 +128,15 @@ const Form = () => {
           isOpen: isOpenValue
         })
       ).then((response) => {
-        if (response) history.push('/positions');
+        if (response) {
+          history.push('/positions');
+          dispatch(getPositions());
+        }
       });
     }
   };
-
+  console.log(clientValue);
+  console.log(profilesValue);
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={submitPosition}>
