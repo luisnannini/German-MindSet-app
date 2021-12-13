@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styles from './form.module.css';
 import Select from '../../Shared/Select';
 import Input from '../../Shared/Input';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
+import { useSelector, useDispatch } from 'react-redux';
+import { createApplication, getApplications } from '../../../redux/Applications/thunks';
+import { applicationsErrorModal } from '../../../redux/Applications/actions';
 
 const Form = () => {
   const [position, setPosition] = useState([]);
@@ -15,15 +18,18 @@ const Form = () => {
   const [postulantValue, setPostulantValue] = useState('');
   const [interviewValue, setInterviewValue] = useState('');
   const [resultValue, setResultValue] = useState('');
-  const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState({
     show: false,
     message: '',
     title: ''
   });
 
+  const isLoading = useSelector((store) => store.applications.isLoading);
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   useEffect(() => {
-    setLoading(true);
     fetch(`${process.env.REACT_APP_API}/positions`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -86,8 +92,7 @@ const Form = () => {
           }))
         );
       })
-      .catch((error) => setError({ show: true, message: error.message, title: error.status }))
-      .finally(() => setLoading(false));
+      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
   }, []);
 
   const onChangePosition = (input) => {
@@ -102,42 +107,25 @@ const Form = () => {
   const onChangeResult = (input) => {
     setResultValue(input.target.value);
   };
+
   const submitApplications = (e) => {
     e.preventDefault();
-    setLoading(true);
-    const url = `${process.env.REACT_APP_API}/applications`;
-    const options = {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+
+    dispatch(
+      createApplication({
         positions: positionValue,
         postulants: postulantValue,
         interview: interviewValue,
         result: resultValue
-      }),
-      method: 'POST'
-    };
-
-    fetch(url, options)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
       })
-      .then(() => {
-        window.location.href = '/applications';
-      })
-      .catch((error) => {
-        setError({ show: true, message: error.message, title: error.status });
-      })
-      .finally(() => setLoading(true));
+    ).then((response) => {
+      if (response) {
+        history.push('/applications');
+        dispatch(getApplications());
+      }
+    });
   };
+
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={submitApplications}>
@@ -188,12 +176,10 @@ const Form = () => {
           </div>
         </div>
         <div className={styles.button}>
-          <Link to="/applications">
-            <ButtonCancel disabled={isLoading} />
-          </Link>
+          <ButtonCancel disabled={isLoading} onClick={() => history.push('/applications')} />
           <ButtonConfirm type="submit" disabled={isLoading} />
         </div>
-        <ModalError error={error} onConfirm={() => setError({ show: false })} />
+        <ModalError error={error} onConfirm={() => dispatch(applicationsErrorModal())} />
       </form>
     </div>
   );

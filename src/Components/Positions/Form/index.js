@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import useQuery from '../../../Hooks/useQuery';
 import styles from './form.module.css';
 import Select from '../../Shared/Select';
 import Input from '../../Shared/Input';
@@ -7,6 +8,14 @@ import Checkbox from '../../Shared/Checkbox';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  createPosition,
+  getPositionById,
+  getPositions,
+  updatePosition
+} from '../../../redux/Positions/thunks';
+import { closeErrorModal } from '../../../redux/Positions/actions';
 
 const Form = () => {
   const [positionId, setPositionId] = useState(undefined);
@@ -17,49 +26,17 @@ const Form = () => {
   const [jobDescriptionValue, setJobDescriptionValue] = useState('');
   const [vacancyValue, setVacancyValue] = useState('');
   const [isOpenValue, setIsOpenValue] = useState(false);
-  const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState({
-    show: false,
-    message: '',
-    title: ''
-  });
+
+  const error = useSelector((store) => store.positions.error);
+  const isLoading = useSelector((store) => store.positions.isLoading);
+
+  const dispatch = useDispatch();
+
+  const history = useHistory();
+  const query = useQuery();
 
   useEffect(() => {
-    setLoading(true);
-    const params = new URLSearchParams(window.location.search);
-    const positionId = params.get('id');
-    if (positionId) {
-      setPositionId(positionId);
-      fetch(`${process.env.REACT_APP_API}/positions?_id=${positionId}`)
-        .then((response) => {
-          if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-            const status = `${response.status} ${response.statusText}`;
-            return response.json().then(({ message }) => {
-              if (message.message) throw { message: message.message, status };
-              throw { message, status };
-            });
-          }
-          return response.json();
-        })
-        .then((response) => {
-          if (!response.data[0]) {
-            return setError({
-              show: true,
-              message: 'Position not found',
-              title: '404: Not Found'
-            });
-          }
-          setClientValue(response.data[0].client._id);
-          setProfilesValue(response.data[0].professionalProfiles._id);
-          setJobDescriptionValue(response.data[0].jobDescription);
-          setVacancyValue(response.data[0].vacancy);
-          setIsOpenValue(response.data[0].isOpen);
-        })
-        .catch((error) => {
-          setError({ show: true, message: error.message, title: error.status });
-        });
-    }
-
+    const positionId = query.get('_id');
     fetch(`${process.env.REACT_APP_API}/clients`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -71,12 +48,8 @@ const Form = () => {
         }
         return response.json();
       })
-      .then((response) => {
-        setClients(response.data);
-      })
-      .catch((error) => {
-        setError({ show: true, message: error.message, title: error.status });
-      });
+      .then((response) => setClients(response.data))
+      .catch((error) => error);
 
     fetch(`${process.env.REACT_APP_API}/profiles`)
       .then((response) => {
@@ -92,10 +65,17 @@ const Form = () => {
       .then((response) => {
         setProfiles(response.data);
       })
-      .catch((error) => {
-        setError({ show: true, message: error.message, title: error.status });
-      })
-      .finally(() => setLoading(false));
+      .catch((error) => error);
+    if (positionId) {
+      dispatch(getPositionById(positionId)).then((selectedPosition) => {
+        setPositionId(positionId);
+        setClientValue(selectedPosition.client._id);
+        setProfilesValue(selectedPosition.professionalProfiles._id);
+        setJobDescriptionValue(selectedPosition.jobDescription);
+        setVacancyValue(selectedPosition.vacancy);
+        setIsOpenValue(selectedPosition.isOpen);
+      });
+    }
   }, []);
 
   const onChangeClientValue = (event) => {
@@ -120,53 +100,39 @@ const Form = () => {
 
   const submitPosition = (event) => {
     event.preventDefault();
-    setLoading(true);
-    const params = new URLSearchParams(window.location.search);
-    const positionId = params.get('id');
-    setPositionId(positionId);
-    let url;
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        client: clientValue,
-        jobDescription: jobDescriptionValue,
-        vacancy: vacancyValue,
-        professionalProfiles: profilesValue,
-        isOpen: isOpenValue
-      })
-    };
-
-    if (positionId) {
-      options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/positions/${positionId}`;
-    } else {
-      options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/positions`;
-    }
-
-    fetch(url, options)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
+    const positionID = query.get('_id');
+    if (positionID) {
+      dispatch(
+        updatePosition(positionID, {
+          client: clientValue,
+          jobDescription: jobDescriptionValue,
+          vacancy: vacancyValue,
+          professionalProfiles: profilesValue,
+          isOpen: isOpenValue
+        })
+      ).then((response) => {
+        if (response) {
+          history.push('/positions');
+          dispatch(getPositions());
         }
-        return response.json();
-      })
-      .then(() => {
-        window.location.href = '/positions';
-      })
-      .catch((error) => {
-        setError({ show: true, message: error.message, title: error.status });
-      })
-      .finally(() => setLoading(false));
+      });
+    } else {
+      dispatch(
+        createPosition({
+          client: clientValue,
+          jobDescription: jobDescriptionValue,
+          vacancy: vacancyValue,
+          professionalProfiles: profilesValue,
+          isOpen: isOpenValue
+        })
+      ).then((response) => {
+        if (response) {
+          history.push('/positions');
+          dispatch(getPositions());
+        }
+      });
+    }
   };
-
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={submitPosition}>
@@ -225,12 +191,10 @@ const Form = () => {
           </div>
         </div>
         <div className={styles.button}>
-          <Link to="/positions">
-            <ButtonCancel disabled={isLoading} />
-          </Link>
+          <ButtonCancel disabled={isLoading} onClick={() => history.push('/positions/')} />
           <ButtonConfirm disabled={isLoading} type="submit" />
         </div>
-        <ModalError error={error} onConfirm={() => setError({ show: false })} />
+        <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
       </form>
     </div>
   );
