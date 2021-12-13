@@ -1,6 +1,8 @@
 import styles from './postulants.module.css';
+import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react/cjs/react.development';
 import Postulant from './Postulant';
+import CreateButton from '../Shared/Buttons/ButtonCreate';
 
 const Postulants = () => {
   const [postulants, setPostulants] = useState([]);
@@ -37,7 +39,12 @@ const Postulants = () => {
   return (
     <div className={styles.container}>
       <section className={styles.section}>
-        <h2>Postulants</h2>
+        <div className={styles.header}>
+          <h2>Postulants</h2>
+          <Link to="postulants/form">
+            <CreateButton></CreateButton>
+          </Link>
+        </div>
         <table className={styles.table}>
           <thead>
             <tr className={styles.tr}>

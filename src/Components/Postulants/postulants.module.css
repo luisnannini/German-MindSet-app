@@ -1,6 +1,12 @@
 .container {
   height: 500px
 }
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px;
+}
 .table {
   width: 100%;
   text-align: left;
