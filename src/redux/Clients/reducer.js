@@ -120,7 +120,7 @@ const reducerClients = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
-        error: initialState
+        error: initialState.error
       };
     }
     case DELETE_CLIENT_FULFILLED: {
