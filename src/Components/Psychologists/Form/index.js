@@ -346,6 +346,8 @@ const Form = () => {
               required={true}
               disabled={isLoading}
             />
+          </div>
+          <div className={styles.columns}>
             <Input
               label={'Email'}
               type={'email'}
@@ -377,9 +379,14 @@ const Form = () => {
               disabled={isLoading}
             />
           </div>
-          <div className={styles.columns}>
+        </div>
+        <div className={styles.availabilityTitle}>
+          <h2>Availability</h2>
+        </div>
+        <div className={styles.availability}>
+          <div className={styles.columnsAvailability}>
             <Checkbox
-              label="Monday Availability"
+              label="Monday"
               value={mondayBool}
               day="monday"
               onChange={onChangeMondayBool}
@@ -406,7 +413,7 @@ const Form = () => {
               />
             </div>
             <Checkbox
-              label="Tuesday availability"
+              label="Tuesday"
               value={tuesdayBool}
               day="tuesday"
               onChange={onChangeTuesdayBool}
@@ -433,7 +440,7 @@ const Form = () => {
               />
             </div>
             <Checkbox
-              label="Wednesday Availability"
+              label="Wednesday"
               value={wednesdayBool}
               day="wednesday"
               onChange={onChangeWednesdayBool}
@@ -460,7 +467,7 @@ const Form = () => {
               />
             </div>
             <Checkbox
-              label="Thursday Availability"
+              label="Thursday"
               value={thursdayBool}
               day="thursday"
               onChange={onChangeThursdayBool}
@@ -486,8 +493,10 @@ const Form = () => {
                 disabled={!thursdayBool}
               />
             </div>
+          </div>
+          <div className={styles.columnsAvailability}>
             <Checkbox
-              label="Friday Availability"
+              label="Friday"
               value={fridayBool}
               day="friday"
               onChange={onChangeFridayBool}
@@ -514,7 +523,7 @@ const Form = () => {
               />
             </div>
             <Checkbox
-              label="Saturday Availability"
+              label="Saturday"
               value={saturdayBool}
               day="saturday"
               onChange={onChangeSaturdayBool}
@@ -541,7 +550,7 @@ const Form = () => {
               />
             </div>
             <Checkbox
-              label="Sunday Availability"
+              label="Sunday"
               value={sundayBool}
               day="sunday"
               onChange={onChangeSundayBool}
