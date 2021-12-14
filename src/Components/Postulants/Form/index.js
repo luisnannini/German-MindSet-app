@@ -5,6 +5,11 @@ import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
 import Checkbox from '../../Shared/Checkbox';
 import TextArea from '../../Shared/TextArea';
+import TertiaryStudies from './TertiaryStudies';
+import UniversityStudies from './UniversityStudies';
+import InformalStudies from './InformalStudies';
+import WorkExperience from './WorkExperience';
+import AddButton from '../../Shared/Buttons/ButtonLittleAdd';
 import { useState } from 'react';
 
 const error = {
@@ -14,6 +19,12 @@ const error = {
 };
 
 const Form = () => {
+  const [inputsCounter, setCounter] = useState({
+    tertiaryStudies: 0,
+    universityStudies: 0,
+    informalStudies: 0,
+    workExperience: 0
+  });
   const [personalInfo, setPersonalInfo] = useState({
     firstName: '',
     lastName: '',
@@ -24,10 +35,30 @@ const Form = () => {
     birthday: '',
     available: false
   });
+  const [primaryStudies, setPrimaryStudies] = useState({
+    startDate: '',
+    endDate: '',
+    school: ''
+  });
+  const [secondaryStudies, setSecondaryStudies] = useState({
+    startDate: '',
+    endDate: '',
+    school: ''
+  });
+  const [tertiaryStudies, setTertiaryStudies] = useState([]);
+  const [universityStudies, setUniversityStudies] = useState([]);
+  const [informalStudies, setInformalStudies] = useState([]);
+  const [workExperience, setWorkExperience] = useState([]);
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    console.log(personalInfo);
+    console.log(tertiaryStudies);
+  };
 
   return (
     <div className={styles.container}>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={submitForm}>
         <div className={styles.header}>
           <h2 className={styles.title}>FORM</h2>
         </div>
@@ -97,15 +128,15 @@ const Form = () => {
               label={'Start Date'}
               name={'startDate'}
               placeholder={'Start Date'}
-              required={true}
               type={'date'}
+              onChange={(e) => setPrimaryStudies({ ...primaryStudies, startDate: e.target.value })}
             />
             <Input
               label={'School'}
               name={'school'}
               placeholder={'School'}
-              required={true}
               type={'text'}
+              onChange={(e) => setPrimaryStudies({ ...primaryStudies, school: e.target.value })}
             />
           </div>
           <div className={styles.columns}>
@@ -113,8 +144,8 @@ const Form = () => {
               label={'Finish Date'}
               name={'finishDate'}
               placeholder={'Finish Date'}
-              required={true}
               type={'date'}
+              onChange={(e) => setPrimaryStudies({ ...primaryStudies, endDate: e.target.value })}
             />
           </div>
         </div>
@@ -125,15 +156,17 @@ const Form = () => {
               label={'Start Date'}
               name={'startDate'}
               placeholder={'Start Date'}
-              required={true}
               type={'date'}
+              onChange={(e) =>
+                setSecondaryStudies({ ...secondaryStudies, startDate: e.target.value })
+              }
             />
             <Input
               label={'School'}
               name={'school'}
               placeholder={'School'}
-              required={true}
               type={'text'}
+              onChange={(e) => setSecondaryStudies({ ...secondaryStudies, school: e.target.value })}
             />
           </div>
           <div className={styles.columns}>
@@ -141,129 +174,86 @@ const Form = () => {
               label={'Finish Date'}
               name={'finishDate'}
               placeholder={'Finish Date'}
-              required={true}
               type={'date'}
+              onChange={(e) =>
+                setSecondaryStudies({ ...secondaryStudies, endDate: e.target.value })
+              }
             />
           </div>
         </div>
         <h3>Tertiary Studies</h3>
-        <div className={styles.fields}>
-          <div className={styles.columns}>
-            <Input
-              label={'Start Date'}
-              name={'startDate'}
-              placeholder={'Start Date'}
-              required={true}
-              type={'date'}
-            />
-            <Input
-              label={'School'}
-              name={'school'}
-              placeholder={'School'}
-              required={true}
-              type={'text'}
-            />
+        {[...Array(inputsCounter.tertiaryStudies)].map((_, i) => (
+          <div className={styles.fields} key={i}>
+            <div className={styles.columns}>
+              <Input
+                label={'Start Date'}
+                name={'startDate'}
+                placeholder={'Start Date'}
+                type={'date'}
+                onChange={(e) => (tertiaryStudies[i].startDate = e.target.value)}
+              />
+              <Input
+                label={'Institute'}
+                name={'institute'}
+                placeholder={'Institute'}
+                type={'text'}
+                onChange={(e) => (tertiaryStudies[i].institute = e.target.value)}
+              />
+            </div>
+            <div className={styles.columns}>
+              <Input
+                label={'Finish Date'}
+                name={'endDate'}
+                placeholder={'Finish Date'}
+                type={'date'}
+                onChange={(e) => (tertiaryStudies[i].endDate = e.target.value)}
+              />
+              <TextArea
+                label={'Description'}
+                name={'description'}
+                onChange={(e) => (tertiaryStudies[i].description = e.target.value)}
+              />
+            </div>
           </div>
-          <div className={styles.columns}>
-            <Input
-              label={'Finish Date'}
-              name={'finishDate'}
-              placeholder={'Finish Date'}
-              required={true}
-              type={'date'}
-            />
-          </div>
-        </div>
+        ))}
+        <AddButton
+          type="button"
+          onClick={() => {
+            setTertiaryStudies([...tertiaryStudies, { startDate: '', endDate: '', institute: '' }]);
+            setCounter({ ...inputsCounter, tertiaryStudies: inputsCounter.tertiaryStudies + 1 });
+            console.log(tertiaryStudies);
+          }}
+        />
         <h3>University Studies</h3>
-        <div className={styles.fields}>
-          <div className={styles.columns}>
-            <Input
-              label={'Start Date'}
-              name={'startDate'}
-              placeholder={'Start Date'}
-              required={true}
-              type={'date'}
-            />
-            <Input
-              label={'School'}
-              name={'school'}
-              placeholder={'School'}
-              required={true}
-              type={'text'}
-            />
-          </div>
-          <div className={styles.columns}>
-            <Input
-              label={'Finish Date'}
-              name={'finishDate'}
-              placeholder={'Finish Date'}
-              required={true}
-              type={'date'}
-            />
-          </div>
-        </div>
+        {[...Array(inputsCounter.universityStudies)].map((_, i) => (
+          <UniversityStudies key={i}></UniversityStudies>
+        ))}
+        <AddButton
+          type="button"
+          onClick={() =>
+            setCounter({ ...inputsCounter, universityStudies: inputsCounter.universityStudies + 1 })
+          }
+        />
         <h3>Informal Studies</h3>
-        <div className={styles.fields}>
-          <div className={styles.columns}>
-            <Input
-              label={'Start Date'}
-              name={'startDate'}
-              placeholder={'Start Date'}
-              required={true}
-              type={'date'}
-            />
-            <Input
-              label={'School'}
-              name={'school'}
-              placeholder={'School'}
-              required={true}
-              type={'text'}
-            />
-          </div>
-          <div className={styles.columns}>
-            <Input
-              label={'Finish Date'}
-              name={'finishDate'}
-              placeholder={'Finish Date'}
-              required={true}
-              type={'date'}
-            />
-          </div>
-        </div>
+        {[...Array(inputsCounter.informalStudies)].map((_, i) => (
+          <InformalStudies key={i}></InformalStudies>
+        ))}
+        <AddButton
+          type="button"
+          onClick={() =>
+            setCounter({ ...inputsCounter, informalStudies: inputsCounter.informalStudies + 1 })
+          }
+        />
         <h3>Work Experience</h3>
-        <div className={styles.fields}>
-          <div className={styles.columns}>
-            <Input
-              label={'Start Date'}
-              name={'startDate'}
-              placeholder={'Start Date'}
-              required={true}
-              type={'date'}
-            />
-            <Input
-              label={'Company'}
-              name={'company'}
-              placeholder={'Company'}
-              required={true}
-              type={'text'}
-            />
-          </div>
-          <div className={styles.columns}>
-            <Input
-              label={'Finish Date'}
-              name={'finishDate'}
-              placeholder={'Finish Date'}
-              required={true}
-              type={'date'}
-            />
-            <TextArea
-              label={'Description'}
-              name={'description'}
-              placeholder={'Job Description'}
-              required={true}
-            />
-          </div>
-        </div>
+        {[...Array(inputsCounter.workExperience)].map((_, i) => (
+          <WorkExperience key={i}></WorkExperience>
+        ))}
+        <AddButton
+          type="button"
+          onClick={() =>
+            setCounter({ ...inputsCounter, workExperience: inputsCounter.workExperience + 1 })
+          }
+        />
         <div className={styles.button}>
           <ButtonCancel onClick={() => history.push('/profiles')} />
           <ButtonConfirm type={'submit'} />
