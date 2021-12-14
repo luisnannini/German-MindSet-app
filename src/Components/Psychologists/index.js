@@ -63,7 +63,10 @@ function Psychologists() {
         show={showAvailability}
         title="Availability"
         data={availability}
-        onCancel={() => setShowAvailability(false)}
+        onCancel={() => {
+          setShowAvailability(false);
+          setAvailability({});
+        }}
       />
       <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
       <div className={styles.container}>
