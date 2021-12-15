@@ -1,4 +1,7 @@
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProfiles, deleteProfile } from '../../redux/Profiles/thunks';
+import { closeErrorModal } from '../../redux/Profiles/actions';
 import { useHistory } from 'react-router-dom';
 import styles from './profiles.module.css';
 import ButtonCreate from '../Shared/Buttons/ButtonCreate';
@@ -6,21 +9,15 @@ import ButtonDelete from '../Shared/Buttons/ButtonDelete';
 import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
 import Modal from '../Shared/Modal';
 import ModalError from '../Shared/ModalError';
-import { useDispatch, useSelector } from 'react-redux';
-import { getProfiles, deleteProfile } from '../../redux/Profiles/thunks';
-import { closeErrorModal } from '../../redux/Profiles/actions';
 
 function Profiles() {
+  const dispatch = useDispatch();
+  const profiles = useSelector((store) => store.profiles.list);
   const [selectedProfile, setSelectedProfile] = useState(undefined);
   const [showDelete, setShowDelete] = useState(false);
-
-  const dispatch = useDispatch();
-
   const history = useHistory();
-
-  const profiles = useSelector((store) => store.profiles.list);
-  const error = useSelector((store) => store.profiles.error);
   const isLoading = useSelector((store) => store.profiles.isLoading);
+  const error = useSelector((store) => store.profiles.error);
 
   useEffect(() => {
     if (!profiles.length) {

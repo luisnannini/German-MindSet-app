@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { createAdmin, updateAdmin, getAdmin } from '../../../redux/Admins/thunks';
+import { adminCloseErrorModal } from '../../../redux/Admins/actions';
+import { useHistory } from 'react-router-dom';
 import styles from './form.module.css';
 import Input from '../../Shared/Input';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
-import { createAdmin, updateAdmin, getAdmin } from '../../../redux/Admins/thunks';
-import { adminCloseErrorModal } from '../../../redux/Admins/actions';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 
 const Form = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
   const params = new URLSearchParams(history.location.search);
   const adminId = params.get('_id');
@@ -19,8 +18,10 @@ const Form = () => {
     username: '',
     password: ''
   });
+  const history = useHistory();
   const isLoading = useSelector((store) => store.admins.isLoading);
   const error = useSelector((store) => store.admins.error);
+
   useEffect(() => {
     if (adminId) {
       dispatch(getAdmin(adminId, (admin) => setAdmin(admin)));

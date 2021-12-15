@@ -11,13 +11,13 @@ import Modal from '../Shared/Modal';
 import ModalError from '../Shared/ModalError';
 
 function Sessions() {
+  const dispatch = useDispatch();
+  const sessions = useSelector((store) => store.sessions.list);
   const [selectedSession, setSelectedSession] = useState(undefined);
   const [showDelete, setShowDelete] = useState(false);
-  const dispatch = useDispatch();
   const history = useHistory();
-  const sessions = useSelector((store) => store.sessions.list);
-  const error = useSelector((store) => store.sessions.error);
   const isLoading = useSelector((store) => store.sessions.isLoading);
+  const error = useSelector((store) => store.sessions.error);
 
   useEffect(() => {
     if (!sessions.length) {

@@ -1,4 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  createPsychologist,
+  getPsychologistById,
+  updatePsychologist
+} from '../../../redux/Psychologists/thunks';
+import { closeErrorModal } from '../../../redux/Psychologists/actions';
 import { useHistory } from 'react-router-dom';
 import useQuery from '../../../Hooks/useQuery';
 import styles from './form.module.css';
@@ -7,15 +14,9 @@ import Checkbox from '../../Shared/Checkbox';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  createPsychologist,
-  getPsychologistById,
-  updatePsychologist
-} from '../../../redux/Psychologists/thunks';
-import { closeErrorModal } from '../../../redux/Psychologists/actions';
 
 const Form = () => {
+  const dispatch = useDispatch();
   const [psychologistId, setPsychologistId] = useState(0);
   const [firstNameForm, setFirstName] = useState('');
   const [lastNameForm, setLastName] = useState('');
@@ -45,13 +46,9 @@ const Form = () => {
   const [fridayTo, setFridayTo] = useState(0);
   const [saturdayTo, setSaturdayTo] = useState(0);
   const [sundayTo, setSundayTo] = useState(0);
-
-  const error = useSelector((store) => store.psychologists.error);
-  const isLoading = useSelector((store) => store.psychologists.isLoading);
-
-  const dispatch = useDispatch();
-
   const history = useHistory();
+  const isLoading = useSelector((store) => store.psychologists.isLoading);
+  const error = useSelector((store) => store.psychologists.error);
   const query = useQuery();
 
   useEffect(() => {

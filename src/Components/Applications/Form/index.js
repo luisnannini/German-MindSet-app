@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { createApplication, getApplications } from '../../../redux/Applications/thunks';
+import { applicationsErrorModal } from '../../../redux/Applications/actions';
 import { useHistory } from 'react-router-dom';
 import styles from './form.module.css';
 import Select from '../../Shared/Select';
@@ -6,11 +9,9 @@ import Input from '../../Shared/Input';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
-import { useSelector, useDispatch } from 'react-redux';
-import { createApplication, getApplications } from '../../../redux/Applications/thunks';
-import { applicationsErrorModal } from '../../../redux/Applications/actions';
 
 const Form = () => {
+  const dispatch = useDispatch();
   const [position, setPosition] = useState([]);
   const [postulant, setPostulant] = useState([]);
   const [interview, setInterview] = useState([]);
@@ -18,16 +19,13 @@ const Form = () => {
   const [postulantValue, setPostulantValue] = useState('');
   const [interviewValue, setInterviewValue] = useState('');
   const [resultValue, setResultValue] = useState('');
+  const history = useHistory();
+  const isLoading = useSelector((store) => store.applications.isLoading);
   const [error, setError] = useState({
     show: false,
     message: '',
     title: ''
   });
-
-  const isLoading = useSelector((store) => store.applications.isLoading);
-
-  const dispatch = useDispatch();
-  const history = useHistory();
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/positions`)

@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-// import { useSelector } from 'react-redux';
 import {
   createInterview,
   updateInterview,
   getInterviewById
 } from '../../../redux/Interviews/thunks';
 import { closeErrorModal } from '../../../redux/Interviews/actions';
+import { useHistory } from 'react-router-dom';
 import useQuery from '../../../Hooks/useQuery.js';
 import styles from './form.module.css';
 import Select from '../../Shared/Select';
@@ -17,6 +16,8 @@ import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
 
 const Form = () => {
+  const dispatch = useDispatch();
+  const [id, setInterviewId] = useState(undefined);
   const [postulants, setPostulants] = useState([]);
   const [clients, setClients] = useState([]);
   const [applications, setApplications] = useState([]);
@@ -26,20 +27,14 @@ const Form = () => {
   const [statusValue, setStatusValue] = useState('');
   const [dateValue, setDateValue] = useState('');
   const [notesValue, setNotesValue] = useState('');
+  const history = useHistory();
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState({
     show: false,
     message: '',
     title: ''
   });
-
-  const dispatch = useDispatch();
-  const history = useHistory();
   const query = useQuery();
-
-  // const error = useSelector((store) => store.interviews.error);
-  // const isLoading = useSelector((store) => store.interviews.isLoading);
-  const [id, setInterviewId] = useState(undefined);
 
   useEffect(() => {
     setLoading(true);

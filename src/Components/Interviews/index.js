@@ -11,14 +11,13 @@ import Modal from '../Shared/Modal';
 import ModalError from '../Shared/ModalError';
 
 function Interviews() {
+  const dispatch = useDispatch();
+  const interviews = useSelector((store) => store.interviews.list);
   const [selectedInterview, setSelectedInterview] = useState(undefined);
   const [showDelete, setShowDelete] = useState(false);
-
-  const dispatch = useDispatch();
   const history = useHistory();
-  const interviews = useSelector((store) => store.interviews.list);
-  const error = useSelector((store) => store.interviews.error);
   const isLoading = useSelector((store) => store.interviews.isLoading);
+  const error = useSelector((store) => store.interviews.error);
 
   useEffect(() => {
     if (!interviews.length) {

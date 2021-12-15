@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { createClient, getClientById, updateClient } from '../../../redux/Clients/thunks';
+import { closeErrorModal } from '../../../redux/Clients/actions';
 import { useHistory } from 'react-router-dom';
 import useQuery from '../../../Hooks/useQuery';
 import styles from './form.module.css';
@@ -6,11 +9,9 @@ import Input from '../../Shared/Input';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
-import { useDispatch, useSelector } from 'react-redux';
-import { createClient, getClientById, updateClient } from '../../../redux/Clients/thunks';
-import { closeErrorModal } from '../../../redux/Clients/actions';
 
 function Form() {
+  const dispatch = useDispatch();
   const [clientId, setClientId] = useState(undefined);
   const [nameValue, setNameValue] = useState('');
   const [phoneValue, setPhoneValue] = useState('');
@@ -20,12 +21,9 @@ function Form() {
   const [addressValue, setAddressValue] = useState('');
   const [logoValue, setLogoValue] = useState('');
   const [descriptionValue, setDescriptionValue] = useState('');
-  const error = useSelector((store) => store.clients.error);
-  const isLoading = useSelector((store) => store.clients.isLoading);
-
-  const dispatch = useDispatch();
-
   const history = useHistory();
+  const isLoading = useSelector((store) => store.clients.isLoading);
+  const error = useSelector((store) => store.clients.error);
   const query = useQuery();
 
   useEffect(() => {

@@ -21,7 +21,7 @@ const initialState = {
   isLoading: false,
   list: [],
   selectedItem: {},
-  error: { show: false }
+  error: { show: false, message: '' }
 };
 
 const reducerPositions = (state = initialState, action) => {

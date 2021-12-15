@@ -20,7 +20,7 @@ import {
 const initialState = {
   isLoading: false,
   admins: [],
-  error: { show: false }
+  error: { show: false, message: '' }
 };
 
 const reducerAdmins = (state = initialState, action) => {

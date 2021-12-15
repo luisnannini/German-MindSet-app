@@ -18,6 +18,8 @@ import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../Shared/ModalError';
 
 const Form = () => {
+  const dispatch = useDispatch();
+  const [sessionId, setSessionId] = useState(undefined);
   const [title, setTitle] = useState('');
   const [postulants, setPostulants] = useState([]);
   const [psychologists, setPsychologists] = useState([]);
@@ -26,12 +28,10 @@ const Form = () => {
   const [statusValue, setStatusValue] = useState('');
   const [dateValue, setDateValue] = useState('');
   const [notesValue, setNotesValue] = useState('');
-  const error = useSelector((store) => store.sessions.error);
-  const isLoading = useSelector((store) => store.sessions.isLoading);
-  const dispatch = useDispatch();
   const history = useHistory();
+  const isLoading = useSelector((store) => store.sessions.isLoading);
+  const error = useSelector((store) => store.sessions.error);
   const query = useQuery();
-  const [sessionId, setSessionId] = useState(undefined);
 
   useEffect(() => {
     const sessionId = query.get('_id');

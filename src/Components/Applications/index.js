@@ -1,22 +1,20 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getApplications, deleteApplication } from '../../redux/Applications/thunks';
+import { applicationsErrorModal } from '../../redux/Applications/actions';
 import { useHistory } from 'react-router-dom';
 import styles from './applications.module.css';
 import ButtonCreate from '../Shared/Buttons/ButtonCreate';
 import ButtonDelete from '../Shared/Buttons/ButtonDelete';
 import Modal from '../Shared/Modal';
 import ModalError from '../Shared/ModalError';
-import { useDispatch, useSelector } from 'react-redux';
-import { getApplications, deleteApplication } from '../../redux/Applications/thunks';
-import { applicationsErrorModal } from '../../redux/Applications/actions';
 
 function Applications() {
+  const dispatch = useDispatch();
+  const applications = useSelector((store) => store.applications.list);
   const [selectedApplication, setSelectedApplication] = useState(undefined);
   const [showDelete, setShowDelete] = useState(false);
-
-  const dispatch = useDispatch();
   const history = useHistory();
-
-  const applications = useSelector((store) => store.applications.list);
   const isLoading = useSelector((store) => store.applications.isLoading);
   const error = useSelector((store) => store.applications.error);
 

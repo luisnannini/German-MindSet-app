@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getClients, deleteClient } from '../../redux/Clients/thunks';
+import { closeErrorModal } from '../../redux/Clients/actions';
 import { useHistory } from 'react-router-dom';
 import styles from './clients.module.css';
 import ButtonCreate from '../Shared/Buttons/ButtonCreate';
@@ -6,18 +9,15 @@ import ButtonDelete from '../Shared/Buttons/ButtonDelete';
 import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
 import Modal from '../Shared/Modal';
 import ModalError from '../Shared/ModalError';
-import { useDispatch, useSelector } from 'react-redux';
-import { getClients, deleteClient } from '../../redux/Clients/thunks';
-import { closeErrorModal } from '../../redux/Clients/actions';
 
 function Clients() {
+  const dispatch = useDispatch();
+  const clients = useSelector((store) => store.clients.list);
   const [selectedClient, setSelectedClient] = useState(undefined);
   const [showDelete, setShowDelete] = useState(false);
   const history = useHistory();
-  const clients = useSelector((store) => store.clients.list);
-  const error = useSelector((store) => store.clients.error);
   const isLoading = useSelector((store) => store.clients.isLoading);
-  const dispatch = useDispatch();
+  const error = useSelector((store) => store.clients.error);
 
   useEffect(() => {
     if (!clients.length) {
