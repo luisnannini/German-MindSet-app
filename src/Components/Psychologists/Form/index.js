@@ -346,6 +346,8 @@ const Form = () => {
               required={true}
               disabled={isLoading}
             />
+          </div>
+          <div className={styles.columns}>
             <Input
               label={'Email'}
               type={'email'}
@@ -377,9 +379,14 @@ const Form = () => {
               disabled={isLoading}
             />
           </div>
-          <div className={styles.columns}>
+        </div>
+        <div className={styles.availabilityTitle}>
+          <h2>Availability</h2>
+        </div>
+        <div className={styles.availability}>
+          <div className={styles.columnsAvailability}>
             <Checkbox
-              label="Monday Availability"
+              label="Monday"
               value={mondayBool}
               day="monday"
               onChange={onChangeMondayBool}
@@ -393,7 +400,7 @@ const Form = () => {
                 value={mondayFrom}
                 placeholder={'From'}
                 onChange={onChangeMondayFrom}
-                disabled={isLoading}
+                disabled={!mondayBool}
               />
               <Input
                 label={'To'}
@@ -402,11 +409,11 @@ const Form = () => {
                 value={mondayTo}
                 placeholder={'To'}
                 onChange={onChangeMondayTo}
-                disabled={isLoading}
+                disabled={!mondayBool}
               />
             </div>
             <Checkbox
-              label="Tuesday availability"
+              label="Tuesday"
               value={tuesdayBool}
               day="tuesday"
               onChange={onChangeTuesdayBool}
@@ -420,7 +427,7 @@ const Form = () => {
                 placeholder={'To'}
                 value={tuesdayFrom}
                 onChange={onChangeTuesdayFrom}
-                disabled={isLoading}
+                disabled={!tuesdayBool}
               />
               <Input
                 label={'To'}
@@ -429,11 +436,11 @@ const Form = () => {
                 placeholder={'To'}
                 value={tuesdayTo}
                 onChange={onChangeTuesdayTo}
-                disabled={isLoading}
+                disabled={!tuesdayBool}
               />
             </div>
             <Checkbox
-              label="Wednesday Availability"
+              label="Wednesday"
               value={wednesdayBool}
               day="wednesday"
               onChange={onChangeWednesdayBool}
@@ -447,7 +454,7 @@ const Form = () => {
                 value={wednesdayFrom}
                 placeholder={'From'}
                 onChange={onChangeWednesdayFrom}
-                disabled={isLoading}
+                disabled={!wednesdayBool}
               />
               <Input
                 label={'to'}
@@ -456,11 +463,11 @@ const Form = () => {
                 value={wednesdayTo}
                 placeholder={'To'}
                 onChange={onChangeWednesdayTo}
-                disabled={isLoading}
+                disabled={!wednesdayBool}
               />
             </div>
             <Checkbox
-              label="Thursday Availability"
+              label="Thursday"
               value={thursdayBool}
               day="thursday"
               onChange={onChangeThursdayBool}
@@ -474,7 +481,7 @@ const Form = () => {
                 value={thursdayFrom}
                 placeholder={'From'}
                 onChange={onChangeThursdayFrom}
-                disabled={isLoading}
+                disabled={!thursdayBool}
               />
               <Input
                 label={'To'}
@@ -483,11 +490,13 @@ const Form = () => {
                 value={thursdayTo}
                 placeholder={'To'}
                 onChange={onChangeThursdayTo}
-                disabled={isLoading}
+                disabled={!thursdayBool}
               />
             </div>
+          </div>
+          <div className={styles.columnsAvailability}>
             <Checkbox
-              label="Friday Availability"
+              label="Friday"
               value={fridayBool}
               day="friday"
               onChange={onChangeFridayBool}
@@ -501,7 +510,7 @@ const Form = () => {
                 value={fridayFrom}
                 placeholder={'From'}
                 onChange={onChangeFridayFrom}
-                disabled={isLoading}
+                disabled={!fridayBool}
               />
               <Input
                 label={'To'}
@@ -510,11 +519,11 @@ const Form = () => {
                 value={fridayTo}
                 placeholder={'To'}
                 onChange={onChangeFridayTo}
-                disabled={isLoading}
+                disabled={!fridayBool}
               />
             </div>
             <Checkbox
-              label="Saturday Availability"
+              label="Saturday"
               value={saturdayBool}
               day="saturday"
               onChange={onChangeSaturdayBool}
@@ -528,7 +537,7 @@ const Form = () => {
                 value={saturdayFrom}
                 placeholder={'From'}
                 onChange={onChangeSaturdayFrom}
-                disabled={isLoading}
+                disabled={!saturdayBool}
               />
               <Input
                 label={'To'}
@@ -537,11 +546,11 @@ const Form = () => {
                 value={saturdayTo}
                 placeholder={'To'}
                 onChange={onChangeSaturdayTo}
-                disabled={isLoading}
+                disabled={!saturdayBool}
               />
             </div>
             <Checkbox
-              label="Sunday Availability"
+              label="Sunday"
               value={sundayBool}
               day="sunday"
               onChange={onChangeSundayBool}
@@ -555,7 +564,7 @@ const Form = () => {
                 value={sundayFrom}
                 placeholder={'From'}
                 onChange={onChangeSundayFrom}
-                disabled={isLoading}
+                disabled={!sundayBool}
               />
               <Input
                 label={'To'}
@@ -564,7 +573,7 @@ const Form = () => {
                 value={sundayTo}
                 placeholder={'To'}
                 onChange={onChangeSundayTo}
-                disabled={isLoading}
+                disabled={!sundayBool}
               />
             </div>
           </div>

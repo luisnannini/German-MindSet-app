@@ -29,16 +29,29 @@
   font-size: 20px;
 }
 
+.availabilityTitle, .availability {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
 .fields {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin: 3em auto;
+  margin: 3em 0em;
 }
 
 .columns {
-  margin: 0 20px;
+  margin: 0 30px;
   font-weight: bold;
+}
+
+.columnsAvailability {
+  font-weight: bold;
+  margin: 0 30px;
+  width: 220px;
 }
 
 .dayColumns {
@@ -51,8 +64,9 @@
 }
 
 .dayColumns input {
-  width: 20px;
-  height: 20px;
+  margin-right: 8px;
+  width: 100px;
+  height: 30px;
   font-size: 10px;
 }
 
