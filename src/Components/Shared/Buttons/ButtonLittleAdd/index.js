@@ -4,8 +4,13 @@ import styles from './buttonLittleAdd.module.css';
 
 const ButtonLittleAdd = (props) => {
   return (
-    <button className={styles.button}>
-      <BsPlus type={props.type} onClick={props.onClick} disabled={props.disabled} />
+    <button
+      className={styles.button}
+      type={props.type}
+      disabled={props.disabled}
+      onClick={props.onClick}
+    >
+      <BsPlus />
     </button>
   );
 };

@@ -7,6 +7,7 @@ import reducerPositions from '../Positions/reducer';
 import reducerProfiles from '../Profiles/reducer';
 import reducerPsychologists from '../Psychologists/reducer';
 import reducerSessions from '../Sessions/reducer';
+import reducerPostulants from '../Postulants/reducer';
 
 const rootReducer = combineReducers({
   admins,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   positions: reducerPositions,
   profiles: reducerProfiles,
   psychologists: reducerPsychologists,
-  sessions: reducerSessions
+  sessions: reducerSessions,
+  postulants: reducerPostulants
 });
 
 export default rootReducer;
