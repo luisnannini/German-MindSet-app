@@ -25,7 +25,16 @@ const Form = () => {
   const history = useHistory();
   const query = useQuery();
   const [id, setPostulantId] = useState(undefined);
-  const [profiles, setProfiles] = useState([]);
+  const [profiles, setProfiles] = useState([
+    {
+      profileId: { name: '', id: '' }
+    }
+  ]);
+  const [postulantProfile, setPostulantProfile] = useState([
+    {
+      profileId: { name: '', id: '' }
+    }
+  ]);
   const [inputsCounter, setCounter] = useState({
     tertiaryStudies: 0,
     universityStudies: 0,
@@ -42,7 +51,6 @@ const Form = () => {
     birthday: '',
     available: false
   });
-  const [postulantProfile, setPostulantProfile] = useState({});
   const [contactRange, setContactRange] = useState({
     from: 1000,
     to: 1001
@@ -85,7 +93,7 @@ const Form = () => {
           available: selectedPostulant.available
         });
         setContactRange(selectedPostulant.contactRange);
-        setProfiles(selectedPostulant.profiles);
+        setPostulantProfile(selectedPostulant.profiles);
         setPrimaryStudies(selectedPostulant.studies.primaryStudies);
         setSecondaryStudies(selectedPostulant.studies.secondaryStudies);
         setTertiaryStudies(selectedPostulant.studies.tertiaryStudies);
@@ -101,7 +109,6 @@ const Form = () => {
       });
     }
   }, []);
-
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/profiles`)
       .then((response) => {
@@ -134,14 +141,13 @@ const Form = () => {
 
   const submitForm = (e) => {
     e.preventDefault();
-    const profile = profiles.filter((profile) => profile._id === postulantProfile);
     const postulantId = query.get('_id');
     if (postulantId) {
       dispatch(
         updatePostulant(postulantId, {
           ...personalInfo,
           contactRange,
-          profiles: new Array({ profileId: profile[0]._id }),
+          profiles: postulantProfile,
           studies: {
             primaryStudies,
             secondaryStudies,
@@ -159,7 +165,7 @@ const Form = () => {
         createPostulant({
           ...personalInfo,
           contactRange,
-          profiles: new Array({ profileId: profile[0]._id }),
+          profiles: postulantProfile,
           studies: {
             primaryStudies,
             secondaryStudies,
@@ -255,6 +261,7 @@ const Form = () => {
               title={'Select a profile'}
               label={'Profiles'}
               object={profiles}
+              value={postulantProfile[0].profileId._id}
               onChange={(e) => setPostulantProfile(e.target.value)}
             />
           </div>
@@ -414,7 +421,7 @@ const Form = () => {
           }}
         />
         <h3>University Studies</h3>
-        {[...Array(inputsCounter.universityStudies)].map((_, i) => (
+        {universityStudies.map((us, i) => (
           <div className={styles.fields} key={i}>
             <div className={styles.columns}>
               <Input
@@ -422,16 +429,22 @@ const Form = () => {
                 name={'startDate'}
                 placeholder={'Start Date'}
                 type={'date'}
-                value={parseDate(universityStudies[i].startDate)}
-                onChange={(e) => (universityStudies[i].startDate = e.target.value)}
+                value={us.startDate.substring(0, 10)}
+                onChange={(e) => {
+                  universityStudies[i].startDate = e.target.value;
+                  setUniversityStudies([...universityStudies]);
+                }}
               />
               <Input
                 label={'Institute'}
                 name={'institue'}
                 placeholder={'Institute'}
                 type={'text'}
-                value={universityStudies[i].institute}
-                onChange={(e) => (universityStudies[i].institute = e.target.value)}
+                value={us.institute}
+                onChange={(e) => {
+                  universityStudies[i].institute = e.target.value;
+                  setUniversityStudies([...universityStudies]);
+                }}
               />
             </div>
             <div className={styles.columns}>
@@ -440,14 +453,20 @@ const Form = () => {
                 name={'endDate'}
                 placeholder={'Finish Date'}
                 type={'date'}
-                value={parseDate(universityStudies[i].endDate)}
-                onChange={(e) => (universityStudies[i].endDate = e.target.value)}
+                value={us.endDate.substring(0, 10)}
+                onChange={(e) => {
+                  universityStudies[i].endDate = e.target.value;
+                  setUniversityStudies([...universityStudies]);
+                }}
               />
               <TextArea
                 label={'Description'}
                 name={'description'}
-                value={universityStudies[i].description}
-                onChange={(e) => (universityStudies[i].description = e.target.value)}
+                value={us.description}
+                onChange={(e) => {
+                  universityStudies[i].description = e.target.value;
+                  setUniversityStudies([...universityStudies]);
+                }}
               />
             </div>
           </div>
@@ -459,14 +478,14 @@ const Form = () => {
               ...universityStudies,
               { startDate: '', endDate: '', institute: '', description: '' }
             ]);
-            setCounter({
+            /* setCounter({
               ...inputsCounter,
               universityStudies: inputsCounter.universityStudies + 1
-            });
+            }); */
           }}
         />
         <h3>Informal Studies</h3>
-        {[...Array(inputsCounter.informalStudies)].map((_, i) => (
+        {informalStudies.map((is, i) => (
           <div className={styles.fields} key={i}>
             <div className={styles.columns}>
               <Input
@@ -474,16 +493,22 @@ const Form = () => {
                 name={'startDate'}
                 placeholder={'Start Date'}
                 type={'date'}
-                value={parseDate(informalStudies[i].startDate)}
-                onChange={(e) => (informalStudies[i].startDate = e.target.value)}
+                value={is.startDate.substring(0, 10)}
+                onChange={(e) => {
+                  informalStudies[i].startDate = e.target.value;
+                  setInformalStudies([...informalStudies]);
+                }}
               />
               <Input
                 label={'Institute'}
                 name={'institute'}
                 placeholder={'Institute'}
                 type={'text'}
-                value={informalStudies[i].institute}
-                onChange={(e) => (informalStudies[i].institute = e.target.value)}
+                value={is.institute}
+                onChange={(e) => {
+                  informalStudies[i].institute = e.target.value;
+                  setInformalStudies([...informalStudies]);
+                }}
               />
             </div>
             <div className={styles.columns}>
@@ -492,14 +517,20 @@ const Form = () => {
                 name={'endDate'}
                 placeholder={'Finish Date'}
                 type={'date'}
-                value={parseDate(informalStudies[i].endDate)}
-                onChange={(e) => (informalStudies[i].endDate = e.target.value)}
+                value={is.endDate.substring(0, 10)}
+                onChange={(e) => {
+                  informalStudies[i].endDate = e.target.value;
+                  setInformalStudies([...informalStudies]);
+                }}
               />
               <TextArea
                 label={'Description'}
                 name={'description'}
-                value={informalStudies[i].description}
-                onChange={(e) => (informalStudies[i].description = e.target.value)}
+                value={is.description}
+                onChange={(e) => {
+                  informalStudies[i].description = e.target.value;
+                  setInformalStudies([...informalStudies]);
+                }}
               />
             </div>
           </div>
@@ -511,11 +542,11 @@ const Form = () => {
               ...informalStudies,
               { startDate: '', endDate: '', institute: '', description: '' }
             ]);
-            setCounter({ ...inputsCounter, informalStudies: inputsCounter.informalStudies + 1 });
+            //setCounter({ ...inputsCounter, informalStudies: inputsCounter.informalStudies + 1 });
           }}
         />
         <h3>Work Experience</h3>
-        {[...Array(inputsCounter.workExperience)].map((_, i) => (
+        {workExperience.map((we, i) => (
           <div className={styles.fields} key={i}>
             <div className={styles.columns}>
               <Input
@@ -523,16 +554,22 @@ const Form = () => {
                 name={'startDate'}
                 placeholder={'Start Date'}
                 type={'date'}
-                value={parseDate(workExperience[i].startDate)}
-                onChange={(e) => (workExperience[i].startDate = e.target.value)}
+                value={we.startDate.substring(0, 10)}
+                onChange={(e) => {
+                  workExperience[i].startDate = e.target.value;
+                  setWorkExperience([...workExperience]);
+                }}
               />
               <Input
                 label={'Company'}
                 name={'company'}
                 placeholder={'Company'}
                 type={'text'}
-                value={workExperience[i].company}
-                onChange={(e) => (workExperience[i].company = e.target.value)}
+                value={we.company}
+                onChange={(e) => {
+                  workExperience[i].company = e.target.value;
+                  setWorkExperience([...workExperience]);
+                }}
               />
             </div>
             <div className={styles.columns}>
@@ -541,14 +578,20 @@ const Form = () => {
                 name={'endDate'}
                 placeholder={'Finish Date'}
                 type={'date'}
-                value={parseDate(workExperience[i].endDate)}
-                onChange={(e) => (workExperience[i].endDate = e.target.value)}
+                value={we.endDate.substring(0, 10)}
+                onChange={(e) => {
+                  workExperience[i].endDate = e.target.value;
+                  setWorkExperience([...workExperience]);
+                }}
               />
               <TextArea
                 label={'Description'}
                 name={'description'}
-                value={workExperience[i].description}
-                onChange={(e) => (workExperience[i].description = e.target.value)}
+                value={we.description}
+                onChange={(e) => {
+                  workExperience[i].description = e.target.value;
+                  setWorkExperience([...workExperience]);
+                }}
               />
             </div>
           </div>
@@ -560,7 +603,7 @@ const Form = () => {
               ...workExperience,
               { startDate: '', endDate: '', company: '', description: '' }
             ]);
-            setCounter({ ...inputsCounter, workExperience: inputsCounter.workExperience + 1 });
+            // setCounter({ ...inputsCounter, workExperience: inputsCounter.workExperience + 1 });
           }}
         />
         <div className={styles.button}>
