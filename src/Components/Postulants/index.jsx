@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Items from './Items.jsx';
-import ModalError from '../Shared/ModalError';
+import ModalError from '../Shared/Modals/ModalError';
 import ButtonCreate from '../Shared/Buttons/ButtonCreate';
 
 function Postulants() {

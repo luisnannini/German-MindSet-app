@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import ModalError from '../../Shared/ModalError';
 import { Link } from 'react-router-dom';
 import style from '../postulants-Form.module.css';
 import validatePostulant from './validations';
@@ -10,6 +9,7 @@ import ContactRange from './ContactRange';
 import Profiles from './Profiles';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
+import ModalError from '../../Shared/Modals/ModalError';
 
 function Form() {
   const params = new URLSearchParams(window.location.search);

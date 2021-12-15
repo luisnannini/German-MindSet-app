@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAdmins, deleteAdmin } from '../../redux/Admins/thunks';
+import { adminCloseErrorModal } from '../../redux/Admins/actions';
+import { useHistory } from 'react-router-dom';
 import styles from './admins.module.css';
 import ButtonCreate from '../Shared/Buttons/ButtonCreate';
 import ButtonDelete from '../Shared/Buttons/ButtonDelete';
 import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
-import Modal from '../Shared/Modal';
-import ModalError from '../Shared/ModalError';
-import { useSelector, useDispatch } from 'react-redux';
-import { getAdmins, deleteAdmin } from '../../redux/Admins/thunks';
-import { adminCloseErrorModal } from '../../redux/Admins/actions';
-import { useHistory } from 'react-router-dom';
+import ModalDelete from '../Shared/Modals/ModalDelete';
+import ModalError from '../Shared/Modals/ModalError';
 
 function Admins() {
   const history = useHistory();
-
   const dispatch = useDispatch();
+  const admins = useSelector((store) => store.admins.admins);
   const [adminId, setAdminId] = useState([]);
   const [showDelete, setShowDelete] = useState(false);
-  const admins = useSelector((store) => store.admins.admins);
   const isLoading = useSelector((store) => store.admins.isLoading);
   const error = useSelector((store) => store.admins.error);
 
@@ -26,7 +25,7 @@ function Admins() {
 
   return (
     <section className={styles.section}>
-      <Modal
+      <ModalDelete
         show={showDelete}
         title="Delete Admin"
         message="Are you sure you want to delete this Admin?"

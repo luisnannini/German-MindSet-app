@@ -1,4 +1,4 @@
-import styles from './modal-error.module.css';
+import styles from './modalerror.module.css';
 
 const ModalError = ({ error: { show, title, message }, onConfirm }) => {
   if (!show) {

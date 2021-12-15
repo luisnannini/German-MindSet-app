@@ -1,8 +1,8 @@
 // import style from './postulants-Item.module.css';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import ModalError from '../Shared/ModalError';
-import Modal from '../Shared/Modal/';
+import ModalDelete from '../Shared/Modals/ModalDelete';
+import ModalError from '../Shared/Modals/ModalError';
 import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
 import ButtonDelete from '../Shared/Buttons/ButtonDelete';
 
@@ -52,7 +52,7 @@ function Item({ postulant, fetchData, url }) {
       <td>
         <ButtonDelete onClick={() => setShowModal(true)} />
         <ModalError error={error} onConfirm={() => setError({ show: false })} />
-        <Modal
+        <ModalDelete
           show={showModal}
           title="Delete Postulant"
           message="Are you sure you want to delete this postulant?"

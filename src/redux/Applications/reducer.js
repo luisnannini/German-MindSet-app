@@ -15,7 +15,7 @@ const initialState = {
   isLoading: false,
   list: [],
   selectedItem: {},
-  error: { show: false }
+  error: { show: false, message: '' }
 };
 
 const applicationsReducer = (state = initialState, action) => {
