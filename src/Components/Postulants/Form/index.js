@@ -44,8 +44,8 @@ const Form = () => {
   });
   const [postulantProfile, setPostulantProfile] = useState({});
   const [contactRange, setContactRange] = useState({
-    from: 0,
-    to: 0
+    from: 1000,
+    to: 1001
   });
   const [primaryStudies, setPrimaryStudies] = useState({
     startDate: '',
@@ -57,7 +57,14 @@ const Form = () => {
     endDate: '',
     school: ''
   });
-  const [tertiaryStudies, setTertiaryStudies] = useState([]);
+  const [tertiaryStudies, setTertiaryStudies] = useState([
+    {
+      startDate: '',
+      endDate: '',
+      institute: '',
+      description: ''
+    }
+  ]);
   const [universityStudies, setUniversityStudies] = useState([]);
   const [informalStudies, setInformalStudies] = useState([]);
   const [workExperience, setWorkExperience] = useState([]);
@@ -346,7 +353,7 @@ const Form = () => {
           </div>
         </div>
         <h3>Tertiary Studies</h3>
-        {[...Array(inputsCounter.tertiaryStudies)].map((_, i) => (
+        {tertiaryStudies.map((ts, i) => (
           <div className={styles.fields} key={i}>
             <div className={styles.columns}>
               <Input
@@ -354,9 +361,10 @@ const Form = () => {
                 name={'startDate'}
                 placeholder={'Start Date'}
                 type={'date'}
-                value={parseDate(tertiaryStudies[i].startDate)}
+                value={ts.startDate.substring(0, 10)}
                 onChange={(e) => {
                   tertiaryStudies[i].startDate = e.target.value;
+                  setTertiaryStudies([...tertiaryStudies]);
                 }}
               />
               <Input
@@ -364,8 +372,11 @@ const Form = () => {
                 name={'institute'}
                 placeholder={'Institute'}
                 type={'text'}
-                value={tertiaryStudies[i].institute}
-                onChange={(e) => (tertiaryStudies[i].institute = e.target.value)}
+                value={ts.institute}
+                onChange={(e) => {
+                  tertiaryStudies[i].institute = e.target.value;
+                  setTertiaryStudies([...tertiaryStudies]);
+                }}
               />
             </div>
             <div className={styles.columns}>
@@ -374,14 +385,20 @@ const Form = () => {
                 name={'endDate'}
                 placeholder={'Finish Date'}
                 type={'date'}
-                value={parseDate(tertiaryStudies[i].endDate)}
-                onChange={(e) => (tertiaryStudies[i].endDate = e.target.value)}
+                value={ts.endDate.substring(0, 10)}
+                onChange={(e) => {
+                  tertiaryStudies[i].endDate = e.target.value;
+                  setTertiaryStudies([...tertiaryStudies]);
+                }}
               />
               <TextArea
                 label={'Description'}
                 name={'description'}
-                value={tertiaryStudies[i].description}
-                onChange={(e) => (tertiaryStudies[i].description = e.target.value)}
+                value={ts.description}
+                onChange={(e) => {
+                  tertiaryStudies[i].description = e.target.value;
+                  setTertiaryStudies([...tertiaryStudies]);
+                }}
               />
             </div>
           </div>
@@ -393,7 +410,7 @@ const Form = () => {
               ...tertiaryStudies,
               { startDate: '', endDate: '', institute: '', description: '' }
             ]);
-            setCounter({ ...inputsCounter, tertiaryStudies: inputsCounter.tertiaryStudies + 1 });
+            //setCounter({ ...inputsCounter, tertiaryStudies: inputsCounter.tertiaryStudies + 1 });
           }}
         />
         <h3>University Studies</h3>
