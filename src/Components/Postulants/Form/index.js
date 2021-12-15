@@ -14,7 +14,8 @@ import useQuery from '../../../Hooks/useQuery';
 import {
   createPostulant,
   getPostulantById,
-  updatePostulant
+  updatePostulant,
+  getPostulants
 } from '../../../redux/Postulants/thunks';
 import { closeErrorModal } from '../../../redux/Postulants/actions';
 
@@ -38,8 +39,8 @@ const Form = () => {
     available: false
   });
   const [contactRange, setContactRange] = useState({
-    from: 1000,
-    to: 1001
+    from: '',
+    to: ''
   });
   const [primaryStudies, setPrimaryStudies] = useState({
     startDate: '',
@@ -79,12 +80,6 @@ const Form = () => {
         setUniversityStudies(selectedPostulant.studies.universityStudies);
         setInformalStudies(selectedPostulant.studies.informalStudies);
         setWorkExperience(selectedPostulant.workExperience);
-        // setCounter({
-        //   tertiaryStudies: selectedPostulant.studies.tertiaryStudies.length,
-        //   universityStudies: selectedPostulant.studies.universityStudies.length,
-        //   informalStudies: selectedPostulant.studies.informalStudies.length,
-        //   workExperience: selectedPostulant.workExperience.length
-        // });
       });
     }
   }, []);
@@ -138,7 +133,10 @@ const Form = () => {
           workExperience
         })
       ).then((response) => {
-        if (response) history.push('/postulants');
+        if (response) {
+          history.push('/postulants');
+          dispatch(getPostulants);
+        }
       });
     } else {
       dispatch(
@@ -156,7 +154,10 @@ const Form = () => {
           workExperience
         })
       ).then((response) => {
-        if (response) history.push('/postulants');
+        if (response) {
+          history.push('/postulants');
+          dispatch(getPostulants);
+        }
       });
     }
   };

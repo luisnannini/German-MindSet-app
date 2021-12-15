@@ -7,7 +7,6 @@ import { closeErrorModal } from '../../redux/Postulants/actions';
 import ButtonCreate from '../Shared/Buttons/ButtonCreate';
 import ButtonDelete from '../Shared/Buttons/ButtonDelete';
 import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
-// import Postulant from './Postulant';
 import Modal from '../Shared/Modal';
 import ModalError from '../Shared/ModalError';
 
@@ -36,28 +35,28 @@ const Postulants = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <section className={styles.section}>
-        <Modal
-          show={showDelete}
-          title="Delete a Postulant"
-          message="Are you sure you want to delete this postulant?"
-          onConfirm={() => {
-            dispatch(deletePostulant(selectedPostulant)).then(() => {
-              setSelectedPostulant(undefined);
-              setShowDelete(false);
-            });
-          }}
-          onCancel={() => setShowDelete(false)}
-        />
-        <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
+    <section className={styles.section}>
+      <Modal
+        show={showDelete}
+        title="Delete a Postulant"
+        message="Are you sure you want to delete this postulant?"
+        onConfirm={() => {
+          dispatch(deletePostulant(selectedPostulant)).then(() => {
+            setSelectedPostulant(undefined);
+            setShowDelete(false);
+          });
+        }}
+        onCancel={() => setShowDelete(false)}
+      />
+      <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
+      <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Postulants</h2>
           <ButtonCreate disabled={isLoading} onClick={() => history.push('postulants/form')} />
         </div>
         <table className={styles.table}>
           <thead>
-            <tr className={styles.tr}>
+            <tr>
               <th className={styles.th}>Full Name</th>
               <th className={styles.th}>Email</th>
               <th className={styles.th}>Phone Number</th>
@@ -90,9 +89,10 @@ const Postulants = () => {
             })}
           </tbody>
         </table>
-        {isLoading && <div className={styles.loader}></div>}
-      </section>
-    </div>
+      </div>
+
+      {isLoading && <div className={styles.loader}></div>}
+    </section>
   );
 };
 
