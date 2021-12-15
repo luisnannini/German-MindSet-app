@@ -29,7 +29,8 @@ const Postulants = () => {
     }
   }, [postulants]);
 
-  const handleDelete = (postulant) => {
+  const handleDelete = (event, postulant) => {
+    event.stopPropagation();
     setSelectedPostulant(postulant._id);
     setShowDelete(true);
   };

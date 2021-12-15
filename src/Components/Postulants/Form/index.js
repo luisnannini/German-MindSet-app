@@ -51,14 +51,7 @@ const Form = () => {
     endDate: '',
     school: ''
   });
-  const [tertiaryStudies, setTertiaryStudies] = useState([
-    {
-      startDate: '',
-      endDate: '',
-      institute: '',
-      description: ''
-    }
-  ]);
+  const [tertiaryStudies, setTertiaryStudies] = useState([]);
   const [universityStudies, setUniversityStudies] = useState([]);
   const [informalStudies, setInformalStudies] = useState([]);
   const [workExperience, setWorkExperience] = useState([]);
@@ -251,13 +244,6 @@ const Form = () => {
               value={postulantProfile}
               onChange={(e) => setPostulantProfile(e.target.value)}
             />
-            {/* <Select
-              title={'Select a profile'}
-              label={'Profiles'}
-              object={profiles}
-              value={postulantProfile[0].profileId._id}
-              onChange={(e) => setPostulantProfile(e.target.value)}
-            /> */}
           </div>
         </div>
         <h3>Contact Range</h3>
@@ -404,16 +390,17 @@ const Form = () => {
             </div>
           </div>
         ))}
-        <AddButton
-          type="button"
-          onClick={() => {
-            setTertiaryStudies([
-              ...tertiaryStudies,
-              { startDate: '', endDate: '', institute: '', description: '' }
-            ]);
-            //setCounter({ ...inputsCounter, tertiaryStudies: inputsCounter.tertiaryStudies + 1 });
-          }}
-        />
+        <div className={styles.addButton}>
+          <AddButton
+            type="button"
+            onClick={() => {
+              setTertiaryStudies([
+                ...tertiaryStudies,
+                { startDate: '', endDate: '', institute: '', description: '' }
+              ]);
+            }}
+          />
+        </div>
         <h3>University Studies</h3>
         {universityStudies.map((us, i) => (
           <div className={styles.fields} key={i}>
@@ -465,19 +452,17 @@ const Form = () => {
             </div>
           </div>
         ))}
-        <AddButton
-          type="button"
-          onClick={() => {
-            setUniversityStudies([
-              ...universityStudies,
-              { startDate: '', endDate: '', institute: '', description: '' }
-            ]);
-            /* setCounter({
-              ...inputsCounter,
-              universityStudies: inputsCounter.universityStudies + 1
-            }); */
-          }}
-        />
+        <div className={styles.addButton}>
+          <AddButton
+            type="button"
+            onClick={() => {
+              setUniversityStudies([
+                ...universityStudies,
+                { startDate: '', endDate: '', institute: '', description: '' }
+              ]);
+            }}
+          />
+        </div>
         <h3>Informal Studies</h3>
         {informalStudies.map((is, i) => (
           <div className={styles.fields} key={i}>
@@ -529,16 +514,17 @@ const Form = () => {
             </div>
           </div>
         ))}
-        <AddButton
-          type="button"
-          onClick={() => {
-            setInformalStudies([
-              ...informalStudies,
-              { startDate: '', endDate: '', institute: '', description: '' }
-            ]);
-            //setCounter({ ...inputsCounter, informalStudies: inputsCounter.informalStudies + 1 });
-          }}
-        />
+        <div className={styles.addButton}>
+          <AddButton
+            type="button"
+            onClick={() => {
+              setInformalStudies([
+                ...informalStudies,
+                { startDate: '', endDate: '', institute: '', description: '' }
+              ]);
+            }}
+          />
+        </div>
         <h3>Work Experience</h3>
         {workExperience.map((we, i) => (
           <div className={styles.fields} key={i}>
@@ -590,16 +576,17 @@ const Form = () => {
             </div>
           </div>
         ))}
-        <AddButton
-          type="button"
-          onClick={() => {
-            setWorkExperience([
-              ...workExperience,
-              { startDate: '', endDate: '', company: '', description: '' }
-            ]);
-            // setCounter({ ...inputsCounter, workExperience: inputsCounter.workExperience + 1 });
-          }}
-        />
+        <div className={styles.addButton}>
+          <AddButton
+            type="button"
+            onClick={() => {
+              setWorkExperience([
+                ...workExperience,
+                { startDate: '', endDate: '', company: '', description: '' }
+              ]);
+            }}
+          />
+        </div>
         <div className={styles.button}>
           <ButtonCancel disabled={isLoading} onClick={() => history.push('/postulants')} />
           <ButtonConfirm disabled={isLoading} type={'submit'} />

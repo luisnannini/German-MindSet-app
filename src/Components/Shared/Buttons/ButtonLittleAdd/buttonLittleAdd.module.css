@@ -1,8 +1,12 @@
 .button {
+  display: flex;
+  justify-content: center;
+  margin: 10px 10px;
+  width: 3em;
+  height: 1.5em;
   border: none;
   border-radius: 0.3em;
   background-color: #FC6225;
   color: #FFFFFF;
-  font-size: 20px;
   cursor: pointer;
 }
