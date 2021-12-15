@@ -42,6 +42,11 @@ const Form = () => {
     birthday: '',
     available: false
   });
+  const [postulantProfile, setPostulantProfile] = useState({});
+  const [contactRange, setContactRange] = useState({
+    from: 0,
+    to: 0
+  });
   const [primaryStudies, setPrimaryStudies] = useState({
     startDate: '',
     endDate: '',
@@ -72,6 +77,7 @@ const Form = () => {
           birthday: selectedPostulant.birthday,
           available: selectedPostulant.available
         });
+        setContactRange(selectedPostulant.contactRange);
         setProfiles(selectedPostulant.profiles);
         setPrimaryStudies(selectedPostulant.studies.primaryStudies);
         setSecondaryStudies(selectedPostulant.studies.secondaryStudies);
@@ -89,34 +95,46 @@ const Form = () => {
     }
   }, []);
 
-  fetch(`${process.env.REACT_APP_API}/profiles`)
-    .then((response) => {
-      if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-        const status = `${response.status} ${response.statusText}`;
-        return response.json().then(({ message }) => {
-          if (message.message) throw { message: message.message, status };
-          throw { message, status };
-        });
-      }
-      return response.json();
-    })
-    .then((response) => {
-      setProfiles(response.data);
-    })
-    .catch((error) => error);
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_API}/profiles`)
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
+          });
+        }
+        return response.json();
+      })
+      .then((response) => {
+        setProfiles(response.data);
+      })
+      .catch((error) => error);
+  }, []);
 
   const parseDate = (string) => {
     return string.split('T')[0];
   };
 
+  const parseTime = (string) => {
+    return `${string.split(':')[0]}${string.split(':')[1]}`;
+  };
+
+  const intToTime = (int) => {
+    return `${int.toString().slice(0, 2)}:${int.toString().slice(2)}`;
+  };
+
   const submitForm = (e) => {
     e.preventDefault();
-
+    const profile = profiles.filter((profile) => profile._id === postulantProfile);
     const postulantId = query.get('_id');
     if (postulantId) {
       dispatch(
         updatePostulant(postulantId, {
           ...personalInfo,
+          contactRange,
+          profiles: new Array({ profileId: profile[0]._id }),
           studies: {
             primaryStudies,
             secondaryStudies,
@@ -133,6 +151,8 @@ const Form = () => {
       dispatch(
         createPostulant({
           ...personalInfo,
+          contactRange,
+          profiles: new Array({ profileId: profile[0]._id }),
           studies: {
             primaryStudies,
             secondaryStudies,
@@ -189,6 +209,7 @@ const Form = () => {
               type={'date'}
               required={true}
               value={parseDate(personalInfo.birthday)}
+              onChange={(e) => setPersonalInfo({ ...personalInfo, birthday: e.target.value })}
             />
             <Checkbox
               label={'Available?'}
@@ -219,12 +240,43 @@ const Form = () => {
               label={'Phone Number'}
               name={'phoneNumber'}
               placeholder={'+54113062939'}
-              required={true}
               type={'tel'}
               value={personalInfo.phone}
-              onChange={(e) => setPersonalInfo({ ...personalInfo, phoneNumber: e.target.value })}
+              onChange={(e) => setPersonalInfo({ ...personalInfo, phone: e.target.value })}
             />
-            <Select label={'Profiles'} object={profiles} value={profiles[0]} />
+            <Select
+              title={'Select a profile'}
+              label={'Profiles'}
+              object={profiles}
+              onChange={(e) => setPostulantProfile(e.target.value)}
+            />
+          </div>
+        </div>
+        <h3>Contact Range</h3>
+        <div className={styles.fields}>
+          <div className={styles.columns}>
+            <Input
+              label={'From'}
+              name={'from'}
+              placeholder={'From'}
+              type={'time'}
+              value={intToTime(contactRange.from)}
+              onChange={(e) =>
+                setContactRange({ ...contactRange, from: parseInt(parseTime(e.target.value)) })
+              }
+            />
+          </div>
+          <div className={styles.columns}>
+            <Input
+              label={'To'}
+              name={'To'}
+              placeholder={'To'}
+              type={'time'}
+              value={intToTime(contactRange.to)}
+              onChange={(e) =>
+                setContactRange({ ...contactRange, to: parseInt(parseTime(e.target.value)) })
+              }
+            />
           </div>
         </div>
         <h3>Primary Studies</h3>
@@ -303,7 +355,9 @@ const Form = () => {
                 placeholder={'Start Date'}
                 type={'date'}
                 value={parseDate(tertiaryStudies[i].startDate)}
-                onChange={(e) => (tertiaryStudies[i].startDate = e.target.value)}
+                onChange={(e) => {
+                  tertiaryStudies[i].startDate = e.target.value;
+                }}
               />
               <Input
                 label={'Institute'}

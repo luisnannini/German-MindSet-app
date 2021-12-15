@@ -1,7 +1,7 @@
 import styles from './postulant.module.css';
 import { FaPen, FaTrash } from 'react-icons/fa';
 
-const Postulant = ({ id, name, age, address, status, profiles, available, onDelete, onEdit }) => {
+const Postulant = ({ id, name, age, address, status, profiles, onDelete, onEdit }) => {
   return (
     <tr className={styles.tr}>
       <td>{name}</td>
@@ -17,7 +17,6 @@ const Postulant = ({ id, name, age, address, status, profiles, available, onDele
           }
         })}
       </td>
-      <td>{available ? 'Available' : 'Unavailable'}</td>
       <td>
         <FaPen onClick={() => onEdit()} />
         <FaTrash onClick={() => onDelete()} />

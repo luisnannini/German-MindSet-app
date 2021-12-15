@@ -63,7 +63,6 @@ const Postulants = () => {
               <th className={styles.th}>Address</th>
               <th className={styles.th}>Status</th>
               <th className={styles.th}>Profiles</th>
-              <th className={styles.th}>See Profile & CV</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -78,7 +77,6 @@ const Postulants = () => {
                   address={postulant.address}
                   status={postulant.available}
                   profiles={postulant.profiles}
-                  available={postulant.available}
                   onDelete={() => handleDelete(postulant)}
                   onEdit={() => history.push(`/postulants/form?_id=${postulant._id}`)}
                 />
