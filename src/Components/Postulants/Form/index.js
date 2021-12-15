@@ -25,22 +25,8 @@ const Form = () => {
   const history = useHistory();
   const query = useQuery();
   const [id, setPostulantId] = useState(undefined);
-  const [profiles, setProfiles] = useState([
-    {
-      profileId: { name: '', id: '' }
-    }
-  ]);
-  const [postulantProfile, setPostulantProfile] = useState([
-    {
-      profileId: { name: '', id: '' }
-    }
-  ]);
-  const [inputsCounter, setCounter] = useState({
-    tertiaryStudies: 0,
-    universityStudies: 0,
-    informalStudies: 0,
-    workExperience: 0
-  });
+  const [profiles, setProfiles] = useState([]);
+  const [postulantProfile, setPostulantProfile] = useState({});
   const [personalInfo, setPersonalInfo] = useState({
     firstName: '',
     lastName: '',
@@ -93,19 +79,19 @@ const Form = () => {
           available: selectedPostulant.available
         });
         setContactRange(selectedPostulant.contactRange);
-        setPostulantProfile(selectedPostulant.profiles);
+        setPostulantProfile(selectedPostulant.profiles[0].profileId._id);
         setPrimaryStudies(selectedPostulant.studies.primaryStudies);
         setSecondaryStudies(selectedPostulant.studies.secondaryStudies);
         setTertiaryStudies(selectedPostulant.studies.tertiaryStudies);
         setUniversityStudies(selectedPostulant.studies.universityStudies);
         setInformalStudies(selectedPostulant.studies.informalStudies);
         setWorkExperience(selectedPostulant.workExperience);
-        setCounter({
-          tertiaryStudies: selectedPostulant.studies.tertiaryStudies.length,
-          universityStudies: selectedPostulant.studies.universityStudies.length,
-          informalStudies: selectedPostulant.studies.informalStudies.length,
-          workExperience: selectedPostulant.workExperience.length
-        });
+        // setCounter({
+        //   tertiaryStudies: selectedPostulant.studies.tertiaryStudies.length,
+        //   universityStudies: selectedPostulant.studies.universityStudies.length,
+        //   informalStudies: selectedPostulant.studies.informalStudies.length,
+        //   workExperience: selectedPostulant.workExperience.length
+        // });
       });
     }
   }, []);
@@ -141,13 +127,14 @@ const Form = () => {
 
   const submitForm = (e) => {
     e.preventDefault();
+    const profile = profiles.filter((profile) => profile._id === postulantProfile);
     const postulantId = query.get('_id');
     if (postulantId) {
       dispatch(
         updatePostulant(postulantId, {
           ...personalInfo,
           contactRange,
-          profiles: postulantProfile,
+          profiles: new Array({ profileId: profile[0]._id }),
           studies: {
             primaryStudies,
             secondaryStudies,
@@ -165,7 +152,7 @@ const Form = () => {
         createPostulant({
           ...personalInfo,
           contactRange,
-          profiles: postulantProfile,
+          profiles: new Array({ profileId: profile[0]._id }),
           studies: {
             primaryStudies,
             secondaryStudies,
@@ -261,9 +248,16 @@ const Form = () => {
               title={'Select a profile'}
               label={'Profiles'}
               object={profiles}
-              value={postulantProfile[0].profileId._id}
+              value={postulantProfile}
               onChange={(e) => setPostulantProfile(e.target.value)}
             />
+            {/* <Select
+              title={'Select a profile'}
+              label={'Profiles'}
+              object={profiles}
+              value={postulantProfile[0].profileId._id}
+              onChange={(e) => setPostulantProfile(e.target.value)}
+            /> */}
           </div>
         </div>
         <h3>Contact Range</h3>
