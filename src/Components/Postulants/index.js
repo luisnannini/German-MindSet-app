@@ -1,44 +1,54 @@
 import styles from './postulants.module.css';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react/cjs/react.development';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPostulants, deletePostulant } from '../../redux/Postulants/thunks';
+import { closeErrorModal } from '../../redux/Postulants/actions';
 import Postulant from './Postulant';
 import CreateButton from '../Shared/Buttons/ButtonCreate';
+import Modal from '../Shared/Modal';
+import ModalError from '../Shared/ModalError';
 
 const Postulants = () => {
-  const [postulants, setPostulants] = useState([]);
-  const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState({
-    isError: false,
-    message: ''
-  });
+  const dispatch = useDispatch();
+
+  const history = useHistory();
+
+  const [selectedPostulant, setSelectedPostulant] = useState(undefined);
+  const [showDelete, setShowDelete] = useState(false);
+
+  const postulants = useSelector((store) => store.postulants.list);
+  const error = useSelector((store) => store.postulants.error);
+  const isLoading = useSelector((store) => store.postulants.isLoading);
 
   useEffect(() => {
-    getPostulants();
-  }, []);
+    if (!postulants.length) {
+      dispatch(getPostulants());
+    }
+  }, [postulants]);
 
-  function getPostulants() {
-    setLoading(true);
-    fetch(`${process.env.REACT_APP_API}/postulants`)
-      .then((response) => {
-        if (response.status !== 200) {
-          return response.json().then(({ message }) => {
-            throw new Error(message);
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setPostulants(response.data);
-      })
-      .catch((error) => {
-        setError({ isError: true, message: error.message.toString() });
-      })
-      .finally(() => setLoading(false));
-  }
+  const handleDelete = (postulant) => {
+    setSelectedPostulant(postulant._id);
+    setShowDelete(true);
+  };
 
   return (
     <div className={styles.container}>
       <section className={styles.section}>
+        <Modal
+          show={showDelete}
+          title="Delete a Postulant"
+          message="Are you sure you want to delete this postulant?"
+          onConfirm={() => {
+            dispatch(deletePostulant(selectedPostulant)).then(() => {
+              setSelectedPostulant(undefined);
+              setShowDelete(false);
+            });
+          }}
+          onCancel={() => setShowDelete(false)}
+        />
+        <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
         <div className={styles.header}>
           <h2>Postulants</h2>
           <Link to="postulants/form">
@@ -68,13 +78,15 @@ const Postulants = () => {
                   address={postulant.address}
                   status={postulant.available}
                   profiles={postulant.profiles}
-                  onDelete={() => console.log(`delete ${postulant._id}`)}
-                  onEdit={() => console.log(`edit ${postulant._id}`)}
+                  available={postulant.available}
+                  onDelete={() => handleDelete(postulant)}
+                  onEdit={() => history.push(`/postulants/form?_id=${postulant._id}`)}
                 />
               );
             })}
           </tbody>
         </table>
+        {isLoading && <div className={styles.loader}></div>}
       </section>
     </div>
   );
