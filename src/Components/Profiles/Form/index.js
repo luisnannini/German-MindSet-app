@@ -8,13 +8,13 @@ import styles from './form.module.css';
 import Input from '../../Shared/Input';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
-import ModalError from '../../Shared/ModalError';
+import ModalError from '../../Shared/Modals/ModalError';
 
 const Form = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [id, setProfileId] = useState(undefined);
   const [profileValue, setProfileValue] = useState('');
-  const history = useHistory();
   const isLoading = useSelector((store) => store.profiles.isLoading);
   const error = useSelector((store) => store.profiles.error);
   const query = useQuery();

@@ -15,9 +15,10 @@ import Input from '../../Shared/Input';
 import TextArea from '../../Shared/TextArea';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
-import ModalError from '../../Shared/ModalError';
+import ModalError from '../../Shared/Modals/ModalError';
 
 const Form = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [sessionId, setSessionId] = useState(undefined);
   const [title, setTitle] = useState('');
@@ -28,7 +29,6 @@ const Form = () => {
   const [statusValue, setStatusValue] = useState('');
   const [dateValue, setDateValue] = useState('');
   const [notesValue, setNotesValue] = useState('');
-  const history = useHistory();
   const isLoading = useSelector((store) => store.sessions.isLoading);
   const error = useSelector((store) => store.sessions.error);
   const query = useQuery();

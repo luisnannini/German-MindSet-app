@@ -7,15 +7,15 @@ import styles from './clients.module.css';
 import ButtonCreate from '../Shared/Buttons/ButtonCreate';
 import ButtonDelete from '../Shared/Buttons/ButtonDelete';
 import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
-import Modal from '../Shared/Modal';
-import ModalError from '../Shared/ModalError';
+import ModalDelete from '../Shared/Modals/ModalDelete';
+import ModalError from '../Shared/Modals/ModalError';
 
 function Clients() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const clients = useSelector((store) => store.clients.list);
   const [selectedClient, setSelectedClient] = useState(undefined);
   const [showDelete, setShowDelete] = useState(false);
-  const history = useHistory();
   const isLoading = useSelector((store) => store.clients.isLoading);
   const error = useSelector((store) => store.clients.error);
 
@@ -33,7 +33,7 @@ function Clients() {
 
   return (
     <section className={styles.section}>
-      <Modal
+      <ModalDelete
         show={showDelete}
         title="Delete a Client"
         message="Are you sure you want to delete this Client?"

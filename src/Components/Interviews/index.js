@@ -7,15 +7,15 @@ import styles from './interviews.module.css';
 import ButtonCreate from '../Shared/Buttons/ButtonCreate';
 import ButtonDelete from '../Shared/Buttons/ButtonDelete';
 import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
-import Modal from '../Shared/Modal';
-import ModalError from '../Shared/ModalError';
+import ModalDelete from '../Shared/Modals/ModalDelete';
+import ModalError from '../Shared/Modals/ModalError';
 
 function Interviews() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const interviews = useSelector((store) => store.interviews.list);
   const [selectedInterview, setSelectedInterview] = useState(undefined);
   const [showDelete, setShowDelete] = useState(false);
-  const history = useHistory();
   const isLoading = useSelector((store) => store.interviews.isLoading);
   const error = useSelector((store) => store.interviews.error);
 
@@ -33,7 +33,7 @@ function Interviews() {
 
   return (
     <section className={styles.section}>
-      <Modal
+      <ModalDelete
         show={showDelete}
         title="Delete Interview"
         message="Are you sure you want to delete this interview?"

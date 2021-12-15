@@ -11,11 +11,13 @@ import useQuery from '../../../Hooks/useQuery.js';
 import styles from './form.module.css';
 import Select from '../../Shared/Select';
 import Input from '../../Shared/Input';
+import TextArea from '../../Shared/TextArea';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
-import ModalError from '../../Shared/ModalError';
+import ModalError from '../../Shared/Modals/ModalError';
 
 const Form = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [id, setInterviewId] = useState(undefined);
   const [postulants, setPostulants] = useState([]);
@@ -27,7 +29,6 @@ const Form = () => {
   const [statusValue, setStatusValue] = useState('');
   const [dateValue, setDateValue] = useState('');
   const [notesValue, setNotesValue] = useState('');
-  const history = useHistory();
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState({
     show: false,
@@ -217,14 +218,12 @@ const Form = () => {
               required={true}
               disabled={isLoading}
             />
-            <h3>Notes</h3>
-            <Input
+            <TextArea
               name="notes"
+              label="Notes"
               value={notesValue}
               placeholder="Notes"
-              onChange={(e) => {
-                setNotesValue(e.target.value);
-              }}
+              onChange={(e) => setNotesValue(e.target.value)}
               disabled={isLoading}
             />
           </div>

@@ -6,15 +6,15 @@ import { useHistory } from 'react-router-dom';
 import styles from './applications.module.css';
 import ButtonCreate from '../Shared/Buttons/ButtonCreate';
 import ButtonDelete from '../Shared/Buttons/ButtonDelete';
-import Modal from '../Shared/Modal';
-import ModalError from '../Shared/ModalError';
+import ModalDelete from '../Shared/Modals/ModalDelete';
+import ModalError from '../Shared/Modals/ModalError';
 
 function Applications() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const applications = useSelector((store) => store.applications.list);
   const [selectedApplication, setSelectedApplication] = useState(undefined);
   const [showDelete, setShowDelete] = useState(false);
-  const history = useHistory();
   const isLoading = useSelector((store) => store.applications.isLoading);
   const error = useSelector((store) => store.applications.error);
 
@@ -32,7 +32,7 @@ function Applications() {
 
   return (
     <section className={styles.section}>
-      <Modal
+      <ModalDelete
         show={showDelete}
         title="Delete Application"
         message="Are you sure you want to delete this application?"

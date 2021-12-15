@@ -7,9 +7,10 @@ import styles from './form.module.css';
 import Input from '../../Shared/Input';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
-import ModalError from '../../Shared/ModalError';
+import ModalError from '../../Shared/Modals/ModalError';
 
 const Form = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const params = new URLSearchParams(history.location.search);
   const adminId = params.get('_id');
@@ -18,7 +19,6 @@ const Form = () => {
     username: '',
     password: ''
   });
-  const history = useHistory();
   const isLoading = useSelector((store) => store.admins.isLoading);
   const error = useSelector((store) => store.admins.error);
 

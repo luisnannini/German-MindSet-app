@@ -5,12 +5,13 @@ import { applicationsErrorModal } from '../../../redux/Applications/actions';
 import { useHistory } from 'react-router-dom';
 import styles from './form.module.css';
 import Select from '../../Shared/Select';
-import Input from '../../Shared/Input';
+import TextArea from '../../Shared/TextArea';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
-import ModalError from '../../Shared/ModalError';
+import ModalError from '../../Shared/Modals/ModalError';
 
 const Form = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [position, setPosition] = useState([]);
   const [postulant, setPostulant] = useState([]);
@@ -19,7 +20,6 @@ const Form = () => {
   const [postulantValue, setPostulantValue] = useState('');
   const [interviewValue, setInterviewValue] = useState('');
   const [resultValue, setResultValue] = useState('');
-  const history = useHistory();
   const isLoading = useSelector((store) => store.applications.isLoading);
   const [error, setError] = useState({
     show: false,
@@ -161,10 +161,9 @@ const Form = () => {
               required
               disabled={isLoading}
             />
-            <Input
-              label={'Result'}
-              name={'result'}
-              type={'text'}
+            <TextArea
+              label="Result"
+              name="result"
               value={resultValue}
               placeholder="Result"
               onChange={onChangeResult}

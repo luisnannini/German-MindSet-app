@@ -8,18 +8,18 @@ import ButtonCreate from '../Shared/Buttons/ButtonCreate';
 import ButtonDelete from '../Shared/Buttons/ButtonDelete';
 import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
 import ButtonAvailability from '../Shared/Buttons/ButtonAvailability';
-import Modal from '../Shared/Modal';
-import ModalError from '../Shared/ModalError';
-import ModalAvailability from '../Shared/ModalAvailability';
+import ModalDelete from '../Shared/Modals/ModalDelete';
+import ModalError from '../Shared/Modals/ModalError';
+import ModalAvailability from '../Shared/Modals/ModalAvailability';
 
 function Psychologists() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [selectedPsychologist, setSelectedPsychologist] = useState('');
   const psychologists = useSelector((store) => store.psychologists.list);
   const [availability, setAvailability] = useState({});
   const [showDelete, setShowDelete] = useState(false);
   const [showAvailability, setShowAvailability] = useState(false);
-  const history = useHistory();
   const isLoading = useSelector((store) => store.psychologists.isLoading);
   const error = useSelector((store) => store.psychologists.error);
 
@@ -44,7 +44,7 @@ function Psychologists() {
 
   return (
     <section className={styles.section}>
-      <Modal
+      <ModalDelete
         show={showDelete}
         title="Delete a Psychologist"
         message="Are you sure you want to delete this psychologist?"

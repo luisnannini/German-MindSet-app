@@ -8,9 +8,10 @@ import styles from './form.module.css';
 import Input from '../../Shared/Input';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
-import ModalError from '../../Shared/ModalError';
+import ModalError from '../../Shared/Modals/ModalError';
 
 function Form() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [clientId, setClientId] = useState(undefined);
   const [nameValue, setNameValue] = useState('');
@@ -21,7 +22,6 @@ function Form() {
   const [addressValue, setAddressValue] = useState('');
   const [logoValue, setLogoValue] = useState('');
   const [descriptionValue, setDescriptionValue] = useState('');
-  const history = useHistory();
   const isLoading = useSelector((store) => store.clients.isLoading);
   const error = useSelector((store) => store.clients.error);
   const query = useQuery();

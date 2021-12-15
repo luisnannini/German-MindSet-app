@@ -15,9 +15,10 @@ import Input from '../../Shared/Input';
 import Checkbox from '../../Shared/Checkbox';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
-import ModalError from '../../Shared/ModalError';
+import ModalError from '../../Shared/Modals/ModalError';
 
 const Form = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [positionId, setPositionId] = useState(undefined);
   const [clients, setClients] = useState([]);
@@ -27,7 +28,6 @@ const Form = () => {
   const [jobDescriptionValue, setJobDescriptionValue] = useState('');
   const [vacancyValue, setVacancyValue] = useState('');
   const [isOpenValue, setIsOpenValue] = useState(false);
-  const history = useHistory();
   const isLoading = useSelector((store) => store.positions.isLoading);
   const error = useSelector((store) => store.positions.error);
   const query = useQuery();
