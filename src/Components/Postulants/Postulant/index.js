@@ -1,12 +1,12 @@
 import styles from './postulant.module.css';
 import { FaPen, FaTrash } from 'react-icons/fa';
 
-const Postulant = ({ id, name, age, address, status, profiles, onDelete, onEdit }) => {
+const Postulant = ({ name, email, phone, status, profiles, onDelete, onEdit }) => {
   return (
     <tr className={styles.tr}>
       <td>{name}</td>
-      <td>{age}</td>
-      <td>{address}</td>
+      <td>{email}</td>
+      <td>{phone}</td>
       <td>{status ? 'Available' : 'Unavailable'}</td>
       <td>
         {profiles.map((profile, index) => {
