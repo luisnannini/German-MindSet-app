@@ -5,17 +5,15 @@ const TextArea = (props) => {
     <div className={styles.textAreaContainer}>
       <label htmlFor={props.name}>{props.label}</label>
       <textarea
-        className={styles.textArea}
-        id={props.name}
-        name={props.name}
-        type={props.type}
-        value={props.value}
+        className={props.meta.error && props.meta.touched ? styles.error : styles.textArea}
         placeholder={props.placeholder}
         maxLength={250}
-        onChange={props.onChange}
-        required={props.required}
         disabled={props.disabled}
+        {...props.input}
       ></textarea>
+      {props.meta.error && props.meta.touched && (
+        <span className={styles.errorSpan}>{props.meta.error}</span>
+      )}
     </div>
   );
 };
