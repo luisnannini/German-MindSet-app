@@ -49,7 +49,10 @@ function Interviews() {
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Interviews</h2>
-          <ButtonCreate disabled={isLoading} onClick={() => history.push('/admin/interviews/form')} />
+          <ButtonCreate
+            disabled={isLoading}
+            onClick={() => history.push('/admin/interviews/form')}
+          />
         </div>
         <table className={styles.table}>
           <thead>

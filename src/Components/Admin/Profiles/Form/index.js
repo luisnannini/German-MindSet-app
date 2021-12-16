@@ -43,7 +43,7 @@ const Form = () => {
           name: profileValue
         })
       ).then((response) => {
-        if (response) history.push('/admin/profiles/list');
+        if (response) history.push('/admin/profiles');
       });
     } else {
       dispatch(
@@ -51,7 +51,7 @@ const Form = () => {
           name: profileValue
         })
       ).then((response) => {
-        if (response) history.push('/admin/profiles/list');
+        if (response) history.push('/admin/profiles');
       });
     }
   };

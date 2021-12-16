@@ -69,7 +69,10 @@ function Psychologists() {
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Psychologist</h2>
-          <ButtonCreate disabled={isLoading} onClick={() => history.push('/admin/psychologists/form')} />
+          <ButtonCreate
+            disabled={isLoading}
+            onClick={() => history.push('/admin/psychologists/form')}
+          />
         </div>
         <table className={styles.table}>
           <thead>
@@ -103,7 +106,9 @@ function Psychologists() {
                   <td>
                     <ButtonUpdate
                       disabled={isLoading}
-                      onClick={() => history.push(`/admin/psychologists/form?_id=${psychologist._id}`)}
+                      onClick={() =>
+                        history.push(`/admin/psychologists/form?_id=${psychologist._id}`)
+                      }
                     />
                     <ButtonDelete
                       disabled={isLoading}

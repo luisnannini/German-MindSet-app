@@ -134,7 +134,7 @@ const Form = () => {
         })
       ).then((response) => {
         if (response) {
-          history.push('/admin/postulants/list');
+          history.push('/admin/postulants');
           dispatch(getPostulants);
         }
       });
@@ -155,7 +155,7 @@ const Form = () => {
         })
       ).then((response) => {
         if (response) {
-          history.push('/admin/postulants/list');
+          history.push('/admin/postulants');
           dispatch(getPostulants);
         }
       });

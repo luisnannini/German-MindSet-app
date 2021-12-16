@@ -235,7 +235,7 @@ const Form = () => {
           }
         })
       ).then((response) => {
-        if (response) history.push('/admin/psychologists/list');
+        if (response) history.push('/admin/psychologists');
       });
     } else {
       dispatch(
@@ -286,7 +286,7 @@ const Form = () => {
           }
         })
       ).then((response) => {
-        if (response) history.push('/admin/psychologists/list');
+        if (response) history.push('/admin/psychologists');
       });
     }
   };

@@ -1,6 +1,6 @@
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
-import Home from 'Components/Postulant/Home';
-import Layout from 'Components/Layout';
+import Home from '../Components/Postulants/Home';
+import Layout from '../Components/Layout';
 
 const AdminRoutes = () => {
   const { url } = useRouteMatch();

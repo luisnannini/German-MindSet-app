@@ -48,7 +48,10 @@ function Applications() {
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Applications</h2>
-          <ButtonCreate disabled={isLoading} onClick={() => history.push('/admin/applications/form')} />
+          <ButtonCreate
+            disabled={isLoading}
+            onClick={() => history.push('/admin/applications/form')}
+          />
         </div>
         <table className={styles.table}>
           <thead>

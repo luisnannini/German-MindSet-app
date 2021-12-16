@@ -127,13 +127,13 @@ const Form = () => {
     if (interviewId) {
       dispatch(updateInterview(interviewId, dataValues)).then((response) => {
         if (response) {
-          history.push('/admin/interviews/list');
+          history.push('/admin/interviews');
         }
       });
     } else {
       dispatch(createInterview(dataValues)).then((response) => {
         if (response) {
-          history.push('/admin/interviews/list');
+          history.push('/admin/interviews');
         }
       });
     }

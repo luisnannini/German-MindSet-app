@@ -107,14 +107,14 @@ const Form = () => {
     if (sessionId) {
       dispatch(updateSession(sessionId, dataValues)).then((response) => {
         if (response) {
-          history.push('/admin/sessions/list');
+          history.push('/admin/sessions');
           dispatch(getSessions());
         }
       });
     } else {
       dispatch(createSession(dataValues)).then((response) => {
         if (response) {
-          history.push('/admin/sessions/list');
+          history.push('/admin/sessions');
           dispatch(getSessions());
         }
       });

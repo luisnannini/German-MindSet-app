@@ -118,7 +118,7 @@ const Form = () => {
       })
     ).then((response) => {
       if (response) {
-        history.push('/admin/applications/list');
+        history.push('/admin/applications');
         dispatch(getApplications());
       }
     });

@@ -109,7 +109,7 @@ const Form = () => {
         })
       ).then((response) => {
         if (response) {
-          history.push('/admin/positions/list');
+          history.push('/admin/positions');
           dispatch(getPositions());
         }
       });
@@ -124,7 +124,7 @@ const Form = () => {
         })
       ).then((response) => {
         if (response) {
-          history.push('/admin/positions/list');
+          history.push('/admin/positions');
           dispatch(getPositions());
         }
       });

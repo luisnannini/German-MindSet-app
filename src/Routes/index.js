@@ -1,8 +1,8 @@
 import { lazy, Suspense } from 'react';
 import { Switch, Route, BrowserRouter as Router, Redirect } from 'react-router-dom';
 
-const AdminRoutes = lazy(() => import('Routes/admin'));
-const PostulantRoutes = lazy(() => import('Routes/postulant'));
+const AdminRoutes = lazy(() => import('./admin'));
+const PostulantRoutes = lazy(() => import('./postulant'));
 
 const Routes = () => {
   return (

@@ -93,7 +93,7 @@ function Form() {
           description: descriptionValue
         })
       ).then((response) => {
-        if (response) history.push('/admin/clients/list');
+        if (response) history.push('/admin/clients');
       });
     } else {
       dispatch(
@@ -110,7 +110,7 @@ function Form() {
           description: descriptionValue
         })
       ).then((response) => {
-        if (response) history.push('/admin/clients/list');
+        if (response) history.push('/admin/clients');
       });
     }
   };
