@@ -7,6 +7,8 @@ import {
   getSessions,
   updateSession
 } from '../../../redux/Sessions/thunks';
+import { getPostulants } from '../../../redux/Postulants/thunks';
+import { getPsychologists } from '../../../redux/Psychologists/thunks';
 import { closeErrorModal } from '../../../redux/Sessions/actions';
 import useQuery from '../../../Hooks/useQuery.js';
 import styles from './form.module.css';
@@ -19,22 +21,33 @@ import ModalError from '../../Shared/Modals/ModalError';
 
 const Form = () => {
   const history = useHistory();
+
+  const query = useQuery();
+
   const dispatch = useDispatch();
+
+  const postulants = useSelector((store) => store.postulants.list);
+  const psychologists = useSelector((store) => store.psychologists.list);
+
+  const isLoading = useSelector((store) => store.sessions.isLoading);
+  const error = useSelector((store) => store.sessions.error);
+
   const [sessionId, setSessionId] = useState(undefined);
   const [title, setTitle] = useState('');
-  const [postulants, setPostulants] = useState([]);
-  const [psychologists, setPsychologists] = useState([]);
   const [postulantValue, setPostulantValue] = useState('');
   const [psychologistValue, setPsychologistValue] = useState('');
   const [statusValue, setStatusValue] = useState('');
   const [dateValue, setDateValue] = useState('');
   const [notesValue, setNotesValue] = useState('');
-  const isLoading = useSelector((store) => store.sessions.isLoading);
-  const error = useSelector((store) => store.sessions.error);
-  const query = useQuery();
 
   useEffect(() => {
     const sessionId = query.get('_id');
+    if (!postulants.length) {
+      dispatch(getPostulants());
+    }
+    if (!psychologists.length) {
+      dispatch(getPsychologists());
+    }
     sessionId ? setTitle('Update') : setTitle('Create');
     if (sessionId) {
       dispatch(getSessionById(sessionId)).then((selectedSession) => {
@@ -46,51 +59,7 @@ const Form = () => {
         setNotesValue(selectedSession.notes);
       });
     }
-
-    fetch(`${process.env.REACT_APP_API}/postulants`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setPostulants(
-          response.data.map((postulant) => ({
-            _id: postulant._id,
-            value: postulant._id,
-            name: `${postulant.firstName} ${postulant.lastName}`
-          }))
-        );
-      })
-      .catch((error) => error);
-
-    fetch(`${process.env.REACT_APP_API}/psychologists`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setPsychologists(
-          response.data.map((psychologist) => ({
-            _id: psychologist._id,
-            value: psychologist._id,
-            name: `${psychologist.firstName} ${psychologist.lastName}`
-          }))
-        );
-      })
-      .catch((error) => error);
-  }, []);
+  }, [postulants, psychologists]);
 
   const submitSession = (event) => {
     event.preventDefault();

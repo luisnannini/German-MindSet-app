@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { getSessions, deleteSession } from '../../redux/Sessions/thunks';
 import { closeErrorModal } from '../../redux/Sessions/actions';
-import { useHistory } from 'react-router-dom';
 import styles from './sessions.module.css';
 import ButtonCreate from '../Shared/Buttons/ButtonCreate';
 import ButtonDelete from '../Shared/Buttons/ButtonDelete';
@@ -12,12 +12,16 @@ import ModalError from '../Shared/Modals/ModalError';
 
 function Sessions() {
   const history = useHistory();
+
   const dispatch = useDispatch();
+
   const sessions = useSelector((store) => store.sessions.list);
-  const [selectedSession, setSelectedSession] = useState(undefined);
-  const [showDelete, setShowDelete] = useState(false);
+
   const isLoading = useSelector((store) => store.sessions.isLoading);
   const error = useSelector((store) => store.sessions.error);
+
+  const [selectedSession, setSelectedSession] = useState(undefined);
+  const [showDelete, setShowDelete] = useState(false);
 
   useEffect(() => {
     if (!sessions.length) {

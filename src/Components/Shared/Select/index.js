@@ -18,7 +18,7 @@ const Select = (props) => {
         {props.object.map((data) => {
           return (
             <option key={data._id} value={data._id}>
-              {data.name}
+              {data.name || `${data.firstName} ${data.lastName}`}
             </option>
           );
         })}
