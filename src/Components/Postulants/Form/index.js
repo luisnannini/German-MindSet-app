@@ -179,6 +179,7 @@ const Form = () => {
               required={true}
               value={personalInfo.firstName}
               onChange={(e) => setPersonalInfo({ ...personalInfo, firstName: e.target.value })}
+              disabled={isLoading}
             />
             <Input
               label={'Email'}
@@ -188,6 +189,7 @@ const Form = () => {
               type={'email'}
               value={personalInfo.email}
               onChange={(e) => setPersonalInfo({ ...personalInfo, email: e.target.value })}
+              disabled={isLoading}
             />
             <Input
               label={'Address'}
@@ -196,6 +198,7 @@ const Form = () => {
               required={true}
               value={personalInfo.address}
               onChange={(e) => setPersonalInfo({ ...personalInfo, address: e.target.value })}
+              disabled={isLoading}
             />
             <Input
               label={'Birth Date'}
@@ -204,11 +207,13 @@ const Form = () => {
               required={true}
               value={parseDate(personalInfo.birthday)}
               onChange={(e) => setPersonalInfo({ ...personalInfo, birthday: e.target.value })}
+              disabled={isLoading}
             />
             <Checkbox
               label={'Available?'}
               value={personalInfo.available}
               onChange={(e) => setPersonalInfo({ ...personalInfo, available: e.target.checked })}
+              disabled={isLoading}
             />
           </div>
           <div className={styles.columns}>
@@ -220,6 +225,7 @@ const Form = () => {
               required={true}
               value={personalInfo.lastName}
               onChange={(e) => setPersonalInfo({ ...personalInfo, lastName: e.target.value })}
+              disabled={isLoading}
             />
             <Input
               label={'Password'}
@@ -229,6 +235,7 @@ const Form = () => {
               type={'password'}
               value={personalInfo.password}
               onChange={(e) => setPersonalInfo({ ...personalInfo, password: e.target.value })}
+              disabled={isLoading}
             />
             <Input
               label={'Phone Number'}
@@ -237,6 +244,7 @@ const Form = () => {
               type={'tel'}
               value={personalInfo.phone}
               onChange={(e) => setPersonalInfo({ ...personalInfo, phone: e.target.value })}
+              disabled={isLoading}
             />
             <Select
               title={'Select a profile'}
@@ -244,6 +252,7 @@ const Form = () => {
               object={profiles}
               value={postulantProfile}
               onChange={(e) => setPostulantProfile(e.target.value)}
+              disabled={isLoading}
             />
           </div>
         </div>
@@ -259,6 +268,7 @@ const Form = () => {
               onChange={(e) =>
                 setContactRange({ ...contactRange, from: parseInt(parseTime(e.target.value)) })
               }
+              disabled={isLoading}
             />
           </div>
           <div className={styles.columns}>
@@ -271,6 +281,7 @@ const Form = () => {
               onChange={(e) =>
                 setContactRange({ ...contactRange, to: parseInt(parseTime(e.target.value)) })
               }
+              disabled={isLoading}
             />
           </div>
         </div>
@@ -284,6 +295,7 @@ const Form = () => {
               type={'date'}
               value={parseDate(primaryStudies.startDate)}
               onChange={(e) => setPrimaryStudies({ ...primaryStudies, startDate: e.target.value })}
+              disabled={isLoading}
             />
             <Input
               label={'School'}
@@ -292,6 +304,7 @@ const Form = () => {
               type={'text'}
               value={primaryStudies.school}
               onChange={(e) => setPrimaryStudies({ ...primaryStudies, school: e.target.value })}
+              disabled={isLoading}
             />
           </div>
           <div className={styles.columns}>
@@ -302,6 +315,7 @@ const Form = () => {
               type={'date'}
               value={parseDate(primaryStudies.endDate)}
               onChange={(e) => setPrimaryStudies({ ...primaryStudies, endDate: e.target.value })}
+              disabled={isLoading}
             />
           </div>
         </div>
@@ -317,6 +331,7 @@ const Form = () => {
               onChange={(e) =>
                 setSecondaryStudies({ ...secondaryStudies, startDate: e.target.value })
               }
+              disabled={isLoading}
             />
             <Input
               label={'School'}
@@ -325,6 +340,7 @@ const Form = () => {
               type={'text'}
               value={secondaryStudies.school}
               onChange={(e) => setSecondaryStudies({ ...secondaryStudies, school: e.target.value })}
+              disabled={isLoading}
             />
           </div>
           <div className={styles.columns}>
@@ -337,6 +353,7 @@ const Form = () => {
               onChange={(e) =>
                 setSecondaryStudies({ ...secondaryStudies, endDate: e.target.value })
               }
+              disabled={isLoading}
             />
           </div>
         </div>
@@ -354,6 +371,7 @@ const Form = () => {
                   tertiaryStudies[i].startDate = e.target.value;
                   setTertiaryStudies([...tertiaryStudies]);
                 }}
+                disabled={isLoading}
               />
               <Input
                 label={'Institute'}
@@ -365,6 +383,7 @@ const Form = () => {
                   tertiaryStudies[i].institute = e.target.value;
                   setTertiaryStudies([...tertiaryStudies]);
                 }}
+                disabled={isLoading}
               />
             </div>
             <div className={styles.columns}>
@@ -378,6 +397,7 @@ const Form = () => {
                   tertiaryStudies[i].endDate = e.target.value;
                   setTertiaryStudies([...tertiaryStudies]);
                 }}
+                disabled={isLoading}
               />
               <TextArea
                 label={'Description'}
@@ -387,6 +407,7 @@ const Form = () => {
                   tertiaryStudies[i].description = e.target.value;
                   setTertiaryStudies([...tertiaryStudies]);
                 }}
+                disabled={isLoading}
               />
             </div>
           </div>
@@ -400,6 +421,7 @@ const Form = () => {
                 { startDate: '', endDate: '', institute: '', description: '' }
               ]);
             }}
+            disabled={isLoading}
           />
         </div>
         <h3>University Studies</h3>
@@ -416,6 +438,7 @@ const Form = () => {
                   universityStudies[i].startDate = e.target.value;
                   setUniversityStudies([...universityStudies]);
                 }}
+                disabled={isLoading}
               />
               <Input
                 label={'Institute'}
@@ -427,6 +450,7 @@ const Form = () => {
                   universityStudies[i].institute = e.target.value;
                   setUniversityStudies([...universityStudies]);
                 }}
+                disabled={isLoading}
               />
             </div>
             <div className={styles.columns}>
@@ -440,6 +464,7 @@ const Form = () => {
                   universityStudies[i].endDate = e.target.value;
                   setUniversityStudies([...universityStudies]);
                 }}
+                disabled={isLoading}
               />
               <TextArea
                 label={'Description'}
@@ -449,6 +474,7 @@ const Form = () => {
                   universityStudies[i].description = e.target.value;
                   setUniversityStudies([...universityStudies]);
                 }}
+                disabled={isLoading}
               />
             </div>
           </div>
@@ -462,6 +488,7 @@ const Form = () => {
                 { startDate: '', endDate: '', institute: '', description: '' }
               ]);
             }}
+            disabled={isLoading}
           />
         </div>
         <h3>Informal Studies</h3>
@@ -478,6 +505,7 @@ const Form = () => {
                   informalStudies[i].startDate = e.target.value;
                   setInformalStudies([...informalStudies]);
                 }}
+                disabled={isLoading}
               />
               <Input
                 label={'Institute'}
@@ -489,6 +517,7 @@ const Form = () => {
                   informalStudies[i].institute = e.target.value;
                   setInformalStudies([...informalStudies]);
                 }}
+                disabled={isLoading}
               />
             </div>
             <div className={styles.columns}>
@@ -502,6 +531,7 @@ const Form = () => {
                   informalStudies[i].endDate = e.target.value;
                   setInformalStudies([...informalStudies]);
                 }}
+                disabled={isLoading}
               />
               <TextArea
                 label={'Description'}
@@ -511,6 +541,7 @@ const Form = () => {
                   informalStudies[i].description = e.target.value;
                   setInformalStudies([...informalStudies]);
                 }}
+                disabled={isLoading}
               />
             </div>
           </div>
@@ -524,6 +555,7 @@ const Form = () => {
                 { startDate: '', endDate: '', institute: '', description: '' }
               ]);
             }}
+            disabled={isLoading}
           />
         </div>
         <h3>Work Experience</h3>
@@ -540,6 +572,7 @@ const Form = () => {
                   workExperience[i].startDate = e.target.value;
                   setWorkExperience([...workExperience]);
                 }}
+                disabled={isLoading}
               />
               <Input
                 label={'Company'}
@@ -551,6 +584,7 @@ const Form = () => {
                   workExperience[i].company = e.target.value;
                   setWorkExperience([...workExperience]);
                 }}
+                disabled={isLoading}
               />
             </div>
             <div className={styles.columns}>
@@ -564,6 +598,7 @@ const Form = () => {
                   workExperience[i].endDate = e.target.value;
                   setWorkExperience([...workExperience]);
                 }}
+                disabled={isLoading}
               />
               <TextArea
                 label={'Description'}
@@ -573,6 +608,7 @@ const Form = () => {
                   workExperience[i].description = e.target.value;
                   setWorkExperience([...workExperience]);
                 }}
+                disabled={isLoading}
               />
             </div>
           </div>
@@ -586,6 +622,7 @@ const Form = () => {
                 { startDate: '', endDate: '', company: '', description: '' }
               ]);
             }}
+            disabled={isLoading}
           />
         </div>
         <div className={styles.button}>

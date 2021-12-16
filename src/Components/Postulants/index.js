@@ -72,7 +72,7 @@ const Postulants = () => {
                   <td>{`${postulant.firstName} ${postulant.lastName}`}</td>
                   <td>{postulant.email}</td>
                   <td>{postulant.phone}</td>
-                  <td>{postulant.status ? 'Available' : 'Unavailable'}</td>
+                  <td>{postulant.available ? 'Available' : 'Unavailable'}</td>
                   <td>{postulant.profiles[0].profileId.name}</td>
                   <td>
                     <ButtonUpdate
