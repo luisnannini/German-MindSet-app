@@ -12,3 +12,14 @@
   box-sizing: border-box;
   background: white;
 }
+.error {
+  margin: 0.8em 0;
+  height: 107px;
+  border: 1.5px solid red;
+  border-radius: 3px;
+  box-sizing: border-box;
+  background: white;
+}
+.errorSpan {
+  color: red;
+}
