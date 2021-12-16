@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import useQuery from '../../../Hooks/useQuery';
 import {
   createPosition,
   getPositionById,
   getPositions,
   updatePosition
 } from '../../../redux/Positions/thunks';
+import { getClients } from '../../../redux/Clients/thunks';
+import { getProfiles } from '../../../redux/Profiles/thunks';
 import { closeErrorModal } from '../../../redux/Positions/actions';
-import { useHistory } from 'react-router-dom';
-import useQuery from '../../../Hooks/useQuery';
 import styles from './form.module.css';
 import Select from '../../Shared/Select';
 import Input from '../../Shared/Input';
@@ -19,50 +21,32 @@ import ModalError from '../../Shared/Modals/ModalError';
 
 const Form = () => {
   const history = useHistory();
+
+  const query = useQuery();
+
   const dispatch = useDispatch();
+
+  const clients = useSelector((store) => store.clients.list);
+  const profiles = useSelector((store) => store.profiles.list);
+
+  const isLoading = useSelector((store) => store.positions.isLoading);
+  const error = useSelector((store) => store.positions.error);
+
   const [positionId, setPositionId] = useState(undefined);
-  const [clients, setClients] = useState([]);
-  const [profiles, setProfiles] = useState([]);
   const [clientValue, setClientValue] = useState('');
   const [profilesValue, setProfilesValue] = useState('');
   const [jobDescriptionValue, setJobDescriptionValue] = useState('');
   const [vacancyValue, setVacancyValue] = useState('');
   const [isOpenValue, setIsOpenValue] = useState(false);
-  const isLoading = useSelector((store) => store.positions.isLoading);
-  const error = useSelector((store) => store.positions.error);
-  const query = useQuery();
 
   useEffect(() => {
     const positionId = query.get('_id');
-    fetch(`${process.env.REACT_APP_API}/clients`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => setClients(response.data))
-      .catch((error) => error);
-
-    fetch(`${process.env.REACT_APP_API}/profiles`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setProfiles(response.data);
-      })
-      .catch((error) => error);
+    if (!clients.length) {
+      dispatch(getClients());
+    }
+    if (!profiles.length) {
+      dispatch(getProfiles());
+    }
     if (positionId) {
       dispatch(getPositionById(positionId)).then((selectedPosition) => {
         setPositionId(positionId);
@@ -73,7 +57,7 @@ const Form = () => {
         setIsOpenValue(selectedPosition.isOpen);
       });
     }
-  }, []);
+  }, [clients, profiles]);
 
   const onChangeClientValue = (event) => {
     setClientValue(event.target.value);

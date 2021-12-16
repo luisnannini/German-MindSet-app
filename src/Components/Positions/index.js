@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { getPositions, deletePosition } from '../../redux/Positions/thunks';
 import { closeErrorModal } from '../../redux/Positions/actions';
-import { useHistory } from 'react-router-dom';
 import styles from './positions.module.css';
 import ButtonCreate from '../Shared/Buttons/ButtonCreate';
 import ButtonDelete from '../Shared/Buttons/ButtonDelete';
@@ -12,12 +12,16 @@ import ModalError from '../Shared/Modals/ModalError';
 
 function Positions() {
   const history = useHistory();
+
   const dispatch = useDispatch();
+
   const positions = useSelector((store) => store.positions.list);
-  const [selectedPosition, setSelectedPosition] = useState(undefined);
-  const [showDelete, setShowDelete] = useState(false);
+
   const isLoading = useSelector((store) => store.positions.isLoading);
   const error = useSelector((store) => store.positions.error);
+
+  const [selectedPosition, setSelectedPosition] = useState(undefined);
+  const [showDelete, setShowDelete] = useState(false);
 
   useEffect(() => {
     if (!positions.length) {
