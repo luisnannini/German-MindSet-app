@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import admins from '../Admins/reducer';
-import applicationsReducer from '../Applications/reducer';
+import reducerAdmins from '../Admins/reducer';
+import reducerApplications from '../Applications/reducer';
 import reducerClients from '../Clients/reducer';
 import reducerInterviews from '../Interviews/reducer';
 import reducerPositions from '../Positions/reducer';
@@ -10,8 +10,8 @@ import reducerSessions from '../Sessions/reducer';
 import reducerPostulants from '../Postulants/reducer';
 
 const rootReducer = combineReducers({
-  admins,
-  applications: applicationsReducer,
+  admins: reducerAdmins,
+  applications: reducerApplications,
   clients: reducerClients,
   interviews: reducerInterviews,
   positions: reducerPositions,

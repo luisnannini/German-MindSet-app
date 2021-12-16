@@ -2,7 +2,7 @@ import styles from './form.module.css';
 import Input from '../../Shared/Input';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
-import ModalError from '../../Shared/ModalError';
+import ModalError from '../../Shared/Modals/ModalError';
 import Checkbox from '../../Shared/Checkbox';
 import TextArea from '../../Shared/TextArea';
 import Select from '../../Shared/Select';

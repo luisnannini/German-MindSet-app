@@ -7,17 +7,17 @@ import styles from './sessions.module.css';
 import ButtonCreate from '../Shared/Buttons/ButtonCreate';
 import ButtonDelete from '../Shared/Buttons/ButtonDelete';
 import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
-import Modal from '../Shared/Modal';
-import ModalError from '../Shared/ModalError';
+import ModalDelete from '../Shared/Modals/ModalDelete';
+import ModalError from '../Shared/Modals/ModalError';
 
 function Sessions() {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const sessions = useSelector((store) => store.sessions.list);
   const [selectedSession, setSelectedSession] = useState(undefined);
   const [showDelete, setShowDelete] = useState(false);
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const sessions = useSelector((store) => store.sessions.list);
-  const error = useSelector((store) => store.sessions.error);
   const isLoading = useSelector((store) => store.sessions.isLoading);
+  const error = useSelector((store) => store.sessions.error);
 
   useEffect(() => {
     if (!sessions.length) {
@@ -33,7 +33,7 @@ function Sessions() {
 
   return (
     <section className={styles.section}>
-      <Modal
+      <ModalDelete
         show={showDelete}
         title="Delete Session"
         message="Are you sure you want to delete this Session?"

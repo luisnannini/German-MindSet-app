@@ -1,30 +1,27 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPsychologists, deletePsychologist } from '../../redux/Psychologists/thunks';
+import { closeErrorModal } from '../../redux/Psychologists/actions';
 import { useHistory } from 'react-router-dom';
 import styles from './psychologists.module.css';
 import ButtonCreate from '../Shared/Buttons/ButtonCreate';
 import ButtonDelete from '../Shared/Buttons/ButtonDelete';
 import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
 import ButtonAvailability from '../Shared/Buttons/ButtonAvailability';
-import Modal from '../Shared/Modal';
-import ModalError from '../Shared/ModalError';
-import ModalAvailability from '../Shared/ModalAvailability';
-import { useDispatch, useSelector } from 'react-redux';
-import { getPsychologists, deletePsychologist } from '../../redux/Psychologists/thunks';
-import { closeErrorModal } from '../../redux/Psychologists/actions';
+import ModalDelete from '../Shared/Modals/ModalDelete';
+import ModalError from '../Shared/Modals/ModalError';
+import ModalAvailability from '../Shared/Modals/ModalAvailability';
 
 function Psychologists() {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [selectedPsychologist, setSelectedPsychologist] = useState('');
+  const psychologists = useSelector((store) => store.psychologists.list);
   const [availability, setAvailability] = useState({});
   const [showDelete, setShowDelete] = useState(false);
   const [showAvailability, setShowAvailability] = useState(false);
-
-  const dispatch = useDispatch();
-
-  const history = useHistory();
-
-  const psychologists = useSelector((store) => store.psychologists.list);
-  const error = useSelector((store) => store.psychologists.error);
   const isLoading = useSelector((store) => store.psychologists.isLoading);
+  const error = useSelector((store) => store.psychologists.error);
 
   useEffect(() => {
     if (!psychologists.length) {
@@ -47,7 +44,7 @@ function Psychologists() {
 
   return (
     <section className={styles.section}>
-      <Modal
+      <ModalDelete
         show={showDelete}
         title="Delete a Psychologist"
         message="Are you sure you want to delete this psychologist?"

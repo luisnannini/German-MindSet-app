@@ -7,8 +7,8 @@ import { closeErrorModal } from '../../redux/Postulants/actions';
 import ButtonCreate from '../Shared/Buttons/ButtonCreate';
 import ButtonDelete from '../Shared/Buttons/ButtonDelete';
 import ButtonUpdate from '../Shared/Buttons/ButtonUpdate';
-import Modal from '../Shared/Modal';
-import ModalError from '../Shared/ModalError';
+import ModalDelete from '../Shared/Modals/ModalDelete';
+import ModalError from '../Shared/Modals/ModalError';
 
 const Postulants = () => {
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ const Postulants = () => {
 
   return (
     <section className={styles.section}>
-      <Modal
+      <ModalDelete
         show={showDelete}
         title="Delete a Postulant"
         message="Are you sure you want to delete this postulant?"

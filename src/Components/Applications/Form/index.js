@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { createApplication, getApplications } from '../../../redux/Applications/thunks';
+import { applicationsErrorModal } from '../../../redux/Applications/actions';
 import { useHistory } from 'react-router-dom';
 import styles from './form.module.css';
 import Select from '../../Shared/Select';
-import Input from '../../Shared/Input';
+import TextArea from '../../Shared/TextArea';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
-import ModalError from '../../Shared/ModalError';
-import { useSelector, useDispatch } from 'react-redux';
-import { createApplication, getApplications } from '../../../redux/Applications/thunks';
-import { applicationsErrorModal } from '../../../redux/Applications/actions';
+import ModalError from '../../Shared/Modals/ModalError';
 
 const Form = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [position, setPosition] = useState([]);
   const [postulant, setPostulant] = useState([]);
   const [interview, setInterview] = useState([]);
@@ -18,16 +20,12 @@ const Form = () => {
   const [postulantValue, setPostulantValue] = useState('');
   const [interviewValue, setInterviewValue] = useState('');
   const [resultValue, setResultValue] = useState('');
+  const isLoading = useSelector((store) => store.applications.isLoading);
   const [error, setError] = useState({
     show: false,
     message: '',
     title: ''
   });
-
-  const isLoading = useSelector((store) => store.applications.isLoading);
-
-  const dispatch = useDispatch();
-  const history = useHistory();
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/positions`)
@@ -163,10 +161,9 @@ const Form = () => {
               required
               disabled={isLoading}
             />
-            <Input
-              label={'Result'}
-              name={'result'}
-              type={'text'}
+            <TextArea
+              label="Result"
+              name="result"
               value={resultValue}
               placeholder="Result"
               onChange={onChangeResult}

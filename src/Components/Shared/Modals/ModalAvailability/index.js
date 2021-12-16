@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './modalAvailability.module.css';
-import ButtonCancel from '../Buttons/ButtonCancel';
+import ButtonCancel from '../../Buttons/ButtonCancel';
 
 const ModalAvailability = (props) => {
   if (!props.show) {
