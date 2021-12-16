@@ -60,7 +60,8 @@ const Postulants = () => {
               <th className={styles.th}>Full Name</th>
               <th className={styles.th}>Email</th>
               <th className={styles.th}>Phone Number</th>
-              <th className={styles.th}>Status</th>
+              <th className={styles.th}>Available</th>
+              <th className={styles.th}>Contact Range</th>
               <th className={styles.th}>Profile</th>
               <th>Actions</th>
             </tr>
@@ -73,6 +74,7 @@ const Postulants = () => {
                   <td>{postulant.email}</td>
                   <td>{postulant.phone}</td>
                   <td>{postulant.available ? 'Available' : 'Unavailable'}</td>
+                  <td>{`From ${postulant.contactRange.from} to ${postulant.contactRange.to}`}</td>
                   <td>{postulant.profiles[0].profileId.name}</td>
                   <td>
                     <ButtonUpdate
