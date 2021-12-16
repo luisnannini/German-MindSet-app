@@ -57,12 +57,12 @@ const Postulants = () => {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th className={styles.th}>Full Name</th>
-              <th className={styles.th}>Email</th>
-              <th className={styles.th}>Phone Number</th>
-              <th className={styles.th}>Available</th>
-              <th className={styles.th}>Contact Range</th>
-              <th className={styles.th}>Profile</th>
+              <th>Full Name</th>
+              <th>Email</th>
+              <th>Phone Number</th>
+              <th>Available</th>
+              <th>Contact Range</th>
+              <th>Profile</th>
               <th>Actions</th>
             </tr>
           </thead>
