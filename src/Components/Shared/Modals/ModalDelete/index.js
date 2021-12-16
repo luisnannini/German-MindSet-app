@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './modaldelete.module.css';
+import styles from './modalDelete.module.css';
 import ButtonCancel from '../../Buttons/ButtonCancel';
 import ButtonConfirm from '../../Buttons/ButtonConfirm';
 
