@@ -6,11 +6,9 @@ const Select = (props) => {
     <div className={styles.container}>
       <label className={styles.label}>{props.label}</label>
       <select
-        className={styles.select}
-        value={props.value}
-        onChange={props.onChange}
-        required={props.required}
+        className={props.meta.error && props.meta.touched ? styles.error : styles.select}
         disabled={props.disabled}
+        {...props.input}
       >
         <option value="" disabled hidden>
           {props.title}
@@ -23,6 +21,9 @@ const Select = (props) => {
           );
         })}
       </select>
+      {props.meta.error && props.meta.touched && (
+        <span className={styles.errorSpan}>{props.meta.error}</span>
+      )}
     </div>
   );
 };

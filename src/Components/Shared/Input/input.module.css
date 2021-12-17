@@ -12,3 +12,14 @@
   background: white;
   cursor: pointer;
 }
+.error {
+  margin-bottom: 20px;
+  height: 40px;
+  border: 2px solid red;
+  border-radius: 3px;
+  background: white;
+  cursor: pointer;
+}
+.errorSpan {
+  color: red;
+}
