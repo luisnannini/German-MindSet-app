@@ -2,6 +2,7 @@ import styles from './postulants.module.css';
 import { useState, useEffect } from 'react/cjs/react.development';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { Form, Field } from 'react-final-form';
 import { getPostulants, deletePostulant } from '../../../redux/Postulants/thunks';
 import { closeErrorModal } from '../../../redux/Postulants/actions';
 import ButtonCreate from '../../Shared/Buttons/ButtonCreate';
@@ -10,7 +11,7 @@ import ButtonUpdate from '../../Shared/Buttons/ButtonUpdate';
 import ModalDelete from '../../Shared/Modals/ModalDelete';
 import ModalError from '../../Shared/Modals/ModalError';
 
-const Postulants = () => {
+const PostulantsForm = () => {
   const dispatch = useDispatch();
 
   const history = useHistory();
@@ -101,4 +102,4 @@ const Postulants = () => {
   );
 };
 
-export default Postulants;
+export default PostulantsForm;
