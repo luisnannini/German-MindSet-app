@@ -90,9 +90,6 @@ export const createInterview = (values) => {
         dispatch(createInterviewFulfilled(response.data));
         return response.data;
       })
-      .then(() => {
-        window.location.href = '/interviews';
-      })
       .catch((error) => {
         dispatch(
           createInterviewRejected({ show: true, message: error.message, title: error.status })
@@ -125,9 +122,6 @@ export const updateInterview = (id, values) => {
       .then((response) => {
         dispatch(updateInterviewFulfilled(response.data));
         return response.data;
-      })
-      .then(() => {
-        window.location.href = '/interviews';
       })
       .catch((error) => {
         dispatch(
