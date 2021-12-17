@@ -3,7 +3,8 @@ import { useDispatch } from 'react-redux';
 import {
   createInterview,
   updateInterview,
-  getInterviewById
+  getInterviewById,
+  getInterviews
 } from '../../../../redux/Interviews/thunks';
 import { closeErrorModal } from '../../../../redux/Interviews/actions';
 import { useHistory } from 'react-router-dom';
@@ -128,12 +129,14 @@ const Form = () => {
       dispatch(updateInterview(interviewId, dataValues)).then((response) => {
         if (response) {
           history.push('/admin/interviews');
+          dispatch(getInterviews());
         }
       });
     } else {
       dispatch(createInterview(dataValues)).then((response) => {
         if (response) {
           history.push('/admin/interviews');
+          dispatch(getInterviews());
         }
       });
     }
