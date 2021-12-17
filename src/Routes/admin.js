@@ -14,6 +14,7 @@ import PostulantsForm from '../Components/Admin/Postulants/Form';
 import Profiles from '../Components/Admin/Profiles';
 import ProfilesForm from '../Components/Admin/Profiles/Form';
 import Psychologists from '../Components/Admin/Psychologists';
+import PsychologistsForm from '../Components/Admin/Psychologists/Form';
 import Sessions from '../Components/Admin/Sessions';
 import SessionsForm from '../Components/Admin/Sessions/Form';
 import Layout from '../Components/Layout';
@@ -35,23 +36,24 @@ const AdminRoutes = () => {
   return (
     <Layout routes={adminsRoutes}>
       <Switch>
-        <Route path={`${url}/admins`} component={Admins} />
-        <Route path={`${url}/admins/form`} component={AdminsForm} />
-        <Route path={`${url}/applications`} component={Applications} />
-        <Route path={`${url}/applications/form`} component={ApplicationsForm} />
-        <Route path={`${url}/clients`} component={Clients} />
-        <Route path={`${url}/clients/form`} component={ClientsForm} />
-        <Route path={`${url}/interviews`} component={Interviews} />
-        <Route path={`${url}/interviews/form`} component={InterviewsForm} />
-        <Route path={`${url}/positions`} component={Positions} />
-        <Route path={`${url}/positions/form`} component={PositionsForm} />
-        <Route path={`${url}/postulants`} component={Postulants} />
-        <Route path={`${url}/postulants/form`} component={PostulantsForm} />
-        <Route path={`${url}/profiles`} component={Profiles} />
-        <Route path={`${url}/profiles/form`} component={ProfilesForm} />
-        <Route path={`${url}/psychologists`} component={Psychologists} />
-        <Route path={`${url}/sessions`} component={Sessions} />
-        <Route path={`${url}/sessions/form`} component={SessionsForm} />
+        <Route exact path={`${url}/admins`} component={Admins} />
+        <Route exact path={`${url}/admins/form`} component={AdminsForm} />
+        <Route exact path={`${url}/applications`} component={Applications} />
+        <Route exact path={`${url}/applications/form`} component={ApplicationsForm} />
+        <Route exact path={`${url}/clients`} component={Clients} />
+        <Route exact path={`${url}/clients/form`} component={ClientsForm} />
+        <Route exact path={`${url}/interviews`} component={Interviews} />
+        <Route exact path={`${url}/interviews/form`} component={InterviewsForm} />
+        <Route exact path={`${url}/positions`} component={Positions} />
+        <Route exact path={`${url}/positions/form`} component={PositionsForm} />
+        <Route exact path={`${url}/postulants`} component={Postulants} />
+        <Route exact path={`${url}/postulants/form`} component={PostulantsForm} />
+        <Route exact path={`${url}/profiles`} component={Profiles} />
+        <Route exact path={`${url}/profiles/form`} component={ProfilesForm} />
+        <Route exact path={`${url}/psychologists`} component={Psychologists} />
+        <Route exact path={`${url}/psychologists/form`} component={PsychologistsForm} />
+        <Route exact path={`${url}/sessions`} component={Sessions} />
+        <Route exact path={`${url}/sessions/form`} component={SessionsForm} />
         <Redirect to={`${url}/admins`} />
       </Switch>
     </Layout>

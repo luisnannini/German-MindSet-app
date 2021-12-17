@@ -52,11 +52,11 @@ const Form = () => {
 
     if (adminId) {
       options.method = 'PUT';
-      url = `${process.env.REACT_APP_API}/admin/admins/${adminId}`;
+      url = `${process.env.REACT_APP_API}/admins/${adminId}`;
       dispatch(updateAdmin(url, options, () => history.goBack()));
     } else {
       options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/admin/admins`;
+      url = `${process.env.REACT_APP_API}/admins`;
       dispatch(createAdmin(url, options, () => history.goBack()));
     }
   };
