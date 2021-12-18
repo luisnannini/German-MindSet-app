@@ -2,7 +2,6 @@ import styles from './postulants.module.css';
 import { useState, useEffect } from 'react/cjs/react.development';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Field } from 'react-final-form';
 import { getPostulants, deletePostulant } from '../../../redux/Postulants/thunks';
 import { closeErrorModal } from '../../../redux/Postulants/actions';
 import ButtonCreate from '../../Shared/Buttons/ButtonCreate';

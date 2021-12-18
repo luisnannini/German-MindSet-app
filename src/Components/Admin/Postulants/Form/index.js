@@ -163,12 +163,66 @@ const PostulantsForm = () => {
     }
   };
 
+  const validate = (formValues) => {
+    const errors = {};
+    // first name
+    if (!formValues.firstName?.match(/^[a-zA-Z]+$/)) {
+      errors.firstName = 'First name must contain only letters';
+    }
+    if (formValues.firstName?.length < 2) {
+      errors.firstName = 'First name must be at least 2 letters';
+    }
+    // last name
+    if (!formValues.lastName?.match(/^[a-zA-Z]+$/)) {
+      errors.lastName = 'Last name must contain only letters';
+    }
+    if (formValues.lastName?.length < 2) {
+      errors.lastName = 'Last name must be at least 2 letters';
+    }
+    // email
+    if (!formValues.email?.match(/^[^@]+@[a-zA-Z]+\.[a-zA-Z]+$/)) {
+      errors.email = 'Fill in a valid email format';
+    }
+    // password
+    if (formValues.password?.search(/[a-zA-Z]/) < 0 || formValues.password?.search(/[0-9]/) < 0) {
+      errors.password = 'Password must contain numbers and letters';
+    } else if (formValues.password?.length < 8) {
+      errors.password = 'Password must be at least 8 characters';
+    }
+    // address
+    if (formValues.address?.search(/[a-zA-Z]/) < 0 || formValues.address?.search(/[0-9]/) < 0) {
+      errors.address = 'Address must contain a name and a number';
+    }
+    // phoneNumber
+    if (!formValues.phoneNumber?.toString().match(/^\d+$/)) {
+      errors.phoneNumber = 'Phone number must contain only numbers';
+    }
+    if (formValues.phoneNumber?.length < 7 || formValues.phoneNumber?.length > 14) {
+      errors.phoneNumber = 'Phone number must be between 7 and 14 numbers';
+    }
+    // schoolPrimary
+    if (formValues.schoolPrimary?.length < 5) {
+      errors.schoolPrimary = 'School must contain at least 5 characters';
+    }
+    if (formValues.schoolPrimary?.length > 50) {
+      errors.schoolPrimary = 'School must be less than 50 characters';
+    }
+    // schoolSecondary
+    if (formValues.schoolSecondary?.length < 5) {
+      errors.schoolSecondary = 'School must contain at least 5 characters';
+    }
+    if (formValues.schoolSecondary?.length > 50) {
+      errors.schoolSecondary = 'School must be less than 50 characters';
+    }
+    return errors;
+  };
+
   const required = (value) => (value ? undefined : 'Required');
 
   return (
     <div className={styles.container}>
       <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
-      <Form onSubmit={submitForm}>
+      <Form onSubmit={submitForm} validate={validate}>
         {(formProps) => (
           <form className={styles.form} onSubmit={formProps.handleSubmit}>
             <div className={styles.header}>
@@ -218,12 +272,8 @@ const PostulantsForm = () => {
                   name={'available'}
                   label={'Available?'}
                   initialValue={personalInfo.available}
-                  // onChange={(e) =>
-                  //   setPersonalInfo({ ...personalInfo, available: e.target.checked })
-                  // }
                   disabled={formProps.submitting}
                   component={Checkbox}
-                  validate={required}
                 />
               </div>
               <div className={styles.columns}>
@@ -350,7 +400,7 @@ const PostulantsForm = () => {
                 />
                 <Field
                   label={'School'}
-                  name={'schoolSeconday'}
+                  name={'schoolSecondary'}
                   placeholder={'School'}
                   type={'text'}
                   initialValue={secondaryStudies.school}
@@ -462,7 +512,7 @@ const PostulantsForm = () => {
                   />
                   <Field
                     label={'Institute'}
-                    name={'institueUniversity'}
+                    name={'instituteUniversity'}
                     placeholder={'Institute'}
                     type={'text'}
                     initialValue={us.institute}
@@ -551,7 +601,7 @@ const PostulantsForm = () => {
                     name={'endDateInformalStudies'}
                     placeholder={'Finish Date'}
                     type={'date'}
-                    intialValue={is.endDate.substring(0, 10)}
+                    initialValue={is.endDate.substring(0, 10)}
                     // onChange={(e) => {
                     //   informalStudies[i].endDate = e.target.value;
                     //   setInformalStudies([...informalStudies]);
@@ -594,7 +644,7 @@ const PostulantsForm = () => {
                     name={'startDateWorkExperience'}
                     placeholder={'Start Date'}
                     type={'date'}
-                    intialValue={we.startDate.substring(0, 10)}
+                    initialValue={we.startDate.substring(0, 10)}
                     // onChange={(e) => {
                     //   workExperience[i].startDate = e.target.value;
                     //   setWorkExperience([...workExperience]);
