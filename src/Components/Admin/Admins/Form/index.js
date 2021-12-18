@@ -8,8 +8,9 @@ import Input from '../../../Shared/Input';
 import ButtonCancel from '../../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../../Shared/Modals/ModalError';
+import { Form, Field } from 'react-final-form';
 
-const Form = () => {
+const AdminsForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const params = new URLSearchParams(history.location.search);
@@ -19,7 +20,6 @@ const Form = () => {
     username: '',
     password: ''
   });
-  const isLoading = useSelector((store) => store.admins.isLoading);
   const error = useSelector((store) => store.admins.error);
 
   useEffect(() => {
@@ -28,26 +28,18 @@ const Form = () => {
     }
   }, []);
 
-  const onChangeFullNameValue = (event) => {
-    setAdmin({ ...admin, name: event.target.value });
-  };
-
-  const onChangeUsernameValue = (event) => {
-    setAdmin({ ...admin, username: event.target.value });
-  };
-
-  const onChangePasswordValue = (event) => {
-    setAdmin({ ...admin, password: event.target.value });
-  };
-
-  const submitAdmin = (e) => {
-    e.preventDefault();
+  const submitAdmin = (formValues) => {
+    const adminValues = {
+      name: formValues.name,
+      username: formValues.username,
+      password: formValues.password
+    };
     let url;
     const options = {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(admin)
+      body: JSON.stringify(adminValues)
     };
 
     if (adminId) {
@@ -61,57 +53,90 @@ const Form = () => {
     }
   };
 
+  const validate = (formValues) => {
+    const errors = {};
+    if (!formValues.name) {
+      errors.name = 'Full Name is required';
+    }
+    if (formValues.name?.length < 3) {
+      errors.name = 'Full name must be at least 5 characters';
+    }
+    if (!formValues.name?.match(/^([a-zA-Z]+ [a-zA-Z]+)+$/)) {
+      errors.name = 'Full name must contain only letters and a space in between';
+    }
+    if (formValues.username?.length < 5) {
+      errors.username = 'Username must contain at least 5 characters';
+    }
+    if (formValues.username?.search(/[a-zA-Z]/) < 0 || formValues.username?.search(/[0-9]/) < 0) {
+      errors.username = 'Username must contain letters and numbers';
+    }
+    if (formValues.password?.length < 8) {
+      errors.password = 'Password must contain at least 8 characters';
+    }
+    if (formValues.password?.search(/[a-zA-Z]/) < 0 || formValues.password?.search(/[0-9]/) < 0) {
+      errors.password = 'Password must contain letters and numbers';
+    }
+    return errors;
+  };
+
+  const required = (value) => (value ? undefined : 'Required');
+
   return (
     <div className={styles.container}>
-      <form className={styles.form} onSubmit={submitAdmin}>
-        <div className={styles.header}>
-          <h2 className={styles.title}>{adminId ? 'Update Admin' : 'Create Admin'}</h2>
-        </div>
-        <div className={styles.fields}>
-          <div className={styles.columns}>
-            <Input
-              label={'Full Name'}
-              type={'text'}
-              value={admin.name}
-              placeholder={'Full name'}
-              onChange={onChangeFullNameValue}
-              required={true}
-              disabled={isLoading}
-            />
-            <Input
-              label={'Username'}
-              type={'text'}
-              value={admin.username}
-              placeholder={'Username'}
-              onChange={onChangeUsernameValue}
-              required={true}
-              disabled={isLoading}
-            />
-            <Input
-              label={'Password'}
-              type={'password'}
-              value={admin.password}
-              placeholder={'Password'}
-              onChange={onChangePasswordValue}
-              required={true}
-              disabled={isLoading}
-            />
-          </div>
-        </div>
-        <div className={styles.button}>
-          <ButtonCancel
-            disabled={isLoading}
-            onClick={(e) => {
-              e.preventDefault();
-              history.goBack();
-            }}
-          />
-          <ButtonConfirm disabled={isLoading} type="submit" />
-        </div>
-        <ModalError error={error} onConfirm={() => adminCloseErrorModal({ show: false })} />
-      </form>
+      <Form onSubmit={submitAdmin} validate={validate}>
+        {(formProps) => (
+          <form className={styles.form} onSubmit={formProps.handleSubmit}>
+            <div className={styles.header}>
+              <h2 className={styles.title}>{adminId ? 'Update Admin' : 'Create Admin'}</h2>
+            </div>
+            <div className={styles.fields}>
+              <div className={styles.columns}>
+                <Field
+                  label={'Full Name'}
+                  name="name"
+                  type={'text'}
+                  initialValue={admin.name}
+                  placeholder={'Full name'}
+                  component={Input}
+                  disabled={formProps.submitting}
+                  validate={required}
+                />
+                <Field
+                  label={'Username'}
+                  name="username"
+                  type={'text'}
+                  initialValue={admin.username}
+                  placeholder={'Username'}
+                  component={Input}
+                  disabled={formProps.submitting}
+                  validate={required}
+                />
+                <Field
+                  label={'Password'}
+                  name="password"
+                  initialValue={admin.password}
+                  placeholder={'Password'}
+                  component={Input}
+                  disabled={formProps.submitting}
+                  validate={required}
+                />
+              </div>
+            </div>
+            <div className={styles.button}>
+              <ButtonCancel
+                disabled={formProps.submitting}
+                onClick={() => {
+                  history.push('/admin/admins');
+                }}
+              />
+              <ButtonConfirm disabled={formProps.submitting || formProps.pristine} type="submit" />
+            </div>
+            <ModalError error={error} onConfirm={() => dispatch(adminCloseErrorModal())} />
+          </form>
+        )}
+      </Form>
     </div>
   );
 };
 
-export default Form;
+export default AdminsForm;
