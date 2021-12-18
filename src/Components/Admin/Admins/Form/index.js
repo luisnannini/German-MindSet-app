@@ -55,10 +55,7 @@ const AdminsForm = () => {
 
   const validate = (formValues) => {
     const errors = {};
-    if (!formValues.name) {
-      errors.name = 'Full Name is required';
-    }
-    if (formValues.name?.length < 3) {
+    if (formValues.name?.length < 5) {
       errors.name = 'Full name must be at least 5 characters';
     }
     if (!formValues.name?.match(/^([a-zA-Z]+ [a-zA-Z]+)+$/)) {
@@ -94,7 +91,6 @@ const AdminsForm = () => {
                 <Field
                   label={'Full Name'}
                   name="name"
-                  type={'text'}
                   initialValue={admin.name}
                   placeholder={'Full name'}
                   component={Input}
@@ -104,7 +100,6 @@ const AdminsForm = () => {
                 <Field
                   label={'Username'}
                   name="username"
-                  type={'text'}
                   initialValue={admin.username}
                   placeholder={'Username'}
                   component={Input}
