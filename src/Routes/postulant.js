@@ -1,6 +1,7 @@
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 import Home from '../Components/Postulants/Home';
 import Profile from '../Components/Postulants/Profile';
+import EditProfile from '../Components/Postulants/Profile/Form';
 import Layout from '../Components/Layout';
 
 const AdminRoutes = () => {
@@ -15,7 +16,8 @@ const AdminRoutes = () => {
     >
       <Switch>
         <Route exact path={`${url}/`} component={Home} />
-        <Route path={`${url}/profile`} component={Profile} />
+        <Route exact path={`${url}/profile`} component={Profile} />
+        <Route path={`${url}/profile/form`} component={EditProfile} />
       </Switch>
     </Layout>
   );
