@@ -11,6 +11,9 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Form, Field } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
+import { FieldArray } from 'react-final-form-arrays';
+// import { render } from 'react-dom';
 import useQuery from '../../../../Hooks/useQuery';
 import {
   createPostulant,
@@ -53,7 +56,7 @@ const PostulantsForm = () => {
     endDate: '',
     school: ''
   });
-  const [tertiaryStudies, setTertiaryStudies] = useState([]);
+  // const [tertiaryStudies, setTertiaryStudies] = useState([]);
   const [universityStudies, setUniversityStudies] = useState([]);
   const [informalStudies, setInformalStudies] = useState([]);
   const [workExperience, setWorkExperience] = useState([]);
@@ -77,7 +80,7 @@ const PostulantsForm = () => {
         setPostulantProfile(selectedPostulant.profiles[0].profileId._id);
         setPrimaryStudies(selectedPostulant.studies.primaryStudies);
         setSecondaryStudies(selectedPostulant.studies.secondaryStudies);
-        setTertiaryStudies(selectedPostulant.studies.tertiaryStudies);
+        // setTertiaryStudies(selectedPostulant.studies.tertiaryStudies);
         setUniversityStudies(selectedPostulant.studies.universityStudies);
         setInformalStudies(selectedPostulant.studies.informalStudies);
         setWorkExperience(selectedPostulant.workExperience);
@@ -106,16 +109,15 @@ const PostulantsForm = () => {
     return string.split('T')[0];
   };
 
-  // const parseTime = (string) => {
-  //   return `${string.split(':')[0]}${string.split(':')[1]}`;
-  // };
+  const parseTime = (string) => {
+    return `${string.split(':')[0]}${string.split(':')[1]}`;
+  };
 
   const intToTime = (int) => {
     return `${int.toString().slice(0, 2)}:${int.toString().slice(2)}`;
   };
 
-  const submitForm = (e) => {
-    e.preventDefault();
+  const submitForm = (formValues) => {
     const profile = profiles.filter((profile) => profile._id === postulantProfile);
     const postulantId = query.get('_id');
     if (postulantId) {
@@ -127,7 +129,7 @@ const PostulantsForm = () => {
           studies: {
             primaryStudies,
             secondaryStudies,
-            tertiaryStudies,
+            // tertiaryStudies,
             universityStudies,
             informalStudies
           },
@@ -142,13 +144,31 @@ const PostulantsForm = () => {
     } else {
       dispatch(
         createPostulant({
-          ...personalInfo,
-          contactRange,
-          profiles: new Array({ profileId: profile[0]._id }),
+          firstName: formValues.firstName,
+          lastName: formValues.lastName,
+          email: formValues.email,
+          password: formValues.password,
+          address: formValues.address,
+          phone: formValues.phoneNumber,
+          birthday: formValues.birthday,
+          available: formValues.available,
+          contactRange: {
+            from: parseInt(parseTime(formValues.from)),
+            to: parseInt(parseTime(formValues.to))
+          },
+          profiles: formValues.profiles,
           studies: {
-            primaryStudies,
-            secondaryStudies,
-            tertiaryStudies,
+            primaryStudies: {
+              startDate: formValues.startDatePrimaryStudies,
+              endDate: formValues.endDatePrimaryStudies,
+              school: formValues.schoolPrimaryStudies
+            },
+            secondaryStudies: {
+              startDate: formValues.startDateSecondaryStudies,
+              endDate: formValues.endDateSecondaryStudies,
+              school: formValues.schoolSecondaryStudies
+            },
+            tertiaryStudies: formValues.tertiaryStudies,
             universityStudies,
             informalStudies
           },
@@ -222,500 +242,476 @@ const PostulantsForm = () => {
   return (
     <div className={styles.container}>
       <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
-      <Form onSubmit={submitForm} validate={validate}>
-        {(formProps) => (
-          <form className={styles.form} onSubmit={formProps.handleSubmit}>
-            <div className={styles.header}>
-              <h2 className={styles.title}>{id ? 'Update a Postulant' : 'Create a Postulant'}</h2>
-            </div>
-            <h3>Personal Info</h3>
-            <div className={styles.fields}>
-              <div className={styles.columns}>
-                <Field
-                  label={'First Name'}
-                  name={'firstName'}
-                  placeholder={'First Name'}
-                  initialValue={personalInfo.firstName}
-                  disabled={formProps.submitting}
-                  component={Input}
-                  validate={required}
-                />
-                <Field
-                  label={'Email'}
-                  name={'email'}
-                  placeholder={'Email'}
-                  type={'email'}
-                  initialValue={personalInfo.email}
-                  disabled={formProps.submitting}
-                  component={Input}
-                  validate={required}
-                />
-                <Field
-                  label={'Address'}
-                  name={'address'}
-                  placeholder={'Address'}
-                  initialValue={personalInfo.address}
-                  disabled={formProps.submitting}
-                  component={Input}
-                  validate={required}
-                />
-                <Field
-                  label={'Birth Date'}
-                  name={'birthday'}
-                  type={'date'}
-                  initialValue={parseDate(personalInfo.birthday)}
-                  disabled={formProps.submitting}
-                  component={Input}
-                  validate={required}
-                />
-                <Field
-                  name={'available'}
-                  label={'Available?'}
-                  initialValue={personalInfo.available}
-                  disabled={formProps.submitting}
-                  component={Checkbox}
-                />
+      <Form
+        onSubmit={submitForm}
+        validate={validate}
+        mutators={{
+          ...arrayMutators
+        }}
+        render={({
+          handleSubmit,
+          form: {
+            mutators: { push }
+          }, // injected from final-form-arrays above
+          pristine,
+          submitting,
+          values
+        }) => {
+          return (
+            <form className={styles.form} onSubmit={handleSubmit}>
+              <div className={styles.header}>
+                <h2 className={styles.title}>{id ? 'Update a Postulant' : 'Create a Postulant'}</h2>
               </div>
-              <div className={styles.columns}>
-                <Field
-                  label={'Last Name'}
-                  name={'lastName'}
-                  placeholder={'Last Name'}
-                  initialValue={personalInfo.lastName}
-                  disabled={formProps.submitting}
-                  component={Input}
-                  validate={required}
-                />
-                <Field
-                  label={'Password'}
-                  name={'password'}
-                  placeholder={'Password'}
-                  type={'password'}
-                  initialValue={personalInfo.password}
-                  disabled={formProps.submitting}
-                  component={Input}
-                  validate={required}
-                />
-                <Field
-                  label={'Phone Number'}
-                  name={'phoneNumber'}
-                  placeholder={'+54113062939'}
-                  type={'tel'}
-                  initialValue={personalInfo.phone}
-                  disabled={formProps.submitting}
-                  component={Input}
-                  validate={required}
-                />
-                <Field
-                  name="profiles"
-                  title={'Select a profile'}
-                  label={'Profiles'}
-                  object={profiles}
-                  initialValue={postulantProfile}
-                  disabled={formProps.submitting}
-                  component={Select}
-                  validate={required}
-                />
+              <h3>Personal Info</h3>
+              <div className={styles.fields}>
+                <div className={styles.columns}>
+                  <Field
+                    label={'First Name'}
+                    name={'firstName'}
+                    placeholder={'First Name'}
+                    initialValue={personalInfo.firstName}
+                    disabled={submitting}
+                    component={Input}
+                    validate={required}
+                  />
+                  <Field
+                    label={'Email'}
+                    name={'email'}
+                    placeholder={'Email'}
+                    type={'email'}
+                    initialValue={personalInfo.email}
+                    disabled={submitting}
+                    component={Input}
+                    validate={required}
+                  />
+                  <Field
+                    label={'Address'}
+                    name={'address'}
+                    placeholder={'Address'}
+                    initialValue={personalInfo.address}
+                    disabled={submitting}
+                    component={Input}
+                    validate={required}
+                  />
+                  <Field
+                    label={'Birth Date'}
+                    name={'birthday'}
+                    type={'date'}
+                    initialValue={parseDate(personalInfo.birthday)}
+                    disabled={submitting}
+                    component={Input}
+                    validate={required}
+                  />
+                  <Field
+                    name={'available'}
+                    label={'Available?'}
+                    initialValue={personalInfo.available}
+                    disabled={submitting}
+                    component={Checkbox}
+                  />
+                </div>
+                <div className={styles.columns}>
+                  <Field
+                    label={'Last Name'}
+                    name={'lastName'}
+                    placeholder={'Last Name'}
+                    initialValue={personalInfo.lastName}
+                    disabled={submitting}
+                    component={Input}
+                    validate={required}
+                  />
+                  <Field
+                    label={'Password'}
+                    name={'password'}
+                    placeholder={'Password'}
+                    type={'password'}
+                    initialValue={personalInfo.password}
+                    disabled={submitting}
+                    component={Input}
+                    validate={required}
+                  />
+                  <Field
+                    label={'Phone Number'}
+                    name={'phoneNumber'}
+                    placeholder={'+54113062939'}
+                    type={'tel'}
+                    initialValue={personalInfo.phone}
+                    disabled={submitting}
+                    component={Input}
+                    validate={required}
+                  />
+                  <Field
+                    name="profiles"
+                    title={'Select a profile'}
+                    label={'Profiles'}
+                    object={profiles}
+                    initialValue={postulantProfile}
+                    disabled={submitting}
+                    component={Select}
+                    validate={required}
+                  />
+                </div>
               </div>
-            </div>
-            <h3>Contact Range</h3>
-            <div className={styles.fields}>
-              <div className={styles.columns}>
-                <Field
-                  label={'From'}
-                  name={'from'}
-                  placeholder={'From'}
-                  type={'time'}
-                  initialValue={intToTime(contactRange.from)}
-                  disabled={formProps.submitting}
-                  component={Input}
-                  validate={required}
-                />
+              <h3>Contact Range</h3>
+              <div className={styles.fields}>
+                <div className={styles.columns}>
+                  <Field
+                    label={'From'}
+                    name={'from'}
+                    placeholder={'From'}
+                    type={'time'}
+                    initialValue={intToTime(contactRange.from)}
+                    disabled={submitting}
+                    component={Input}
+                    validate={required}
+                  />
+                </div>
+                <div className={styles.columns}>
+                  <Field
+                    label={'To'}
+                    name={'To'}
+                    placeholder={'To'}
+                    type={'time'}
+                    initialValue={intToTime(contactRange.to)}
+                    // onChange={(e) =>
+                    //   setContactRange({ ...contactRange, to: parseInt(parseTime(e.target.value)) })
+                    // }
+                    disabled={submitting}
+                    component={Input}
+                    validate={required}
+                  />
+                </div>
               </div>
-              <div className={styles.columns}>
-                <Field
-                  label={'To'}
-                  name={'To'}
-                  placeholder={'To'}
-                  type={'time'}
-                  initialValue={intToTime(contactRange.to)}
-                  // onChange={(e) =>
-                  //   setContactRange({ ...contactRange, to: parseInt(parseTime(e.target.value)) })
-                  // }
-                  disabled={formProps.submitting}
-                  component={Input}
-                  validate={required}
-                />
-              </div>
-            </div>
-            <h3>Primary Studies</h3>
-            <div className={styles.fields}>
-              <div className={styles.columns}>
-                <Field
-                  label={'Start Date'}
-                  name={'startDatePrimaryStudies'}
-                  placeholder={'Start Date'}
-                  type={'date'}
-                  initialValue={parseDate(primaryStudies.startDate)}
-                  disabled={formProps.submitting}
-                  component={Input}
-                  validate={required}
-                />
-                <Field
-                  label={'School'}
-                  name={'schoolPrimary'}
-                  placeholder={'School'}
-                  type={'text'}
-                  initialValue={primaryStudies.school}
-                  disabled={formProps.submitting}
-                  component={Input}
-                  validate={required}
-                />
-              </div>
-              <div className={styles.columns}>
-                <Field
-                  label={'Finish Date'}
-                  name={'endDatePrimaryStudies'}
-                  placeholder={'Finish Date'}
-                  type={'date'}
-                  initialValue={parseDate(primaryStudies.endDate)}
-                  disabled={formProps.submitting}
-                  component={Input}
-                  validate={required}
-                />
-              </div>
-            </div>
-            <h3>Secondary Studies</h3>
-            <div className={styles.fields}>
-              <div className={styles.columns}>
-                <Field
-                  label={'Start Date'}
-                  name={'startDateSecondaryStudies'}
-                  placeholder={'Start Date'}
-                  type={'date'}
-                  initialValue={parseDate(secondaryStudies.startDate)}
-                  disabled={formProps.submitting}
-                  component={Input}
-                  validate={required}
-                />
-                <Field
-                  label={'School'}
-                  name={'schoolSecondary'}
-                  placeholder={'School'}
-                  type={'text'}
-                  initialValue={secondaryStudies.school}
-                  disabled={formProps.submitting}
-                  component={Input}
-                  validate={required}
-                />
-              </div>
-              <div className={styles.columns}>
-                <Field
-                  label={'Finish Date'}
-                  name={'endDateSecondaryStudies'}
-                  placeholder={'Finish Date'}
-                  type={'date'}
-                  initialValue={parseDate(secondaryStudies.endDate)}
-                  disabled={formProps.submitting}
-                  component={Input}
-                  validate={required}
-                />
-              </div>
-            </div>
-            <h3>Tertiary Studies</h3>
-            {tertiaryStudies.map((ts, i) => (
-              <div className={styles.fields} key={i}>
+              <h3>Primary Studies</h3>
+              <div className={styles.fields}>
                 <div className={styles.columns}>
                   <Field
                     label={'Start Date'}
-                    name={'startDateTertiaryStudies'}
+                    name={'startDatePrimaryStudies'}
                     placeholder={'Start Date'}
                     type={'date'}
-                    initialValue={ts.startDate.substring(0, 10)}
-                    // onChange={(e) => {
-                    //   tertiaryStudies[i].startDate = e.target.value;
-                    //   setTertiaryStudies([...tertiaryStudies]);
-                    // }}
-                    disabled={formProps.submitting}
+                    initialValue={parseDate(primaryStudies.startDate)}
+                    disabled={submitting}
                     component={Input}
+                    validate={required}
                   />
                   <Field
-                    label={'Institute'}
-                    name={'instituteTertiary'}
-                    placeholder={'Institute'}
+                    label={'School'}
+                    name={'schoolPrimary'}
+                    placeholder={'School'}
                     type={'text'}
-                    initialValue={ts.institute}
-                    // onChange={(e) => {
-                    //   tertiaryStudies[i].institute = e.target.value;
-                    //   setTertiaryStudies([...tertiaryStudies]);
-                    // }}
-                    disabled={formProps.submitting}
+                    initialValue={primaryStudies.school}
+                    disabled={submitting}
                     component={Input}
+                    validate={required}
                   />
                 </div>
                 <div className={styles.columns}>
                   <Field
                     label={'Finish Date'}
-                    name={'endDateTertiaryStudies'}
+                    name={'endDatePrimaryStudies'}
                     placeholder={'Finish Date'}
                     type={'date'}
-                    initialValue={ts.endDate.substring(0, 10)}
-                    // onChange={(e) => {
-                    //   tertiaryStudies[i].endDate = e.target.value;
-                    //   setTertiaryStudies([...tertiaryStudies]);
-                    // }}
-                    disabled={formProps.submitting}
+                    initialValue={parseDate(primaryStudies.endDate)}
+                    disabled={submitting}
                     component={Input}
-                  />
-                  <Field
-                    label={'Description'}
-                    name={'descriptionTertiaryStudies'}
-                    initialValue={ts.description}
-                    // onChange={(e) => {
-                    //   tertiaryStudies[i].description = e.target.value;
-                    //   setTertiaryStudies([...tertiaryStudies]);
-                    // }}
-                    disabled={formProps.submitting}
-                    component={TextArea}
+                    validate={required}
                   />
                 </div>
               </div>
-            ))}
-            <div className={styles.addButton}>
-              <AddButton
-                type="button"
-                onClick={() => {
-                  setTertiaryStudies([
-                    ...tertiaryStudies,
-                    { startDate: '', endDate: '', institute: '', description: '' }
-                  ]);
-                }}
-                disabled={isLoading}
-              />
-            </div>
-            <h3>University Studies</h3>
-            {universityStudies.map((us, i) => (
-              <div className={styles.fields} key={i}>
+              <h3>Secondary Studies</h3>
+              <div className={styles.fields}>
                 <div className={styles.columns}>
                   <Field
                     label={'Start Date'}
-                    name={'startDateUniversityStudies'}
+                    name={'startDateSecondaryStudies'}
                     placeholder={'Start Date'}
                     type={'date'}
-                    value={us.startDate.substring(0, 10)}
-                    // onChange={(e) => {
-                    //   universityStudies[i].startDate = e.target.value;
-                    //   setUniversityStudies([...universityStudies]);
-                    // }}
-                    disabled={formProps.submitting}
+                    initialValue={parseDate(secondaryStudies.startDate)}
+                    disabled={submitting}
                     component={Input}
+                    validate={required}
                   />
                   <Field
-                    label={'Institute'}
-                    name={'instituteUniversity'}
-                    placeholder={'Institute'}
+                    label={'School'}
+                    name={'schoolSecondary'}
+                    placeholder={'School'}
                     type={'text'}
-                    initialValue={us.institute}
-                    // onChange={(e) => {
-                    //   universityStudies[i].institute = e.target.value;
-                    //   setUniversityStudies([...universityStudies]);
-                    // }}
-                    disabled={formProps.submitting}
+                    initialValue={secondaryStudies.school}
+                    disabled={submitting}
                     component={Input}
+                    validate={required}
                   />
                 </div>
                 <div className={styles.columns}>
                   <Field
                     label={'Finish Date'}
-                    name={'endDateUniversityStudies'}
+                    name={'endDateSecondaryStudies'}
                     placeholder={'Finish Date'}
                     type={'date'}
-                    initialValue={us.endDate.substring(0, 10)}
-                    // onChange={(e) => {
-                    //   universityStudies[i].endDate = e.target.value;
-                    //   setUniversityStudies([...universityStudies]);
-                    // }}
-                    disabled={formProps.submitting}
+                    initialValue={parseDate(secondaryStudies.endDate)}
+                    disabled={submitting}
                     component={Input}
-                  />
-                  <TextArea
-                    label={'Description'}
-                    name={'descriptionUniversityStudies'}
-                    initialValue={us.description}
-                    // onChange={(e) => {
-                    //   universityStudies[i].description = e.target.value;
-                    //   setUniversityStudies([...universityStudies]);
-                    // }}
-                    disabled={formProps.submitting}
-                    component={TextArea}
+                    validate={required}
                   />
                 </div>
               </div>
-            ))}
-            <div className={styles.addButton}>
-              <AddButton
-                type="button"
-                onClick={() => {
-                  setUniversityStudies([
-                    ...universityStudies,
-                    { startDate: '', endDate: '', institute: '', description: '' }
-                  ]);
-                }}
-                disabled={isLoading}
-              />
-            </div>
-            <h3>Informal Studies</h3>
-            {informalStudies.map((is, i) => (
-              <div className={styles.fields} key={i}>
-                <div className={styles.columns}>
-                  <Field
-                    label={'Start Date'}
-                    name={'startDateInformalStudies'}
-                    placeholder={'Start Date'}
-                    type={'date'}
-                    initialValue={is.startDate.substring(0, 10)}
-                    // onChange={(e) => {
-                    //   informalStudies[i].startDate = e.target.value;
-                    //   setInformalStudies([...informalStudies]);
-                    // }}
-                    disabled={formProps.submitting}
-                    component={Input}
-                  />
-                  <Field
-                    label={'Institute'}
-                    name={'instituteInformal'}
-                    placeholder={'Institute'}
-                    type={'text'}
-                    initialValue={is.institute}
-                    // onChange={(e) => {
-                    //   informalStudies[i].institute = e.target.value;
-                    //   setInformalStudies([...informalStudies]);
-                    // }}
-                    disabled={formProps.submitting}
-                    component={Input}
-                  />
-                </div>
-                <div className={styles.columns}>
-                  <Field
-                    label={'Finish Date'}
-                    name={'endDateInformalStudies'}
-                    placeholder={'Finish Date'}
-                    type={'date'}
-                    initialValue={is.endDate.substring(0, 10)}
-                    // onChange={(e) => {
-                    //   informalStudies[i].endDate = e.target.value;
-                    //   setInformalStudies([...informalStudies]);
-                    // }}
-                    disabled={formProps.submitting}
-                    component={Input}
-                  />
-                  <Field
-                    label={'Description'}
-                    name={'description'}
-                    initialValue={is.description}
-                    // onChange={(e) => {
-                    //   informalStudies[i].description = e.target.value;
-                    //   setInformalStudies([...informalStudies]);
-                    // }}
-                    disabled={formProps.submitting}
-                    component={TextArea}
-                  />
-                </div>
+              <h3>Tertiary Studies</h3>
+              <FieldArray name="tertiaryStudies">
+                {({ fields }) => (
+                  <div>
+                    {fields.map((ts, index) => (
+                      <div key={ts}>
+                        <div className={styles.fields}>
+                          <div className={styles.columns}>
+                            <Field
+                              label={'Start Date'}
+                              name={`${ts}.startDate`}
+                              placeholder={'Start Date'}
+                              type={'date'}
+                              initialValue={ts.startDate}
+                              disabled={submitting}
+                              component={Input}
+                            />
+                            <Field
+                              label={'Institute'}
+                              name={`${ts}.institute`}
+                              placeholder={'Institute'}
+                              type={'text'}
+                              initialValue={ts.institute}
+                              disabled={submitting}
+                              component={Input}
+                            />
+                          </div>
+                          <div className={styles.columns}>
+                            <Field
+                              label={'Finish Date'}
+                              name={`${ts}.endDate`}
+                              placeholder={'Finish Date'}
+                              type={'date'}
+                              initialValue={ts.endDate}
+                              disabled={submitting}
+                              component={Input}
+                            />
+                            <Field
+                              label={'Description'}
+                              name={`${ts}.description`}
+                              initialValue={ts.description}
+                              disabled={submitting}
+                              component={TextArea}
+                            />
+                          </div>
+                        </div>
+                        <button type="button" onClick={() => fields.remove(index)}>
+                          Remove
+                        </button>
+                      </div>
+                    ))}
+                    <div className={styles.addButton}>
+                      <AddButton
+                        type="button"
+                        onClick={() => push('tertiaryStudies', undefined)}
+                        disabled={isLoading}
+                      />
+                    </div>
+                  </div>
+                )}
+              </FieldArray>
+              <h3>University Studies</h3>
+              <FieldArray name="universityStudies">
+                {({ fields }) => (
+                  <div>
+                    {fields.map((us, index) => (
+                      <div key={us}>
+                        <div className={styles.fields}>
+                          <div className={styles.columns}>
+                            <Field
+                              label={'Start Date'}
+                              name={`${us}.startDate`}
+                              placeholder={'Start Date'}
+                              type={'date'}
+                              initialValue={us.startDate}
+                              disabled={submitting}
+                              component={Input}
+                            />
+                            <Field
+                              label={'Institute'}
+                              name={`${us}.institute`}
+                              placeholder={'Institute'}
+                              type={'text'}
+                              initialValue={us.institute}
+                              disabled={submitting}
+                              component={Input}
+                            />
+                          </div>
+                          <div className={styles.columns}>
+                            <Field
+                              label={'Finish Date'}
+                              name={`${us}.endDate`}
+                              placeholder={'Finish Date'}
+                              type={'date'}
+                              initialValue={us.endDate}
+                              disabled={submitting}
+                              component={Input}
+                            />
+                            <Field
+                              label={'Description'}
+                              name={`${us}.description`}
+                              initialValue={us.description}
+                              disabled={submitting}
+                              component={TextArea}
+                            />
+                          </div>
+                        </div>
+                        <button type="button" onClick={() => fields.remove(index)}>
+                          Remove
+                        </button>
+                      </div>
+                    ))}
+                    <div className={styles.addButton}>
+                      <AddButton
+                        type="button"
+                        onClick={() => push('universityStudies', undefined)}
+                        disabled={isLoading}
+                      />
+                    </div>
+                  </div>
+                )}
+              </FieldArray>
+              <h3>Informal Studies</h3>
+              <FieldArray name="informalStudies">
+                {({ fields }) => (
+                  <div>
+                    {fields.map((is, index) => (
+                      <div key={is}>
+                        <div className={styles.fields}>
+                          <div className={styles.columns}>
+                            <Field
+                              label={'Start Date'}
+                              name={`${is}.startDate`}
+                              placeholder={'Start Date'}
+                              type={'date'}
+                              initialValue={is.startDate}
+                              disabled={submitting}
+                              component={Input}
+                            />
+                            <Field
+                              label={'Institute'}
+                              name={`${is}.institute`}
+                              placeholder={'Institute'}
+                              type={'text'}
+                              initialValue={is.institute}
+                              disabled={submitting}
+                              component={Input}
+                            />
+                          </div>
+                          <div className={styles.columns}>
+                            <Field
+                              label={'Finish Date'}
+                              name={`${is}.endDate`}
+                              placeholder={'Finish Date'}
+                              type={'date'}
+                              initialValue={is.endDate}
+                              disabled={submitting}
+                              component={Input}
+                            />
+                            <Field
+                              label={'Description'}
+                              name={`${is}.description`}
+                              initialValue={is.description}
+                              disabled={submitting}
+                              component={TextArea}
+                            />
+                          </div>
+                        </div>
+                        <button type="button" onClick={() => fields.remove(index)}>
+                          Remove
+                        </button>
+                      </div>
+                    ))}
+                    <div className={styles.addButton}>
+                      <AddButton
+                        type="button"
+                        onClick={() => push('informalStudies', undefined)}
+                        disabled={isLoading}
+                      />
+                    </div>
+                  </div>
+                )}
+              </FieldArray>
+              <h3>Work Experience</h3>
+              <FieldArray name="workExperience">
+                {({ fields }) => (
+                  <div>
+                    {fields.map((we, index) => (
+                      <div key={we}>
+                        <div className={styles.fields}>
+                          <div className={styles.columns}>
+                            <Field
+                              label={'Start Date'}
+                              name={`${we}.startDate`}
+                              placeholder={'Start Date'}
+                              type={'date'}
+                              initialValue={we.startDate}
+                              disabled={submitting}
+                              component={Input}
+                            />
+                            <Field
+                              label={'Institute'}
+                              name={`${we}.institute`}
+                              placeholder={'Institute'}
+                              type={'text'}
+                              initialValue={we.institute}
+                              disabled={submitting}
+                              component={Input}
+                            />
+                          </div>
+                          <div className={styles.columns}>
+                            <Field
+                              label={'Finish Date'}
+                              name={`${we}.endDate`}
+                              placeholder={'Finish Date'}
+                              type={'date'}
+                              initialValue={we.endDate}
+                              disabled={submitting}
+                              component={Input}
+                            />
+                            <Field
+                              label={'Description'}
+                              name={`${we}.description`}
+                              initialValue={we.description}
+                              disabled={submitting}
+                              component={TextArea}
+                            />
+                          </div>
+                        </div>
+                        <button type="button" onClick={() => fields.remove(index)}>
+                          Remove
+                        </button>
+                      </div>
+                    ))}
+                    <div className={styles.addButton}>
+                      <AddButton
+                        type="button"
+                        onClick={() => push('workExperience', undefined)}
+                        disabled={isLoading}
+                      />
+                    </div>
+                  </div>
+                )}
+              </FieldArray>
+              <div className={styles.button}>
+                <ButtonCancel
+                  disabled={isLoading}
+                  onClick={() => history.push('/admin/postulants')}
+                />
+                <ButtonConfirm disabled={submitting || pristine} type={'submit'} />
               </div>
-            ))}
-            <div className={styles.addButton}>
-              <AddButton
-                type="button"
-                onClick={() => {
-                  setInformalStudies([
-                    ...informalStudies,
-                    { startDate: '', endDate: '', institute: '', description: '' }
-                  ]);
-                }}
-                disabled={isLoading}
-              />
-            </div>
-            <h3>Work Experience</h3>
-            {workExperience.map((we, i) => (
-              <div className={styles.fields} key={i}>
-                <div className={styles.columns}>
-                  <Field
-                    label={'Start Date'}
-                    name={'startDateWorkExperience'}
-                    placeholder={'Start Date'}
-                    type={'date'}
-                    initialValue={we.startDate.substring(0, 10)}
-                    // onChange={(e) => {
-                    //   workExperience[i].startDate = e.target.value;
-                    //   setWorkExperience([...workExperience]);
-                    // }}
-                    disabled={formProps.submitting}
-                    component={Input}
-                  />
-                  <Field
-                    label={'Company'}
-                    name={'company'}
-                    placeholder={'Company'}
-                    type={'text'}
-                    initialValue={we.company}
-                    // onChange={(e) => {
-                    //   workExperience[i].company = e.target.value;
-                    //   setWorkExperience([...workExperience]);
-                    // }}
-                    disabled={formProps.submitting}
-                    component={Input}
-                  />
-                </div>
-                <div className={styles.columns}>
-                  <Field
-                    label={'Finish Date'}
-                    name={'endDateWorkExperience'}
-                    placeholder={'Finish Date'}
-                    type={'date'}
-                    initialValue={we.endDate.substring(0, 10)}
-                    // onChange={(e) => {
-                    //   workExperience[i].endDate = e.target.value;
-                    //   setWorkExperience([...workExperience]);
-                    // }}
-                    disabled={formProps.submitting}
-                    component={Input}
-                  />
-                  <TextArea
-                    label={'Description'}
-                    name={'descriptionWorkExperience'}
-                    initialValue={we.description}
-                    // onChange={(e) => {
-                    //   workExperience[i].description = e.target.value;
-                    //   setWorkExperience([...workExperience]);
-                    // }}
-                    disabled={formProps.submitting}
-                    component={Input}
-                  />
-                </div>
-              </div>
-            ))}
-            <div className={styles.addButton}>
-              <AddButton
-                type="button"
-                onClick={() => {
-                  setWorkExperience([
-                    ...workExperience,
-                    { startDate: '', endDate: '', company: '', description: '' }
-                  ]);
-                }}
-                disabled={isLoading}
-              />
-            </div>
-            <div className={styles.button}>
-              <ButtonCancel
-                disabled={isLoading}
-                onClick={() => history.push('/admin/postulants')}
-              />
-              <ButtonConfirm disabled={isLoading} type={'submit'} />
-            </div>
-          </form>
-        )}
-      </Form>
+              <pre>{JSON.stringify(values, 0, 2)}</pre>
+            </form>
+          );
+        }}
+      />
     </div>
   );
 };
