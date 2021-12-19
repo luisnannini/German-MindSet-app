@@ -117,11 +117,11 @@ function ClientsForm() {
   const validate = (formValues) => {
     const errors = {};
     // Name
-    if (!formValues.name?.match(/^[a-zA-Z ]+$/)) {
-      errors.name = 'First name must contain only letters';
+    if (!formValues.name?.match(/^[a-zA-Z_]+( [a-zA-Z_]+)*$/)) {
+      errors.name = 'Name must contain only letters';
     }
     if (formValues.name?.length < 3) {
-      errors.name = 'First name must be at least 3 letters';
+      errors.name = 'Name must be at least 3 letters long';
     }
     // Address
     if (formValues.address?.search(/[a-zA-Z]/) < 0 || formValues.address?.search(/[0-9]/) < 0) {
