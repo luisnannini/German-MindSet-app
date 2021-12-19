@@ -78,7 +78,7 @@ const PostulantsForm = () => {
                   <td>{postulant.phone}</td>
                   <td>{postulant.available ? 'Available' : 'Unavailable'}</td>
                   <td>{`From ${postulant.contactRange.from} to ${postulant.contactRange.to}`}</td>
-                  <td>{postulant.profiles[0].profileId.name}</td>
+                  <td>Profile</td>
                   <td>
                     <ButtonUpdate
                       disabled={isLoading}

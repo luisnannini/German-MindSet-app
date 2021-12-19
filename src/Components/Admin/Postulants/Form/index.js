@@ -57,9 +57,9 @@ const PostulantsForm = () => {
     school: ''
   });
   // const [tertiaryStudies, setTertiaryStudies] = useState([]);
-  const [universityStudies, setUniversityStudies] = useState([]);
-  const [informalStudies, setInformalStudies] = useState([]);
-  const [workExperience, setWorkExperience] = useState([]);
+  // const [universityStudies, setUniversityStudies] = useState([]);
+  // const [informalStudies, setInformalStudies] = useState([]);
+  // const [workExperience, setWorkExperience] = useState([]);
 
   useEffect(() => {
     const postulantId = query.get('_id');
@@ -77,13 +77,13 @@ const PostulantsForm = () => {
           available: selectedPostulant.available
         });
         setContactRange(selectedPostulant.contactRange);
-        setPostulantProfile(selectedPostulant.profiles[0].profileId._id);
+        setPostulantProfile(selectedPostulant.profiles);
         setPrimaryStudies(selectedPostulant.studies.primaryStudies);
         setSecondaryStudies(selectedPostulant.studies.secondaryStudies);
         // setTertiaryStudies(selectedPostulant.studies.tertiaryStudies);
-        setUniversityStudies(selectedPostulant.studies.universityStudies);
-        setInformalStudies(selectedPostulant.studies.informalStudies);
-        setWorkExperience(selectedPostulant.workExperience);
+        // setUniversityStudies(selectedPostulant.studies.universityStudies);
+        // setInformalStudies(selectedPostulant.studies.informalStudies);
+        // setWorkExperience(selectedPostulant.workExperience);
       });
     }
   }, []);
@@ -109,31 +109,48 @@ const PostulantsForm = () => {
     return string.split('T')[0];
   };
 
-  const parseTime = (string) => {
-    return `${string.split(':')[0]}${string.split(':')[1]}`;
-  };
+  // const parseTime = (string) => {
+  //   return `${string.split(':')[0]}${string.split(':')[1]}`;
+  // };
 
-  const intToTime = (int) => {
-    return `${int.toString().slice(0, 2)}:${int.toString().slice(2)}`;
-  };
+  // const intToTime = (int) => {
+  //   return `${int.toString().slice(0, 2)}:${int.toString().slice(2)}`;
+  // };
 
   const submitForm = (formValues) => {
-    const profile = profiles.filter((profile) => profile._id === postulantProfile);
     const postulantId = query.get('_id');
     if (postulantId) {
       dispatch(
-        updatePostulant(postulantId, {
-          ...personalInfo,
-          contactRange,
-          profiles: new Array({ profileId: profile[0]._id }),
-          studies: {
-            primaryStudies,
-            secondaryStudies,
-            // tertiaryStudies,
-            universityStudies,
-            informalStudies
+        updatePostulant({
+          firstName: formValues.firstName,
+          lastName: formValues.lastName,
+          email: formValues.email,
+          password: formValues.password,
+          address: formValues.address,
+          phone: formValues.phoneNumber,
+          birthday: formValues.birthday,
+          available: formValues.available,
+          contactRange: {
+            from: formValues.from,
+            to: formValues.to
           },
-          workExperience
+          profiles: formValues.profiles,
+          studies: {
+            primaryStudies: {
+              startDate: formValues.startDatePrimaryStudies,
+              endDate: formValues.endDatePrimaryStudies,
+              school: formValues.schoolPrimaryStudies
+            },
+            secondaryStudies: {
+              startDate: formValues.startDateSecondaryStudies,
+              endDate: formValues.endDateSecondaryStudies,
+              school: formValues.schoolSecondaryStudies
+            },
+            tertiaryStudies: formValues.tertiaryStudies,
+            universityStudies: formValues.universityStudies,
+            informalStudies: formValues.informalStudies
+          },
+          workExperience: formValues.workExperience
         })
       ).then((response) => {
         if (response) {
@@ -153,8 +170,8 @@ const PostulantsForm = () => {
           birthday: formValues.birthday,
           available: formValues.available,
           contactRange: {
-            from: parseInt(parseTime(formValues.from)),
-            to: parseInt(parseTime(formValues.to))
+            from: formValues.from,
+            to: formValues.to
           },
           profiles: formValues.profiles,
           studies: {
@@ -169,10 +186,10 @@ const PostulantsForm = () => {
               school: formValues.schoolSecondaryStudies
             },
             tertiaryStudies: formValues.tertiaryStudies,
-            universityStudies,
-            informalStudies
+            universityStudies: formValues.universityStudies,
+            informalStudies: formValues.informalStudies
           },
-          workExperience
+          workExperience: formValues.workExperience
         })
       ).then((response) => {
         if (response) {
@@ -305,6 +322,7 @@ const PostulantsForm = () => {
                   <Field
                     name={'available'}
                     label={'Available?'}
+                    type={'checkbox'}
                     initialValue={personalInfo.available}
                     disabled={submitting}
                     component={Checkbox}
@@ -360,7 +378,7 @@ const PostulantsForm = () => {
                     name={'from'}
                     placeholder={'From'}
                     type={'time'}
-                    initialValue={intToTime(contactRange.from)}
+                    initialValue={contactRange.from}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -369,13 +387,10 @@ const PostulantsForm = () => {
                 <div className={styles.columns}>
                   <Field
                     label={'To'}
-                    name={'To'}
+                    name={'to'}
                     placeholder={'To'}
                     type={'time'}
-                    initialValue={intToTime(contactRange.to)}
-                    // onChange={(e) =>
-                    //   setContactRange({ ...contactRange, to: parseInt(parseTime(e.target.value)) })
-                    // }
+                    initialValue={contactRange.to}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -397,7 +412,7 @@ const PostulantsForm = () => {
                   />
                   <Field
                     label={'School'}
-                    name={'schoolPrimary'}
+                    name={'schoolPrimaryStudies'}
                     placeholder={'School'}
                     type={'text'}
                     initialValue={primaryStudies.school}
@@ -434,7 +449,7 @@ const PostulantsForm = () => {
                   />
                   <Field
                     label={'School'}
-                    name={'schoolSecondary'}
+                    name={'schoolSecondaryStudies'}
                     placeholder={'School'}
                     type={'text'}
                     initialValue={secondaryStudies.school}
