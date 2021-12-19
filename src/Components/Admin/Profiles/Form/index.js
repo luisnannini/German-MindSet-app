@@ -9,15 +9,15 @@ import Input from '../../../Shared/Input';
 import ButtonCancel from '../../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../../Shared/Modals/ModalError';
+import { Form, Field } from 'react-final-form';
 
-const Form = () => {
-  const history = useHistory();
+const ProfilesForm = () => {
   const dispatch = useDispatch();
-  const [id, setProfileId] = useState(undefined);
-  const [profileValue, setProfileValue] = useState('');
-  const isLoading = useSelector((store) => store.profiles.isLoading);
   const error = useSelector((store) => store.profiles.error);
+  const history = useHistory();
   const query = useQuery();
+  const [profileValue, setProfileValue] = useState('');
+  const [id, setProfileId] = useState(undefined);
 
   useEffect(() => {
     const profileId = query.get('_id');
@@ -29,18 +29,12 @@ const Form = () => {
     }
   }, []);
 
-  const onChangeProfileValue = (event) => {
-    setProfileValue(event.target.value);
-  };
-
-  const submitProfile = (event) => {
-    event.preventDefault();
-
+  const submitProfile = (formValues) => {
     const profileId = query.get('_id');
     if (profileId) {
       dispatch(
         updateProfile(profileId, {
-          name: profileValue
+          name: formValues.profile
         })
       ).then((response) => {
         if (response) history.push('/admin/profiles');
@@ -55,35 +49,53 @@ const Form = () => {
       });
     }
   };
-
+  const required = (value) => (value ? undefined : 'Required');
+  const validate = (formValues) => {
+    const errors = {};
+    if (
+      !formValues.profile?.match(
+        /[A-Za-z ]+/ || formValues.profile?.length < 3 || formValues.profile?.length > 30
+      )
+    ) {
+      errors.profile = 'Input should contain between 3 and 30 letters';
+    }
+    return errors;
+  };
   return (
     <div className={styles.container}>
-      <form className={styles.form} onSubmit={submitProfile}>
-        <div className={styles.header}>
-          <h2 className={styles.title}>{id ? 'Update a Profile' : 'Create a Profile'}</h2>
-        </div>
-        <div className={styles.fields}>
-          <div className={styles.columns}>
-            <Input
-              label={'Profile'}
-              name={'profile'}
-              value={profileValue}
-              placeholder={'Write a new profile'}
-              pattern="[A-Za-z ]*"
-              onChange={onChangeProfileValue}
-              required={true}
-              disabled={isLoading}
-            />
-          </div>
-        </div>
-        <div className={styles.button}>
-          <ButtonCancel disabled={isLoading} onClick={() => history.push('/admin/profiles')} />
-          <ButtonConfirm disabled={isLoading} type={'submit'} />
-        </div>
-        <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
-      </form>
+      <Form onSubmit={submitProfile} validate={validate}>
+        {(formProps) => (
+          <form className={styles.form} onSubmit={formProps.handleSubmit}>
+            <div className={styles.header}>
+              <h2 className={styles.title}>{id ? 'Update a Profile' : 'Create a Profile'}</h2>
+            </div>
+            <div className={styles.fields}>
+              <div className={styles.columns}>
+                <Field
+                  label={'Profile'}
+                  name={'profile'}
+                  initialValue={profileValue}
+                  S
+                  placeholder={'Write a new profile'}
+                  validate={required}
+                  component={Input}
+                  disabled={formProps.submitting}
+                />
+              </div>
+            </div>
+            <div className={styles.button}>
+              <ButtonCancel
+                disabled={formProps.submitting}
+                onClick={() => history.push('/admin/profiles')}
+              />
+              <ButtonConfirm disabled={formProps.submitting || formProps.pristine} type="submit" />
+            </div>
+          </form>
+        )}
+      </Form>
+      <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
     </div>
   );
 };
 
-export default Form;
+export default ProfilesForm;

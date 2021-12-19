@@ -15,7 +15,9 @@ import ButtonCancel from '../../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../../Shared/Modals/ModalError';
 
-const Form = () => {
+import { Form, Field } from 'react-final-form';
+
+const PsychologistsForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [psychologistId, setPsychologistId] = useState(0);
@@ -47,7 +49,6 @@ const Form = () => {
   const [fridayTo, setFridayTo] = useState(0);
   const [saturdayTo, setSaturdayTo] = useState(0);
   const [sundayTo, setSundayTo] = useState(0);
-  const isLoading = useSelector((store) => store.psychologists.isLoading);
   const error = useSelector((store) => store.psychologists.error);
   const query = useQuery();
 
@@ -88,149 +89,53 @@ const Form = () => {
     }
   }, []);
 
-  const onChangeFirstNameValue = (event) => {
-    setFirstName(event.target.value);
-  };
-  const onChangeLastNameValue = (event) => {
-    setLastName(event.target.value);
-  };
-  const onChangeUsernameValue = (event) => {
-    setUsername(event.target.value);
-  };
-  const onChangePasswordValue = (event) => {
-    setPassword(event.target.value);
-  };
-  const onChangeEmailValue = (event) => {
-    setEmail(event.target.value);
-  };
-  const onChangePhoneValue = (event) => {
-    setPhone(event.target.value);
-  };
-  const onChangeAddressValue = (event) => {
-    setAddress(event.target.value);
-  };
-
-  // Availability
-
-  const onChangeMondayBool = (event) => {
-    setMondayBool(event.target.checked);
-  };
-  const onChangeTuesdayBool = (event) => {
-    setTuesdayBool(event.target.checked);
-  };
-  const onChangeWednesdayBool = (event) => {
-    setWednesdayBool(event.target.checked);
-  };
-  const onChangeThursdayBool = (event) => {
-    setThursdayBool(event.target.checked);
-  };
-  const onChangeFridayBool = (event) => {
-    setFridayBool(event.target.checked);
-  };
-  const onChangeSaturdayBool = (event) => {
-    setSaturdayBool(event.target.checked);
-  };
-  const onChangeSundayBool = (event) => {
-    setSundayBool(event.target.checked);
-  };
-
-  // Hour From
-
-  const onChangeMondayFrom = (event) => {
-    setMondayFrom(event.target.value);
-  };
-  const onChangeTuesdayFrom = (event) => {
-    setTuesdayFrom(event.target.value);
-  };
-  const onChangeWednesdayFrom = (event) => {
-    setWednesdayFrom(event.target.value);
-  };
-  const onChangeThursdayFrom = (event) => {
-    setThursdayFrom(event.target.value);
-  };
-  const onChangeFridayFrom = (event) => {
-    setFridayFrom(event.target.value);
-  };
-  const onChangeSaturdayFrom = (event) => {
-    setSaturdayFrom(event.target.value);
-  };
-  const onChangeSundayFrom = (event) => {
-    setSundayFrom(event.target.value);
-  };
-
-  // Hour To
-
-  const onChangeMondayTo = (event) => {
-    setMondayTo(event.target.value);
-  };
-  const onChangeTuesdayTo = (event) => {
-    setTuesdayTo(event.target.value);
-  };
-  const onChangeWednesdayTo = (event) => {
-    setWednesdayTo(event.target.value);
-  };
-  const onChangeThursdayTo = (event) => {
-    setThursdayTo(event.target.value);
-  };
-  const onChangeFridayTo = (event) => {
-    setFridayTo(event.target.value);
-  };
-  const onChangeSaturdayTo = (event) => {
-    setSaturdayTo(event.target.value);
-  };
-  const onChangeSundayTo = (event) => {
-    setSundayTo(event.target.value);
-  };
-
-  const submitPsychologist = (event) => {
-    event.preventDefault();
-
+  const submitPsychologist = (formValues) => {
     const psychologistId = query.get('_id');
     if (psychologistId) {
       dispatch(
         updatePsychologist(psychologistId, {
-          firstName: firstNameForm,
-          lastName: lastNameForm,
-          username: usernameForm,
-          password: passwordForm,
-          email: emailForm,
-          phone: parseInt(phoneForm),
-          address: addressForm,
+          firstName: formValues.firstName,
+          lastName: formValues.lastName,
+          username: formValues.username,
+          password: formValues.password,
+          email: formValues.email,
+          phone: Number(formValues.phone),
+          address: formValues.address,
           availability: {
             monday: {
-              availability: !!mondayBool,
-              from: parseInt(mondayFrom, 10),
-              to: parseInt(mondayTo, 10)
+              availability: formValues.mondayBool,
+              from: formValues.mondayFrom,
+              to: formValues.mondayTo
             },
             tuesday: {
-              availability: !!tuesdayBool,
-              from: parseInt(tuesdayFrom, 10),
-              to: parseInt(tuesdayTo, 10)
+              availability: formValues.tuesdayBool,
+              from: formValues.tuesdayFrom,
+              to: formValues.tuesdayTo
             },
             wednesday: {
-              availability: !!wednesdayBool,
-              from: parseInt(wednesdayFrom, 10),
-              to: parseInt(wednesdayTo, 10)
+              availability: formValues.wednesdayBool,
+              from: formValues.wednesdayFrom,
+              to: formValues.wednesdayTo
             },
             thursday: {
-              availability: !!thursdayBool,
-              from: parseInt(thursdayFrom, 10),
-              to: parseInt(thursdayTo, 10)
+              availability: formValues.thursdayBool,
+              from: formValues.thursdayFrom,
+              to: formValues.thursdayTo
             },
             friday: {
-              availability: !!fridayBool,
-              from: parseInt(fridayFrom, 10),
-              to: parseInt(fridayTo, 10)
+              availability: formValues.fridayBool,
+              from: formValues.fridayFrom,
+              to: formValues.fridayTo
             },
             saturday: {
-              availability: !!saturdayBool,
-              from: parseInt(saturdayFrom, 10),
-              to: parseInt(saturdayTo, 10)
+              availability: formValues.saturdayBool,
+              from: formValues.saturdayFrom,
+              to: formValues.saturdayTo
             },
             sunday: {
-              availability: !!sundayBool,
-              from: parseInt(sundayFrom, 10),
-              to: parseInt(sundayTo, 10)
+              availability: formValues.sundayBool,
+              from: formValues.sundayFrom,
+              to: formValues.sundayTo
             }
           }
         })
@@ -240,48 +145,48 @@ const Form = () => {
     } else {
       dispatch(
         createPsychologist({
-          firstName: firstNameForm,
-          lastName: lastNameForm,
-          username: usernameForm,
-          password: passwordForm,
-          email: emailForm,
-          phone: parseInt(phoneForm),
-          address: addressForm,
+          firstName: formValues.firstName,
+          lastName: formValues.lastName,
+          username: formValues.username,
+          password: formValues.password,
+          email: formValues.email,
+          phone: Number(formValues.phone),
+          address: formValues.address,
           availability: {
             monday: {
-              availability: !!mondayBool,
-              from: parseInt(mondayFrom, 10),
-              to: parseInt(mondayTo, 10)
+              availability: formValues.mondayBool,
+              from: formValues.mondayFrom,
+              to: formValues.mondayTo
             },
             tuesday: {
-              availability: !!tuesdayBool,
-              from: parseInt(tuesdayFrom, 10),
-              to: parseInt(tuesdayTo, 10)
+              availability: formValues.tuesdayBool,
+              from: formValues.tuesdayFrom,
+              to: formValues.tuesdayTo
             },
             wednesday: {
-              availability: !!wednesdayBool,
-              from: parseInt(wednesdayFrom, 10),
-              to: parseInt(wednesdayTo, 10)
+              availability: formValues.wednesdayBool,
+              from: formValues.wednesdayFrom,
+              to: formValues.wednesdayTo
             },
             thursday: {
-              availability: !!thursdayBool,
-              from: parseInt(thursdayFrom, 10),
-              to: parseInt(thursdayTo, 10)
+              availability: formValues.thursdayBool,
+              from: formValues.thursdayFrom,
+              to: formValues.thursdayTo
             },
             friday: {
-              availability: !!fridayBool,
-              from: parseInt(fridayFrom, 10),
-              to: parseInt(fridayTo, 10)
+              availability: formValues.fridayBool,
+              from: formValues.fridayFrom,
+              to: formValues.fridayTo
             },
             saturday: {
-              availability: !!saturdayBool,
-              from: parseInt(saturdayFrom, 10),
-              to: parseInt(saturdayTo, 10)
+              availability: formValues.saturdayBool,
+              from: formValues.saturdayFrom,
+              to: formValues.saturdayTo
             },
             sunday: {
-              availability: !!sundayBool,
-              from: parseInt(sundayFrom, 10),
-              to: parseInt(sundayTo, 10)
+              availability: formValues.sundayBool,
+              from: formValues.sundayFrom,
+              to: formValues.sundayTo
             }
           }
         })
@@ -290,299 +195,319 @@ const Form = () => {
       });
     }
   };
-
+  const required = (value) => (value ? undefined : 'Required');
+  const validate = (formValues) => {
+    const errors = {};
+    if (!formValues.firstName?.match(/^[a-zA-Z]+$/) || formValues.firstName?.length < 3) {
+      errors.firstName = 'Input should contain only more than three letters';
+    }
+    if (!formValues.lastName?.match(/^[a-zA-Z]+$/) || formValues.lastName?.length < 3) {
+      errors.lastName = 'Input should contain only more than three letters';
+    }
+    if (!formValues.email?.match(/^[^@]+@[a-zA-Z]+\.[a-zA-Z]+$/)) {
+      errors.email = 'Fill in a valid email format';
+    }
+    if (
+      !formValues.phone?.toString().match(/^\d+$/) ||
+      formValues.phone?.length < 3 ||
+      formValues.phone?.length > 25
+    ) {
+      errors.phone = 'Input should contain between 3 and 25 numbers';
+    }
+    return errors;
+  };
   return (
     <div className={styles.container}>
-      <form className={styles.form} onSubmit={submitPsychologist}>
-        <div className={styles.header}>
-          <h2 className={styles.title}>
-            {psychologistId ? 'Update Psychologist' : 'Create a Psychologist'}
-          </h2>
-        </div>
-        <div className={styles.fields}>
-          <div className={styles.columns}>
-            <Input
-              label={'First Name'}
-              name={'firstName'}
-              type={'text'}
-              value={firstNameForm}
-              placeholder={'First Name'}
-              pattern={'[A-Za-z ]*'}
-              onChange={onChangeFirstNameValue}
-              required={true}
-              disabled={isLoading}
-            />
-            <Input
-              label={'Last Name'}
-              name={'lastName'}
-              type={'text'}
-              value={lastNameForm}
-              placeholder={'Last Name'}
-              pattern={'[A-Za-z ]*'}
-              onChange={onChangeLastNameValue}
-              required={true}
-              disabled={isLoading}
-            />
-            <Input
-              label={'Username'}
-              name={'username'}
-              type={'text'}
-              value={usernameForm}
-              placeholder={'Username'}
-              pattern={'[A-Za-z ]*'}
-              onChange={onChangeUsernameValue}
-              required={true}
-              disabled={isLoading}
-            />
-            <Input
-              label={'Password'}
-              name={'password'}
-              type="password"
-              value={passwordForm}
-              onChange={onChangePasswordValue}
-              required={true}
-              disabled={isLoading}
-            />
-          </div>
-          <div className={styles.columns}>
-            <Input
-              label={'Email'}
-              type={'email'}
-              value={emailForm}
-              placeholder={'Email'}
-              pattern={'^[^@]+@[^@]+.[a-zA-Z]{2,}$'}
-              onChange={onChangeEmailValue}
-              required={true}
-              disabled={isLoading}
-            />
-            <Input
-              label={'Phone'}
-              name={'phone'}
-              type={'number'}
-              value={phoneForm}
-              placeholder={'Phone'}
-              onChange={onChangePhoneValue}
-              required={true}
-              disabled={isLoading}
-            />
-            <Input
-              label={'Address'}
-              name={'address'}
-              type={'text'}
-              value={addressForm}
-              placeholder={'Address'}
-              onChange={onChangeAddressValue}
-              required={true}
-              disabled={isLoading}
-            />
-          </div>
-        </div>
-        <div className={styles.availabilityTitle}>
-          <h2>Availability</h2>
-        </div>
-        <div className={styles.availability}>
-          <div className={styles.columnsAvailability}>
-            <Checkbox
-              label="Monday"
-              value={mondayBool}
-              day="monday"
-              onChange={onChangeMondayBool}
-              disabled={isLoading}
-            />
-            <div className={styles.dayColumns}>
-              <Input
-                label={'From'}
-                name={'monday-from'}
-                type={'text'}
-                value={mondayFrom}
-                placeholder={'From'}
-                onChange={onChangeMondayFrom}
-                disabled={!mondayBool}
-              />
-              <Input
-                label={'To'}
-                name={'monday-to'}
-                type={'text'}
-                value={mondayTo}
-                placeholder={'To'}
-                onChange={onChangeMondayTo}
-                disabled={!mondayBool}
-              />
+      <Form onSubmit={submitPsychologist} validate={validate}>
+        {(formProps) => (
+          <form className={styles.form} onSubmit={formProps.handleSubmit}>
+            <div className={styles.header}>
+              <h2 className={styles.title}>
+                {psychologistId ? 'Update Psychologist' : 'Create a Psychologist'}
+              </h2>
             </div>
-            <Checkbox
-              label="Tuesday"
-              value={tuesdayBool}
-              day="tuesday"
-              onChange={onChangeTuesdayBool}
-              disabled={isLoading}
-            />
-            <div className={styles.dayColumns}>
-              <Input
-                label={'From'}
-                name={'tuesday-to'}
-                type={'string'}
-                placeholder={'To'}
-                value={tuesdayFrom}
-                onChange={onChangeTuesdayFrom}
-                disabled={!tuesdayBool}
-              />
-              <Input
-                label={'To'}
-                name={'tuesday-to'}
-                type={'text'}
-                placeholder={'To'}
-                value={tuesdayTo}
-                onChange={onChangeTuesdayTo}
-                disabled={!tuesdayBool}
-              />
+            <div className={styles.fields}>
+              <div className={styles.columns}>
+                <Field
+                  label={'First Name'}
+                  name={'firstName'}
+                  initialValue={firstNameForm}
+                  placeholder={'First Name'}
+                  validate={required}
+                  component={Input}
+                  disabled={formProps.submitting}
+                />
+                <Field
+                  label={'Last Name'}
+                  name={'lastName'}
+                  initialValue={lastNameForm}
+                  placeholder={'Last Name'}
+                  validate={required}
+                  disabled={formProps.submitting}
+                  component={Input}
+                />
+                <Field
+                  label={'Username'}
+                  name={'username'}
+                  initialValue={usernameForm}
+                  placeholder={'Username'}
+                  validate={required}
+                  disabled={formProps.submitting}
+                  component={Input}
+                />
+                <Field
+                  label={'Password'}
+                  name={'password'}
+                  type="password"
+                  placeholder={'Password'}
+                  initialValue={passwordForm}
+                  validate={required}
+                  disabled={formProps.submitting}
+                  component={Input}
+                />
+              </div>
+              <div className={styles.columns}>
+                <Field
+                  label={'Email'}
+                  type={'email'}
+                  name={'email'}
+                  initialValue={emailForm}
+                  placeholder={'Email'}
+                  validate={required}
+                  disabled={formProps.submitting}
+                  component={Input}
+                />
+                <Field
+                  label={'Phone'}
+                  name={'phone'}
+                  initialValue={phoneForm}
+                  placeholder={'Phone'}
+                  validate={required}
+                  disabled={formProps.submitting}
+                  component={Input}
+                />
+                <Field
+                  label={'Address'}
+                  name={'address'}
+                  initialValue={addressForm}
+                  placeholder={'Address'}
+                  validate={required}
+                  disabled={formProps.submitting}
+                  component={Input}
+                />
+              </div>
             </div>
-            <Checkbox
-              label="Wednesday"
-              value={wednesdayBool}
-              day="wednesday"
-              onChange={onChangeWednesdayBool}
-              disabled={isLoading}
-            />
-            <div className={styles.dayColumns}>
-              <Input
-                label={'From'}
-                name={'wednesday-from'}
-                type={'text'}
-                value={wednesdayFrom}
-                placeholder={'From'}
-                onChange={onChangeWednesdayFrom}
-                disabled={!wednesdayBool}
-              />
-              <Input
-                label={'to'}
-                name={'wednesday-to'}
-                type={'text'}
-                value={wednesdayTo}
-                placeholder={'To'}
-                onChange={onChangeWednesdayTo}
-                disabled={!wednesdayBool}
-              />
+            <div className={styles.availabilityTitle}>
+              <h2>Availability</h2>
             </div>
-            <Checkbox
-              label="Thursday"
-              value={thursdayBool}
-              day="thursday"
-              onChange={onChangeThursdayBool}
-              disabled={isLoading}
-            />
-            <div className={styles.dayColumns}>
-              <Input
-                label={'From'}
-                name={'thursday-from'}
-                type={'text'}
-                value={thursdayFrom}
-                placeholder={'From'}
-                onChange={onChangeThursdayFrom}
-                disabled={!thursdayBool}
-              />
-              <Input
-                label={'To'}
-                name={'thursday-to'}
-                type={'text'}
-                value={thursdayTo}
-                placeholder={'To'}
-                onChange={onChangeThursdayTo}
-                disabled={!thursdayBool}
-              />
+            <div className={styles.availability}>
+              <div className={styles.columnsAvailability}>
+                <Field
+                  label="Monday"
+                  initialValue={mondayBool}
+                  name={'mondayBool'}
+                  day="monday"
+                  type="checkbox"
+                  disabled={formProps.submitting}
+                  component={Checkbox}
+                />
+                <div className={styles.dayColumns}>
+                  <Field
+                    label={'From'}
+                    name={'mondayFrom'}
+                    type="time"
+                    initialValue={mondayFrom}
+                    disabled={!formProps.values.mondayBool || formProps.submitting}
+                    component={Input}
+                  />
+                  <Field
+                    label={'To'}
+                    name={'mondayTo'}
+                    type="time"
+                    initialValue={mondayTo}
+                    disabled={!formProps.values.mondayBool || formProps.submitting}
+                    component={Input}
+                  />
+                </div>
+                <Field
+                  label="Tuesday"
+                  name={'tuesdayBool'}
+                  initialValue={!!tuesdayBool}
+                  day="tuesday"
+                  type="checkbox"
+                  disabled={formProps.submitting}
+                  component={Checkbox}
+                />
+                <div className={styles.dayColumns}>
+                  <Field
+                    label={'From'}
+                    name={'tuesdayFrom'}
+                    type="time"
+                    initialValue={tuesdayFrom}
+                    disabled={!formProps.values.tuesdayBool || formProps.submitting}
+                    component={Input}
+                  />
+                  <Field
+                    label={'To'}
+                    name={'tuesdayTo'}
+                    type="time"
+                    initialValue={tuesdayTo}
+                    disabled={!formProps.values.tuesdayBool || formProps.submitting}
+                    component={Input}
+                  />
+                </div>
+                <Field
+                  label="Wednesday"
+                  initialValue={wednesdayBool}
+                  name={'wednesdayBool'}
+                  day="wednesday"
+                  type="checkbox"
+                  disabled={formProps.submitting}
+                  component={Checkbox}
+                />
+                <div className={styles.dayColumns}>
+                  <Field
+                    label={'From'}
+                    name={'wednesdayFrom'}
+                    initialValue={wednesdayFrom}
+                    type="time"
+                    disabled={!formProps.values.wednesdayBool || formProps.submitting}
+                    component={Input}
+                  />
+                  <Field
+                    label={'to'}
+                    name={'wednesdayTo'}
+                    initialValue={wednesdayTo}
+                    type="time"
+                    disabled={!formProps.values.wednesdayBool || formProps.submitting}
+                    component={Input}
+                  />
+                </div>
+                <Field
+                  label="Thursday"
+                  initialValue={thursdayBool}
+                  name={'thursdayBool'}
+                  day="thursday"
+                  type="checkbox"
+                  disabled={formProps.submitting}
+                  component={Checkbox}
+                />
+                <div className={styles.dayColumns}>
+                  <Field
+                    label={'From'}
+                    name={'thursdayFrom'}
+                    initialValue={thursdayFrom}
+                    type="time"
+                    disabled={!formProps.values.thursdayBool || formProps.submitting}
+                    component={Input}
+                  />
+                  <Field
+                    label={'To'}
+                    name={'thursdayTo'}
+                    initialValue={thursdayTo}
+                    type="time"
+                    disabled={!formProps.values.thursdayBool || formProps.submitting}
+                    component={Input}
+                  />
+                </div>
+              </div>
+              <div className={styles.columnsAvailability}>
+                <Field
+                  label="Friday"
+                  initialValue={fridayBool}
+                  name={'fridayBool'}
+                  day="friday"
+                  type="checkbox"
+                  disabled={formProps.submitting}
+                  component={Checkbox}
+                />
+                <div className={styles.dayColumns}>
+                  <Field
+                    label={'From'}
+                    name={'fridayFrom'}
+                    initialValue={fridayFrom}
+                    type="time"
+                    disabled={!formProps.values.fridayBool || formProps.submitting}
+                    component={Input}
+                  />
+                  <Field
+                    label={'To'}
+                    name={'fridayTo'}
+                    initialValue={fridayTo}
+                    type="time"
+                    disabled={!formProps.values.fridayBool || formProps.submitting}
+                    component={Input}
+                  />
+                </div>
+                <Field
+                  label="Saturday"
+                  initialValue={saturdayBool}
+                  day="saturday"
+                  type="checkbox"
+                  name={'saturdayBool'}
+                  disabled={formProps.submitting}
+                  component={Checkbox}
+                />
+                <div className={styles.dayColumns}>
+                  <Field
+                    label={'From'}
+                    name={'saturdayFrom'}
+                    initialValue={saturdayFrom}
+                    type="time"
+                    disabled={!formProps.values.saturdayBool || formProps.submitting}
+                    component={Input}
+                  />
+                  <Field
+                    label={'To'}
+                    name={'saturdayTo'}
+                    initialValue={saturdayTo}
+                    type="time"
+                    disabled={!formProps.values.saturdayBool || formProps.submitting}
+                    component={Input}
+                  />
+                </div>
+                <Field
+                  label="Sunday"
+                  initialValue={sundayBool}
+                  day="sunday"
+                  name={'sundayBool'}
+                  type="checkbox"
+                  disabled={formProps.submitting}
+                  component={Checkbox}
+                />
+                <div className={styles.dayColumns}>
+                  <Field
+                    label={'From'}
+                    name={'sundayFrom'}
+                    initialValue={sundayFrom}
+                    type="time"
+                    disabled={!formProps.values.sundayBool || formProps.submitting}
+                    component={Input}
+                  />
+                  <Field
+                    label={'To'}
+                    name={'sundayTo'}
+                    initialValue={sundayTo}
+                    type="time"
+                    disabled={!formProps.values.sundayBool || formProps.submitting}
+                    component={Input}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-          <div className={styles.columnsAvailability}>
-            <Checkbox
-              label="Friday"
-              value={fridayBool}
-              day="friday"
-              onChange={onChangeFridayBool}
-              disabled={isLoading}
-            />
-            <div className={styles.dayColumns}>
-              <Input
-                label={'From'}
-                name={'friday-from'}
-                type={'text'}
-                value={fridayFrom}
-                placeholder={'From'}
-                onChange={onChangeFridayFrom}
-                disabled={!fridayBool}
+            <div className={styles.button}>
+              <ButtonCancel
+                disabled={formProps.submitting}
+                onClick={() => history.push('/admin/psychologists')}
               />
-              <Input
-                label={'To'}
-                name={'friday-to'}
-                type={'text'}
-                value={fridayTo}
-                placeholder={'To'}
-                onChange={onChangeFridayTo}
-                disabled={!fridayBool}
-              />
+              <ButtonConfirm disabled={formProps.submitting || formProps.pristine} type="submit" />
             </div>
-            <Checkbox
-              label="Saturday"
-              value={saturdayBool}
-              day="saturday"
-              onChange={onChangeSaturdayBool}
-              disabled={isLoading}
-            />
-            <div className={styles.dayColumns}>
-              <Input
-                label={'From'}
-                name={'saturday-from'}
-                type={'text'}
-                value={saturdayFrom}
-                placeholder={'From'}
-                onChange={onChangeSaturdayFrom}
-                disabled={!saturdayBool}
-              />
-              <Input
-                label={'To'}
-                name={'saturday-to'}
-                type={'text'}
-                value={saturdayTo}
-                placeholder={'To'}
-                onChange={onChangeSaturdayTo}
-                disabled={!saturdayBool}
-              />
-            </div>
-            <Checkbox
-              label="Sunday"
-              value={sundayBool}
-              day="sunday"
-              onChange={onChangeSundayBool}
-              disabled={isLoading}
-            />
-            <div className={styles.dayColumns}>
-              <Input
-                label={'From'}
-                name={'sunday-from'}
-                type={'text'}
-                value={sundayFrom}
-                placeholder={'From'}
-                onChange={onChangeSundayFrom}
-                disabled={!sundayBool}
-              />
-              <Input
-                label={'To'}
-                name={'sunday-to'}
-                type={'text'}
-                value={sundayTo}
-                placeholder={'To'}
-                onChange={onChangeSundayTo}
-                disabled={!sundayBool}
-              />
-            </div>
-          </div>
-        </div>
-        <div className={styles.button}>
-          <ButtonCancel disabled={isLoading} onClick={() => history.push('/admin/psychologists')} />
-          <ButtonConfirm disabled={isLoading} type="submit" />
-        </div>
-        <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
-      </form>
+            <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
+          </form>
+        )}
+      </Form>
     </div>
   );
 };
 
-export default Form;
+export default PsychologistsForm;
