@@ -81,16 +81,16 @@ function ClientsForm() {
     if (clientId) {
       dispatch(
         updateClient(clientId, {
-          name: nameValue,
-          phone: parseInt(phoneValue),
+          name: formValues.name,
+          phone: parseInt(formValues.phone),
           location: {
-            country: countryValue,
-            state: stateValue,
-            city: cityValue,
-            address: addressValue
+            country: formValues.country,
+            state: formValues.state,
+            city: formValues.city,
+            address: formValues.address
           },
-          logo: logoValue,
-          description: descriptionValue
+          logo: formValues.logo,
+          description: formValues.description
         })
       ).then((response) => {
         if (response) history.push('/admin/clients');
@@ -117,7 +117,7 @@ function ClientsForm() {
   const validate = (formValues) => {
     const errors = {};
     // Name
-    if (!formValues.name?.match(/^[a-zA-Z]+$/)) {
+    if (!formValues.name?.match(/^[a-zA-Z ]+$/)) {
       errors.name = 'First name must contain only letters';
     }
     if (formValues.name?.length < 3) {
