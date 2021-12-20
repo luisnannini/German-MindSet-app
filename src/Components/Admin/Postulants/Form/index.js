@@ -237,14 +237,28 @@ const PostulantsForm = () => {
     if (formValues.phoneNumber?.length < 7 || formValues.phoneNumber?.length > 14) {
       errors.phoneNumber = 'Phone number must be between 7 and 14 numbers';
     }
-    // schoolPrimary
+    // contact range
+    if (formValues.from >= formValues.to) {
+      errors.from = '"From" hour must be before "to" hour';
+      errors.to = '"To" hour must be after "from" hour';
+    }
+    if (formValues.from <= '10:00' || formValues.from >= '18:00') {
+      errors.from = 'Hour must be between 10:00 and 18:00';
+    }
+    if (formValues.to <= '10:00' || formValues.to >= '18:00') {
+      errors.to = 'Hour must be between 10:00 and 18:00';
+    }
+    // primary studies
+    if (formValues.startDatePrimaryStudies >= formValues.endDatePrimaryStudies) {
+      errors.startDatePrimaryStudies = '';
+    }
     if (formValues.schoolPrimary?.length < 5) {
       errors.schoolPrimary = 'School must contain at least 5 characters';
     }
     if (formValues.schoolPrimary?.length > 50) {
       errors.schoolPrimary = 'School must be less than 50 characters';
     }
-    // schoolSecondary
+    // secondary studies
     if (formValues.schoolSecondary?.length < 5) {
       errors.schoolSecondary = 'School must contain at least 5 characters';
     }
@@ -486,6 +500,7 @@ const PostulantsForm = () => {
                               type={'date'}
                               initialValue={ts.startDate}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                             <Field
@@ -495,6 +510,7 @@ const PostulantsForm = () => {
                               type={'text'}
                               initialValue={ts.institute}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                           </div>
@@ -506,6 +522,7 @@ const PostulantsForm = () => {
                               type={'date'}
                               initialValue={ts.endDate}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                             <Field
@@ -547,6 +564,7 @@ const PostulantsForm = () => {
                               type={'date'}
                               initialValue={us.startDate}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                             <Field
@@ -556,6 +574,7 @@ const PostulantsForm = () => {
                               type={'text'}
                               initialValue={us.institute}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                           </div>
@@ -567,6 +586,7 @@ const PostulantsForm = () => {
                               type={'date'}
                               initialValue={us.endDate}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                             <Field
@@ -608,6 +628,7 @@ const PostulantsForm = () => {
                               type={'date'}
                               initialValue={is.startDate}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                             <Field
@@ -617,6 +638,7 @@ const PostulantsForm = () => {
                               type={'text'}
                               initialValue={is.institute}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                           </div>
@@ -628,6 +650,7 @@ const PostulantsForm = () => {
                               type={'date'}
                               initialValue={is.endDate}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                             <Field
@@ -669,6 +692,7 @@ const PostulantsForm = () => {
                               type={'date'}
                               initialValue={we.startDate}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                             <Field
@@ -678,6 +702,7 @@ const PostulantsForm = () => {
                               type={'text'}
                               initialValue={we.institute}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                           </div>
@@ -689,6 +714,7 @@ const PostulantsForm = () => {
                               type={'date'}
                               initialValue={we.endDate}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                             <Field
