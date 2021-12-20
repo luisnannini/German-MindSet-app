@@ -23,7 +23,6 @@ function ClientsForm() {
   const [addressValue, setAddressValue] = useState('');
   const [logoValue, setLogoValue] = useState('');
   const [descriptionValue, setDescriptionValue] = useState('');
-  const isLoading = useSelector((store) => store.clients.isLoading);
   const error = useSelector((store) => store.clients.error);
   const query = useQuery();
 
@@ -123,6 +122,10 @@ function ClientsForm() {
     if (formValues.state?.length > 50) {
       errors.state = 'State must be less than 50 characters';
     }
+    // Description
+    if (formValues.description?.length > 150) {
+      errors.description = 'Description must be less than 150 characters';
+    }
     return errors;
   };
 
@@ -144,7 +147,7 @@ function ClientsForm() {
                   name={'name'}
                   initialValue={nameValue}
                   placeholder={'Insert Client name...'}
-                  disabled={isLoading}
+                  disabled={formProps.submitting}
                   component={Input}
                   validate={required}
                 />
@@ -154,7 +157,7 @@ function ClientsForm() {
                   type={'address'}
                   initialValue={addressValue}
                   placeholder={'Insert Client address...'}
-                  disabled={isLoading}
+                  disabled={formProps.submitting}
                   component={Input}
                   validate={required}
                 />
@@ -163,7 +166,7 @@ function ClientsForm() {
                   name={'country'}
                   initialValue={countryValue}
                   placeholder={'Insert Client country...'}
-                  disabled={isLoading}
+                  disabled={formProps.submitting}
                   component={Input}
                   validate={required}
                 />
@@ -172,7 +175,7 @@ function ClientsForm() {
                   name={'logo'}
                   initialValue={logoValue}
                   placeholder={'Insert Client logo...'}
-                  disabled={isLoading}
+                  disabled={formProps.submitting}
                   component={Input}
                 />
               </div>
@@ -183,7 +186,7 @@ function ClientsForm() {
                   type={'number'}
                   initialValue={phoneValue}
                   placeholder={'Insert Client phone...'}
-                  disabled={isLoading}
+                  disabled={formProps.submitting}
                   component={Input}
                   validate={required}
                 />
@@ -192,7 +195,7 @@ function ClientsForm() {
                   name={'city'}
                   initialValue={cityValue}
                   placeholder={'Insert Client city...'}
-                  disabled={isLoading}
+                  disabled={formProps.submitting}
                   component={Input}
                   validate={required}
                 />
@@ -201,7 +204,7 @@ function ClientsForm() {
                   name={'state'}
                   initialValue={stateValue}
                   placeholder={'Insert Client state...'}
-                  disabled={isLoading}
+                  disabled={formProps.submitting}
                   component={Input}
                   validate={required}
                 />
@@ -210,14 +213,18 @@ function ClientsForm() {
                   name={'description'}
                   initialValue={descriptionValue}
                   placeholder={'Insert Client description...'}
-                  disabled={isLoading}
+                  disabled={formProps.submitting}
                   component={Input}
+                  validate={required}
                 />
               </div>
             </div>
             <div className={styles.button}>
-              <ButtonCancel disabled={isLoading} onClick={() => history.push('/admin/clients')} />
-              <ButtonConfirm disabled={isLoading} type="submit" />
+              <ButtonCancel
+                disabled={formProps.submitting}
+                onClick={() => history.push('/admin/clients')}
+              />
+              <ButtonConfirm disabled={formProps.submitting || formProps.pristine} type="submit" />
             </div>
             <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
           </form>
