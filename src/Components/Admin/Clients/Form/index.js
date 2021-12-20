@@ -215,7 +215,6 @@ function ClientsForm() {
                   placeholder={'Insert Client description...'}
                   disabled={formProps.submitting}
                   component={Input}
-                  validate={required}
                 />
               </div>
             </div>
