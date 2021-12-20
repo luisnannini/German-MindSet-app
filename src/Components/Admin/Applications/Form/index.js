@@ -93,8 +93,8 @@ const ApplicationForm = () => {
   const submitApplications = (formValues) => {
     dispatch(
       createApplication({
-        positions: formValues.position,
-        postulants: formValues.postulant,
+        positions: formValues.positions,
+        postulants: formValues.postulants,
         interview: formValues.interview,
         result: formValues.result
       })
