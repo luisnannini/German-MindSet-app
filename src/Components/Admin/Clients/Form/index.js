@@ -103,7 +103,7 @@ function ClientsForm() {
     }
     // Country
     if (!formValues.country?.match(/^[a-zA-Z]+$/)) {
-      errors.name = 'Country must contain only letters';
+      errors.country = 'Country must contain only letters';
     }
     if (formValues.country?.length < 3) {
       errors.country = 'Country must contain at least 3 characters';
@@ -113,7 +113,7 @@ function ClientsForm() {
     }
     // City
     if (!formValues.city?.match(/^[a-zA-Z]+$/)) {
-      errors.name = 'City must contain only letters';
+      errors.city = 'City must contain only letters';
     }
     if (formValues.city?.length < 3) {
       errors.city = 'City must contain at least 3 characters';
@@ -123,7 +123,7 @@ function ClientsForm() {
     }
     // State
     if (!formValues.state?.match(/^[a-zA-Z]+$/)) {
-      errors.name = 'State must contain only letters';
+      errors.state = 'State must contain only letters';
     }
     if (formValues.state?.length < 3) {
       errors.state = 'State must contain at least 3 characters';
