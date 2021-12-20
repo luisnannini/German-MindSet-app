@@ -18,11 +18,7 @@ const ApplicationForm = () => {
   const [postulant, setPostulant] = useState([]);
   const [interview, setInterview] = useState([]);
   const isLoading = useSelector((store) => store.applications.isLoading);
-  const [error, setError] = useState({
-    show: false,
-    message: '',
-    title: ''
-  });
+  const error = useSelector((store) => store.positions.error);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/positions`)
@@ -44,8 +40,7 @@ const ApplicationForm = () => {
             name: position.jobDescription
           }))
         );
-      })
-      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
+      });
     fetch(`${process.env.REACT_APP_API}/postulants`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -65,8 +60,7 @@ const ApplicationForm = () => {
             name: `${postulant.firstName} ${postulant.lastName}`
           }))
         );
-      })
-      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
+      });
     fetch(`${process.env.REACT_APP_API}/interviews`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -86,8 +80,7 @@ const ApplicationForm = () => {
             name: interview._id
           }))
         );
-      })
-      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
+      });
   }, []);
 
   const submitApplications = (formValues) => {
@@ -159,6 +152,7 @@ const ApplicationForm = () => {
                   required={true}
                   disabled={isLoading}
                 />
+                <span>Results should have a maximum of 250 characters</span>
               </div>
             </div>
             <div className={styles.button}>
@@ -166,7 +160,7 @@ const ApplicationForm = () => {
                 disabled={isLoading}
                 onClick={() => history.push('/admin/applications')}
               />
-              <ButtonConfirm type="submit" disabled={isLoading} />
+              <ButtonConfirm type="submit" disabled={formProps.submitting || formProps.pristine} />
             </div>
             <ModalError error={error} onConfirm={() => dispatch(applicationsErrorModal())} />
           </form>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   createInterview,
   updateInterview,
@@ -32,11 +32,7 @@ const InterviewsForm = () => {
   const [dateValue, setDateValue] = useState('');
   const [notesValue, setNotesValue] = useState('');
   const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState({
-    show: false,
-    message: '',
-    title: ''
-  });
+  const error = useSelector((store) => store.positions.error);
   const query = useQuery();
 
   useEffect(() => {
@@ -72,8 +68,7 @@ const InterviewsForm = () => {
             name: `${postulant.firstName} ${postulant.lastName}`
           }))
         );
-      })
-      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
+      });
     fetch(`${process.env.REACT_APP_API}/clients`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -87,8 +82,7 @@ const InterviewsForm = () => {
       })
       .then((response) => {
         setClients(response.data);
-      })
-      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
+      });
     fetch(`${process.env.REACT_APP_API}/applications`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -109,7 +103,6 @@ const InterviewsForm = () => {
           }))
         );
       })
-      .catch((error) => setError({ show: true, message: error.message, title: error.status }))
       .finally(() => setLoading(false));
   }, []);
 
@@ -227,6 +220,7 @@ const InterviewsForm = () => {
                   placeholder="Notes"
                   disabled={formProps.submitting}
                 />
+                <span>Notes should have a maximum of 250 characters</span>
               </div>
             </div>
             <div className={styles.button}>
@@ -234,7 +228,7 @@ const InterviewsForm = () => {
                 disabled={isLoading}
                 onClick={() => history.push('/admin/interviews')}
               />
-              <ButtonConfirm type="submit" disabled={isLoading} />
+              <ButtonConfirm type="submit" disabled={formProps.submitting || formProps.pristine} />
             </div>
             <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
           </form>
