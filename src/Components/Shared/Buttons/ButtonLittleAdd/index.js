@@ -1,5 +1,5 @@
 import React from 'react';
-import { BsPlus } from 'react-icons/bs';
+import { FaPlus } from 'react-icons/fa';
 import styles from './buttonLittleAdd.module.css';
 
 const ButtonLittleAdd = (props) => {
@@ -10,7 +10,7 @@ const ButtonLittleAdd = (props) => {
       disabled={props.disabled}
       onClick={props.onClick}
     >
-      <BsPlus />
+      <FaPlus />
     </button>
   );
 };

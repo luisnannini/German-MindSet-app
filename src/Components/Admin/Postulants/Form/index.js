@@ -7,13 +7,13 @@ import Checkbox from '../../../Shared/Checkbox';
 import TextArea from '../../../Shared/TextArea';
 import Select from '../../../Shared/Select';
 import AddButton from '../../../Shared/Buttons/ButtonLittleAdd';
+import RemoveButton from '../../../Shared/Buttons/ButtonRemove';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Form, Field } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import { FieldArray } from 'react-final-form-arrays';
-// import { render } from 'react-dom';
 import useQuery from '../../../../Hooks/useQuery';
 import {
   createPostulant,
@@ -31,7 +31,7 @@ const PostulantsForm = () => {
   const query = useQuery();
   const [id, setPostulantId] = useState(undefined);
   const [profiles, setProfiles] = useState([]);
-  const [postulantProfile, setPostulantProfile] = useState({});
+  const [postulantProfile, setPostulantProfile] = useState('');
   const [personalInfo, setPersonalInfo] = useState({
     firstName: '',
     lastName: '',
@@ -109,14 +109,6 @@ const PostulantsForm = () => {
     return string.split('T')[0];
   };
 
-  // const parseTime = (string) => {
-  //   return `${string.split(':')[0]}${string.split(':')[1]}`;
-  // };
-
-  // const intToTime = (int) => {
-  //   return `${int.toString().slice(0, 2)}:${int.toString().slice(2)}`;
-  // };
-
   const submitForm = (formValues) => {
     const postulantId = query.get('_id');
     if (postulantId) {
@@ -131,8 +123,8 @@ const PostulantsForm = () => {
           birthday: formValues.birthday,
           available: formValues.available,
           contactRange: {
-            from: formValues.from,
-            to: formValues.to
+            from: formValues.available ? formValues.from : '00:00',
+            to: formValues.available ? formValues.to : '00:00'
           },
           profiles: formValues.profiles,
           studies: {
@@ -170,8 +162,8 @@ const PostulantsForm = () => {
           birthday: formValues.birthday,
           available: formValues.available,
           contactRange: {
-            from: formValues.from,
-            to: formValues.to
+            from: formValues.available ? formValues.from : '00:00',
+            to: formValues.available ? formValues.to : '00:00'
           },
           profiles: formValues.profiles,
           studies: {
@@ -238,15 +230,11 @@ const PostulantsForm = () => {
       errors.phoneNumber = 'Phone number must be between 7 and 14 numbers';
     }
     // contact range
-    if (formValues.from >= formValues.to) {
-      errors.from = '"From" hour must be before "to" hour';
-      errors.to = '"To" hour must be after "from" hour';
-    }
-    if (formValues.from <= '10:00' || formValues.from >= '18:00') {
-      errors.from = 'Hour must be between 10:00 and 18:00';
-    }
-    if (formValues.to <= '10:00' || formValues.to >= '18:00') {
-      errors.to = 'Hour must be between 10:00 and 18:00';
+    if (formValues.available) {
+      if (formValues.from >= formValues.to) {
+        errors.from = '"From" hour must be before "to" hour';
+        errors.to = '"To" hour must be after "from" hour';
+      }
     }
     // primary studies
     if (formValues.startDatePrimaryStudies >= formValues.endDatePrimaryStudies) {
@@ -392,8 +380,8 @@ const PostulantsForm = () => {
                     name={'from'}
                     placeholder={'From'}
                     type={'time'}
-                    initialValue={contactRange.from}
-                    disabled={submitting}
+                    initialValue={values.available ? contactRange.from : '00:00'}
+                    disabled={values.available ? submitting : !submitting}
                     component={Input}
                     validate={required}
                   />
@@ -404,8 +392,8 @@ const PostulantsForm = () => {
                     name={'to'}
                     placeholder={'To'}
                     type={'time'}
-                    initialValue={contactRange.to}
-                    disabled={submitting}
+                    initialValue={values.available ? contactRange.from : '00:00'}
+                    disabled={values.available ? submitting : !submitting}
                     component={Input}
                     validate={required}
                   />
@@ -490,7 +478,10 @@ const PostulantsForm = () => {
                 {({ fields }) => (
                   <div>
                     {fields.map((ts, index) => (
-                      <div key={ts}>
+                      <div key={ts} className={styles.containerFields}>
+                        <div className={styles.removeButton}>
+                          <RemoveButton onClick={() => fields.remove(index)} />
+                        </div>
                         <div className={styles.fields}>
                           <div className={styles.columns}>
                             <Field
@@ -534,9 +525,6 @@ const PostulantsForm = () => {
                             />
                           </div>
                         </div>
-                        <button type="button" onClick={() => fields.remove(index)}>
-                          Remove
-                        </button>
                       </div>
                     ))}
                     <div className={styles.addButton}>
@@ -554,7 +542,10 @@ const PostulantsForm = () => {
                 {({ fields }) => (
                   <div>
                     {fields.map((us, index) => (
-                      <div key={us}>
+                      <div key={us} className={styles.containerFields}>
+                        <div className={styles.removeButton}>
+                          <RemoveButton onClick={() => fields.remove(index)} />
+                        </div>
                         <div className={styles.fields}>
                           <div className={styles.columns}>
                             <Field
@@ -598,9 +589,6 @@ const PostulantsForm = () => {
                             />
                           </div>
                         </div>
-                        <button type="button" onClick={() => fields.remove(index)}>
-                          Remove
-                        </button>
                       </div>
                     ))}
                     <div className={styles.addButton}>
@@ -618,7 +606,10 @@ const PostulantsForm = () => {
                 {({ fields }) => (
                   <div>
                     {fields.map((is, index) => (
-                      <div key={is}>
+                      <div key={is} className={styles.containerFields}>
+                        <div className={styles.removeButton}>
+                          <RemoveButton onClick={() => fields.remove(index)} />
+                        </div>
                         <div className={styles.fields}>
                           <div className={styles.columns}>
                             <Field
@@ -662,9 +653,6 @@ const PostulantsForm = () => {
                             />
                           </div>
                         </div>
-                        <button type="button" onClick={() => fields.remove(index)}>
-                          Remove
-                        </button>
                       </div>
                     ))}
                     <div className={styles.addButton}>
@@ -682,7 +670,10 @@ const PostulantsForm = () => {
                 {({ fields }) => (
                   <div>
                     {fields.map((we, index) => (
-                      <div key={we}>
+                      <div key={we} className={styles.containerFields}>
+                        <div className={styles.removeButton}>
+                          <RemoveButton onClick={() => fields.remove(index)} />
+                        </div>
                         <div className={styles.fields}>
                           <div className={styles.columns}>
                             <Field
@@ -696,11 +687,11 @@ const PostulantsForm = () => {
                               component={Input}
                             />
                             <Field
-                              label={'Institute'}
-                              name={`${we}.institute`}
-                              placeholder={'Institute'}
+                              label={'Company'}
+                              name={`${we}.company`}
+                              placeholder={'Company'}
                               type={'text'}
-                              initialValue={we.institute}
+                              initialValue={we.company}
                               disabled={submitting}
                               validate={required}
                               component={Input}
@@ -726,9 +717,6 @@ const PostulantsForm = () => {
                             />
                           </div>
                         </div>
-                        <button type="button" onClick={() => fields.remove(index)}>
-                          Remove
-                        </button>
                       </div>
                     ))}
                     <div className={styles.addButton}>
@@ -748,7 +736,6 @@ const PostulantsForm = () => {
                 />
                 <ButtonConfirm disabled={submitting || pristine} type={'submit'} />
               </div>
-              <pre>{JSON.stringify(values, 0, 2)}</pre>
             </form>
           );
         }}
