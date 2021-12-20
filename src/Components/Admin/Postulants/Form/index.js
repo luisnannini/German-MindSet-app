@@ -56,10 +56,10 @@ const PostulantsForm = () => {
     endDate: '',
     school: ''
   });
-  // const [tertiaryStudies, setTertiaryStudies] = useState([]);
-  // const [universityStudies, setUniversityStudies] = useState([]);
-  // const [informalStudies, setInformalStudies] = useState([]);
-  // const [workExperience, setWorkExperience] = useState([]);
+  const [tertiaryStudies, setTertiaryStudies] = useState([]);
+  const [universityStudies, setUniversityStudies] = useState([]);
+  const [informalStudies, setInformalStudies] = useState([]);
+  const [workExperience, setWorkExperience] = useState([]);
 
   useEffect(() => {
     const postulantId = query.get('_id');
@@ -80,10 +80,10 @@ const PostulantsForm = () => {
         setPostulantProfile(selectedPostulant.profiles);
         setPrimaryStudies(selectedPostulant.studies.primaryStudies);
         setSecondaryStudies(selectedPostulant.studies.secondaryStudies);
-        // setTertiaryStudies(selectedPostulant.studies.tertiaryStudies);
-        // setUniversityStudies(selectedPostulant.studies.universityStudies);
-        // setInformalStudies(selectedPostulant.studies.informalStudies);
-        // setWorkExperience(selectedPostulant.workExperience);
+        setTertiaryStudies(selectedPostulant.studies.tertiaryStudies);
+        setUniversityStudies(selectedPostulant.studies.universityStudies);
+        setInformalStudies(selectedPostulant.studies.informalStudies);
+        setWorkExperience(selectedPostulant.workExperience);
       });
     }
   }, []);
@@ -121,7 +121,7 @@ const PostulantsForm = () => {
     const postulantId = query.get('_id');
     if (postulantId) {
       dispatch(
-        updatePostulant({
+        updatePostulant(postulantId, {
           firstName: formValues.firstName,
           lastName: formValues.lastName,
           email: formValues.email,
@@ -269,7 +269,7 @@ const PostulantsForm = () => {
           handleSubmit,
           form: {
             mutators: { push }
-          }, // injected from final-form-arrays above
+          },
           pristine,
           submitting,
           values
@@ -472,7 +472,7 @@ const PostulantsForm = () => {
                 </div>
               </div>
               <h3>Tertiary Studies</h3>
-              <FieldArray name="tertiaryStudies">
+              <FieldArray name="tertiaryStudies" initialValue={tertiaryStudies}>
                 {({ fields }) => (
                   <div>
                     {fields.map((ts, index) => (
@@ -533,7 +533,7 @@ const PostulantsForm = () => {
                 )}
               </FieldArray>
               <h3>University Studies</h3>
-              <FieldArray name="universityStudies">
+              <FieldArray name="universityStudies" initialValue={universityStudies}>
                 {({ fields }) => (
                   <div>
                     {fields.map((us, index) => (
@@ -594,7 +594,7 @@ const PostulantsForm = () => {
                 )}
               </FieldArray>
               <h3>Informal Studies</h3>
-              <FieldArray name="informalStudies">
+              <FieldArray name="informalStudies" initialValue={informalStudies}>
                 {({ fields }) => (
                   <div>
                     {fields.map((is, index) => (
@@ -655,7 +655,7 @@ const PostulantsForm = () => {
                 )}
               </FieldArray>
               <h3>Work Experience</h3>
-              <FieldArray name="workExperience">
+              <FieldArray name="workExperience" initialValue={workExperience}>
                 {({ fields }) => (
                   <div>
                     {fields.map((we, index) => (
