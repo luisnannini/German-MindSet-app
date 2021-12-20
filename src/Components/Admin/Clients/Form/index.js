@@ -44,38 +44,6 @@ function ClientsForm() {
     }
   }, []);
 
-  // const onChangeNameInput = (event) => {
-  //   setNameValue(event.target.value);
-  // };
-
-  // const onChangePhoneInput = (event) => {
-  //   setPhoneValue(event.target.value);
-  // };
-
-  // const onChangeCountryInput = (event) => {
-  //   setCountryValue(event.target.value);
-  // };
-
-  // const onChangeStateInput = (event) => {
-  //   setStateValue(event.target.value);
-  // };
-
-  // const onChangeCityInput = (event) => {
-  //   setCityValue(event.target.value);
-  // };
-
-  // const onChangeAddressInput = (event) => {
-  //   setAddressValue(event.target.value);
-  // };
-
-  // const onChangeLogoInput = (event) => {
-  //   setLogoValue(event.target.value);
-  // };
-
-  // const onChangeDescriptionInput = (event) => {
-  //   setDescriptionValue(event.target.value);
-  // };
-
   const submitClients = (formValues) => {
     const clientId = query.get('_id');
     if (clientId) {
