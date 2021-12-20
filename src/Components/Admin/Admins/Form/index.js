@@ -109,6 +109,7 @@ const AdminsForm = () => {
                 <Field
                   label={'Password'}
                   name="password"
+                  type="password"
                   initialValue={admin.password}
                   placeholder={'Password'}
                   component={Input}

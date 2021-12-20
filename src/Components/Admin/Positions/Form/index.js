@@ -147,6 +147,7 @@ const positionsForm = () => {
                 <Field
                   label={'Is Open?'}
                   name="isOpen"
+                  type="checkbox"
                   initialValue={isOpenValue}
                   component={Checkbox}
                   disabled={formProps.submitting}
