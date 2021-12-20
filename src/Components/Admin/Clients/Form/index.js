@@ -103,11 +103,11 @@ function ClientsForm() {
       errors.phone = 'Phone number must be between 7 and 14 numbers';
     }
     // Country
-    if (formValues.country?.length < 5) {
-      errors.country = 'School must contain at least 5 characters';
+    if (formValues.country?.length < 3) {
+      errors.country = 'Country must contain at least 3 characters';
     }
     if (formValues.country?.length > 50) {
-      errors.country = 'School must be less than 50 characters';
+      errors.country = 'Country must be less than 50 characters';
     }
     // City
     if (formValues.city?.length < 3) {
