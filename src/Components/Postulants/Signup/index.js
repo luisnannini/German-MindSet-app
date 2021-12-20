@@ -27,8 +27,6 @@ const Signup = () => {
   const isLoading = useSelector((store) => store.postulants.isLoading);
   const dispatch = useDispatch();
   const history = useHistory();
-  const query = useQuery();
-  const [id, setPostulantId] = useState(undefined);
   const [profiles, setProfiles] = useState([]);
   const [postulantProfile, setPostulantProfile] = useState({});
   const [personalInfo, setPersonalInfo] = useState({
@@ -55,37 +53,7 @@ const Signup = () => {
     endDate: '',
     school: ''
   });
-  const [tertiaryStudies, setTertiaryStudies] = useState([]);
-  const [universityStudies, setUniversityStudies] = useState([]);
-  const [informalStudies, setInformalStudies] = useState([]);
-  const [workExperience, setWorkExperience] = useState([]);
 
-  useEffect(() => {
-    const postulantId = query.get('_id');
-    if (postulantId) {
-      dispatch(getPostulantById(postulantId)).then((selectedPostulant) => {
-        setPostulantId(postulantId);
-        setPersonalInfo({
-          firstName: selectedPostulant.firstName,
-          lastName: selectedPostulant.lastName,
-          email: selectedPostulant.email,
-          password: selectedPostulant.password,
-          address: selectedPostulant.address,
-          phone: selectedPostulant.phone,
-          birthday: selectedPostulant.birthday,
-          available: selectedPostulant.available
-        });
-        setContactRange(selectedPostulant.contactRange);
-        setPostulantProfile(selectedPostulant.profiles[0].profileId._id);
-        setPrimaryStudies(selectedPostulant.studies.primaryStudies);
-        setSecondaryStudies(selectedPostulant.studies.secondaryStudies);
-        setTertiaryStudies(selectedPostulant.studies.tertiaryStudies);
-        setUniversityStudies(selectedPostulant.studies.universityStudies);
-        setInformalStudies(selectedPostulant.studies.informalStudies);
-        setWorkExperience(selectedPostulant.workExperience);
-      });
-    }
-  }, []);
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/profiles`)
       .then((response) => {
@@ -165,86 +133,44 @@ const Signup = () => {
   const required = (value) => (value ? undefined : 'Required');
 
   const submitForm = (formValues) => {
-    const postulantId = query.get('_id');
-    if (postulantId) {
-      dispatch(
-        updatePostulant({
-          firstName: formValues.firstName,
-          lastName: formValues.lastName,
-          email: formValues.email,
-          password: formValues.password,
-          address: formValues.address,
-          phone: formValues.phoneNumber,
-          birthday: formValues.birthday,
-          available: formValues.available,
-          contactRange: {
-            from: formValues.from,
-            to: formValues.to
+    dispatch(
+      createPostulant({
+        firstName: formValues.firstName,
+        lastName: formValues.lastName,
+        email: formValues.email,
+        password: formValues.password,
+        address: formValues.address,
+        phone: formValues.phoneNumber,
+        birthday: formValues.birthday,
+        available: formValues.available,
+        contactRange: {
+          from: formValues.from,
+          to: formValues.to
+        },
+        profiles: formValues.profiles,
+        studies: {
+          primaryStudies: {
+            startDate: formValues.startDatePrimaryStudies,
+            endDate: formValues.endDatePrimaryStudies,
+            school: formValues.schoolPrimaryStudies
           },
-          profiles: formValues.profiles,
-          studies: {
-            primaryStudies: {
-              startDate: formValues.startDatePrimaryStudies,
-              endDate: formValues.endDatePrimaryStudies,
-              school: formValues.schoolPrimaryStudies
-            },
-            secondaryStudies: {
-              startDate: formValues.startDateSecondaryStudies,
-              endDate: formValues.endDateSecondaryStudies,
-              school: formValues.schoolSecondaryStudies
-            },
-            tertiaryStudies: formValues.tertiaryStudies,
-            universityStudies: formValues.universityStudies,
-            informalStudies: formValues.informalStudies
+          secondaryStudies: {
+            startDate: formValues.startDateSecondaryStudies,
+            endDate: formValues.endDateSecondaryStudies,
+            school: formValues.schoolSecondaryStudies
           },
-          workExperience: formValues.workExperience
-        })
-      ).then((response) => {
-        if (response) {
-          history.push('/admin/postulants');
-          dispatch(getPostulants);
-        }
-      });
-    } else {
-      dispatch(
-        createPostulant({
-          firstName: formValues.firstName,
-          lastName: formValues.lastName,
-          email: formValues.email,
-          password: formValues.password,
-          address: formValues.address,
-          phone: formValues.phoneNumber,
-          birthday: formValues.birthday,
-          available: formValues.available,
-          contactRange: {
-            from: formValues.from,
-            to: formValues.to
-          },
-          profiles: formValues.profiles,
-          studies: {
-            primaryStudies: {
-              startDate: formValues.startDatePrimaryStudies,
-              endDate: formValues.endDatePrimaryStudies,
-              school: formValues.schoolPrimaryStudies
-            },
-            secondaryStudies: {
-              startDate: formValues.startDateSecondaryStudies,
-              endDate: formValues.endDateSecondaryStudies,
-              school: formValues.schoolSecondaryStudies
-            },
-            tertiaryStudies: formValues.tertiaryStudies,
-            universityStudies: formValues.universityStudies,
-            informalStudies: formValues.informalStudies
-          },
-          workExperience: formValues.workExperience
-        })
-      ).then((response) => {
-        if (response) {
-          history.push('/admin/postulants');
-          dispatch(getPostulants);
-        }
-      });
-    }
+          tertiaryStudies: formValues.tertiaryStudies,
+          universityStudies: formValues.universityStudies,
+          informalStudies: formValues.informalStudies
+        },
+        workExperience: formValues.workExperience
+      })
+    ).then((response) => {
+      if (response) {
+        history.push('/admin/postulants');
+        dispatch(getPostulants);
+      }
+    });
   };
 
   return (
