@@ -31,7 +31,7 @@ function Profile() {
       <section className={styles.section}>
         <h2 className={styles.title}>Postulant Profile</h2>
         {postulants
-          .filter((postulant) => postulant._id === '61a86f4ba1a0cab9a3324acf')
+          .filter((postulant) => postulant._id === '61c0de53b51c8f80eeea2edc')
           .map((postulant) => {
             return (
               <div key={postulant._id}>
@@ -52,11 +52,11 @@ function Profile() {
                     <h2>Primary Studies</h2>
                     <p>School: {postulant.studies.primaryStudies.school}</p>
                     <p>
-                      Start Date:
+                      Start Date:{' '}
                       {postulant.studies.primaryStudies.startDate.replace('T00:00:00.000Z', '')}
                     </p>
                     <p>
-                      End Date:
+                      End Date:{' '}
                       {postulant.studies.primaryStudies.endDate.replace('T00:00:00.000Z', '')}
                     </p>
                   </div>
@@ -64,11 +64,11 @@ function Profile() {
                     <h2>Secondary Studies</h2>
                     <p>School: {postulant.studies.secondaryStudies.school}</p>
                     <p>
-                      Start Date:
+                      Start Date:{' '}
                       {postulant.studies.secondaryStudies.startDate.replace('T00:00:00.000Z', '')}
                     </p>
                     <p>
-                      End Date:
+                      End Date:{' '}
                       {postulant.studies.secondaryStudies.endDate.replace('T00:00:00.000Z', '')}
                     </p>
                   </div>
@@ -76,58 +76,109 @@ function Profile() {
                 <div className={styles.box}>
                   <div className={styles.internalBox}>
                     <h2>Tertiary Studies</h2>
-                    <p>Institute: {postulant.studies.tertiaryStudies[0].institute}</p>
-                    <p>
-                      Start Date:
-                      {postulant.studies.tertiaryStudies[0].startDate.replace('T00:00:00.000Z', '')}
-                    </p>
-                    <p>
-                      End Date:
-                      {postulant.studies.tertiaryStudies[0].endDate.replace('T00:00:00.000Z', '')}
-                    </p>
+                    {postulant.studies.tertiaryStudies.length > 0 ? (
+                      <div>
+                        <p>Institute: {postulant.studies.tertiaryStudies[0].institute}</p>
+                        <p>
+                          Start Date:{' '}
+                          {postulant.studies.tertiaryStudies[0].startDate.replace(
+                            'T00:00:00.000Z',
+                            ''
+                          )}
+                        </p>
+                        <p>
+                          End Date:{' '}
+                          {postulant.studies.tertiaryStudies[0].endDate.replace(
+                            'T00:00:00.000Z',
+                            ''
+                          )}
+                        </p>
+                      </div>
+                    ) : (
+                      <p>No information yet</p>
+                    )}
                   </div>
                   <div className={styles.internalBox}>
                     <h2>University Studies</h2>
-                    <p>Institute: {postulant.studies.universityStudies[0].institute}</p>
-                    <p>
-                      Start Date:
-                      {postulant.studies.universityStudies[0].startDate.replace(
-                        'T00:00:00.000Z',
-                        ''
-                      )}
-                    </p>
-                    <p>
-                      End Date:
-                      {postulant.studies.universityStudies[0].endDate.replace('T00:00:00.000Z', '')}
-                    </p>
+                    {postulant.studies.universityStudies.length > 0 ? (
+                      <div>
+                        <p>Institute: {postulant.studies.universityStudies[0].institute}</p>
+                        <p>
+                          Start Date:{' '}
+                          {postulant.studies.universityStudies[0].startDate.replace(
+                            'T00:00:00.000Z',
+                            ''
+                          )}
+                        </p>
+                        <p>
+                          End Date:{' '}
+                          {postulant.studies.universityStudies[0].endDate.replace(
+                            'T00:00:00.000Z',
+                            ''
+                          )}
+                        </p>
+                      </div>
+                    ) : (
+                      <p>No information yet</p>
+                    )}
                   </div>
                 </div>
                 <div className={styles.box}>
                   <div className={styles.internalBox}>
                     <h2>Informal Studies</h2>
-                    <p>Institute: {postulant.studies.informalStudies[0].institute}</p>
+                    {postulant.studies.informalStudies.length > 0 ? (
+                      <div>
+                        <p>Institute: {postulant.studies.informalStudies[0].institute}</p>
+                        <p>
+                          Start Date:{' '}
+                          {postulant.studies.informalStudies[0].startDate.replace(
+                            'T00:00:00.000Z',
+                            ''
+                          )}
+                        </p>
+                        <p>
+                          End Date:{' '}
+                          {postulant.studies.informalStudies[0].endDate.replace(
+                            'T00:00:00.000Z',
+                            ''
+                          )}
+                        </p>
+                      </div>
+                    ) : (
+                      <p>No information yet</p>
+                    )}
+                    {/* <p>Institute: {postulant.studies.informalStudies[0].institute}</p>
                     <p>
-                      Start Date:
+                      Start Date:{' '}
                       {postulant.studies.informalStudies[0].startDate.replace('T00:00:00.000Z', '')}
                     </p>
                     <p>
-                      End Date:
+                      End Date:{' '}
                       {postulant.studies.informalStudies[0].endDate.replace('T00:00:00.000Z', '')}
-                    </p>
+                    </p> */}
                   </div>
                 </div>
                 <div className={styles.box}>
                   <div className={styles.internalBox}>
                     <h2>Work Experience</h2>
-                    <p>Company: {postulant.workExperience[0].company}</p>
-                    <p>Job description: {postulant.workExperience[0].description}</p>
-                    <p>
-                      Start Date:
-                      {postulant.workExperience[0].startDate.replace('T00:00:00.000Z', '')}
-                    </p>
-                    <p>
-                      End Date: {postulant.workExperience[0].endDate.replace('T00:00:00.000Z', '')}
-                    </p>
+                    {postulants
+                      .filter((postulant) => postulant._id === '61c0de53b51c8f80eeea2edc')
+                      .map((postulant, i) => {
+                        return (
+                          <div key={i}>
+                            <p>Company: {postulant.workExperience[i].company}</p>
+                            <p>Job description: {postulant.workExperience[i].description}</p>
+                            <p>
+                              Start Date:{' '}
+                              {postulant.workExperience[i].startDate.replace('T00:00:00.000Z', '')}
+                            </p>
+                            <p>
+                              End Date:{' '}
+                              {postulant.workExperience[i].endDate.replace('T00:00:00.000Z', '')}
+                            </p>
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
                 <div className={styles.available}>
