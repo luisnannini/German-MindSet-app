@@ -59,7 +59,7 @@
 .internalBox {
   display: flex;
   flex-direction: column;
-  margin: 20px 100px;
+  margin: 20px auto;
   width: 200px;
 }
 
@@ -98,8 +98,13 @@
   font-size: 15px;
 }
 
-.section button {
+.button {
+  display: flex;
+  justify-content: center;
   margin: 10px auto;
+}
+
+.button button {
   padding: 10px;
   background-color: #FC6225;
   color: white;
