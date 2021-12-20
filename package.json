@@ -14,7 +14,7 @@
     "react-icons": "^4.3.1",
     "react-redux": "^7.2.6",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^5.0.0",
+    "react-scripts": "4.0.3",
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
@@ -47,8 +47,8 @@
     ]
   },
   "engines": {
-    "node": "16.8.0",
-    "npm": "7.21.0"
+    "node": "14.x",
+    "npm": "8.x"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
