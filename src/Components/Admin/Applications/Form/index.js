@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createApplication, getApplications } from '../../../../redux/Applications/thunks';
 import { applicationsErrorModal } from '../../../../redux/Applications/actions';
 import { useHistory } from 'react-router-dom';
+import { Form, Field } from 'react-final-form';
 import styles from './form.module.css';
 import Select from '../../../Shared/Select';
 import TextArea from '../../../Shared/TextArea';
 import ButtonCancel from '../../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../../Shared/Modals/ModalError';
-import { Form, Field } from 'react-final-form';
 
 const ApplicationForm = () => {
   const history = useHistory();
