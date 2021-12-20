@@ -214,7 +214,7 @@ const PsychologistsForm = () => {
     ) {
       errors.password = 'Must have at least one number and one letter and three characters long';
     }
-    if (!formValues.address?.match(/^[a-zA-Z]{3,} [0-9]{1,5}$/)) {
+    if (!formValues.address?.match(/^[a-zA-Z ]{3,} [0-9]{1,5}$/)) {
       errors.address = 'Fill in a street name and number';
     }
     if (!formValues.phone?.toString().match(/^\d{3,25}$/)) {
