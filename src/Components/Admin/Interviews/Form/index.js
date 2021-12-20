@@ -16,8 +16,9 @@ import TextArea from '../../../Shared/TextArea';
 import ButtonCancel from '../../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../../Shared/Modals/ModalError';
+import { Form, Field } from 'react-final-form';
 
-const Form = () => {
+const InterviewsForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [id, setInterviewId] = useState(undefined);
@@ -112,18 +113,17 @@ const Form = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  const submitInterview = (e) => {
-    e.preventDefault();
+  const submitInterview = (formValues) => {
     const interviewId = query.get('_id');
     setLoading(true);
 
     const dataValues = {
-      postulant: postulantValue,
-      client: clientValue,
-      application: applicationValue,
-      status: statusValue,
-      date: dateValue,
-      notes: notesValue
+      postulant: formValues.postulant,
+      client: formValues.client,
+      application: formValues.application,
+      status: formValues.status,
+      date: formValues.date,
+      notes: formValues.notes
     };
     if (interviewId) {
       dispatch(updateInterview(interviewId, dataValues)).then((response) => {
@@ -142,22 +142,6 @@ const Form = () => {
     }
   };
 
-  const onChangePostulantValue = (event) => {
-    setPostulantValue(event.target.value);
-  };
-
-  const onChangeClientValue = (event) => {
-    setClientValue(event.target.value);
-  };
-
-  const onChangeApplicationValue = (event) => {
-    setApplicationValue(event.target.value);
-  };
-
-  const onChangeStatusValue = (event) => {
-    setStatusValue(event.target.value);
-  };
-
   const result = [
     { _id: 'assigned', value: 'assigned', name: 'Assigned' },
     { _id: 'successful', value: 'successful', name: 'Successful' },
@@ -166,79 +150,98 @@ const Form = () => {
     { _id: 'confirmed', value: 'confirmed', name: 'Confirmed' }
   ];
 
+  const required = (value) => (value ? undefined : 'Required');
+
   return (
     <div className={styles.container}>
-      <form className={styles.form} onSubmit={submitInterview}>
-        <div className={styles.header}>
-          <h2 className={styles.title}>{id ? 'Update an Interview' : 'Create an Interview'}</h2>
-        </div>
-        <div className={styles.fields}>
-          <div className={styles.columns}>
-            <Select
-              label="Postulant Name"
-              title="Postulant Name"
-              value={postulantValue}
-              object={postulants}
-              onChange={onChangePostulantValue}
-              required
-              disabled={isLoading}
-            />
-            <Select
-              label="Client Name"
-              title="Client Name"
-              value={clientValue}
-              object={clients}
-              onChange={onChangeClientValue}
-              required
-              disabled={isLoading}
-            />
-            <Select
-              label="Application"
-              title="Application Id"
-              value={applicationValue}
-              object={applications}
-              onChange={onChangeApplicationValue}
-              required
-              disabled={isLoading}
-            />
-          </div>
-          <div className={styles.columns}>
-            <Select
-              label="Status"
-              title="Status"
-              value={statusValue}
-              object={result}
-              onChange={onChangeStatusValue}
-              required
-              disabled={isLoading}
-            />
-            <Input
-              label={'Date'}
-              name={'date'}
-              type={'datetime-local'}
-              value={dateValue}
-              onChange={(e) => setDateValue(e.target.value)}
-              required={true}
-              disabled={isLoading}
-            />
-            <TextArea
-              name="notes"
-              label="Notes"
-              value={notesValue}
-              placeholder="Notes"
-              onChange={(e) => setNotesValue(e.target.value)}
-              disabled={isLoading}
-            />
-          </div>
-        </div>
-        <div className={styles.button}>
-          <ButtonCancel disabled={isLoading} onClick={() => history.push('/admin/interviews')} />
-          <ButtonConfirm type="submit" disabled={isLoading} />
-        </div>
-        <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
-      </form>
+      <Form onSubmit={submitInterview}>
+        {(formProps) => (
+          <form className={styles.form} onSubmit={formProps.handleSubmit}>
+            <div className={styles.header}>
+              <h2 className={styles.title}>{id ? 'Update an Interview' : 'Create an Interview'}</h2>
+            </div>
+            <div className={styles.fields}>
+              <div className={styles.columns}>
+                <Field
+                  className={styles.select}
+                  label="Postulant Name"
+                  title="Postulant Name"
+                  name="postulant"
+                  initialValue={postulantValue}
+                  object={postulants}
+                  component={Select}
+                  disabled={formProps.submitting}
+                  validate={required}
+                />
+                <Field
+                  className={styles.select}
+                  label="Client Name"
+                  title="Client Name"
+                  name="client"
+                  initialValue={clientValue}
+                  object={clients}
+                  component={Select}
+                  disabled={formProps.submitting}
+                  validate={required}
+                />
+                <Field
+                  className={styles.select}
+                  label="Application"
+                  title="Application Id"
+                  name="application"
+                  initialValue={applicationValue}
+                  object={applications}
+                  component={Select}
+                  disabled={formProps.submitting}
+                  validate={required}
+                />
+              </div>
+              <div className={styles.columns}>
+                <Field
+                  className={styles.select}
+                  label="Status"
+                  title="Status"
+                  name="status"
+                  initialValue={statusValue}
+                  object={result}
+                  component={Select}
+                  disabled={formProps.submitting}
+                  validate={required}
+                />
+                <Field
+                  className={styles.select}
+                  label={'Date'}
+                  name="date"
+                  type={'datetime-local'}
+                  component={Input}
+                  initialValue={dateValue}
+                  disabled={formProps.submitting}
+                  validate={required}
+                />
+                <Field
+                  className={styles.select}
+                  name="notes"
+                  label="Notes"
+                  initialValue={notesValue}
+                  component={TextArea}
+                  placeholder="Notes"
+                  disabled={formProps.submitting}
+                />
+              </div>
+            </div>
+            <div className={styles.button}>
+              <ButtonCancel
+                disabled={isLoading}
+                onClick={() => history.push('/admin/interviews')}
+              />
+              <ButtonConfirm type="submit" disabled={isLoading} />
+            </div>
+            <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
+          </form>
+        )}
+      </Form>
     </div>
   );
 };
 
-export default Form;
+export default InterviewsForm;
