@@ -104,38 +104,38 @@ const PsychologistsForm = () => {
           availability: {
             monday: {
               availability: formValues.mondayBool,
-              from: formValues.mondayFrom,
-              to: formValues.mondayTo
+              from: formValues.mondayBool ? formValues.mondayFrom : '0',
+              to: formValues.mondayBool ? formValues.mondayTo : '0'
             },
             tuesday: {
               availability: formValues.tuesdayBool,
-              from: formValues.tuesdayFrom,
-              to: formValues.tuesdayTo
+              from: formValues.tuesdayBool ? formValues.tuesdayFrom : '0',
+              to: formValues.tuesdayBool ? formValues.tuesdayTo : '0'
             },
             wednesday: {
               availability: formValues.wednesdayBool,
-              from: formValues.wednesdayFrom,
-              to: formValues.wednesdayTo
+              from: formValues.wednesdayBool ? formValues.wednesdayFrom : '0',
+              to: formValues.wednesdayBool ? formValues.wednesdayTo : '0'
             },
             thursday: {
               availability: formValues.thursdayBool,
-              from: formValues.thursdayFrom,
-              to: formValues.thursdayTo
+              from: formValues.thursdayBool ? formValues.thursdayFrom : '0',
+              to: formValues.thursdayBool ? formValues.thursdayTo : '0'
             },
             friday: {
               availability: formValues.fridayBool,
-              from: formValues.fridayFrom,
-              to: formValues.fridayTo
+              from: formValues.fridayBool ? formValues.fridayFrom : '0',
+              to: formValues.fridayBool ? formValues.fridayTo : '0'
             },
             saturday: {
               availability: formValues.saturdayBool,
-              from: formValues.saturdayFrom,
-              to: formValues.saturdayTo
+              from: formValues.saturdayBool ? formValues.saturdayFrom : '0',
+              to: formValues.saturdayBool ? formValues.saturdayTo : '0'
             },
             sunday: {
               availability: formValues.sundayBool,
-              from: formValues.sundayFrom,
-              to: formValues.sundayTo
+              from: formValues.sundayBool ? formValues.sundayFrom : '0',
+              to: formValues.sundayBool ? formValues.sundayTo : '0'
             }
           }
         })
@@ -155,38 +155,38 @@ const PsychologistsForm = () => {
           availability: {
             monday: {
               availability: formValues.mondayBool,
-              from: formValues.mondayFrom,
-              to: formValues.mondayTo
+              from: formValues.mondayBool ? formValues.mondayFrom : '0',
+              to: formValues.mondayBool ? formValues.mondayTo : '0'
             },
             tuesday: {
               availability: formValues.tuesdayBool,
-              from: formValues.tuesdayFrom,
-              to: formValues.tuesdayTo
+              from: formValues.tuesdayBool ? formValues.tuesdayFrom : '0',
+              to: formValues.tuesdayBool ? formValues.tuesdayTo : '0'
             },
             wednesday: {
               availability: formValues.wednesdayBool,
-              from: formValues.wednesdayFrom,
-              to: formValues.wednesdayTo
+              from: formValues.wednesdayBool ? formValues.wednesdayFrom : '0',
+              to: formValues.wednesdayBool ? formValues.wednesdayTo : '0'
             },
             thursday: {
               availability: formValues.thursdayBool,
-              from: formValues.thursdayFrom,
-              to: formValues.thursdayTo
+              from: formValues.thursdayBool ? formValues.thursdayFrom : '0',
+              to: formValues.thursdayBool ? formValues.thursdayTo : '0'
             },
             friday: {
               availability: formValues.fridayBool,
-              from: formValues.fridayFrom,
-              to: formValues.fridayTo
+              from: formValues.fridayBool ? formValues.fridayFrom : '0',
+              to: formValues.fridayBool ? formValues.fridayTo : '0'
             },
             saturday: {
               availability: formValues.saturdayBool,
-              from: formValues.saturdayFrom,
-              to: formValues.saturdayTo
+              from: formValues.saturdayBool ? formValues.saturdayFrom : '0',
+              to: formValues.saturdayBool ? formValues.saturdayTo : '0'
             },
             sunday: {
               availability: formValues.sundayBool,
-              from: formValues.sundayFrom,
-              to: formValues.sundayTo
+              from: formValues.sundayBool ? formValues.sundayFrom : '0',
+              to: formValues.sundayBool ? formValues.sundayTo : '0'
             }
           }
         })
@@ -198,20 +198,26 @@ const PsychologistsForm = () => {
   const required = (value) => (value ? undefined : 'Required');
   const validate = (formValues) => {
     const errors = {};
-    if (!formValues.firstName?.match(/^[a-zA-Z]+$/) || formValues.firstName?.length < 3) {
+    if (!formValues.firstName?.match(/^[a-zA-Z]{3,}$/)) {
       errors.firstName = 'Input should contain only more than three letters';
     }
-    if (!formValues.lastName?.match(/^[a-zA-Z]+$/) || formValues.lastName?.length < 3) {
+    if (!formValues.lastName?.match(/^[a-zA-Z]{3,}$/)) {
       errors.lastName = 'Input should contain only more than three letters';
     }
     if (!formValues.email?.match(/^[^@]+@[a-zA-Z]+\.[a-zA-Z]+$/)) {
       errors.email = 'Fill in a valid email format';
     }
     if (
-      !formValues.phone?.toString().match(/^\d+$/) ||
-      formValues.phone?.length < 3 ||
-      formValues.phone?.length > 25
+      !/\d/.test(formValues.password) ||
+      !/[a-zA-Z]/.test(formValues.password) ||
+      !formValues.password?.match(/^\w{3,}$/)
     ) {
+      errors.password = 'Must have at least one number and one letter and three characters long';
+    }
+    if (!formValues.address?.match(/^[a-zA-Z]{3,} [0-9]{1,5}$/)) {
+      errors.address = 'Fill in a valid email format';
+    }
+    if (!formValues.phone?.toString().match(/^\d{3,25}$/)) {
       errors.phone = 'Input should contain between 3 and 25 numbers';
     }
     return errors;

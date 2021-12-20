@@ -53,9 +53,9 @@ const ProfilesForm = () => {
   const validate = (formValues) => {
     const errors = {};
     if (
-      !formValues.profile?.match(
-        /[A-Za-z ]+/ || formValues.profile?.length < 3 || formValues.profile?.length > 30
-      )
+      !formValues.profile?.match(/^[A-Za-z ]{3,30}$/) ||
+      formValues.profile?.length < 3 ||
+      formValues.profile?.length > 30
     ) {
       errors.profile = 'Input should contain between 3 and 30 letters';
     }
