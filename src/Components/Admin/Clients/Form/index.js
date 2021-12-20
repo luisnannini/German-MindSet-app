@@ -102,6 +102,9 @@ function ClientsForm() {
       errors.phone = 'Phone number must be between 7 and 14 numbers';
     }
     // Country
+    if (!formValues.country?.match(/^[a-zA-Z]+$/)) {
+      errors.name = 'Country must contain only letters';
+    }
     if (formValues.country?.length < 3) {
       errors.country = 'Country must contain at least 3 characters';
     }
@@ -109,6 +112,9 @@ function ClientsForm() {
       errors.country = 'Country must be less than 50 characters';
     }
     // City
+    if (!formValues.city?.match(/^[a-zA-Z]+$/)) {
+      errors.name = 'City must contain only letters';
+    }
     if (formValues.city?.length < 3) {
       errors.city = 'City must contain at least 3 characters';
     }
@@ -116,6 +122,9 @@ function ClientsForm() {
       errors.city = 'City must be less than 50 characters';
     }
     // State
+    if (!formValues.state?.match(/^[a-zA-Z]+$/)) {
+      errors.name = 'State must contain only letters';
+    }
     if (formValues.state?.length < 3) {
       errors.state = 'State must contain at least 3 characters';
     }
