@@ -195,9 +195,7 @@ const PsychologistsForm = () => {
       });
     }
   };
-  const required = (value) => {
-    value ? undefined : 'Required';
-  };
+  const required = (value) => (value ? undefined : 'Required');
   const validate = (formValues) => {
     const errors = {};
     if (formValues.mondayBool && !formValues.mondayFrom) {
@@ -370,7 +368,6 @@ const PsychologistsForm = () => {
                     initialValue={mondayFrom}
                     disabled={!formProps.values.mondayBool || formProps.submitting}
                     component={Input}
-                    //validate={formProps.values.mondayBool ? required : undefined}
                   />
                   <Field
                     label={'To'}
@@ -379,7 +376,6 @@ const PsychologistsForm = () => {
                     initialValue={mondayTo}
                     disabled={!formProps.values.mondayBool || formProps.submitting}
                     component={Input}
-                    //validate={formProps.values.mondayBool ? required : undefined}
                   />
                 </div>
                 <Field
@@ -399,7 +395,6 @@ const PsychologistsForm = () => {
                     initialValue={tuesdayFrom}
                     disabled={!formProps.values.tuesdayBool || formProps.submitting}
                     component={Input}
-                    // validate={formProps.values.tuesdayBool ? required : undefined}
                   />
                   <Field
                     label={'To'}
@@ -408,7 +403,6 @@ const PsychologistsForm = () => {
                     initialValue={tuesdayTo}
                     disabled={!formProps.values.tuesdayBool || formProps.submitting}
                     component={Input}
-                    // validate={formProps.values.tuesdayBool ? required : undefined}
                   />
                 </div>
                 <Field
@@ -428,7 +422,6 @@ const PsychologistsForm = () => {
                     type="time"
                     disabled={!formProps.values.wednesdayBool || formProps.submitting}
                     component={Input}
-                    //   validate={formProps.values.wednesdayBool ? required : undefined}
                   />
                   <Field
                     label={'to'}
@@ -437,7 +430,6 @@ const PsychologistsForm = () => {
                     type="time"
                     disabled={!formProps.values.wednesdayBool || formProps.submitting}
                     component={Input}
-                    //  validate={formProps.values.wednesdayBool ? required : undefined}
                   />
                 </div>
                 <Field
@@ -457,7 +449,6 @@ const PsychologistsForm = () => {
                     type="time"
                     disabled={!formProps.values.thursdayBool || formProps.submitting}
                     component={Input}
-                    //  validate={formProps.values.thursdayBool ? required : undefined}
                   />
                   <Field
                     label={'To'}
@@ -466,7 +457,6 @@ const PsychologistsForm = () => {
                     type="time"
                     disabled={!formProps.values.thursdayBool || formProps.submitting}
                     component={Input}
-                    //  validate={formProps.values.thursdayBool ? required : undefined}
                   />
                 </div>
               </div>
@@ -488,7 +478,6 @@ const PsychologistsForm = () => {
                     type="time"
                     disabled={!formProps.values.fridayBool || formProps.submitting}
                     component={Input}
-                    //  validate={formProps.values.fridayBool ? required : undefined}
                   />
                   <Field
                     label={'To'}
@@ -497,7 +486,6 @@ const PsychologistsForm = () => {
                     type="time"
                     disabled={!formProps.values.fridayBool || formProps.submitting}
                     component={Input}
-                    //  validate={formProps.values.fridayBool ? required : undefined}
                   />
                 </div>
                 <Field
@@ -517,7 +505,6 @@ const PsychologistsForm = () => {
                     type="time"
                     disabled={!formProps.values.saturdayBool || formProps.submitting}
                     component={Input}
-                    //  validate={formProps.values.saturdayBool ? required : undefined}
                   />
                   <Field
                     label={'To'}
@@ -526,7 +513,6 @@ const PsychologistsForm = () => {
                     type="time"
                     disabled={!formProps.values.saturdayBool || formProps.submitting}
                     component={Input}
-                    //  validate={formProps.values.saturdayBool ? required : undefined}
                   />
                 </div>
                 <Field
@@ -546,7 +532,6 @@ const PsychologistsForm = () => {
                     type="time"
                     disabled={!formProps.values.sundayBool || formProps.submitting}
                     component={Input}
-                    //  validate={formProps.values.sundayBool ? required : undefined}
                   />
                   <Field
                     label={'To'}
@@ -555,7 +540,6 @@ const PsychologistsForm = () => {
                     type="time"
                     disabled={!formProps.values.sundayBool || formProps.submitting}
                     component={Input}
-                    // validate={formProps.values.sundayBool ? required : undefined}
                   />
                 </div>
               </div>
