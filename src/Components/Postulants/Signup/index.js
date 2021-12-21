@@ -168,7 +168,7 @@ const Signup = () => {
       })
     ).then((response) => {
       if (response) {
-        history.push('/admin/postulants');
+        history.push('/postulant/profile');
         dispatch(getPostulants);
       }
     });
@@ -634,10 +634,7 @@ const Signup = () => {
                 )}
               </FieldArray>
               <div className={styles.button}>
-                <ButtonCancel
-                  disabled={isLoading}
-                  onClick={() => history.push('/admin/postulants')}
-                />
+                <ButtonCancel disabled={isLoading} onClick={() => history.push('/postulant')} />
                 <ButtonConfirm disabled={submitting || pristine} type={'submit'} />
               </div>
             </form>
