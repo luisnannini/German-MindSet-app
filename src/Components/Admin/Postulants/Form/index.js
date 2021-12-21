@@ -392,7 +392,7 @@ const PostulantsForm = () => {
                     name={'to'}
                     placeholder={'To'}
                     type={'time'}
-                    initialValue={values.available ? contactRange.from : '00:00'}
+                    initialValue={values.available ? contactRange.to : '00:00'}
                     disabled={values.available ? submitting : !submitting}
                     component={Input}
                     validate={required}
