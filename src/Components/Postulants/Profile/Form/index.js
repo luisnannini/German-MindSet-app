@@ -475,7 +475,7 @@ function EditForm() {
               <FieldArray name="tertiaryStudies" initialValue={tertiaryStudies}>
                 {({ fields }) => (
                   <div>
-                    {fields.map((ts, index) => (
+                    {fields.value.map((ts, index) => (
                       <div key={ts} className={styles.containerFields}>
                         <div className={styles.removeButton}>
                           <RemoveButton onClick={() => fields.remove(index)} />
@@ -487,7 +487,7 @@ function EditForm() {
                               name={`${ts}.startDate`}
                               placeholder={'Start Date'}
                               type={'date'}
-                              initialValue={ts.startDate}
+                              initialValue={parseDate(ts.startDate)}
                               disabled={submitting}
                               validate={required}
                               component={Input}
@@ -509,7 +509,7 @@ function EditForm() {
                               name={`${ts}.endDate`}
                               placeholder={'Finish Date'}
                               type={'date'}
-                              initialValue={ts.endDate}
+                              initialValue={parseDate(ts.endDate)}
                               disabled={submitting}
                               validate={required}
                               component={Input}
@@ -539,7 +539,7 @@ function EditForm() {
               <FieldArray name="universityStudies" initialValue={universityStudies}>
                 {({ fields }) => (
                   <div>
-                    {fields.map((us, index) => (
+                    {fields.value.map((us, index) => (
                       <div key={us} className={styles.containerFields}>
                         <div className={styles.removeButton}>
                           <RemoveButton onClick={() => fields.remove(index)} />
@@ -551,7 +551,7 @@ function EditForm() {
                               name={`${us}.startDate`}
                               placeholder={'Start Date'}
                               type={'date'}
-                              initialValue={us.startDate}
+                              initialValue={parseDate(us.startDate)}
                               disabled={submitting}
                               validate={required}
                               component={Input}
@@ -573,7 +573,7 @@ function EditForm() {
                               name={`${us}.endDate`}
                               placeholder={'Finish Date'}
                               type={'date'}
-                              initialValue={us.endDate}
+                              initialValue={parseDate(us.endDate)}
                               disabled={submitting}
                               validate={required}
                               component={Input}
@@ -603,7 +603,7 @@ function EditForm() {
               <FieldArray name="informalStudies" initialValue={informalStudies}>
                 {({ fields }) => (
                   <div>
-                    {fields.map((is, index) => (
+                    {fields.value.map((is, index) => (
                       <div key={is} className={styles.containerFields}>
                         <div className={styles.removeButton}>
                           <RemoveButton onClick={() => fields.remove(index)} />
@@ -615,7 +615,7 @@ function EditForm() {
                               name={`${is}.startDate`}
                               placeholder={'Start Date'}
                               type={'date'}
-                              initialValue={is.startDate}
+                              initialValue={parseDate(is.startDate)}
                               disabled={submitting}
                               validate={required}
                               component={Input}
@@ -637,7 +637,7 @@ function EditForm() {
                               name={`${is}.endDate`}
                               placeholder={'Finish Date'}
                               type={'date'}
-                              initialValue={is.endDate}
+                              initialValue={parseDate(is.endDate)}
                               disabled={submitting}
                               validate={required}
                               component={Input}
@@ -667,7 +667,7 @@ function EditForm() {
               <FieldArray name="workExperience" initialValue={workExperience}>
                 {({ fields }) => (
                   <div>
-                    {fields.map((we, index) => (
+                    {fields.value.map((we, index) => (
                       <div key={we} className={styles.containerFields}>
                         <div className={styles.removeButton}>
                           <RemoveButton onClick={() => fields.remove(index)} />
@@ -679,7 +679,7 @@ function EditForm() {
                               name={`${we}.startDate`}
                               placeholder={'Start Date'}
                               type={'date'}
-                              initialValue={we.startDate}
+                              initialValue={parseDate(we.startDate)}
                               disabled={submitting}
                               validate={required}
                               component={Input}
@@ -701,7 +701,7 @@ function EditForm() {
                               name={`${we}.endDate`}
                               placeholder={'Finish Date'}
                               type={'date'}
-                              initialValue={we.endDate}
+                              initialValue={parseDate(we.endDate)}
                               disabled={submitting}
                               validate={required}
                               component={Input}
