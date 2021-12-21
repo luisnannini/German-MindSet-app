@@ -477,7 +477,7 @@ const PostulantsForm = () => {
               <FieldArray name="tertiaryStudies" initialValue={tertiaryStudies}>
                 {({ fields }) => (
                   <div>
-                    {fields.value.map((ts, index) => (
+                    {fields.map((ts, index) => (
                       <div key={ts} className={styles.containerFields}>
                         <div className={styles.removeButton}>
                           <RemoveButton onClick={() => fields.remove(index)} />
@@ -489,7 +489,7 @@ const PostulantsForm = () => {
                               name={`${ts}.startDate`}
                               placeholder={'Start Date'}
                               type={'date'}
-                              initialValue={parseDate(ts.startDate)}
+                              initialValue={ts.startDate}
                               disabled={submitting}
                               validate={required}
                               component={Input}
@@ -511,7 +511,7 @@ const PostulantsForm = () => {
                               name={`${ts}.endDate`}
                               placeholder={'Finish Date'}
                               type={'date'}
-                              initialValue={parseDate(ts.endDate)}
+                              initialValue={ts.endDate}
                               disabled={submitting}
                               validate={required}
                               component={Input}
@@ -541,7 +541,7 @@ const PostulantsForm = () => {
               <FieldArray name="universityStudies" initialValue={universityStudies}>
                 {({ fields }) => (
                   <div>
-                    {fields.value.map((us, index) => (
+                    {fields.map((us, index) => (
                       <div key={us} className={styles.containerFields}>
                         <div className={styles.removeButton}>
                           <RemoveButton onClick={() => fields.remove(index)} />
@@ -553,7 +553,7 @@ const PostulantsForm = () => {
                               name={`${us}.startDate`}
                               placeholder={'Start Date'}
                               type={'date'}
-                              initialValue={parseDate(us.startDate)}
+                              initialValue={us.startDate}
                               disabled={submitting}
                               validate={required}
                               component={Input}
@@ -575,7 +575,7 @@ const PostulantsForm = () => {
                               name={`${us}.endDate`}
                               placeholder={'Finish Date'}
                               type={'date'}
-                              initialValue={parseDate(us.endDate)}
+                              initialValue={us.endDate}
                               disabled={submitting}
                               validate={required}
                               component={Input}
@@ -605,7 +605,7 @@ const PostulantsForm = () => {
               <FieldArray name="informalStudies" initialValue={informalStudies}>
                 {({ fields }) => (
                   <div>
-                    {fields.value.map((is, index) => (
+                    {fields.map((is, index) => (
                       <div key={is} className={styles.containerFields}>
                         <div className={styles.removeButton}>
                           <RemoveButton onClick={() => fields.remove(index)} />
@@ -617,7 +617,7 @@ const PostulantsForm = () => {
                               name={`${is}.startDate`}
                               placeholder={'Start Date'}
                               type={'date'}
-                              initialValue={parseDate(is.startDate)}
+                              initialValue={is.startDate}
                               disabled={submitting}
                               validate={required}
                               component={Input}
@@ -639,7 +639,7 @@ const PostulantsForm = () => {
                               name={`${is}.endDate`}
                               placeholder={'Finish Date'}
                               type={'date'}
-                              initialValue={parseDate(is.endDate)}
+                              initialValue={is.endDate}
                               disabled={submitting}
                               validate={required}
                               component={Input}
@@ -669,7 +669,7 @@ const PostulantsForm = () => {
               <FieldArray name="workExperience" initialValue={workExperience}>
                 {({ fields }) => (
                   <div>
-                    {fields.value.map((we, index) => (
+                    {fields.map((we, index) => (
                       <div key={we} className={styles.containerFields}>
                         <div className={styles.removeButton}>
                           <RemoveButton onClick={() => fields.remove(index)} />
@@ -681,7 +681,7 @@ const PostulantsForm = () => {
                               name={`${we}.startDate`}
                               placeholder={'Start Date'}
                               type={'date'}
-                              initialValue={parseDate(we.startDate)}
+                              initialValue={we.startDate}
                               disabled={submitting}
                               validate={required}
                               component={Input}
@@ -703,7 +703,7 @@ const PostulantsForm = () => {
                               name={`${we}.endDate`}
                               placeholder={'Finish Date'}
                               type={'date'}
-                              initialValue={parseDate(we.endDate)}
+                              initialValue={we.endDate}
                               disabled={submitting}
                               validate={required}
                               component={Input}
