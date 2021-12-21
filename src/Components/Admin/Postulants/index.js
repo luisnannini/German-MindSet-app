@@ -81,7 +81,7 @@ const PostulantsForm = () => {
                   <td>{`${postulant.firstName} ${postulant.lastName}`}</td>
                   <td>{postulant.email}</td>
                   <td>{postulant.phone}</td>
-                  <td>{postulant.available ? 'Available' : 'Unavailable'}</td>
+                  <td>{postulant.available ? 'Yes' : 'No'}</td>
                   <td>
                     {postulant.available
                       ? `From ${postulant.contactRange.from} to ${postulant.contactRange.to}`
