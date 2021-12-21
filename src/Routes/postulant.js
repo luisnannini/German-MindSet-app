@@ -6,10 +6,16 @@ import Layout from '../Components/Layout';
 const AdminRoutes = () => {
   const { url } = useRouteMatch();
   return (
-    <Layout routes={[{ name: 'Go to admin app', path: '/admin' }]}>
+    <Layout
+      routes={[
+        { name: 'Home', path: '/postulant/' },
+        { name: 'Go to admin app', path: '/admin' },
+        { name: 'Signup', path: '/postulant/signup' }
+      ]}
+    >
       <Switch>
         <Route exact path={`${url}/`} component={Home} />
-        <Route path={`${url}/signup`} component={Signup} />
+        <Route exact path={`${url}/signup`} component={Signup} />
       </Switch>
     </Layout>
   );

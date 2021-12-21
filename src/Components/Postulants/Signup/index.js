@@ -2,6 +2,7 @@ import styles from './signup.module.css';
 import Input from '../../Shared/Input';
 import ButtonCancel from '../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../Shared/Buttons/ButtonConfirm';
+import RemoveButton from '../../Shared/Buttons/ButtonRemove';
 import ModalError from '../../Shared/Modals/ModalError';
 import Checkbox from '../../Shared/Checkbox';
 import TextArea from '../../Shared/TextArea';
@@ -434,9 +435,9 @@ const Signup = () => {
                             />
                           </div>
                         </div>
-                        <button type="button" onClick={() => fields.remove(index)}>
-                          Remove
-                        </button>
+                        <div className={styles.removeButton}>
+                          <RemoveButton onClick={() => fields.remove(index)} />
+                        </div>
                       </div>
                     ))}
                     <div className={styles.addButton}>
@@ -495,9 +496,9 @@ const Signup = () => {
                             />
                           </div>
                         </div>
-                        <button type="button" onClick={() => fields.remove(index)}>
-                          Remove
-                        </button>
+                        <div className={styles.removeButton}>
+                          <RemoveButton onClick={() => fields.remove(index)} />
+                        </div>
                       </div>
                     ))}
                     <div className={styles.addButton}>
@@ -556,9 +557,9 @@ const Signup = () => {
                             />
                           </div>
                         </div>
-                        <button type="button" onClick={() => fields.remove(index)}>
-                          Remove
-                        </button>
+                        <div className={styles.removeButton}>
+                          <RemoveButton onClick={() => fields.remove(index)} />
+                        </div>
                       </div>
                     ))}
                     <div className={styles.addButton}>
@@ -617,9 +618,9 @@ const Signup = () => {
                             />
                           </div>
                         </div>
-                        <button type="button" onClick={() => fields.remove(index)}>
-                          Remove
-                        </button>
+                        <div className={styles.removeButton}>
+                          <RemoveButton onClick={() => fields.remove(index)} />
+                        </div>
                       </div>
                     ))}
                     <div className={styles.addButton}>
@@ -639,7 +640,6 @@ const Signup = () => {
                 />
                 <ButtonConfirm disabled={submitting || pristine} type={'submit'} />
               </div>
-              <pre>{JSON.stringify(values, 0, 2)}</pre>
             </form>
           );
         }}
