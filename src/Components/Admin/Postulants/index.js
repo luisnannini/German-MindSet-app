@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react/cjs/react.development';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostulants, deletePostulant } from '../../../redux/Postulants/thunks';
+import { getProfiles } from '../../../redux/Profiles/thunks';
 import { closeErrorModal } from '../../../redux/Postulants/actions';
 import ButtonCreate from '../../Shared/Buttons/ButtonCreate';
 import ButtonDelete from '../../Shared/Buttons/ButtonDelete';
@@ -10,7 +11,7 @@ import ButtonUpdate from '../../Shared/Buttons/ButtonUpdate';
 import ModalDelete from '../../Shared/Modals/ModalDelete';
 import ModalError from '../../Shared/Modals/ModalError';
 
-const Postulants = () => {
+const PostulantsForm = () => {
   const dispatch = useDispatch();
 
   const history = useHistory();
@@ -19,6 +20,7 @@ const Postulants = () => {
   const [showDelete, setShowDelete] = useState(false);
 
   const postulants = useSelector((store) => store.postulants.list);
+  const profiles = useSelector((store) => store.profiles.list);
   const error = useSelector((store) => store.postulants.error);
   const isLoading = useSelector((store) => store.postulants.isLoading);
 
@@ -26,7 +28,10 @@ const Postulants = () => {
     if (!postulants.length) {
       dispatch(getPostulants());
     }
-  }, [postulants]);
+    if (!profiles.length) {
+      dispatch(getProfiles());
+    }
+  }, [postulants, profiles]);
 
   const handleDelete = (event, postulant) => {
     event.stopPropagation();
@@ -76,9 +81,19 @@ const Postulants = () => {
                   <td>{`${postulant.firstName} ${postulant.lastName}`}</td>
                   <td>{postulant.email}</td>
                   <td>{postulant.phone}</td>
-                  <td>{postulant.available ? 'Available' : 'Unavailable'}</td>
-                  <td>{`From ${postulant.contactRange.from} to ${postulant.contactRange.to}`}</td>
-                  <td>{postulant.profiles[0].profileId.name}</td>
+                  <td>{postulant.available ? 'Yes' : 'No'}</td>
+                  <td>
+                    {postulant.available
+                      ? `From ${postulant.contactRange.from} to ${postulant.contactRange.to}`
+                      : '-'}
+                  </td>
+                  <td>
+                    {profiles.map((profile) => {
+                      if (profile._id === postulant.profiles) {
+                        return profile.name;
+                      }
+                    })}
+                  </td>
                   <td>
                     <ButtonUpdate
                       disabled={isLoading}
@@ -101,4 +116,4 @@ const Postulants = () => {
   );
 };
 
-export default Postulants;
+export default PostulantsForm;

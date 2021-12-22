@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { Form, Field } from 'react-final-form';
 import {
   createSession,
   getSessionById,
@@ -17,7 +18,7 @@ import ButtonCancel from '../../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../../Shared/Modals/ModalError';
 
-const Form = () => {
+const SessionsForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [sessionId, setSessionId] = useState(undefined);
@@ -92,16 +93,15 @@ const Form = () => {
       .catch((error) => error);
   }, []);
 
-  const submitSession = (event) => {
-    event.preventDefault();
+  const submitSession = (formValues) => {
     const sessionId = query.get('_id');
 
     const dataValues = {
-      postulant: postulantValue,
-      psychologist: psychologistValue,
-      status: statusValue,
-      date: dateValue,
-      notes: notesValue
+      postulant: formValues.postulant,
+      psychologist: formValues.psychologist,
+      status: formValues.status,
+      date: formValues.date,
+      notes: formValues.notes
     };
 
     if (sessionId) {
@@ -121,82 +121,94 @@ const Form = () => {
     }
   };
 
+  const required = (value) => (value ? undefined : 'Required');
+
   return (
     <div className={styles.container}>
-      <form className={styles.form} onSubmit={submitSession}>
-        <div className={styles.header}>
-          <h2 className={styles.title}>{sessionId ? title : 'Create '} Session</h2>
-        </div>
-        <div className={styles.fields}>
-          <div className={styles.columns}>
-            <Select
-              className={styles.select}
-              label="Postulant:"
-              title="Postulant"
-              value={postulantValue}
-              object={postulants}
-              onChange={(e) => setPostulantValue(e.target.value)}
-              required
-              disabled={isLoading}
-            />
-            <Select
-              className={styles.select}
-              label="Psychologist:"
-              title="Psychologist"
-              value={psychologistValue}
-              object={psychologists}
-              onChange={(e) => setPsychologistValue(e.target.value)}
-              required
-              disabled={isLoading}
-            />
-            <Select
-              className={styles.select}
-              label="Status:"
-              name="status"
-              title="Status"
-              value={statusValue}
-              object={[
-                { _id: 'assigned', value: 'assigned', name: 'Assigned' },
-                { _id: 'successful', value: 'successful', name: 'Successful' },
-                { _id: 'cancelled', value: 'cancelled', name: 'Cancelled' }
-              ]}
-              onChange={(e) => setStatusValue(e.target.value)}
-              required
-              disabled={isLoading}
-            />
-          </div>
-          <div className={styles.columns}>
-            <Input
-              label={'Date'}
-              name={'date'}
-              type={'datetime-local'}
-              value={dateValue}
-              onChange={(e) => setDateValue(e.target.value)}
-              required={true}
-              disabled={isLoading}
-            />
-            <TextArea
-              label="Notes"
-              name="notes"
-              value={notesValue}
-              placeholder="Notes"
-              onChange={(e) => setNotesValue(e.target.value)}
-              disabled={isLoading}
-            />
-          </div>
-        </div>
-        <div className={styles.button}>
-          <ButtonCancel disabled={isLoading} onClick={() => history.push('/admin/sessions')} />
-          <div className={styles.inputContainer}>
-            <label className={styles.label} htmlFor="submit">
-              <ButtonConfirm disabled={isLoading} type="submit" name={title} />
-            </label>
-          </div>
-        </div>
-        <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
-      </form>
+      <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
+      <Form onSubmit={submitSession}>
+        {(formProps) => (
+          <form className={styles.form} onSubmit={formProps.handleSubmit}>
+            <div className={styles.header}>
+              <h2 className={styles.title}>{sessionId ? title : 'Create '} Session</h2>
+            </div>
+            <div className={styles.fields}>
+              <div className={styles.columns}>
+                <Field
+                  className={styles.select}
+                  name="postulant"
+                  label="Postulant:"
+                  title="Postulant"
+                  initialValue={postulantValue}
+                  object={postulants}
+                  disabled={formProps.submitting}
+                  component={Select}
+                  validate={required}
+                />
+                <Field
+                  className={styles.select}
+                  name="psychologist"
+                  label="Psychologist:"
+                  title="Psychologist"
+                  initialValue={psychologistValue}
+                  object={psychologists}
+                  disabled={formProps.submitting}
+                  component={Select}
+                  validate={required}
+                />
+                <Field
+                  className={styles.select}
+                  label="Status:"
+                  name="status"
+                  title="Status"
+                  initialValue={statusValue}
+                  object={[
+                    { _id: 'assigned', value: 'assigned', name: 'Assigned' },
+                    { _id: 'successful', value: 'successful', name: 'Successful' },
+                    { _id: 'cancelled', value: 'cancelled', name: 'Cancelled' }
+                  ]}
+                  disabled={formProps.submitting}
+                  component={Select}
+                  validate={required}
+                />
+              </div>
+              <div className={styles.columns}>
+                <Field
+                  label={'Date'}
+                  name={'date'}
+                  type={'datetime-local'}
+                  initialValue={dateValue}
+                  disabled={formProps.submitting}
+                  component={Input}
+                  validate={required}
+                />
+                <Field
+                  label="Notes"
+                  name="notes"
+                  initialValue={notesValue}
+                  placeholder="Notes"
+                  disabled={formProps.submitting}
+                  component={TextArea}
+                />
+              </div>
+            </div>
+            <div className={styles.button}>
+              <ButtonCancel disabled={isLoading} onClick={() => history.push('/admin/sessions')} />
+              <div className={styles.inputContainer}>
+                <label className={styles.label} htmlFor="submit">
+                  <ButtonConfirm
+                    disabled={formProps.submitting || formProps.pristine}
+                    type="submit"
+                    name={title}
+                  />
+                </label>
+              </div>
+            </div>
+          </form>
+        )}
+      </Form>
     </div>
   );
 };
 
-export default Form;
+export default SessionsForm;
