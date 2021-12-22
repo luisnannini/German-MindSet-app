@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createApplication, getApplications } from '../../../../redux/Applications/thunks';
 import { applicationsErrorModal } from '../../../../redux/Applications/actions';
 import { useHistory } from 'react-router-dom';
+import { Form, Field } from 'react-final-form';
 import styles from './form.module.css';
 import Select from '../../../Shared/Select';
 import TextArea from '../../../Shared/TextArea';
@@ -10,22 +11,14 @@ import ButtonCancel from '../../../Shared/Buttons/ButtonCancel';
 import ButtonConfirm from '../../../Shared/Buttons/ButtonConfirm';
 import ModalError from '../../../Shared/Modals/ModalError';
 
-const Form = () => {
+const ApplicationForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [position, setPosition] = useState([]);
   const [postulant, setPostulant] = useState([]);
   const [interview, setInterview] = useState([]);
-  const [positionValue, setPositionValue] = useState('');
-  const [postulantValue, setPostulantValue] = useState('');
-  const [interviewValue, setInterviewValue] = useState('');
-  const [resultValue, setResultValue] = useState('');
   const isLoading = useSelector((store) => store.applications.isLoading);
-  const [error, setError] = useState({
-    show: false,
-    message: '',
-    title: ''
-  });
+  const error = useSelector((store) => store.positions.error);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/positions`)
@@ -47,8 +40,7 @@ const Form = () => {
             name: position.jobDescription
           }))
         );
-      })
-      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
+      });
     fetch(`${process.env.REACT_APP_API}/postulants`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -68,8 +60,7 @@ const Form = () => {
             name: `${postulant.firstName} ${postulant.lastName}`
           }))
         );
-      })
-      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
+      });
     fetch(`${process.env.REACT_APP_API}/interviews`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
@@ -89,32 +80,16 @@ const Form = () => {
             name: interview._id
           }))
         );
-      })
-      .catch((error) => setError({ show: true, message: error.message, title: error.status }));
+      });
   }, []);
 
-  const onChangePosition = (input) => {
-    setPositionValue(input.target.value);
-  };
-  const onChangePostulant = (input) => {
-    setPostulantValue(input.target.value);
-  };
-  const onChangeInterview = (input) => {
-    setInterviewValue(input.target.value);
-  };
-  const onChangeResult = (input) => {
-    setResultValue(input.target.value);
-  };
-
-  const submitApplications = (e) => {
-    e.preventDefault();
-
+  const submitApplications = (formValues) => {
     dispatch(
       createApplication({
-        positions: positionValue,
-        postulants: postulantValue,
-        interview: interviewValue,
-        result: resultValue
+        positions: formValues.positions,
+        postulants: formValues.postulants,
+        interview: formValues.interview,
+        result: formValues.result
       })
     ).then((response) => {
       if (response) {
@@ -124,62 +99,75 @@ const Form = () => {
     });
   };
 
+  const required = (value) => (value ? undefined : 'Required');
+
   return (
     <div className={styles.container}>
-      <form className={styles.form} onSubmit={submitApplications}>
-        <div className={styles.header}>
-          <h2 className={styles.title}>Create Application</h2>
-        </div>
-        <div className={styles.fields}>
-          <div className={styles.columns}>
-            <Select
-              label="Positions:"
-              title="- Select a position -"
-              value={positionValue}
-              object={position}
-              onChange={onChangePosition}
-              required
-              disabled={isLoading}
-            />
-            <Select
-              label="Postulants:"
-              title="- Select a postulant -"
-              value={postulantValue}
-              object={postulant}
-              onChange={onChangePostulant}
-              required
-              disabled={isLoading}
-            />
-          </div>
-          <div className={styles.columns}>
-            <Select
-              label="Id interview:"
-              title="- Select an interview -"
-              value={interviewValue}
-              object={interview}
-              onChange={onChangeInterview}
-              required
-              disabled={isLoading}
-            />
-            <TextArea
-              label="Result"
-              name="result"
-              value={resultValue}
-              placeholder="Result"
-              onChange={onChangeResult}
-              required={true}
-              disabled={isLoading}
-            />
-          </div>
-        </div>
-        <div className={styles.button}>
-          <ButtonCancel disabled={isLoading} onClick={() => history.push('/admin/applications')} />
-          <ButtonConfirm type="submit" disabled={isLoading} />
-        </div>
-        <ModalError error={error} onConfirm={() => dispatch(applicationsErrorModal())} />
-      </form>
+      <Form onSubmit={submitApplications}>
+        {(formProps) => (
+          <form className={styles.form} onSubmit={formProps.handleSubmit}>
+            <div className={styles.header}>
+              <h2 className={styles.title}>Create Application</h2>
+            </div>
+            <div className={styles.fields}>
+              <div className={styles.columns}>
+                <Field
+                  className={styles.select}
+                  name="positions"
+                  label="Positions:"
+                  title="- Select a position -"
+                  object={position}
+                  component={Select}
+                  disabled={formProps.submitting}
+                  validate={required}
+                />
+                <Field
+                  className={styles.select}
+                  name="postulants"
+                  label="Postulants:"
+                  title="- Select a postulant -"
+                  object={postulant}
+                  component={Select}
+                  disabled={formProps.submitting}
+                  validate={required}
+                />
+              </div>
+              <div className={styles.columns}>
+                <Field
+                  className={styles.select}
+                  name="interview"
+                  label="Id interview:"
+                  title="- Select an interview -"
+                  object={interview}
+                  component={Select}
+                  disabled={formProps.submitting}
+                  validate={required}
+                />
+                <Field
+                  className={styles.textArea}
+                  label="Result"
+                  name="result"
+                  placeholder="Result"
+                  component={TextArea}
+                  required={true}
+                  disabled={isLoading}
+                />
+                <span>Results should have a maximum of 250 characters</span>
+              </div>
+            </div>
+            <div className={styles.button}>
+              <ButtonCancel
+                disabled={isLoading}
+                onClick={() => history.push('/admin/applications')}
+              />
+              <ButtonConfirm type="submit" disabled={formProps.submitting || formProps.pristine} />
+            </div>
+            <ModalError error={error} onConfirm={() => dispatch(applicationsErrorModal())} />
+          </form>
+        )}
+      </Form>
     </div>
   );
 };
 
-export default Form;
+export default ApplicationForm;
