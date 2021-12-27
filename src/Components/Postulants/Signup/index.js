@@ -11,13 +11,7 @@ import AddButton from '../../Shared/Buttons/ButtonLittleAdd';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-// import useQuery from '../../../Hooks/useQuery';
-import {
-  createPostulant,
-  // getPostulantById,
-  // updatePostulant,
-  getPostulants
-} from '../../../redux/Postulants/thunks';
+import { createPostulant, getPostulants } from '../../../redux/Postulants/thunks';
 import { closeErrorModal } from '../../../redux/Postulants/actions';
 import { Form, Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
@@ -29,31 +23,6 @@ const Signup = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [profiles, setProfiles] = useState([]);
-  // const [postulantProfile, setPostulantProfile] = useState({});
-  // const [personalInfo, setPersonalInfo] = useState({
-  //   firstName: '',
-  //   lastName: '',
-  //   email: '',
-  //   password: '',
-  //   address: '',
-  //   phone: '',
-  //   birthday: '',
-  //   available: false
-  // });
-  // const [contactRange, setContactRange] = useState({
-  //   from: '',
-  //   to: ''
-  // });
-  // const [primaryStudies, setPrimaryStudies] = useState({
-  //   startDate: '',
-  //   endDate: '',
-  //   school: ''
-  // });
-  // const [secondaryStudies, setSecondaryStudies] = useState({
-  //   startDate: '',
-  //   endDate: '',
-  //   school: ''
-  // });
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/profiles`)
@@ -72,10 +41,6 @@ const Signup = () => {
       })
       .catch((error) => error);
   }, []);
-
-  // const parseDate = (string) => {
-  //   return string.split('T')[0];
-  // };
 
   const validate = (formValues) => {
     const errors = {};
@@ -114,14 +79,24 @@ const Signup = () => {
     if (formValues.phoneNumber?.length < 7 || formValues.phoneNumber?.length > 14) {
       errors.phoneNumber = 'Phone number must be between 7 and 14 numbers';
     }
-    // schoolPrimary
+    // contact range
+    if (formValues.available) {
+      if (formValues.from >= formValues.to) {
+        errors.from = '"From" hour must be before "to" hour';
+        errors.to = '"To" hour must be after "from" hour';
+      }
+    }
+    // primary studies
+    if (formValues.startDatePrimaryStudies >= formValues.endDatePrimaryStudies) {
+      errors.startDatePrimaryStudies = '';
+    }
     if (formValues.schoolPrimary?.length < 5) {
       errors.schoolPrimary = 'School must contain at least 5 characters';
     }
     if (formValues.schoolPrimary?.length > 50) {
       errors.schoolPrimary = 'School must be less than 50 characters';
     }
-    // schoolSecondary
+    // secondary studies
     if (formValues.schoolSecondary?.length < 5) {
       errors.schoolSecondary = 'School must contain at least 5 characters';
     }
@@ -145,8 +120,8 @@ const Signup = () => {
         birthday: formValues.birthday,
         available: formValues.available,
         contactRange: {
-          from: formValues.from,
-          to: formValues.to
+          from: formValues.available ? formValues.from : '00:00',
+          to: formValues.available ? formValues.to : '00:00'
         },
         profiles: formValues.profiles,
         studies: {
@@ -187,7 +162,7 @@ const Signup = () => {
           handleSubmit,
           form: {
             mutators: { push }
-          }, // injected from final-form-arrays above
+          },
           pristine,
           submitting
         }) => {
@@ -203,7 +178,6 @@ const Signup = () => {
                     label={'First Name'}
                     name={'firstName'}
                     placeholder={'First Name'}
-                    // // initialValue={personalInfo.firstName}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -213,7 +187,6 @@ const Signup = () => {
                     name={'email'}
                     placeholder={'Email'}
                     type={'email'}
-                    // // initialValue={personalInfo.email}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -222,7 +195,6 @@ const Signup = () => {
                     label={'Address'}
                     name={'address'}
                     placeholder={'Address'}
-                    // // initialValue={personalInfo.address}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -231,7 +203,6 @@ const Signup = () => {
                     label={'Birth Date'}
                     name={'birthday'}
                     type={'date'}
-                    // // initialValue={parseDate(personalInfo.birthday)}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -240,7 +211,6 @@ const Signup = () => {
                     name={'available'}
                     label={'Available?'}
                     type={'checkbox'}
-                    // initialValue={personalInfo.available}
                     disabled={submitting}
                     component={Checkbox}
                   />
@@ -250,7 +220,6 @@ const Signup = () => {
                     label={'Last Name'}
                     name={'lastName'}
                     placeholder={'Last Name'}
-                    // initialValue={personalInfo.lastName}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -260,7 +229,6 @@ const Signup = () => {
                     name={'password'}
                     placeholder={'Password'}
                     type={'password'}
-                    // initialValue={personalInfo.password}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -270,7 +238,6 @@ const Signup = () => {
                     name={'phoneNumber'}
                     placeholder={'+54113062939'}
                     type={'tel'}
-                    // initialValue={personalInfo.phone}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -280,7 +247,6 @@ const Signup = () => {
                     title={'Select a profile'}
                     label={'Profiles'}
                     object={profiles}
-                    // initialValue={postulantProfile}
                     disabled={submitting}
                     component={Select}
                     validate={required}
@@ -295,7 +261,6 @@ const Signup = () => {
                     name={'from'}
                     placeholder={'From'}
                     type={'time'}
-                    // initialValue={contactRange.from}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -307,7 +272,6 @@ const Signup = () => {
                     name={'to'}
                     placeholder={'To'}
                     type={'time'}
-                    // initialValue={contactRange.to}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -322,7 +286,6 @@ const Signup = () => {
                     name={'startDatePrimaryStudies'}
                     placeholder={'Start Date'}
                     type={'date'}
-                    // initialValue={parseDate(primaryStudies.startDate)}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -332,7 +295,6 @@ const Signup = () => {
                     name={'schoolPrimaryStudies'}
                     placeholder={'School'}
                     type={'text'}
-                    // initialValue={primaryStudies.school}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -344,7 +306,6 @@ const Signup = () => {
                     name={'endDatePrimaryStudies'}
                     placeholder={'Finish Date'}
                     type={'date'}
-                    // initialValue={parseDate(primaryStudies.endDate)}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -359,7 +320,6 @@ const Signup = () => {
                     name={'startDateSecondaryStudies'}
                     placeholder={'Start Date'}
                     type={'date'}
-                    // initialValue={parseDate(secondaryStudies.startDate)}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -369,7 +329,6 @@ const Signup = () => {
                     name={'schoolSecondaryStudies'}
                     placeholder={'School'}
                     type={'text'}
-                    // initialValue={secondaryStudies.school}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -381,7 +340,6 @@ const Signup = () => {
                     name={'endDateSecondaryStudies'}
                     placeholder={'Finish Date'}
                     type={'date'}
-                    // initialValue={parseDate(secondaryStudies.endDate)}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -393,7 +351,10 @@ const Signup = () => {
                 {({ fields }) => (
                   <div>
                     {fields.map((ts, index) => (
-                      <div key={ts}>
+                      <div key={ts} className={styles.containerFields}>
+                        <div className={styles.removeButton}>
+                          <RemoveButton onClick={() => fields.remove(index)} />
+                        </div>
                         <div className={styles.fields}>
                           <div className={styles.columns}>
                             <Field
@@ -401,8 +362,8 @@ const Signup = () => {
                               name={`${ts}.startDate`}
                               placeholder={'Start Date'}
                               type={'date'}
-                              // initialValue={ts.startDate}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                             <Field
@@ -410,8 +371,8 @@ const Signup = () => {
                               name={`${ts}.institute`}
                               placeholder={'Institute'}
                               type={'text'}
-                              // initialValue={ts.institute}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                           </div>
@@ -421,21 +382,17 @@ const Signup = () => {
                               name={`${ts}.endDate`}
                               placeholder={'Finish Date'}
                               type={'date'}
-                              // initialValue={ts.endDate}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                             <Field
                               label={'Description'}
                               name={`${ts}.description`}
-                              // initialValue={ts.description}
                               disabled={submitting}
                               component={TextArea}
                             />
                           </div>
-                        </div>
-                        <div className={styles.removeButton}>
-                          <RemoveButton onClick={() => fields.remove(index)} />
                         </div>
                       </div>
                     ))}
@@ -454,7 +411,10 @@ const Signup = () => {
                 {({ fields }) => (
                   <div>
                     {fields.map((us, index) => (
-                      <div key={us}>
+                      <div key={us} className={styles.containerFields}>
+                        <div className={styles.removeButton}>
+                          <RemoveButton onClick={() => fields.remove(index)} />
+                        </div>
                         <div className={styles.fields}>
                           <div className={styles.columns}>
                             <Field
@@ -462,8 +422,8 @@ const Signup = () => {
                               name={`${us}.startDate`}
                               placeholder={'Start Date'}
                               type={'date'}
-                              // initialValue={us.startDate}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                             <Field
@@ -471,8 +431,8 @@ const Signup = () => {
                               name={`${us}.institute`}
                               placeholder={'Institute'}
                               type={'text'}
-                              // initialValue={us.institute}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                           </div>
@@ -482,21 +442,17 @@ const Signup = () => {
                               name={`${us}.endDate`}
                               placeholder={'Finish Date'}
                               type={'date'}
-                              // initialValue={us.endDate}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                             <Field
                               label={'Description'}
                               name={`${us}.description`}
-                              // initialValue={us.description}
                               disabled={submitting}
                               component={TextArea}
                             />
                           </div>
-                        </div>
-                        <div className={styles.removeButton}>
-                          <RemoveButton onClick={() => fields.remove(index)} />
                         </div>
                       </div>
                     ))}
@@ -515,7 +471,10 @@ const Signup = () => {
                 {({ fields }) => (
                   <div>
                     {fields.map((is, index) => (
-                      <div key={is}>
+                      <div key={is} className={styles.containerFields}>
+                        <div className={styles.removeButton}>
+                          <RemoveButton onClick={() => fields.remove(index)} />
+                        </div>
                         <div className={styles.fields}>
                           <div className={styles.columns}>
                             <Field
@@ -523,8 +482,8 @@ const Signup = () => {
                               name={`${is}.startDate`}
                               placeholder={'Start Date'}
                               type={'date'}
-                              // initialValue={is.startDate}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                             <Field
@@ -532,8 +491,8 @@ const Signup = () => {
                               name={`${is}.institute`}
                               placeholder={'Institute'}
                               type={'text'}
-                              // initialValue={is.institute}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                           </div>
@@ -543,21 +502,17 @@ const Signup = () => {
                               name={`${is}.endDate`}
                               placeholder={'Finish Date'}
                               type={'date'}
-                              // initialValue={is.endDate}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                             <Field
                               label={'Description'}
                               name={`${is}.description`}
-                              // initialValue={is.description}
                               disabled={submitting}
                               component={TextArea}
                             />
                           </div>
-                        </div>
-                        <div className={styles.removeButton}>
-                          <RemoveButton onClick={() => fields.remove(index)} />
                         </div>
                       </div>
                     ))}
@@ -576,7 +531,10 @@ const Signup = () => {
                 {({ fields }) => (
                   <div>
                     {fields.map((we, index) => (
-                      <div key={we}>
+                      <div key={we} className={styles.containerFields}>
+                        <div className={styles.removeButton}>
+                          <RemoveButton onClick={() => fields.remove(index)} />
+                        </div>
                         <div className={styles.fields}>
                           <div className={styles.columns}>
                             <Field
@@ -584,17 +542,17 @@ const Signup = () => {
                               name={`${we}.startDate`}
                               placeholder={'Start Date'}
                               type={'date'}
-                              // initialValue={we.startDate}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                             <Field
-                              label={'Institute'}
-                              name={`${we}.institute`}
-                              placeholder={'Institute'}
+                              label={'Company'}
+                              name={`${we}.company`}
+                              placeholder={'Company'}
                               type={'text'}
-                              // initialValue={we.institute}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                           </div>
@@ -604,21 +562,17 @@ const Signup = () => {
                               name={`${we}.endDate`}
                               placeholder={'Finish Date'}
                               type={'date'}
-                              // initialValue={we.endDate}
                               disabled={submitting}
+                              validate={required}
                               component={Input}
                             />
                             <Field
                               label={'Description'}
                               name={`${we}.description`}
-                              // initialValue={we.description}
                               disabled={submitting}
                               component={TextArea}
                             />
                           </div>
-                        </div>
-                        <div className={styles.removeButton}>
-                          <RemoveButton onClick={() => fields.remove(index)} />
                         </div>
                       </div>
                     ))}
