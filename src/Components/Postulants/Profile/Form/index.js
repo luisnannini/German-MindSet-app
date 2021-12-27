@@ -23,7 +23,7 @@ import {
 } from '../../../../redux/Postulants/thunks';
 import { closeErrorModal } from '../../../../redux/Postulants/actions';
 
-const PostulantsForm = () => {
+function EditForm() {
   const error = useSelector((store) => store.postulants.error);
   const isLoading = useSelector((store) => store.postulants.isLoading);
   const dispatch = useDispatch();
@@ -146,7 +146,7 @@ const PostulantsForm = () => {
         })
       ).then((response) => {
         if (response) {
-          history.push('/admin/postulants');
+          history.push('/postulant/profile');
           dispatch(getPostulants);
         }
       });
@@ -185,7 +185,7 @@ const PostulantsForm = () => {
         })
       ).then((response) => {
         if (response) {
-          history.push('/admin/postulants');
+          history.push('/postulant/profile');
           dispatch(getPostulants);
         }
       });
@@ -279,7 +279,7 @@ const PostulantsForm = () => {
           return (
             <form className={styles.form} onSubmit={handleSubmit}>
               <div className={styles.header}>
-                <h2 className={styles.title}>{id ? 'Update a Postulant' : 'Create a Postulant'}</h2>
+                <h2 className={styles.title}>{id && 'Update Postulant Profile'}</h2>
               </div>
               <h3>Personal Info</h3>
               <div className={styles.fields}>
@@ -385,8 +385,6 @@ const PostulantsForm = () => {
                     component={Input}
                     validate={required}
                   />
-                </div>
-                <div className={styles.columns}>
                   <Field
                     label={'To'}
                     name={'to'}
@@ -478,7 +476,7 @@ const PostulantsForm = () => {
                 {({ fields }) => (
                   <div>
                     {fields.map((ts, index) => (
-                      <div key={ts} className={styles.containerFields}>
+                      <div key={index} className={styles.containerFields}>
                         <div className={styles.removeButton}>
                           <RemoveButton onClick={() => fields.remove(index)} />
                         </div>
@@ -542,7 +540,7 @@ const PostulantsForm = () => {
                 {({ fields }) => (
                   <div>
                     {fields.map((us, index) => (
-                      <div key={us} className={styles.containerFields}>
+                      <div key={index} className={styles.containerFields}>
                         <div className={styles.removeButton}>
                           <RemoveButton onClick={() => fields.remove(index)} />
                         </div>
@@ -606,7 +604,7 @@ const PostulantsForm = () => {
                 {({ fields }) => (
                   <div>
                     {fields.map((is, index) => (
-                      <div key={is} className={styles.containerFields}>
+                      <div key={index} className={styles.containerFields}>
                         <div className={styles.removeButton}>
                           <RemoveButton onClick={() => fields.remove(index)} />
                         </div>
@@ -670,7 +668,7 @@ const PostulantsForm = () => {
                 {({ fields }) => (
                   <div>
                     {fields.map((we, index) => (
-                      <div key={we} className={styles.containerFields}>
+                      <div key={index} className={styles.containerFields}>
                         <div className={styles.removeButton}>
                           <RemoveButton onClick={() => fields.remove(index)} />
                         </div>
@@ -732,7 +730,7 @@ const PostulantsForm = () => {
               <div className={styles.button}>
                 <ButtonCancel
                   disabled={isLoading}
-                  onClick={() => history.push('/admin/postulants')}
+                  onClick={() => history.push('/postulant/profile')}
                 />
                 <ButtonConfirm disabled={submitting || pristine} type={'submit'} />
               </div>
@@ -742,6 +740,6 @@ const PostulantsForm = () => {
       />
     </div>
   );
-};
+}
 
-export default PostulantsForm;
+export default EditForm;

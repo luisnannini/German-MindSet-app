@@ -1,12 +1,6 @@
 .button {
-  display: flex;
-  justify-content: center;
-  margin: 10px 10px;
-  width: 3em;
-  height: 1.5em;
-  border: none;
-  border-radius: 0.3em;
-  background-color: #FC6225;
-  color: #FFFFFF;
+  border-style: none;
+  background-color: transparent;
+  color: #232F3E;
   cursor: pointer;
 }
