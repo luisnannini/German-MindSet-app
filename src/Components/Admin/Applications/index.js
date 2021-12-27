@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getApplications, deleteApplication } from 'redux/Applications/thunks';
 import { applicationsErrorModal } from 'redux/Applications/actions';
-import { useHistory } from 'react-router-dom';
 import styles from './applications.module.css';
 import ButtonCreate from 'Components/Shared/Buttons/ButtonCreate';
 import ButtonDelete from 'Components/Shared/Buttons/ButtonDelete';

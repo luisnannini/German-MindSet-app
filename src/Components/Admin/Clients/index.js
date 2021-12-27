@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getClients, deleteClient } from 'redux/Clients/thunks';
 import { closeErrorModal } from 'redux/Clients/actions';
-import { useHistory } from 'react-router-dom';
 import styles from './clients.module.css';
 import ButtonCreate from 'Components/Shared/Buttons/ButtonCreate';
 import ButtonDelete from 'Components/Shared/Buttons/ButtonDelete';

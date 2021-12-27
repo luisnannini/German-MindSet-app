@@ -1,10 +1,10 @@
-import styles from './postulants.module.css';
-import { useState, useEffect } from 'react/cjs/react.development';
+import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostulants, deletePostulant } from 'redux/Postulants/thunks';
 import { getProfiles } from 'redux/Profiles/thunks';
 import { closeErrorModal } from 'redux/Postulants/actions';
+import styles from './postulants.module.css';
 import ButtonCreate from 'Components/Shared/Buttons/ButtonCreate';
 import ButtonDelete from 'Components/Shared/Buttons/ButtonDelete';
 import ButtonUpdate from 'Components/Shared/Buttons/ButtonUpdate';

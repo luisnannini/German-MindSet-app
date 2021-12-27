@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getInterviews, deleteInterview } from 'redux/Interviews/thunks';
 import { closeErrorModal } from 'redux/Interviews/actions';
-import { useHistory } from 'react-router-dom';
 import styles from './interviews.module.css';
 import ButtonCreate from 'Components/Shared/Buttons/ButtonCreate';
 import ButtonDelete from 'Components/Shared/Buttons/ButtonDelete';

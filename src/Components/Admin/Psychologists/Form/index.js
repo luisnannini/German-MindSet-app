@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   createPsychologist,
@@ -6,7 +7,7 @@ import {
   updatePsychologist
 } from 'redux/Psychologists/thunks';
 import { closeErrorModal } from 'redux/Psychologists/actions';
-import { useHistory } from 'react-router-dom';
+import { Form, Field } from 'react-final-form';
 import useQuery from 'Hooks/useQuery';
 import styles from './form.module.css';
 import Input from 'Components/Shared/Input';
@@ -14,8 +15,6 @@ import Checkbox from 'Components/Shared/Checkbox';
 import ButtonCancel from 'Components/Shared/Buttons/ButtonCancel';
 import ButtonConfirm from 'Components/Shared/Buttons/ButtonConfirm';
 import ModalError from 'Components/Shared/Modals/ModalError';
-
-import { Form, Field } from 'react-final-form';
 
 const PsychologistsForm = () => {
   const history = useHistory();

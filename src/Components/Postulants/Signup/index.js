@@ -1,3 +1,11 @@
+import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { createPostulant, getPostulants } from 'redux/Postulants/thunks';
+import { closeErrorModal } from 'redux/Postulants/actions';
+import { Form, Field } from 'react-final-form';
+import { FieldArray } from 'react-final-form-arrays';
+import arrayMutators from 'final-form-arrays';
 import styles from './signup.module.css';
 import Input from 'Components/Shared/Input';
 import ButtonCancel from 'Components/Shared/Buttons/ButtonCancel';
@@ -8,14 +16,6 @@ import Checkbox from 'Components/Shared/Checkbox';
 import TextArea from 'Components/Shared/TextArea';
 import Select from 'Components/Shared/Select';
 import AddButton from 'Components/Shared/Buttons/ButtonLittleAdd';
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { createPostulant, getPostulants } from 'redux/Postulants/thunks';
-import { closeErrorModal } from 'redux/Postulants/actions';
-import { Form, Field } from 'react-final-form';
-import { FieldArray } from 'react-final-form-arrays';
-import arrayMutators from 'final-form-arrays';
 
 const Signup = () => {
   const error = useSelector((store) => store.postulants.error);

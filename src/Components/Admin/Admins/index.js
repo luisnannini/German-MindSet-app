@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAdmins, deleteAdmin } from 'redux/Admins/thunks';
 import { adminCloseErrorModal } from 'redux/Admins/actions';
-import { useHistory } from 'react-router-dom';
 import styles from './admins.module.css';
 import ButtonCreate from 'Components/Shared/Buttons/ButtonCreate';
 import ButtonDelete from 'Components/Shared/Buttons/ButtonDelete';

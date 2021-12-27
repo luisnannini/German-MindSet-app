@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPsychologists, deletePsychologist } from 'redux/Psychologists/thunks';
 import { closeErrorModal } from 'redux/Psychologists/actions';
-import { useHistory } from 'react-router-dom';
 import styles from './psychologists.module.css';
 import ButtonCreate from 'Components/Shared/Buttons/ButtonCreate';
 import ButtonDelete from 'Components/Shared/Buttons/ButtonDelete';

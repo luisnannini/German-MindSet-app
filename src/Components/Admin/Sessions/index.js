@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSessions, deleteSession } from 'redux/Sessions/thunks';
 import { closeErrorModal } from 'redux/Sessions/actions';
-import { useHistory } from 'react-router-dom';
 import styles from './sessions.module.css';
 import ButtonCreate from 'Components/Shared/Buttons/ButtonCreate';
 import ButtonDelete from 'Components/Shared/Buttons/ButtonDelete';

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   createInterview,
@@ -7,7 +8,7 @@ import {
   getInterviews
 } from 'redux/Interviews/thunks';
 import { closeErrorModal } from 'redux/Interviews/actions';
-import { useHistory } from 'react-router-dom';
+import { Form, Field } from 'react-final-form';
 import useQuery from 'Hooks/useQuery.js';
 import styles from './form.module.css';
 import Select from 'Components/Shared/Select';
@@ -16,7 +17,6 @@ import TextArea from 'Components/Shared/TextArea';
 import ButtonCancel from 'Components/Shared/Buttons/ButtonCancel';
 import ButtonConfirm from 'Components/Shared/Buttons/ButtonConfirm';
 import ModalError from 'Components/Shared/Modals/ModalError';
-import { Form, Field } from 'react-final-form';
 
 const InterviewsForm = () => {
   const history = useHistory();

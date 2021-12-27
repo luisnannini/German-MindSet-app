@@ -1,3 +1,17 @@
+import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  createPostulant,
+  getPostulantById,
+  updatePostulant,
+  getPostulants
+} from 'redux/Postulants/thunks';
+import { closeErrorModal } from 'redux/Postulants/actions';
+import { Form, Field } from 'react-final-form';
+import { FieldArray } from 'react-final-form-arrays';
+import arrayMutators from 'final-form-arrays';
+import useQuery from 'Hooks/useQuery';
 import styles from './form.module.css';
 import Input from 'Components/Shared/Input';
 import ButtonCancel from 'Components/Shared/Buttons/ButtonCancel';
@@ -8,20 +22,6 @@ import TextArea from 'Components/Shared/TextArea';
 import Select from 'Components/Shared/Select';
 import AddButton from 'Components/Shared/Buttons/ButtonLittleAdd';
 import RemoveButton from 'Components/Shared/Buttons/ButtonRemove';
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { Form, Field } from 'react-final-form';
-import arrayMutators from 'final-form-arrays';
-import { FieldArray } from 'react-final-form-arrays';
-import useQuery from 'Hooks/useQuery';
-import {
-  createPostulant,
-  getPostulantById,
-  updatePostulant,
-  getPostulants
-} from 'redux/Postulants/thunks';
-import { closeErrorModal } from 'redux/Postulants/actions';
 
 const PostulantsForm = () => {
   const error = useSelector((store) => store.postulants.error);

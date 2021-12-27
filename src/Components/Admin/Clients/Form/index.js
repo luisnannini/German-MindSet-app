@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createClient, getClientById, updateClient } from 'redux/Clients/thunks';
 import { closeErrorModal } from 'redux/Clients/actions';
-import { useHistory } from 'react-router-dom';
+import { Form, Field } from 'react-final-form';
 import useQuery from 'Hooks/useQuery';
 import styles from './form.module.css';
 import Input from 'Components/Shared/Input';
 import ButtonCancel from 'Components/Shared/Buttons/ButtonCancel';
 import ButtonConfirm from 'Components/Shared/Buttons/ButtonConfirm';
 import ModalError from 'Components/Shared/Modals/ModalError';
-import { Form, Field } from 'react-final-form';
 
 function ClientsForm() {
   const history = useHistory();

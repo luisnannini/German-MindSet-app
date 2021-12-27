@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Field } from 'react-final-form';
 import { createSession, getSessionById, getSessions, updateSession } from 'redux/Sessions/thunks';
 import { closeErrorModal } from 'redux/Sessions/actions';
+import { Form, Field } from 'react-final-form';
 import useQuery from 'Hooks/useQuery.js';
 import styles from './form.module.css';
 import Select from 'Components/Shared/Select';

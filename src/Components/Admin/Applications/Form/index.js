@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createApplication, getApplications } from 'redux/Applications/thunks';
 import { applicationsErrorModal } from 'redux/Applications/actions';
-import { useHistory } from 'react-router-dom';
 import { Form, Field } from 'react-final-form';
 import styles from './form.module.css';
-import Select from 'Components/Shared/Select';
-import TextArea from 'Components/Shared/TextArea';
 import ButtonCancel from 'Components/Shared/Buttons/ButtonCancel';
 import ButtonConfirm from 'Components/Shared/Buttons/ButtonConfirm';
+import Select from 'Components/Shared/Select';
+import TextArea from 'Components/Shared/TextArea';
 import ModalError from 'Components/Shared/Modals/ModalError';
 
 const ApplicationForm = () => {
