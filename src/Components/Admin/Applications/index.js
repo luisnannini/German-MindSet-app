@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getApplications, deleteApplication } from '../../../redux/Applications/thunks';
-import { applicationsErrorModal } from '../../../redux/Applications/actions';
+import { getApplications, deleteApplication } from 'redux/Applications/thunks';
+import { applicationsErrorModal } from 'redux/Applications/actions';
 import { useHistory } from 'react-router-dom';
 import styles from './applications.module.css';
-import ButtonCreate from '../../Shared/Buttons/ButtonCreate';
-import ButtonDelete from '../../Shared/Buttons/ButtonDelete';
-import ModalDelete from '../../Shared/Modals/ModalDelete';
-import ModalError from '../../Shared/Modals/ModalError';
+import ButtonCreate from 'Components/Shared/Buttons/ButtonCreate';
+import ButtonDelete from 'Components/Shared/Buttons/ButtonDelete';
+import ModalDelete from 'Components/Shared/Modals/ModalDelete';
+import ModalError from 'Components/Shared/Modals/ModalError';
 
 function Applications() {
   const history = useHistory();

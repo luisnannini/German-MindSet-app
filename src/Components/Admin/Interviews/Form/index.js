@@ -5,17 +5,17 @@ import {
   updateInterview,
   getInterviewById,
   getInterviews
-} from '../../../../redux/Interviews/thunks';
-import { closeErrorModal } from '../../../../redux/Interviews/actions';
+} from 'redux/Interviews/thunks';
+import { closeErrorModal } from 'redux/Interviews/actions';
 import { useHistory } from 'react-router-dom';
-import useQuery from '../../../../Hooks/useQuery.js';
+import useQuery from 'Hooks/useQuery.js';
 import styles from './form.module.css';
-import Select from '../../../Shared/Select';
-import Input from '../../../Shared/Input';
-import TextArea from '../../../Shared/TextArea';
-import ButtonCancel from '../../../Shared/Buttons/ButtonCancel';
-import ButtonConfirm from '../../../Shared/Buttons/ButtonConfirm';
-import ModalError from '../../../Shared/Modals/ModalError';
+import Select from 'Components/Shared/Select';
+import Input from 'Components/Shared/Input';
+import TextArea from 'Components/Shared/TextArea';
+import ButtonCancel from 'Components/Shared/Buttons/ButtonCancel';
+import ButtonConfirm from 'Components/Shared/Buttons/ButtonConfirm';
+import ModalError from 'Components/Shared/Modals/ModalError';
 import { Form, Field } from 'react-final-form';
 
 const InterviewsForm = () => {

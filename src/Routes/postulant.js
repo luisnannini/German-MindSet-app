@@ -1,9 +1,9 @@
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
-import Home from '../Components/Postulants/Home';
-import Signup from '../Components/Postulants/Signup';
-import Profile from '../Components/Postulants/Profile';
-import EditProfile from '../Components/Postulants/Profile/Form';
-import Layout from '../Components/Layout';
+import Home from 'Components/Postulants/Home';
+import Signup from 'Components/Postulants/Signup';
+import Profile from 'Components/Postulants/Profile';
+import EditProfile from 'Components/Postulants/Profile/Form';
+import Layout from 'Components/Layout';
 
 const AdminRoutes = () => {
   const { url } = useRouteMatch();

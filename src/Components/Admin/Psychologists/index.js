@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPsychologists, deletePsychologist } from '../../../redux/Psychologists/thunks';
-import { closeErrorModal } from '../../../redux/Psychologists/actions';
+import { getPsychologists, deletePsychologist } from 'redux/Psychologists/thunks';
+import { closeErrorModal } from 'redux/Psychologists/actions';
 import { useHistory } from 'react-router-dom';
 import styles from './psychologists.module.css';
-import ButtonCreate from '../../Shared/Buttons/ButtonCreate';
-import ButtonDelete from '../../Shared/Buttons/ButtonDelete';
-import ButtonUpdate from '../../Shared/Buttons/ButtonUpdate';
-import ButtonAvailability from '../../Shared/Buttons/ButtonAvailability';
-import ModalDelete from '../../Shared/Modals/ModalDelete';
-import ModalError from '../../Shared/Modals/ModalError';
-import ModalAvailability from '../../Shared/Modals/ModalAvailability';
+import ButtonCreate from 'Components/Shared/Buttons/ButtonCreate';
+import ButtonDelete from 'Components/Shared/Buttons/ButtonDelete';
+import ButtonUpdate from 'Components/Shared/Buttons/ButtonUpdate';
+import ButtonAvailability from 'Components/Shared/Buttons/ButtonAvailability';
+import ModalDelete from 'Components/Shared/Modals/ModalDelete';
+import ModalError from 'Components/Shared/Modals/ModalError';
+import ModalAvailability from 'Components/Shared/Modals/ModalAvailability';
 
 function Psychologists() {
   const history = useHistory();

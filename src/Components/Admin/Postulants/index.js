@@ -2,14 +2,14 @@ import styles from './postulants.module.css';
 import { useState, useEffect } from 'react/cjs/react.development';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPostulants, deletePostulant } from '../../../redux/Postulants/thunks';
-import { getProfiles } from '../../../redux/Profiles/thunks';
-import { closeErrorModal } from '../../../redux/Postulants/actions';
-import ButtonCreate from '../../Shared/Buttons/ButtonCreate';
-import ButtonDelete from '../../Shared/Buttons/ButtonDelete';
-import ButtonUpdate from '../../Shared/Buttons/ButtonUpdate';
-import ModalDelete from '../../Shared/Modals/ModalDelete';
-import ModalError from '../../Shared/Modals/ModalError';
+import { getPostulants, deletePostulant } from 'redux/Postulants/thunks';
+import { getProfiles } from 'redux/Profiles/thunks';
+import { closeErrorModal } from 'redux/Postulants/actions';
+import ButtonCreate from 'Components/Shared/Buttons/ButtonCreate';
+import ButtonDelete from 'Components/Shared/Buttons/ButtonDelete';
+import ButtonUpdate from 'Components/Shared/Buttons/ButtonUpdate';
+import ModalDelete from 'Components/Shared/Modals/ModalDelete';
+import ModalError from 'Components/Shared/Modals/ModalError';
 
 const PostulantsForm = () => {
   const dispatch = useDispatch();

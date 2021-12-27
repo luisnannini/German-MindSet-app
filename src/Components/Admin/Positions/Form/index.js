@@ -5,17 +5,17 @@ import {
   getPositionById,
   getPositions,
   updatePosition
-} from '../../../../redux/Positions/thunks';
-import { closeErrorModal } from '../../../../redux/Positions/actions';
+} from 'redux/Positions/thunks';
+import { closeErrorModal } from 'redux/Positions/actions';
 import { useHistory } from 'react-router-dom';
-import useQuery from '../../../../Hooks/useQuery';
+import useQuery from 'Hooks/useQuery';
 import styles from './form.module.css';
-import Select from '../../../Shared/Select';
-import Input from '../../../Shared/Input';
-import Checkbox from '../../../Shared/Checkbox';
-import ButtonCancel from '../../../Shared/Buttons/ButtonCancel';
-import ButtonConfirm from '../../../Shared/Buttons/ButtonConfirm';
-import ModalError from '../../../Shared/Modals/ModalError';
+import Select from 'Components/Shared/Select';
+import Input from 'Components/Shared/Input';
+import Checkbox from 'Components/Shared/Checkbox';
+import ButtonCancel from 'Components/Shared/Buttons/ButtonCancel';
+import ButtonConfirm from 'Components/Shared/Buttons/ButtonConfirm';
+import ModalError from 'Components/Shared/Modals/ModalError';
 import { Form, Field } from 'react-final-form';
 
 const positionsForm = () => {
