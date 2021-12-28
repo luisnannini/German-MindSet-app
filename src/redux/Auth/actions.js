@@ -2,6 +2,7 @@ export const LOGIN_PENDING = 'LOGIN_PENDING';
 export const LOGIN_FULFILLED = 'LOGIN_FULFILLED';
 export const LOGIN_REJECTED = 'LOGIN_REJECTED';
 export const SET_AUTHENTICATION = 'SET_AUTHENTICATION';
+export const CLOSE_ERROR_MODAL_AUTH = 'CLOSE_ERROR_MODAL_AUTH';
 
 export const loginPending = () => {
   return {
@@ -26,5 +27,11 @@ export const loginRejected = (error) => {
 export const setAuthentication = () => {
   return {
     type: SET_AUTHENTICATION
+  };
+};
+
+export const closeErrorModal = () => {
+  return {
+    type: CLOSE_ERROR_MODAL_AUTH
   };
 };

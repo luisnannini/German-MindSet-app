@@ -1,4 +1,10 @@
-import { LOGIN_PENDING, LOGIN_FULFILLED, LOGIN_REJECTED, SET_AUTHENTICATION } from './actions';
+import {
+  LOGIN_PENDING,
+  LOGIN_FULFILLED,
+  LOGIN_REJECTED,
+  SET_AUTHENTICATION,
+  CLOSE_ERROR_MODAL_AUTH
+} from './actions';
 
 const initialState = {
   isLoading: false,
@@ -33,6 +39,14 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         authenticated: true
+      };
+    }
+    case CLOSE_ERROR_MODAL_AUTH: {
+      return {
+        ...state,
+        error: {
+          show: false
+        }
       };
     }
     default: {
