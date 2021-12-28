@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getPositions, deletePosition } from '../../../redux/Positions/thunks';
-import { closeErrorModal } from '../../../redux/Positions/actions';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPositions, deletePosition } from 'redux/Positions/thunks';
+import { closeErrorModal } from 'redux/Positions/actions';
 import styles from './positions.module.css';
-import ButtonCreate from '../../Shared/Buttons/ButtonCreate';
-import ButtonDelete from '../../Shared/Buttons/ButtonDelete';
-import ButtonUpdate from '../../Shared/Buttons/ButtonUpdate';
-import ModalDelete from '../../Shared/Modals/ModalDelete';
-import ModalError from '../../Shared/Modals/ModalError';
+import ButtonCreate from 'Components/Shared/Buttons/ButtonCreate';
+import ButtonDelete from 'Components/Shared/Buttons/ButtonDelete';
+import ButtonUpdate from 'Components/Shared/Buttons/ButtonUpdate';
+import ModalDelete from 'Components/Shared/Modals/ModalDelete';
+import ModalError from 'Components/Shared/Modals/ModalError';
 
 function Positions() {
   const history = useHistory();

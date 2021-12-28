@@ -1,27 +1,27 @@
-import styles from './form.module.css';
-import Input from '../../../Shared/Input';
-import ButtonCancel from '../../../Shared/Buttons/ButtonCancel';
-import ButtonConfirm from '../../../Shared/Buttons/ButtonConfirm';
-import ModalError from '../../../Shared/Modals/ModalError';
-import Checkbox from '../../../Shared/Checkbox';
-import TextArea from '../../../Shared/TextArea';
-import Select from '../../../Shared/Select';
-import AddButton from '../../../Shared/Buttons/ButtonLittleAdd';
-import RemoveButton from '../../../Shared/Buttons/ButtonRemove';
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Form, Field } from 'react-final-form';
-import arrayMutators from 'final-form-arrays';
-import { FieldArray } from 'react-final-form-arrays';
-import useQuery from '../../../../Hooks/useQuery';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   createPostulant,
   getPostulantById,
   updatePostulant,
   getPostulants
-} from '../../../../redux/Postulants/thunks';
-import { closeErrorModal } from '../../../../redux/Postulants/actions';
+} from 'redux/Postulants/thunks';
+import { closeErrorModal } from 'redux/Postulants/actions';
+import { Form, Field } from 'react-final-form';
+import { FieldArray } from 'react-final-form-arrays';
+import arrayMutators from 'final-form-arrays';
+import useQuery from 'Hooks/useQuery';
+import styles from './form.module.css';
+import Input from 'Components/Shared/Input';
+import ButtonCancel from 'Components/Shared/Buttons/ButtonCancel';
+import ButtonConfirm from 'Components/Shared/Buttons/ButtonConfirm';
+import ModalError from 'Components/Shared/Modals/ModalError';
+import Checkbox from 'Components/Shared/Checkbox';
+import TextArea from 'Components/Shared/TextArea';
+import Select from 'Components/Shared/Select';
+import AddButton from 'Components/Shared/Buttons/ButtonLittleAdd';
+import RemoveButton from 'Components/Shared/Buttons/ButtonRemove';
 
 function EditForm() {
   const error = useSelector((store) => store.postulants.error);

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAdmins, deleteAdmin } from '../../../redux/Admins/thunks';
-import { adminCloseErrorModal } from '../../../redux/Admins/actions';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAdmins, deleteAdmin } from 'redux/Admins/thunks';
+import { adminCloseErrorModal } from 'redux/Admins/actions';
 import styles from './admins.module.css';
-import ButtonCreate from '../../Shared/Buttons/ButtonCreate';
-import ButtonDelete from '../../Shared/Buttons/ButtonDelete';
-import ButtonUpdate from '../../Shared/Buttons/ButtonUpdate';
-import ModalDelete from '../../Shared/Modals/ModalDelete';
-import ModalError from '../../Shared/Modals/ModalError';
+import ButtonCreate from 'Components/Shared/Buttons/ButtonCreate';
+import ButtonDelete from 'Components/Shared/Buttons/ButtonDelete';
+import ButtonUpdate from 'Components/Shared/Buttons/ButtonUpdate';
+import ModalDelete from 'Components/Shared/Modals/ModalDelete';
+import ModalError from 'Components/Shared/Modals/ModalError';
 
 function Admins() {
   const history = useHistory();

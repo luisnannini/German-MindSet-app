@@ -1,22 +1,22 @@
 import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   createPosition,
   getPositionById,
   getPositions,
   updatePosition
-} from '../../../../redux/Positions/thunks';
-import { closeErrorModal } from '../../../../redux/Positions/actions';
-import { useHistory } from 'react-router-dom';
-import useQuery from '../../../../Hooks/useQuery';
-import styles from './form.module.css';
-import Select from '../../../Shared/Select';
-import Input from '../../../Shared/Input';
-import Checkbox from '../../../Shared/Checkbox';
-import ButtonCancel from '../../../Shared/Buttons/ButtonCancel';
-import ButtonConfirm from '../../../Shared/Buttons/ButtonConfirm';
-import ModalError from '../../../Shared/Modals/ModalError';
+} from 'redux/Positions/thunks';
+import { closeErrorModal } from 'redux/Positions/actions';
 import { Form, Field } from 'react-final-form';
+import useQuery from 'Hooks/useQuery';
+import styles from './form.module.css';
+import Select from 'Components/Shared/Select';
+import Input from 'Components/Shared/Input';
+import Checkbox from 'Components/Shared/Checkbox';
+import ButtonCancel from 'Components/Shared/Buttons/ButtonCancel';
+import ButtonConfirm from 'Components/Shared/Buttons/ButtonConfirm';
+import ModalError from 'Components/Shared/Modals/ModalError';
 
 const positionsForm = () => {
   const history = useHistory();

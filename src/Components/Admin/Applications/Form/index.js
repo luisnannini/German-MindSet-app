@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { createApplication, getApplications } from '../../../../redux/Applications/thunks';
-import { applicationsErrorModal } from '../../../../redux/Applications/actions';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { createApplication, getApplications } from 'redux/Applications/thunks';
+import { applicationsErrorModal } from 'redux/Applications/actions';
 import { Form, Field } from 'react-final-form';
 import styles from './form.module.css';
-import Select from '../../../Shared/Select';
-import TextArea from '../../../Shared/TextArea';
-import ButtonCancel from '../../../Shared/Buttons/ButtonCancel';
-import ButtonConfirm from '../../../Shared/Buttons/ButtonConfirm';
-import ModalError from '../../../Shared/Modals/ModalError';
+import ButtonCancel from 'Components/Shared/Buttons/ButtonCancel';
+import ButtonConfirm from 'Components/Shared/Buttons/ButtonConfirm';
+import Select from 'Components/Shared/Select';
+import TextArea from 'Components/Shared/TextArea';
+import ModalError from 'Components/Shared/Modals/ModalError';
 
 const ApplicationForm = () => {
   const history = useHistory();

@@ -1,15 +1,15 @@
 import { React, useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { createProfile, getProfileById, updateProfile } from '../../../../redux/Profiles/thunks';
-import { closeErrorModal } from '../../../../redux/Profiles/actions';
 import { useHistory } from 'react-router-dom';
-import useQuery from '../../../../Hooks/useQuery';
-import styles from './form.module.css';
-import Input from '../../../Shared/Input';
-import ButtonCancel from '../../../Shared/Buttons/ButtonCancel';
-import ButtonConfirm from '../../../Shared/Buttons/ButtonConfirm';
-import ModalError from '../../../Shared/Modals/ModalError';
+import { useDispatch, useSelector } from 'react-redux';
+import { createProfile, getProfileById, updateProfile } from 'redux/Profiles/thunks';
+import { closeErrorModal } from 'redux/Profiles/actions';
 import { Form, Field } from 'react-final-form';
+import useQuery from 'Hooks/useQuery';
+import styles from './form.module.css';
+import Input from 'Components/Shared/Input';
+import ButtonCancel from 'Components/Shared/Buttons/ButtonCancel';
+import ButtonConfirm from 'Components/Shared/Buttons/ButtonConfirm';
+import ModalError from 'Components/Shared/Modals/ModalError';
 
 const ProfilesForm = () => {
   const dispatch = useDispatch();

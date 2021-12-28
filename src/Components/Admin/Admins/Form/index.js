@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { createAdmin, updateAdmin, getAdmin } from '../../../../redux/Admins/thunks';
-import { adminCloseErrorModal } from '../../../../redux/Admins/actions';
 import { useHistory } from 'react-router-dom';
-import styles from './form.module.css';
-import Input from '../../../Shared/Input';
-import ButtonCancel from '../../../Shared/Buttons/ButtonCancel';
-import ButtonConfirm from '../../../Shared/Buttons/ButtonConfirm';
-import ModalError from '../../../Shared/Modals/ModalError';
+import { useDispatch, useSelector } from 'react-redux';
+import { createAdmin, updateAdmin, getAdmin } from 'redux/Admins/thunks';
+import { adminCloseErrorModal } from 'redux/Admins/actions';
 import { Form, Field } from 'react-final-form';
+import styles from './form.module.css';
+import Input from 'Components/Shared/Input';
+import ButtonCancel from 'Components/Shared/Buttons/ButtonCancel';
+import ButtonConfirm from 'Components/Shared/Buttons/ButtonConfirm';
+import ModalError from 'Components/Shared/Modals/ModalError';
 
 const AdminsForm = () => {
   const history = useHistory();
