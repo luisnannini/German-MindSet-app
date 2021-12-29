@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeErrorModal } from 'redux/Auth/actions';
@@ -49,7 +50,10 @@ function LoginForm() {
               component={Input}
               validate={required}
             />
-            <Button disabled={formProps.submitting || formProps.pristine} type="submit" />
+            <div className={styles.button}>
+              <Button disabled={formProps.submitting || formProps.pristine} type="submit" />
+            </div>
+            <h3 className={styles.signUp}>Don't have an account? Sign Up</h3>
           </form>
         )}
       />
