@@ -4,7 +4,7 @@ import {
   LOGIN_REJECTED,
   SET_AUTHENTICATION,
   CLOSE_ERROR_MODAL_AUTH
-} from './actions';
+} from '../../constants/actionTypes';
 
 const initialState = {
   isLoading: false,
@@ -12,7 +12,8 @@ const initialState = {
   error: {
     show: false,
     message: ''
-  }
+  },
+  user: ''
 };
 
 const reducer = (state = initialState, action) => {
@@ -28,7 +29,8 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        authenticated: true
+        authenticated: true,
+        user: action.payload
       };
     }
     case LOGIN_REJECTED: {

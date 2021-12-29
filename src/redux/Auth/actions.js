@@ -1,8 +1,10 @@
-export const LOGIN_PENDING = 'LOGIN_PENDING';
-export const LOGIN_FULFILLED = 'LOGIN_FULFILLED';
-export const LOGIN_REJECTED = 'LOGIN_REJECTED';
-export const SET_AUTHENTICATION = 'SET_AUTHENTICATION';
-export const CLOSE_ERROR_MODAL_AUTH = 'CLOSE_ERROR_MODAL_AUTH';
+import {
+  LOGIN_PENDING,
+  LOGIN_FULFILLED,
+  LOGIN_REJECTED,
+  SET_AUTHENTICATION,
+  CLOSE_ERROR_MODAL_AUTH
+} from '../../constants/actionTypes';
 
 export const loginPending = () => {
   return {
