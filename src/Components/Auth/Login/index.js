@@ -1,14 +1,14 @@
 import { useHistory } from 'react-router-dom';
-import { login } from 'redux/auth/thunks';
-import { closeErrorModal } from 'redux/Auth/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import { closeErrorModal } from 'redux/Auth/actions';
+import { login } from 'redux/Auth/thunks';
 import { Form, Field } from 'react-final-form';
 import styles from './login.module.css';
 import Input from 'Components/Shared/Input';
 import ModalError from 'Components/Shared/Modals/ModalError';
 import Button from 'Components/Shared/Buttons/ButtonConfirm';
 
-function AdminsForm() {
+function LoginForm() {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -30,8 +30,8 @@ function AdminsForm() {
       <Form
         onSubmit={onSubmit}
         render={(formProps) => (
-          <form onSubmit={formProps.handleSubmit}>
-            <h2>Login</h2>
+          <form onSubmit={formProps.handleSubmit} className={styles.container}>
+            <h2 className={styles.title}>Login</h2>
             <Field
               name="email"
               label="Email"
@@ -49,13 +49,7 @@ function AdminsForm() {
               component={Input}
               validate={required}
             />
-            <div className={styles.buttonContainer}>
-              <Button
-                label="Login"
-                disabled={formProps.submitting || formProps.pristine}
-                type="submit"
-              />
-            </div>
+            <Button disabled={formProps.submitting || formProps.pristine} type="submit" />
           </form>
         )}
       />
@@ -63,4 +57,4 @@ function AdminsForm() {
   );
 }
 
-export default AdminsForm;
+export default LoginForm;

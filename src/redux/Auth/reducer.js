@@ -9,7 +9,10 @@ import {
 const initialState = {
   isLoading: false,
   authenticated: false,
-  error: ''
+  error: {
+    show: false,
+    message: ''
+  }
 };
 
 const reducer = (state = initialState, action) => {
