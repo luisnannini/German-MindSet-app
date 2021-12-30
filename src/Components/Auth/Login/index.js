@@ -53,7 +53,9 @@ function LoginForm() {
             <div className={styles.button}>
               <Button disabled={formProps.submitting || formProps.pristine} type="submit" />
             </div>
-            <h3 className={styles.signUp}>Don't have an account? Sign Up</h3>
+            <span className={styles.signUp} onClick={() => history.push('/auth/register')}>
+              Don't have an account? Sign up!
+            </span>
           </form>
         )}
       />
