@@ -10,8 +10,8 @@ import {
 } from '../../constants/actionTypes';
 
 const initialState = {
-  isLoading: false,
-  authenticated: false,
+  isLoading: true,
+  authenticated: undefined,
   error: {
     show: false,
     message: ''
@@ -31,8 +31,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        authenticated: true,
-        user: action.payload
+        authenticated: action.payload
       };
     }
     case LOGIN_REJECTED: {
@@ -53,7 +52,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        authenticated: true
+        authenticated: action.payload
       };
     }
     case REGISTER_REJECTED: {
@@ -66,7 +65,8 @@ const reducer = (state = initialState, action) => {
     case SET_AUTHENTICATION: {
       return {
         ...state,
-        authenticated: true
+        authenticated: action.payload,
+        isLoading: false
       };
     }
     case CLOSE_ERROR_MODAL_AUTH: {

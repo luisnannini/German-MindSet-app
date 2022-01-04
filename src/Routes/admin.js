@@ -1,4 +1,4 @@
-import { Switch, Redirect, useRouteMatch } from 'react-router-dom';
+import { Switch, Redirect, useRouteMatch, Route } from 'react-router-dom';
 import Admins from 'Components/Admin/Admins';
 import AdminsForm from 'Components/Admin/Admins/Form';
 import Applications from 'Components/Admin/Applications';
@@ -18,7 +18,6 @@ import PsychologistsForm from 'Components/Admin/Psychologists/Form';
 import Sessions from 'Components/Admin/Sessions';
 import SessionsForm from 'Components/Admin/Sessions/Form';
 import Layout from 'Components/Layout';
-import PrivateRoute from 'Routes/PrivateRoute';
 
 const adminsRoutes = [
   { name: 'Admins', path: '/admin/admins' },
@@ -37,24 +36,24 @@ const AdminRoutes = () => {
   return (
     <Layout routes={adminsRoutes}>
       <Switch>
-        <PrivateRoute exact path={`${url}/admins`} component={Admins} />
-        <PrivateRoute exact path={`${url}/admins/form`} component={AdminsForm} />
-        <PrivateRoute exact path={`${url}/applications`} component={Applications} />
-        <PrivateRoute exact path={`${url}/applications/form`} component={ApplicationsForm} />
-        <PrivateRoute exact path={`${url}/clients`} component={Clients} />
-        <PrivateRoute exact path={`${url}/clients/form`} component={ClientsForm} />
-        <PrivateRoute exact path={`${url}/interviews`} component={Interviews} />
-        <PrivateRoute exact path={`${url}/interviews/form`} component={InterviewsForm} />
-        <PrivateRoute exact path={`${url}/positions`} component={Positions} />
-        <PrivateRoute exact path={`${url}/positions/form`} component={PositionsForm} />
-        <PrivateRoute exact path={`${url}/postulants`} component={Postulants} />
-        <PrivateRoute exact path={`${url}/postulants/form`} component={PostulantsForm} />
-        <PrivateRoute exact path={`${url}/profiles`} component={Profiles} />
-        <PrivateRoute exact path={`${url}/profiles/form`} component={ProfilesForm} />
-        <PrivateRoute exact path={`${url}/psychologists`} component={Psychologists} />
-        <PrivateRoute exact path={`${url}/psychologists/form`} component={PsychologistsForm} />
-        <PrivateRoute exact path={`${url}/sessions`} component={Sessions} />
-        <PrivateRoute exact path={`${url}/sessions/form`} component={SessionsForm} />
+        <Route exact path={`${url}/admins`} component={Admins} />
+        <Route exact path={`${url}/admins/form`} component={AdminsForm} />
+        <Route exact path={`${url}/applications`} component={Applications} />
+        <Route exact path={`${url}/applications/form`} component={ApplicationsForm} />
+        <Route exact path={`${url}/clients`} component={Clients} />
+        <Route exact path={`${url}/clients/form`} component={ClientsForm} />
+        <Route exact path={`${url}/interviews`} component={Interviews} />
+        <Route exact path={`${url}/interviews/form`} component={InterviewsForm} />
+        <Route exact path={`${url}/positions`} component={Positions} />
+        <Route exact path={`${url}/positions/form`} component={PositionsForm} />
+        <Route exact path={`${url}/postulants`} component={Postulants} />
+        <Route exact path={`${url}/postulants/form`} component={PostulantsForm} />
+        <Route exact path={`${url}/profiles`} component={Profiles} />
+        <Route exact path={`${url}/profiles/form`} component={ProfilesForm} />
+        <Route exact path={`${url}/psychologists`} component={Psychologists} />
+        <Route exact path={`${url}/psychologists/form`} component={PsychologistsForm} />
+        <Route exact path={`${url}/sessions`} component={Sessions} />
+        <Route exact path={`${url}/sessions/form`} component={SessionsForm} />
         <Redirect to={`${url}/admins`} />
       </Switch>
     </Layout>
