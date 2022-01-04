@@ -11,9 +11,9 @@ const AdminRoutes = () => {
     <Layout
       routes={[
         { name: 'Home', path: '/postulant/' },
-        { name: 'Go to admin app', path: '/admin' },
         { name: 'Signup', path: '/postulant/signup' },
-        { name: 'Postulant Profile', path: '/postulant/profile' }
+        { name: 'Login', path: '/postulant/login' }
+        // { name: 'Postulant Profile', path: '/postulant/profile' }
       ]}
     >
       <Switch>
