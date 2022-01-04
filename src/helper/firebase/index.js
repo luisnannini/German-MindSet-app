@@ -1,7 +1,7 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { store } from 'redux/store';
-import { setAuthentication } from 'redux/auth/actions';
+import { setAuthentication } from 'redux/Auth/actions';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
