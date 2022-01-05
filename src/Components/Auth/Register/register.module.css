@@ -22,5 +22,5 @@
 
 .signUp {
   margin: 10px;
-  text-decoration: underline;
+  cursor: pointer;
 }
