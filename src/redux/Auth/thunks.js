@@ -1,4 +1,31 @@
-import { registerPending, registerFulfilled, registerRejected } from './actions';
+import {
+  loginPending,
+  loginFulfilled,
+  loginRejected,
+  registerPending,
+  registerFulfilled,
+  registerRejected
+} from './actions';
+import firebase from 'helper/firebase';
+
+export const login = (credentials) => {
+  return (dispatch) => {
+    dispatch(loginPending());
+    return firebase
+      .auth()
+      .signInWithEmailAndPassword(credentials.email, credentials.password)
+      .then(async (response) => {
+        const token = await response.user.getIdToken();
+        const {
+          claims: { role }
+        } = await response.user.getIdTokenResult();
+        return dispatch(loginFulfilled({ role, token }));
+      })
+      .catch((error) => {
+        return dispatch(loginRejected(error.toString()));
+      });
+  };
+};
 
 export const register = (credentials) => {
   return (dispatch) => {

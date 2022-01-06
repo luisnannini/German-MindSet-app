@@ -1,4 +1,7 @@
 import {
+  LOGIN_PENDING,
+  LOGIN_FULFILLED,
+  LOGIN_REJECTED,
   REGISTER_PENDING,
   REGISTER_FULFILLED,
   REGISTER_REJECTED,
@@ -7,8 +10,8 @@ import {
 } from '../../constants/actionTypes';
 
 const initialState = {
-  isLoading: false,
-  authenticated: false,
+  isLoading: true,
+  authenticated: undefined,
   error: {
     show: false,
     message: ''
@@ -17,6 +20,27 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case LOGIN_PENDING: {
+      return {
+        ...state,
+        isLoading: true,
+        error: initialState.error
+      };
+    }
+    case LOGIN_FULFILLED: {
+      return {
+        ...state,
+        isLoading: false,
+        authenticated: action.payload
+      };
+    }
+    case LOGIN_REJECTED: {
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload
+      };
+    }
     case REGISTER_PENDING: {
       return {
         ...state,
@@ -28,7 +52,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        authenticated: true
+        authenticated: action.payload
       };
     }
     case REGISTER_REJECTED: {
@@ -41,7 +65,8 @@ const reducer = (state = initialState, action) => {
     case SET_AUTHENTICATION: {
       return {
         ...state,
-        authenticated: true
+        authenticated: action.payload,
+        isLoading: false
       };
     }
     case CLOSE_ERROR_MODAL_AUTH: {

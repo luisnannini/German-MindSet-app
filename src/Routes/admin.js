@@ -1,4 +1,4 @@
-import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
+import { Switch, Redirect, useRouteMatch, Route } from 'react-router-dom';
 import Admins from 'Components/Admin/Admins';
 import AdminsForm from 'Components/Admin/Admins/Form';
 import Applications from 'Components/Admin/Applications';
