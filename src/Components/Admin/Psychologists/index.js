@@ -9,16 +9,13 @@ import ButtonDelete from 'Components/Shared/Buttons/ButtonDelete';
 import ButtonUpdate from 'Components/Shared/Buttons/ButtonUpdate';
 import ModalDelete from 'Components/Shared/Modals/ModalDelete';
 import ModalError from 'Components/Shared/Modals/ModalError';
-import ModalAvailability from 'Components/Shared/Modals/ModalAvailability';
 
 function Psychologists() {
   const history = useHistory();
   const dispatch = useDispatch();
   const [selectedPsychologist, setSelectedPsychologist] = useState('');
   const psychologists = useSelector((store) => store.psychologists.list);
-  const [availability, setAvailability] = useState({});
   const [showDelete, setShowDelete] = useState(false);
-  const [showAvailability, setShowAvailability] = useState(false);
   const isLoading = useSelector((store) => store.psychologists.isLoading);
   const error = useSelector((store) => store.psychologists.error);
 
@@ -47,15 +44,6 @@ function Psychologists() {
           });
         }}
         onCancel={() => setShowDelete(false)}
-      />
-      <ModalAvailability
-        show={showAvailability}
-        title="Availability"
-        data={availability}
-        onCancel={() => {
-          setShowAvailability(false);
-          setAvailability({});
-        }}
       />
       <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
       <div className={styles.container}>
