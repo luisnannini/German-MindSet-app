@@ -7,7 +7,6 @@ import styles from './psychologists.module.css';
 import ButtonCreate from 'Components/Shared/Buttons/ButtonCreate';
 import ButtonDelete from 'Components/Shared/Buttons/ButtonDelete';
 import ButtonUpdate from 'Components/Shared/Buttons/ButtonUpdate';
-import ButtonAvailability from 'Components/Shared/Buttons/ButtonAvailability';
 import ModalDelete from 'Components/Shared/Modals/ModalDelete';
 import ModalError from 'Components/Shared/Modals/ModalError';
 import ModalAvailability from 'Components/Shared/Modals/ModalAvailability';
@@ -33,13 +32,6 @@ function Psychologists() {
     event.stopPropagation();
     setShowDelete(true);
     setSelectedPsychologist(psy._id);
-  };
-
-  const handleAvailability = (event, psy) => {
-    event.stopPropagation();
-    // setSelectedPsychologist(psy._id);
-    setAvailability(psy.availability);
-    setShowAvailability(true);
   };
 
   return (
@@ -83,7 +75,6 @@ function Psychologists() {
               <th>Email</th>
               <th>Phone Number</th>
               <th>Address</th>
-              <th>Availability</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -97,12 +88,6 @@ function Psychologists() {
                   <td>{psychologist.email}</td>
                   <td>{psychologist.phone}</td>
                   <td>{psychologist.address}</td>
-                  <td>
-                    <ButtonAvailability
-                      disabled={isLoading}
-                      onClick={(event) => handleAvailability(event, psychologist)}
-                    />
-                  </td>
                   <td>
                     <ButtonUpdate
                       disabled={isLoading}
