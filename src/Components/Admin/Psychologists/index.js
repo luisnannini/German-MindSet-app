@@ -7,19 +7,15 @@ import styles from './psychologists.module.css';
 import ButtonCreate from 'Components/Shared/Buttons/ButtonCreate';
 import ButtonDelete from 'Components/Shared/Buttons/ButtonDelete';
 import ButtonUpdate from 'Components/Shared/Buttons/ButtonUpdate';
-import ButtonAvailability from 'Components/Shared/Buttons/ButtonAvailability';
 import ModalDelete from 'Components/Shared/Modals/ModalDelete';
 import ModalError from 'Components/Shared/Modals/ModalError';
-import ModalAvailability from 'Components/Shared/Modals/ModalAvailability';
 
 function Psychologists() {
   const history = useHistory();
   const dispatch = useDispatch();
   const [selectedPsychologist, setSelectedPsychologist] = useState('');
   const psychologists = useSelector((store) => store.psychologists.list);
-  const [availability, setAvailability] = useState({});
   const [showDelete, setShowDelete] = useState(false);
-  const [showAvailability, setShowAvailability] = useState(false);
   const isLoading = useSelector((store) => store.psychologists.isLoading);
   const error = useSelector((store) => store.psychologists.error);
 
@@ -35,13 +31,6 @@ function Psychologists() {
     setSelectedPsychologist(psy._id);
   };
 
-  const handleAvailability = (event, psy) => {
-    event.stopPropagation();
-    // setSelectedPsychologist(psy._id);
-    setAvailability(psy.availability);
-    setShowAvailability(true);
-  };
-
   return (
     <section className={styles.section}>
       <ModalDelete
@@ -55,15 +44,6 @@ function Psychologists() {
           });
         }}
         onCancel={() => setShowDelete(false)}
-      />
-      <ModalAvailability
-        show={showAvailability}
-        title="Availability"
-        data={availability}
-        onCancel={() => {
-          setShowAvailability(false);
-          setAvailability({});
-        }}
       />
       <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
       <div className={styles.container}>
@@ -83,7 +63,6 @@ function Psychologists() {
               <th>Email</th>
               <th>Phone Number</th>
               <th>Address</th>
-              <th>Availability</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -97,12 +76,6 @@ function Psychologists() {
                   <td>{psychologist.email}</td>
                   <td>{psychologist.phone}</td>
                   <td>{psychologist.address}</td>
-                  <td>
-                    <ButtonAvailability
-                      disabled={isLoading}
-                      onClick={(event) => handleAvailability(event, psychologist)}
-                    />
-                  </td>
                   <td>
                     <ButtonUpdate
                       disabled={isLoading}

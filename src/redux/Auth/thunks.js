@@ -4,7 +4,10 @@ import {
   loginRejected,
   registerPending,
   registerFulfilled,
-  registerRejected
+  registerRejected,
+  logoutPending,
+  logoutFulfilled,
+  logoutRejected
 } from './actions';
 import firebase from 'helper/firebase';
 
@@ -47,6 +50,21 @@ export const register = (credentials) => {
       })
       .catch(() => {
         dispatch(registerRejected());
+      });
+  };
+};
+
+export const logout = () => {
+  return (dispatch) => {
+    dispatch(logoutPending());
+    return firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        return dispatch(logoutFulfilled());
+      })
+      .catch((error) => {
+        return dispatch(logoutRejected(error.toString()));
       });
   };
 };
