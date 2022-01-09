@@ -8,6 +8,7 @@ import styles from './profile.module.css';
 function Profile() {
   const history = useHistory();
   const [postulants, setPostulants] = useState([]);
+  const [sessions, setSessions] = useState([]);
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}/postulants`)
       .then((response) => {
@@ -22,6 +23,23 @@ function Profile() {
       })
       .then((response) => {
         setPostulants(response.data);
+      })
+      .catch((error) => error);
+  }, []);
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_API}/sessions`)
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
+          const status = `${response.status} ${response.statusText}`;
+          return response.json().then(({ message }) => {
+            if (message.message) throw { message: message.message, status };
+            throw { message, status };
+          });
+        }
+        return response.json();
+      })
+      .then((response) => {
+        setSessions(response.data);
       })
       .catch((error) => error);
   }, []);
@@ -184,6 +202,26 @@ function Profile() {
               </div>
             );
           })}
+        <div>
+          <h2>Session with Psychologist</h2>
+          <span>Status</span>
+          {sessions
+            .filter((session) => session.postulant._id === '61c0de53b51c8f80eeea2edc')
+            .map((session) => {
+              return (
+                <>
+                  <th>
+                    {session.status === 'pending' &&
+                      'The session with Psychologist is pending. You must have a session before applying for any position.'}
+                  </th>
+                  <th>
+                    {session.status === 'assigned' && 'The session with Psychologist is assigned.'}
+                  </th>
+                  <th>{session.status === 'done' && 'The session with Psychologist is done.'}</th>
+                </>
+              );
+            })}
+        </div>
       </section>
     </div>
   );
