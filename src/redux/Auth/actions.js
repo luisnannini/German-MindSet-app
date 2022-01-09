@@ -5,6 +5,9 @@ import {
   REGISTER_PENDING,
   REGISTER_FULFILLED,
   REGISTER_REJECTED,
+  LOGOUT_PENDING,
+  LOGOUT_FULFILLED,
+  LOGOUT_REJECTED,
   SET_AUTHENTICATION,
   CLOSE_ERROR_MODAL_AUTH
 } from '../../constants/actionTypes';
@@ -45,6 +48,26 @@ export const registerFulfilled = (data) => {
 export const registerRejected = (error) => {
   return {
     type: REGISTER_REJECTED,
+    payload: error
+  };
+};
+
+export const logoutPending = () => {
+  return {
+    type: LOGOUT_PENDING
+  };
+};
+
+export const logoutFulfilled = (data) => {
+  return {
+    type: LOGOUT_FULFILLED,
+    payload: data
+  };
+};
+
+export const logoutRejected = (error) => {
+  return {
+    type: LOGOUT_REJECTED,
     payload: error
   };
 };

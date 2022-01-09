@@ -5,6 +5,9 @@ import {
   REGISTER_PENDING,
   REGISTER_FULFILLED,
   REGISTER_REJECTED,
+  LOGOUT_PENDING,
+  LOGOUT_FULFILLED,
+  LOGOUT_REJECTED,
   SET_AUTHENTICATION,
   CLOSE_ERROR_MODAL_AUTH
 } from '../../constants/actionTypes';
@@ -56,6 +59,27 @@ const reducer = (state = initialState, action) => {
       };
     }
     case REGISTER_REJECTED: {
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload
+      };
+    }
+    case LOGOUT_PENDING: {
+      return {
+        ...state,
+        isLoading: true,
+        error: initialState.error
+      };
+    }
+    case LOGOUT_FULFILLED: {
+      return {
+        ...state,
+        isLoading: false,
+        authenticated: initialState.authenticated
+      };
+    }
+    case LOGOUT_REJECTED: {
       return {
         ...state,
         isLoading: false,
