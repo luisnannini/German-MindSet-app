@@ -6,7 +6,6 @@ import LoginForm from 'Components/Auth/Login';
 
 const HomeRoutes = () => {
   const { url } = useRouteMatch();
-  console.log(`${url}/auth/home`);
   return (
     <Layout
       routes={[
