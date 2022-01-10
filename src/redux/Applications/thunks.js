@@ -13,7 +13,9 @@ import {
 export const getApplications = () => {
   return (dispatch) => {
     dispatch(getApplicationsFetching());
-    return fetch(`${process.env.REACT_APP_API}/applications`)
+    return fetch(`${process.env.REACT_APP_API}/applications`, {
+      headers: { token: sessionStorage.getItem('token') }
+    })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           const status = `${response.status} ${response.statusText}`;
@@ -41,7 +43,8 @@ export const createApplication = (values) => {
     const options = {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
       },
       body: JSON.stringify(values)
     };
@@ -71,7 +74,10 @@ export const createApplication = (values) => {
 export const deleteApplication = (id) => {
   return (dispatch) => {
     dispatch(deleteApplicationFetching());
-    return fetch(`${process.env.REACT_APP_API}/applications/${id}`, { method: 'DELETE' })
+    return fetch(`${process.env.REACT_APP_API}/applications/${id}`, {
+      method: 'DELETE',
+      token: sessionStorage.getItem('token')
+    })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           const status = `${response.status} ${response.statusText}`;

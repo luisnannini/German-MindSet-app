@@ -37,7 +37,8 @@ const AdminsForm = () => {
     let url;
     const options = {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
       },
       body: JSON.stringify(adminValues)
     };

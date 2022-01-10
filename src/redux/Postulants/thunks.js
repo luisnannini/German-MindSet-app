@@ -19,7 +19,9 @@ import {
 export const getPostulants = () => {
   return (dispatch) => {
     dispatch(getPostulantsFetching());
-    return fetch(`${process.env.REACT_APP_API}/postulants`)
+    return fetch(`${process.env.REACT_APP_API}/postulants`, {
+      headers: { token: sessionStorage.getItem('token') }
+    })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           const status = `${response.status} ${response.statusText}`;
@@ -44,7 +46,9 @@ export const getPostulants = () => {
 export const getPostulantById = (id) => {
   return (dispatch) => {
     dispatch(getPostulantByIdFetching());
-    return fetch(`${process.env.REACT_APP_API}/postulants?_id=${id}`)
+    return fetch(`${process.env.REACT_APP_API}/postulants?_id=${id}`, {
+      headers: { token: sessionStorage.getItem('token') }
+    })
       .then((response) => {
         if (response.status !== 200) {
           return response.json().then(({ message }) => {
@@ -71,7 +75,8 @@ export const createPostulant = (values) => {
     const options = {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
       },
       body: JSON.stringify(values)
     };
@@ -104,7 +109,8 @@ export const updatePostulant = (id, values) => {
     const options = {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
       },
       body: JSON.stringify(values)
     };
@@ -134,7 +140,10 @@ export const updatePostulant = (id, values) => {
 export const deletePostulant = (id) => {
   return (dispatch) => {
     dispatch(deletePostulantFetching());
-    return fetch(`${process.env.REACT_APP_API}/postulants/${id}`, { method: 'DELETE' })
+    return fetch(`${process.env.REACT_APP_API}/postulants/${id}`, {
+      method: 'DELETE',
+      headers: { token: sessionStorage.getItem('token') }
+    })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           const status = `${response.status} ${response.statusText}`;
