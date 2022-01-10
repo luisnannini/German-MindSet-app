@@ -17,7 +17,7 @@ const AdminsForm = () => {
   const adminId = params.get('_id');
   const [admin, setAdmin] = useState({
     name: '',
-    email: '',
+    username: '',
     password: ''
   });
   const error = useSelector((store) => store.admins.error);
@@ -57,11 +57,11 @@ const AdminsForm = () => {
     if (!formValues.name?.match(/^([a-zA-Z]+ [a-zA-Z]+)+$/)) {
       errors.name = 'Full name must contain only letters and a space in between';
     }
-    if (formValues.email?.length < 5) {
-      errors.email = 'Username must contain at least 5 characters';
+    if (formValues.username?.length < 5) {
+      errors.username = 'Username must contain at least 5 characters';
     }
-    if (formValues.email?.search(/[a-zA-Z]/) < 0 || formValues.email?.search(/[0-9]/) < 0) {
-      errors.email = 'Username must contain letters and numbers';
+    if (formValues.username?.search(/[a-zA-Z]/) < 0 || formValues.username?.search(/[0-9]/) < 0) {
+      errors.username = 'Username must contain letters and numbers';
     }
     if (formValues.password?.length < 8) {
       errors.password = 'Password must contain at least 8 characters';
@@ -96,7 +96,7 @@ const AdminsForm = () => {
                 <Field
                   label={'Username'}
                   name="username"
-                  initialValue={admin.email}
+                  initialValue={admin.username}
                   placeholder={'Username'}
                   component={Input}
                   disabled={formProps.submitting}
