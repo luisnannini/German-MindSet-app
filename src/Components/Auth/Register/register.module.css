@@ -1,26 +1,76 @@
 .container {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 180px auto;
-  box-shadow: 5px 7px 8px rgba(139, 139, 139, 0.432), -5px -2px 8px rgba(139, 139, 139, 0.26);
+  margin: 5em 10em;
+}
+
+.containerFields {
+  display: flex;
+  flex-direction: column;
+}
+
+.removeButton > :only-child {
+  margin-left: 600px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 0.1em solid #888888;
+  background-color: #FFFFFF;
+}
+
+.form h3 {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.form select, .form input {
+  margin: 0.8em 0;
+}
+
+.header {
+  display: flex;
+  margin-bottom: 20px;
+  height: 5em;
+  background-color: #232F3E;
+  font-size: 20px;
 }
 
 .title {
-  font-weight: bolder;
-  font-size: 25px;
-  color: #002147;
-  margin-top: 10px;
-  margin-bottom: 50px;
+  margin: auto;
+  color: #FFFFFF;
+  font-size: 20px;
+}
+
+.fields {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.columns {
+  margin: 0 20px;
+  font-weight: bold;
 }
 
 .button {
-  margin: 25px;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  margin: 40px;
 }
 
-.signUp {
-  margin: 10px;
-  cursor: pointer;
+.removeButton {
+  display: flex;
+  justify-content: flex-start;
+  margin: 5px auto;
+}
+
+.addButton {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
 }

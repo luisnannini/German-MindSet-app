@@ -33,7 +33,7 @@ export const login = (credentials) => {
 export const register = (credentials) => {
   return (dispatch) => {
     dispatch(registerPending());
-    return fetch(`${process.env.REACT_APP_API}/auth/register`, {
+    return fetch(`${process.env.REACT_APP_API}/auth/registerPostulant`, {
       method: 'POST',
       mode: 'cors',
       headers: {
