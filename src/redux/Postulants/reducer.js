@@ -5,6 +5,9 @@ import {
   GET_POSTULANT_BY_ID_FETCHING,
   GET_POSTULANT_BY_ID_FULFILLED,
   GET_POSTULANT_BY_ID_REJECTED,
+  GET_POSTULANT_BY_EMAIL_FETCHING,
+  GET_POSTULANT_BY_EMAIL_FULFILLED,
+  GET_POSTULANT_BY_EMAIL_REJECTED,
   CREATE_POSTULANT_FETCHING,
   CREATE_POSTULANT_FULFILLED,
   CREATE_POSTULANT_REJECTED,
@@ -63,6 +66,28 @@ const reducerPostulants = (state = initialState, action) => {
       };
     }
     case GET_POSTULANT_BY_ID_REJECTED: {
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload
+      };
+    }
+    case GET_POSTULANT_BY_EMAIL_FETCHING: {
+      return {
+        ...state,
+        isLoading: true,
+        error: initialState.error,
+        selectedItem: initialState.selectedItem
+      };
+    }
+    case GET_POSTULANT_BY_EMAIL_FULFILLED: {
+      return {
+        ...state,
+        isLoading: false,
+        selectedItem: action.payload
+      };
+    }
+    case GET_POSTULANT_BY_EMAIL_REJECTED: {
       return {
         ...state,
         isLoading: false,

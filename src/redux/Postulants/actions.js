@@ -5,6 +5,9 @@ import {
   GET_POSTULANT_BY_ID_FETCHING,
   GET_POSTULANT_BY_ID_FULFILLED,
   GET_POSTULANT_BY_ID_REJECTED,
+  GET_POSTULANT_BY_EMAIL_FETCHING,
+  GET_POSTULANT_BY_EMAIL_FULFILLED,
+  GET_POSTULANT_BY_EMAIL_REJECTED,
   CREATE_POSTULANT_FETCHING,
   CREATE_POSTULANT_FULFILLED,
   CREATE_POSTULANT_REJECTED,
@@ -53,6 +56,26 @@ export const getPostulantByIdFulfilled = (data) => {
 export const getPostulantByIdRejected = (error) => {
   return {
     type: GET_POSTULANT_BY_ID_REJECTED,
+    payload: error
+  };
+};
+
+export const getPostulantByEmailFetching = () => {
+  return {
+    type: GET_POSTULANT_BY_EMAIL_FETCHING
+  };
+};
+
+export const getPostulantByEmailFulfilled = (data) => {
+  return {
+    type: GET_POSTULANT_BY_EMAIL_FULFILLED,
+    payload: data
+  };
+};
+
+export const getPostulantByEmailRejected = (error) => {
+  return {
+    type: GET_POSTULANT_BY_EMAIL_REJECTED,
     payload: error
   };
 };

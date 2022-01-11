@@ -11,6 +11,9 @@ import {
   getPostulantByIdFetching,
   getPostulantByIdFulfilled,
   getPostulantByIdRejected,
+  getPostulantByEmailFetching,
+  getPostulantByEmailFulfilled,
+  getPostulantByEmailRejected,
   deletePostulantFetching,
   deletePostulantFulfilled,
   deletePostulantRejected
@@ -64,6 +67,32 @@ export const getPostulantById = (id) => {
       .catch((error) => {
         dispatch(
           getPostulantByIdRejected({ show: true, message: error.message, title: error.status })
+        );
+      });
+  };
+};
+
+export const getPostulantByEmail = (email) => {
+  return (dispatch) => {
+    dispatch(getPostulantByEmailFetching());
+    return fetch(`${process.env.REACT_APP_API}/postulants?_id=${email}`, {
+      headers: { token: sessionStorage.getItem('token') }
+    })
+      .then((response) => {
+        if (response.status !== 200) {
+          return response.json().then(({ message }) => {
+            throw new Error(message);
+          });
+        }
+        return response.json();
+      })
+      .then((response) => {
+        dispatch(getPostulantByEmailFulfilled(response.data[0]));
+        return response.data[0];
+      })
+      .catch((error) => {
+        dispatch(
+          getPostulantByEmailRejected({ show: true, message: error.message, title: error.status })
         );
       });
   };
