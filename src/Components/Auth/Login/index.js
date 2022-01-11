@@ -23,6 +23,8 @@ function LoginForm() {
             return history.push('/postulant');
           case 'ADMIN':
             return history.push('/admin');
+          case 'PSYCHOLOGIST':
+            return history.push('/psychologist');
           default:
             break;
         }
