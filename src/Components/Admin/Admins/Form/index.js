@@ -59,7 +59,7 @@ const AdminsForm = () => {
     if (!formValues.name?.match(/^([a-zA-Z]+ [a-zA-Z]+)+$/)) {
       errors.name = 'Full name must contain only letters and a space in between';
     }
-    if (formValues.email?.match(emailRegex)) {
+    if (!formValues.email?.match(emailRegex)) {
       errors.email = 'Invalid email format';
     }
     if (formValues.password?.length < 8) {
@@ -93,10 +93,10 @@ const AdminsForm = () => {
                   validate={required}
                 />
                 <Field
-                  label={'Username'}
+                  label={'Email'}
                   name="email"
                   initialValue={admin.email}
-                  placeholder={'Username'}
+                  placeholder={'Email'}
                   component={Input}
                   disabled={formProps.submitting}
                   validate={required}
