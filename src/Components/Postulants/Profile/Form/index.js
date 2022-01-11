@@ -42,10 +42,6 @@ function EditForm() {
     birthday: '',
     available: false
   });
-  const [contactRange, setContactRange] = useState({
-    from: '',
-    to: ''
-  });
   const [primaryStudies, setPrimaryStudies] = useState({
     startDate: '',
     endDate: '',
@@ -76,7 +72,6 @@ function EditForm() {
           birthday: selectedPostulant.birthday,
           available: selectedPostulant.available
         });
-        setContactRange(selectedPostulant.contactRange);
         setPostulantProfile(selectedPostulant.profiles);
         setPrimaryStudies(selectedPostulant.studies.primaryStudies);
         setSecondaryStudies(selectedPostulant.studies.secondaryStudies);
@@ -122,10 +117,6 @@ function EditForm() {
           phone: formValues.phoneNumber,
           birthday: formValues.birthday,
           available: formValues.available,
-          contactRange: {
-            from: formValues.available ? formValues.from : '00:00',
-            to: formValues.available ? formValues.to : '00:00'
-          },
           profiles: formValues.profiles,
           studies: {
             primaryStudies: {
@@ -161,10 +152,6 @@ function EditForm() {
           phone: formValues.phoneNumber,
           birthday: formValues.birthday,
           available: formValues.available,
-          contactRange: {
-            from: formValues.available ? formValues.from : '00:00',
-            to: formValues.available ? formValues.to : '00:00'
-          },
           profiles: formValues.profiles,
           studies: {
             primaryStudies: {
@@ -229,13 +216,6 @@ function EditForm() {
     if (formValues.phoneNumber?.length < 7 || formValues.phoneNumber?.length > 14) {
       errors.phoneNumber = 'Phone number must be between 7 and 14 numbers';
     }
-    // contact range
-    if (formValues.available) {
-      if (formValues.from >= formValues.to) {
-        errors.from = '"From" hour must be before "to" hour';
-        errors.to = '"To" hour must be after "from" hour';
-      }
-    }
     // primary studies
     if (formValues.startDatePrimaryStudies >= formValues.endDatePrimaryStudies) {
       errors.startDatePrimaryStudies = '';
@@ -273,8 +253,7 @@ function EditForm() {
             mutators: { push }
           },
           pristine,
-          submitting,
-          values
+          submitting
         }) => {
           return (
             <form className={styles.form} onSubmit={handleSubmit}>
@@ -368,31 +347,6 @@ function EditForm() {
                     initialValue={postulantProfile}
                     disabled={submitting}
                     component={Select}
-                    validate={required}
-                  />
-                </div>
-              </div>
-              <h3>Contact Range</h3>
-              <div className={styles.fields}>
-                <div className={styles.columns}>
-                  <Field
-                    label={'From'}
-                    name={'from'}
-                    placeholder={'From'}
-                    type={'time'}
-                    initialValue={values.available ? contactRange.from : '00:00'}
-                    disabled={values.available ? submitting : !submitting}
-                    component={Input}
-                    validate={required}
-                  />
-                  <Field
-                    label={'To'}
-                    name={'to'}
-                    placeholder={'To'}
-                    type={'time'}
-                    initialValue={values.available ? contactRange.to : '00:00'}
-                    disabled={values.available ? submitting : !submitting}
-                    component={Input}
                     validate={required}
                   />
                 </div>
