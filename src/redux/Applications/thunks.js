@@ -76,7 +76,7 @@ export const deleteApplication = (id) => {
     dispatch(deleteApplicationFetching());
     return fetch(`${process.env.REACT_APP_API}/applications/${id}`, {
       method: 'DELETE',
-      token: sessionStorage.getItem('token')
+      headers: { token: sessionStorage.getItem('token') }
     })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {

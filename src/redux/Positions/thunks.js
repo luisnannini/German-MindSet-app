@@ -69,7 +69,8 @@ export const createPosition = (values) => {
     const options = {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
       },
       body: JSON.stringify(values)
     };
@@ -102,7 +103,8 @@ export const updatePosition = (id, values) => {
     const options = {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
       },
       body: JSON.stringify(values)
     };
@@ -132,7 +134,10 @@ export const updatePosition = (id, values) => {
 export const deletePosition = (id) => {
   return (dispatch) => {
     dispatch(deletePositionFetching());
-    return fetch(`${process.env.REACT_APP_API}/positions/${id}`, { method: 'DELETE' })
+    return fetch(`${process.env.REACT_APP_API}/positions/${id}`, {
+      method: 'DELETE',
+      headers: { token: sessionStorage.getItem('token') }
+    })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           const status = `${response.status} ${response.statusText}`;
