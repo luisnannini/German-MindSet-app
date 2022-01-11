@@ -19,7 +19,9 @@ import {
 export const getAdmins = () => {
   return (dispatch) => {
     dispatch(getAdminsFetching());
-    fetch(`${process.env.REACT_APP_API}/admins`)
+    fetch(`${process.env.REACT_APP_API}/admins`, {
+      headers: { token: sessionStorage.getItem('token') }
+    })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           const status = `${response.status} ${response.statusText}`;
@@ -48,7 +50,9 @@ export const getAdmins = () => {
 export const getAdmin = (id, setAdmin) => {
   return (dispatch) => {
     dispatch(getAdminByIdFetching());
-    fetch(`${process.env.REACT_APP_API}/admins?_id=${id}`)
+    fetch(`${process.env.REACT_APP_API}/admins?_id=${id}`, {
+      headers: { token: sessionStorage.getItem('token') }
+    })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           const status = `${response.status} ${response.statusText}`;
@@ -134,7 +138,10 @@ export const updateAdmin = (url, options, cb) => {
 export const deleteAdmin = (id) => {
   return (dispatch) => {
     dispatch(deleteAdminFetching());
-    fetch(`${process.env.REACT_APP_API}/admins/${id}`, { method: 'DELETE' })
+    fetch(`${process.env.REACT_APP_API}/admins/${id}`, {
+      method: 'DELETE',
+      headers: { token: sessionStorage.getItem('token') }
+    })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           const status = `${response.status} ${response.statusText}`;

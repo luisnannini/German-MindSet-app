@@ -17,7 +17,7 @@ const AdminsForm = () => {
   const adminId = params.get('_id');
   const [admin, setAdmin] = useState({
     name: '',
-    username: '',
+    email: '',
     password: ''
   });
   const error = useSelector((store) => store.admins.error);
@@ -29,17 +29,13 @@ const AdminsForm = () => {
   }, []);
 
   const submitAdmin = (formValues) => {
-    const adminValues = {
-      name: formValues.name,
-      username: formValues.username,
-      password: formValues.password
-    };
     let url;
     const options = {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
       },
-      body: JSON.stringify(adminValues)
+      body: JSON.stringify(formValues)
     };
 
     if (adminId) {
@@ -48,24 +44,23 @@ const AdminsForm = () => {
       dispatch(updateAdmin(url, options, () => history.goBack()));
     } else {
       options.method = 'POST';
-      url = `${process.env.REACT_APP_API}/admins`;
+      url = `${process.env.REACT_APP_API}/auth/registerAdmin`;
       dispatch(createAdmin(url, options, () => history.goBack()));
     }
   };
 
   const validate = (formValues) => {
     const errors = {};
+    const emailRegex =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (formValues.name?.length < 5) {
       errors.name = 'Full name must be at least 5 characters';
     }
     if (!formValues.name?.match(/^([a-zA-Z]+ [a-zA-Z]+)+$/)) {
       errors.name = 'Full name must contain only letters and a space in between';
     }
-    if (formValues.username?.length < 5) {
-      errors.username = 'Username must contain at least 5 characters';
-    }
-    if (formValues.username?.search(/[a-zA-Z]/) < 0 || formValues.username?.search(/[0-9]/) < 0) {
-      errors.username = 'Username must contain letters and numbers';
+    if (!formValues.email?.match(emailRegex)) {
+      errors.email = 'Invalid email format';
     }
     if (formValues.password?.length < 8) {
       errors.password = 'Password must contain at least 8 characters';
@@ -98,10 +93,10 @@ const AdminsForm = () => {
                   validate={required}
                 />
                 <Field
-                  label={'Username'}
-                  name="username"
-                  initialValue={admin.username}
-                  placeholder={'Username'}
+                  label={'Email'}
+                  name="email"
+                  initialValue={admin.email}
+                  placeholder={'Email'}
                   component={Input}
                   disabled={formProps.submitting}
                   validate={required}

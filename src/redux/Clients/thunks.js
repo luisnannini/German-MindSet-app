@@ -19,7 +19,9 @@ import {
 export const getClients = () => {
   return (dispatch) => {
     dispatch(getClientsFetching());
-    return fetch(`${process.env.REACT_APP_API}/Clients`)
+    return fetch(`${process.env.REACT_APP_API}/Clients`, {
+      headers: { token: sessionStorage.getItem('token') }
+    })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           const status = `${response.status} ${response.statusText}`;
@@ -42,7 +44,9 @@ export const getClients = () => {
 export const getClientById = (id) => {
   return (dispatch) => {
     dispatch(getClientByIdFetching());
-    return fetch(`${process.env.REACT_APP_API}/Clients?_id=${id}`)
+    return fetch(`${process.env.REACT_APP_API}/Clients?_id=${id}`, {
+      headers: { token: sessionStorage.getItem('token') }
+    })
       .then((response) => {
         if (response.status !== 200) {
           return response.json().then(({ message }) => {
@@ -69,7 +73,8 @@ export const createClient = (values) => {
     const options = {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
       },
       body: JSON.stringify(values)
     };
@@ -100,7 +105,8 @@ export const updateClient = (id, values) => {
     const options = {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
       },
       body: JSON.stringify(values)
     };
@@ -128,7 +134,10 @@ export const updateClient = (id, values) => {
 export const deleteClient = (id) => {
   return (dispatch) => {
     dispatch(deleteClientFetching());
-    return fetch(`${process.env.REACT_APP_API}/Clients/${id}`, { method: 'DELETE' })
+    return fetch(`${process.env.REACT_APP_API}/Clients/${id}`, {
+      method: 'DELETE',
+      headers: { token: sessionStorage.getItem('token') }
+    })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           const status = `${response.status} ${response.statusText}`;

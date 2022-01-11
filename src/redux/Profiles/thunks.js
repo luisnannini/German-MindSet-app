@@ -19,7 +19,9 @@ import {
 export const getProfiles = () => {
   return (dispatch) => {
     dispatch(getProfilesFetching());
-    return fetch(`${process.env.REACT_APP_API}/profiles`)
+    return fetch(`${process.env.REACT_APP_API}/profiles`, {
+      headers: { token: sessionStorage.getItem('token') }
+    })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           const status = `${response.status} ${response.statusText}`;
@@ -42,7 +44,9 @@ export const getProfiles = () => {
 export const getProfileById = (id) => {
   return (dispatch) => {
     dispatch(getProfileByIdFetching());
-    return fetch(`${process.env.REACT_APP_API}/profiles?_id=${id}`)
+    return fetch(`${process.env.REACT_APP_API}/profiles?_id=${id}`, {
+      headers: { token: sessionStorage.getItem('token') }
+    })
       .then((response) => {
         if (response.status !== 200) {
           return response.json().then(({ message }) => {
@@ -69,7 +73,8 @@ export const createProfile = (values) => {
     const options = {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
       },
       body: JSON.stringify(values)
     };
@@ -102,7 +107,8 @@ export const updateProfile = (id, values) => {
     const options = {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
       },
       body: JSON.stringify(values)
     };
@@ -132,7 +138,10 @@ export const updateProfile = (id, values) => {
 export const deleteProfile = (id) => {
   return (dispatch) => {
     dispatch(deleteProfileFetching());
-    return fetch(`${process.env.REACT_APP_API}/profiles/${id}`, { method: 'DELETE' })
+    return fetch(`${process.env.REACT_APP_API}/profiles/${id}`, {
+      method: 'DELETE',
+      headers: { token: sessionStorage.getItem('token') }
+    })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           const status = `${response.status} ${response.statusText}`;

@@ -19,6 +19,7 @@ export const login = (credentials) => {
       .signInWithEmailAndPassword(credentials.email, credentials.password)
       .then(async (response) => {
         const token = await response.user.getIdToken();
+        sessionStorage.setItem('token', token);
         const {
           claims: { role }
         } = await response.user.getIdTokenResult();
