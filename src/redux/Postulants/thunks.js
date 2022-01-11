@@ -75,7 +75,7 @@ export const getPostulantById = (id) => {
 export const getPostulantByEmail = (email) => {
   return (dispatch) => {
     dispatch(getPostulantByEmailFetching());
-    return fetch(`${process.env.REACT_APP_API}/postulants?_id=${email}`, {
+    return fetch(`${process.env.REACT_APP_API}/postulants?email=${email}`, {
       headers: { token: sessionStorage.getItem('token') }
     })
       .then((response) => {
