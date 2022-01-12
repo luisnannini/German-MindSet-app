@@ -9,12 +9,16 @@ import {
   LOGOUT_FULFILLED,
   LOGOUT_REJECTED,
   SET_AUTHENTICATION,
+  GET_POSTULANT_DATA_FETCHING,
+  GET_POSTULANT_DATA_FULFILLED,
+  GET_POSTULANT_DATA_REJECTED,
   CLOSE_ERROR_MODAL_AUTH
 } from '../../constants/actionTypes';
 
 const initialState = {
   isLoading: true,
   authenticated: undefined,
+  data: {},
   error: {
     show: false,
     message: ''
@@ -76,7 +80,8 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        authenticated: initialState.authenticated
+        authenticated: initialState.authenticated,
+        data: initialState.data
       };
     }
     case LOGOUT_REJECTED: {
@@ -91,6 +96,28 @@ const reducer = (state = initialState, action) => {
         ...state,
         authenticated: action.payload,
         isLoading: false
+      };
+    }
+    case GET_POSTULANT_DATA_FETCHING: {
+      return {
+        ...state,
+        isLoading: true,
+        error: initialState.error,
+        data: initialState.data
+      };
+    }
+    case GET_POSTULANT_DATA_FULFILLED: {
+      return {
+        ...state,
+        isLoading: false,
+        data: action.payload
+      };
+    }
+    case GET_POSTULANT_DATA_REJECTED: {
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload
       };
     }
     case CLOSE_ERROR_MODAL_AUTH: {
