@@ -15,7 +15,7 @@
 
 .title {
   margin: 30px auto;
-  font-size: 20px;
+  font-size: 30px;
 }
 
 .headerDiv {
@@ -40,11 +40,11 @@
 }
 
 .headerDiv2 h2 {
-  font-size: 20px;
+  font-size: 25px;
 }
 
 .headerDiv2 span {
-  font-size: 12px;
+  font-size: 20px;
 }
 
 .headerDiv2 h2, .headerDiv2 span{
@@ -54,13 +54,17 @@
 .box {
   display: flex;
   flex-direction: row;
+  flex: 1;
+  border: red solid 1px;
+  font-size: 20px;
 }
 
 .internalBox {
   display: flex;
   flex-direction: column;
   margin: 20px auto;
-  width: 200px;
+  width: 500px;
+  border: blue solid 1px;
 }
 
 .internalBox h2 {

@@ -11,18 +11,21 @@ function Profile() {
   return (
     <div className={styles.container}>
       <section className={styles.section}>
-        <h2 className={styles.title}>Postulant Profile</h2>
+        <h1 className={styles.title}>
+          {postulant.firstName} {postulant.lastName}
+        </h1>
         <div key={postulant._id}>
           <div className={styles.headerDiv}>
             <img src="" alt="Postulant Image"></img>
             <div className={styles.headerDiv2}>
-              <h2>
+              {/* <h2>
                 {postulant.firstName} {postulant.lastName}
-              </h2>
-              <span>{postulant.email}</span>
-              <span>{postulant.birthday.replace('T00:00:00.000Z', '')}</span>
-              <span>{postulant.address}</span>
-              <span>{postulant.phone}</span>
+              </h2> */}
+              <span>{`Email: ${postulant.email}`}</span>
+              <span>{`Address: ${postulant.address}`}</span>
+              <span>{`Phone Number: ${postulant.phone}`}</span>
+              <span>{`Birth Date: ${postulant.birthday.replace('T00:00:00.000Z', '')}`}</span>
+              <span>{`Available: ${postulant.available ? 'Yes' : 'No'}`}</span>
             </div>
           </div>
           <div className={styles.box}>

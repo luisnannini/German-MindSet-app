@@ -10,7 +10,7 @@ const PostulantRoutes = () => {
     <Layout
       routes={[
         { name: 'Home', path: '/postulant/home' },
-        { name: 'Postulant Profile', path: '/postulant/profile' },
+        { name: 'Profile', path: '/postulant/profile' },
         { name: 'Logout', path: '/logout' }
       ]}
     >
