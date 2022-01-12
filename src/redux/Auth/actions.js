@@ -9,6 +9,9 @@ import {
   LOGOUT_FULFILLED,
   LOGOUT_REJECTED,
   SET_AUTHENTICATION,
+  GET_POSTULANT_DATA_FETCHING,
+  GET_POSTULANT_DATA_FULFILLED,
+  GET_POSTULANT_DATA_REJECTED,
   CLOSE_ERROR_MODAL_AUTH
 } from '../../constants/actionTypes';
 
@@ -76,6 +79,26 @@ export const setAuthentication = (user) => {
   return {
     type: SET_AUTHENTICATION,
     payload: user
+  };
+};
+
+export const getPostulantDataFetching = () => {
+  return {
+    type: GET_POSTULANT_DATA_FETCHING
+  };
+};
+
+export const getPostulantDataFulfilled = (data) => {
+  return {
+    type: GET_POSTULANT_DATA_FULFILLED,
+    payload: data
+  };
+};
+
+export const getPostulantDataRejected = (error) => {
+  return {
+    type: GET_POSTULANT_DATA_REJECTED,
+    payload: error
   };
 };
 
