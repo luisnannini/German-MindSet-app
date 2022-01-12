@@ -8,6 +8,7 @@ import styles from './login.module.css';
 import Input from 'Components/Shared/Input';
 import ModalError from 'Components/Shared/Modals/ModalError';
 import Button from 'Components/Shared/Buttons/ButtonConfirm';
+import { getPostulantData } from 'redux/Auth/thunks';
 
 function LoginForm() {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ function LoginForm() {
       if (response) {
         switch (response.payload?.role) {
           case 'POSTULANT':
+            dispatch(getPostulantData(formValues.email));
             return history.push('/postulant');
           case 'ADMIN':
             return history.push('/admin');
