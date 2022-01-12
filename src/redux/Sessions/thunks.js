@@ -19,7 +19,9 @@ import {
 export const getSessions = () => {
   return (dispatch) => {
     dispatch(getSessionsFetching());
-    return fetch(`${process.env.REACT_APP_API}/sessions`)
+    return fetch(`${process.env.REACT_APP_API}/sessions`, {
+      headers: { token: sessionStorage.getItem('token') }
+    })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           const status = `${response.status} ${response.statusText}`;
