@@ -1,0 +1,150 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 5em 10em;
+}
+
+.containerFields {
+  display: flex;
+  flex-direction: column;
+}
+
+.removeButton > :only-child {
+  margin-left: 600px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 0.1em solid #888888;
+  background-color: #FFFFFF;
+}
+
+.form h3 {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.form select, .form input {
+  margin: 0.8em 0;
+}
+
+.header {
+  display: flex;
+  margin-bottom: 20px;
+  height: 5em;
+  background-color: #232F3E;
+  font-size: 20px;
+}
+.title {
+  margin: auto;
+  color: #FFFFFF;
+  font-size: 20px;
+}
+.fields {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 3em auto;
+  margin: 0 auto;
+}
+
+.columns {
+  margin: 0 20px;
+  font-weight: bold;
+}
+.button {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  margin-bottom: 1em;
+  margin: 40px;
+}
+
+.removeButton {
+  display: flex;
+  justify-content: flex-start;
+  margin: 5px auto;
+}
+
+.addButton {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+/* //////////////// */
+.section {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 30px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: flex-start;
+  margin: 100px;
+  box-shadow: 5px 7px 8px rgba(139, 139, 139, 0.432), -5px -2px 8px rgba(139, 139, 139, 0.26);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px;
+}
+
+.title {
+  display: flex;
+  align-self: center;
+  margin: 10px;
+  color: #232F3E;
+  font-size: 30px;
+  margin: 20px;
+}
+
+.table {
+  margin: 0;
+  padding: 0;
+  height: 3em;
+  border-bottom: 1px solid #c5c5c5;
+  list-style: none;
+}
+
+.table th, .table td {
+  padding: 13px;
+  border-bottom: 1px solid #c5c5c5;
+  text-align: center;
+}
+
+.table th {
+  color: #FC6225;
+  font-size: 18px;
+  font-weight: normal;
+}
+
+.table td {
+  color: #232F3E;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.loader {
+  justify-content: center;
+  align-self: center;
+  position: flex;
+  width: 20px;
+  height: 20px;
+  border: 5px solid #c5c5c5;
+  border-top: 5px solid #FC6225;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
