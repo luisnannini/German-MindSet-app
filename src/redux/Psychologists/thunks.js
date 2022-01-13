@@ -19,7 +19,9 @@ import {
 export const getPsychologists = () => {
   return (dispatch) => {
     dispatch(getPsychologistsFetching());
-    return fetch(`${process.env.REACT_APP_API}/psychologists`)
+    return fetch(`${process.env.REACT_APP_API}/psychologists`, {
+      headers: { token: sessionStorage.getItem('token') }
+    })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           const status = `${response.status} ${response.statusText}`;

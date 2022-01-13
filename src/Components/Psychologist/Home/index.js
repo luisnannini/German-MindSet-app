@@ -1,19 +1,17 @@
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSessions, deleteSession } from 'redux/Sessions/thunks';
 import { closeErrorModal } from 'redux/Sessions/actions';
 import styles from './home.module.css';
-import ButtonCreate from 'Components/Shared/Buttons/ButtonCreate';
 import ButtonDelete from 'Components/Shared/Buttons/ButtonDelete';
-import ButtonUpdate from 'Components/Shared/Buttons/ButtonUpdate';
 import ModalDelete from 'Components/Shared/Modals/ModalDelete';
 import ModalError from 'Components/Shared/Modals/ModalError';
 
 function Home() {
-  const history = useHistory();
   const dispatch = useDispatch();
+  const loggedUserId = useSelector((store) => store.auth.authenticated.id);
   const sessions = useSelector((store) => store.sessions.list);
+  const [filter, setFilter] = useState('assigned');
   const [selectedSession, setSelectedSession] = useState(undefined);
   const [showDelete, setShowDelete] = useState(false);
   const isLoading = useSelector((store) => store.sessions.isLoading);
@@ -49,13 +47,24 @@ function Home() {
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Sessions</h2>
-          <ButtonCreate disabled={isLoading} onClick={() => history.push('/admin/sessions/form')} />
+          <div>
+            <label htmlFor="Filter">Filter Sessions:</label>
+            <select
+              className={styles.select}
+              name="Filter"
+              id="Filter"
+              onChange={(e) => setFilter(e.target.value)}
+            >
+              <option value="assigned">Assigned</option>
+              <option value="cancelled">Cancelled</option>
+              <option value="succesful">Succesful</option>
+            </select>
+          </div>
         </div>
         <table className={styles.table}>
           <thead>
             <tr>
               <th>Postulant</th>
-              <th>Psychologist</th>
               <th>Status</th>
               <th>Date</th>
               <th>Notes</th>
@@ -64,29 +73,24 @@ function Home() {
           </thead>
           <tbody>
             {sessions.map((session) => {
-              return (
-                <tr className={styles.list} key={session._id}>
-                  <td>
-                    {session.postulant.firstName} {session.postulant.lastName}
-                  </td>
-                  <td>
-                    {session.psychologist.firstName} {session.psychologist.lastName}
-                  </td>
-                  <td>{session.status}</td>
-                  <td>{session.date.replace('T', ' ')}</td>
-                  <td>{session.notes}</td>
-                  <td>
-                    <ButtonUpdate
-                      disabled={isLoading}
-                      onClick={() => history.push(`/admin/sessions/form?_id=${session._id}`)}
-                    />
-                    <ButtonDelete
-                      disabled={isLoading}
-                      onClick={(event) => handleDelete(event, session)}
-                    />
-                  </td>
-                </tr>
-              );
+              if (session.psychologist._id === loggedUserId && session.status === filter) {
+                return (
+                  <tr className={styles.list} key={session._id}>
+                    <td>
+                      {session.postulant.firstName} {session.postulant.lastName}
+                    </td>
+                    <td>{session.status}</td>
+                    <td>{session.date.replace('T', ' ')}</td>
+                    <td>{session.notes}</td>
+                    <td>
+                      <ButtonDelete
+                        disabled={isLoading}
+                        onClick={(event) => handleDelete(event, session)}
+                      />
+                    </td>
+                  </tr>
+                );
+              }
             })}
           </tbody>
         </table>

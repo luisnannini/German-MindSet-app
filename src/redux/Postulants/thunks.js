@@ -19,7 +19,9 @@ import {
 export const getPostulants = () => {
   return (dispatch) => {
     dispatch(getPostulantsFetching());
-    return fetch(`${process.env.REACT_APP_API}/postulants`)
+    return fetch(`${process.env.REACT_APP_API}/postulants`, {
+      headers: { token: sessionStorage.getItem('token') }
+    })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           const status = `${response.status} ${response.statusText}`;

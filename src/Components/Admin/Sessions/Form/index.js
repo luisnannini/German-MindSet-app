@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSession, getSessionById, getSessions, updateSession } from 'redux/Sessions/thunks';
+import { getPostulants } from 'redux/Postulants/thunks';
+import { getPsychologists } from 'redux/Psychologists/thunks';
 import { closeErrorModal } from 'redux/Sessions/actions';
 import { Form, Field } from 'react-final-form';
 import useQuery from 'Hooks/useQuery.js';
@@ -28,6 +30,8 @@ const SessionsForm = () => {
   const isLoading = useSelector((store) => store.sessions.isLoading);
   const error = useSelector((store) => store.sessions.error);
   const query = useQuery();
+  const psychos = useSelector((store) => store.psychologists.list);
+  const posts = useSelector((store) => store.postulants.list);
 
   useEffect(() => {
     const sessionId = query.get('_id');
@@ -43,20 +47,10 @@ const SessionsForm = () => {
       });
     }
 
-    fetch(`${process.env.REACT_APP_API}/postulants`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
+    dispatch(getPostulants())
+      .then(() => {
         setPostulants(
-          response.data.map((postulant) => ({
+          posts.map((postulant) => ({
             _id: postulant._id,
             value: postulant._id,
             name: `${postulant.firstName} ${postulant.lastName}`
@@ -65,20 +59,10 @@ const SessionsForm = () => {
       })
       .catch((error) => error);
 
-    fetch(`${process.env.REACT_APP_API}/psychologists`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
+    dispatch(getPsychologists())
+      .then(() => {
         setPsychologists(
-          response.data.map((psychologist) => ({
+          psychos.map((psychologist) => ({
             _id: psychologist._id,
             value: psychologist._id,
             name: `${psychologist.firstName} ${psychologist.lastName}`

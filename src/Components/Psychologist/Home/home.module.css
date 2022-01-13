@@ -25,7 +25,9 @@
   color: #232F3E;
   font-size: 30px;
 }
-
+.select {
+  border: none;
+}
 .table {
   margin: 0;
   padding: 0;
