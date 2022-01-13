@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
-// import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import styles from './profile.module.css';
+import profilePicture from 'Images/profile-picture.jpg';
 
 function Profile() {
   const history = useHistory();
@@ -16,11 +16,8 @@ function Profile() {
         </h1>
         <div key={postulant._id}>
           <div className={styles.headerDiv}>
-            <img src="" alt="Postulant Image"></img>
+            <img src={profilePicture} alt="Profile Pic"></img>
             <div className={styles.headerDiv2}>
-              {/* <h2>
-                {postulant.firstName} {postulant.lastName}
-              </h2> */}
               <span>{`Email: ${postulant.email}`}</span>
               <span>{`Address: ${postulant.address}`}</span>
               <span>{`Phone Number: ${postulant.phone}`}</span>
