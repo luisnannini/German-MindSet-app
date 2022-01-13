@@ -44,7 +44,9 @@ export const getSessions = () => {
 export const getSessionById = (id) => {
   return (dispatch) => {
     dispatch(getSessionByIdFetching());
-    return fetch(`${process.env.REACT_APP_API}/sessions?_id=${id}`)
+    return fetch(`${process.env.REACT_APP_API}/sessions?_id=${id}`, {
+      headers: { token: sessionStorage.getItem('token') }
+    })
       .then((response) => {
         if (response.status !== 200) {
           return response.json().then(({ message }) => {
@@ -105,7 +107,8 @@ export const updateSession = (id, values) => {
     const options = {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
       },
       body: JSON.stringify(values)
     };
@@ -135,7 +138,10 @@ export const updateSession = (id, values) => {
 export const deleteSession = (id) => {
   return (dispatch) => {
     dispatch(deleteSessionFetching());
-    return fetch(`${process.env.REACT_APP_API}/sessions/${id}`, { method: 'DELETE' })
+    return fetch(`${process.env.REACT_APP_API}/sessions/${id}`, {
+      method: 'DELETE',
+      headers: { token: sessionStorage.getItem('token') }
+    })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           const status = `${response.status} ${response.statusText}`;

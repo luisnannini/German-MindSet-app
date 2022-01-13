@@ -52,7 +52,7 @@ function RegisterForm() {
             <div className={styles.button}>
               <Button disabled={formProps.submitting || formProps.pristine} type="submit" />
             </div>
-            <span className={styles.signUp} onClick={() => history.push('/auth/login')}>
+            <span className={styles.signUp} onClick={() => history.goBack()}>
               Go back
             </span>
           </form>

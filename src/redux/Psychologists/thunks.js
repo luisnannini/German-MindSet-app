@@ -46,7 +46,9 @@ export const getPsychologists = () => {
 export const getPsychologistById = (id) => {
   return (dispatch) => {
     dispatch(getPsychologistByIdFetching());
-    return fetch(`${process.env.REACT_APP_API}/psychologists?_id=${id}`)
+    return fetch(`${process.env.REACT_APP_API}/psychologists?_id=${id}`, {
+      headers: { token: sessionStorage.getItem('token') }
+    })
       .then((response) => {
         if (response.status !== 200) {
           return response.json().then(({ message }) => {
@@ -73,7 +75,8 @@ export const createPsychologist = (values) => {
     const options = {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
       },
       body: JSON.stringify(values)
     };
@@ -106,7 +109,8 @@ export const updatePsychologist = (id, values) => {
     const options = {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token: sessionStorage.getItem('token')
       },
       body: JSON.stringify(values)
     };
@@ -136,7 +140,10 @@ export const updatePsychologist = (id, values) => {
 export const deletePsychologist = (id) => {
   return (dispatch) => {
     dispatch(deletePsychologistFetching());
-    return fetch(`${process.env.REACT_APP_API}/psychologists/${id}`, { method: 'DELETE' })
+    return fetch(`${process.env.REACT_APP_API}/psychologists/${id}`, {
+      method: 'DELETE',
+      headers: { token: sessionStorage.getItem('token') }
+    })
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           const status = `${response.status} ${response.statusText}`;
