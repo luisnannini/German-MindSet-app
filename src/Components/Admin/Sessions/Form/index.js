@@ -96,7 +96,7 @@ const SessionsForm = () => {
                   title="Postulant"
                   initialValue={postulantValue}
                   object={postulants.map((p) => ({
-                    value: p._id,
+                    _id: p._id,
                     name: `${p.firstName} ${p.lastName}`
                   }))}
                   disabled={formProps.submitting}
@@ -110,7 +110,7 @@ const SessionsForm = () => {
                   title="Psychologist"
                   initialValue={psychologistValue}
                   object={psychologists.map((p) => ({
-                    value: p._id,
+                    _id: p._id,
                     name: `${p.firstName} ${p.lastName}`
                   }))}
                   disabled={formProps.submitting}

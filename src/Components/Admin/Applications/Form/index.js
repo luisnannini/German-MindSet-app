@@ -63,7 +63,7 @@ const ApplicationForm = () => {
                   label="Positions:"
                   title="- Select a position -"
                   object={positions.map((p) => ({
-                    value: p._id,
+                    _id: p._id,
                     name: p.jobDescription
                   }))}
                   component={Select}
@@ -76,7 +76,7 @@ const ApplicationForm = () => {
                   label="Postulants:"
                   title="- Select a postulant -"
                   object={postulants.map((p) => ({
-                    value: p._id,
+                    _id: p._id,
                     name: `${p.firstName} ${p.lastName}`
                   }))}
                   component={Select}
@@ -91,7 +91,7 @@ const ApplicationForm = () => {
                   label="Id interview:"
                   title="- Select an interview -"
                   object={interviews.map((i) => ({
-                    value: i._id,
+                    _id: i._id,
                     name: i._id
                   }))}
                   component={Select}

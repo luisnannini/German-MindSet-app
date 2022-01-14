@@ -112,7 +112,7 @@ const InterviewsForm = () => {
                   name="postulant"
                   initialValue={postulantValue}
                   object={postulants.map((p) => ({
-                    value: p._id,
+                    _id: p._id,
                     name: `${p.firstName} ${p.lastName}`
                   }))}
                   component={Select}
@@ -137,7 +137,7 @@ const InterviewsForm = () => {
                   name="application"
                   initialValue={applicationValue}
                   object={applications.map((a) => ({
-                    value: a._id,
+                    _id: a._id,
                     name: a.result
                   }))}
                   component={Select}
