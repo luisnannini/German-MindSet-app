@@ -1,7 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createApplication, getApplications } from 'redux/Applications/thunks';
+import { getPositions } from 'redux/Positions/thunks';
+import { getPostulants } from 'redux/Postulants/thunks';
+import { getInterviews } from 'redux/Interviews/thunks';
 import { applicationsErrorModal } from 'redux/Applications/actions';
 import { Form, Field } from 'react-final-form';
 import styles from './form.module.css';
@@ -14,73 +17,16 @@ import ModalError from 'Components/Shared/Modals/ModalError';
 const ApplicationForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const [position, setPosition] = useState([]);
-  const [postulant, setPostulant] = useState([]);
-  const [interview, setInterview] = useState([]);
+  const postulants = useSelector((store) => store.postulants.list);
+  const positions = useSelector((store) => store.positions.list);
+  const interviews = useSelector((store) => store.interviews.list);
   const isLoading = useSelector((store) => store.applications.isLoading);
   const error = useSelector((store) => store.positions.error);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/positions`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setPosition(
-          response.data.map((position) => ({
-            _id: position._id,
-            value: position._id,
-            name: position.jobDescription
-          }))
-        );
-      });
-    fetch(`${process.env.REACT_APP_API}/postulants`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setPostulant(
-          response.data.map((postulant) => ({
-            _id: postulant._id,
-            value: postulant._id,
-            name: `${postulant.firstName} ${postulant.lastName}`
-          }))
-        );
-      });
-    fetch(`${process.env.REACT_APP_API}/interviews`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setInterview(
-          response.data.map((interview) => ({
-            _id: interview._id,
-            value: interview._id,
-            name: interview._id
-          }))
-        );
-      });
+    dispatch(getPostulants());
+    dispatch(getPositions());
+    dispatch(getInterviews());
   }, []);
 
   const submitApplications = (formValues) => {
@@ -116,7 +62,10 @@ const ApplicationForm = () => {
                   name="positions"
                   label="Positions:"
                   title="- Select a position -"
-                  object={position}
+                  object={positions.map((p) => ({
+                    value: p._id,
+                    name: p.jobDescription
+                  }))}
                   component={Select}
                   disabled={formProps.submitting}
                   validate={required}
@@ -126,7 +75,10 @@ const ApplicationForm = () => {
                   name="postulants"
                   label="Postulants:"
                   title="- Select a postulant -"
-                  object={postulant}
+                  object={postulants.map((p) => ({
+                    value: p._id,
+                    name: `${p.firstName} ${p.lastName}`
+                  }))}
                   component={Select}
                   disabled={formProps.submitting}
                   validate={required}
@@ -138,7 +90,10 @@ const ApplicationForm = () => {
                   name="interview"
                   label="Id interview:"
                   title="- Select an interview -"
-                  object={interview}
+                  object={interviews.map((i) => ({
+                    value: i._id,
+                    name: i._id
+                  }))}
                   component={Select}
                   disabled={formProps.submitting}
                   validate={required}

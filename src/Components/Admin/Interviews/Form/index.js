@@ -7,6 +7,9 @@ import {
   getInterviewById,
   getInterviews
 } from 'redux/Interviews/thunks';
+import { getPostulants } from 'redux/Postulants/thunks';
+import { getClients } from 'redux/Clients/thunks';
+import { getApplications } from 'redux/Applications/thunks';
 import { closeErrorModal } from 'redux/Interviews/actions';
 import { Form, Field } from 'react-final-form';
 import useQuery from 'Hooks/useQuery.js';
@@ -22,9 +25,9 @@ const InterviewsForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [id, setInterviewId] = useState(undefined);
-  const [postulants, setPostulants] = useState([]);
-  const [clients, setClients] = useState([]);
-  const [applications, setApplications] = useState([]);
+  const postulants = useSelector((store) => store.postulants.list);
+  const clients = useSelector((store) => store.clients.list);
+  const applications = useSelector((store) => store.applications.list);
   const [postulantValue, setPostulantValue] = useState('');
   const [clientValue, setClientValue] = useState('');
   const [applicationValue, setApplicationValue] = useState('');
@@ -36,7 +39,9 @@ const InterviewsForm = () => {
   const query = useQuery();
 
   useEffect(() => {
-    setLoading(true);
+    dispatch(getPostulants());
+    dispatch(getClients());
+    dispatch(getApplications());
     const interviewId = query.get('_id');
     if (interviewId) {
       dispatch(getInterviewById(interviewId)).then((selectedInterview) => {
@@ -49,61 +54,6 @@ const InterviewsForm = () => {
         setNotesValue(selectedInterview.notes);
       });
     }
-    fetch(`${process.env.REACT_APP_API}/postulants`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setPostulants(
-          response.data.map((postulant) => ({
-            _id: postulant._id,
-            value: postulant._id,
-            name: `${postulant.firstName} ${postulant.lastName}`
-          }))
-        );
-      });
-    fetch(`${process.env.REACT_APP_API}/clients`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setClients(response.data);
-      });
-    fetch(`${process.env.REACT_APP_API}/applications`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setApplications(
-          response.data.map((application) => ({
-            _id: application._id,
-            value: application._id,
-            name: application.result
-          }))
-        );
-      })
-      .finally(() => setLoading(false));
   }, []);
 
   const submitInterview = (formValues) => {
@@ -161,7 +111,10 @@ const InterviewsForm = () => {
                   title="Postulant Name"
                   name="postulant"
                   initialValue={postulantValue}
-                  object={postulants}
+                  object={postulants.map((p) => ({
+                    value: p._id,
+                    name: `${p.firstName} ${p.lastName}`
+                  }))}
                   component={Select}
                   disabled={formProps.submitting}
                   validate={required}
@@ -183,7 +136,10 @@ const InterviewsForm = () => {
                   title="Application Id"
                   name="application"
                   initialValue={applicationValue}
-                  object={applications}
+                  object={applications.map((a) => ({
+                    value: a._id,
+                    name: a.result
+                  }))}
                   component={Select}
                   disabled={formProps.submitting}
                   validate={required}
