@@ -2,10 +2,22 @@
   width: 100%;
 }
 
+.container {
+  background-image: url('Images/img-home.jpg');
+  background-color: #232F3E;
+  height: 700px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
 .container h2 {
   text-align: center;
+  color: white;
+  background-color: #232f3ee3;
   font-size: 30px;
-  margin: 30px;
+  padding: 20px;
 }
 
 .openJobs {
@@ -16,6 +28,7 @@
 }
 
 .openJobsDiv {
+  background-color: #232f3eaf;
   width: 200px;
   height: 100%;
   margin: 50px auto;
@@ -27,6 +40,7 @@
 }
 
 .clientName {
+  color: white;
   font-size: 20px;
   font-weight: bold;
   padding-bottom: 10px;

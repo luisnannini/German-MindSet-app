@@ -4,7 +4,7 @@ function Footer() {
   return (
     <footer className={styles.container}>
       <div className={styles.license}>
-        <div className={styles.copyright}>Copyright © 2021 Radium Rocket</div>
+        <div className={styles.copyright}>Copyright © 2021 MindSET</div>
         <div>
           <a href={'https://www.facebook.com/radiumrocket'} target={'_blank'} rel="noreferrer">
             <img
