@@ -32,10 +32,13 @@
 
 .header {
   display: flex;
-  margin-bottom: 20px;
-  height: 5em;
-  background-color: #232F3E;
-  font-size: 20px;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px;
+}
+
+.select {
+  border: none;
 }
 .title {
   margin: auto;
