@@ -13,7 +13,6 @@ const Select = (props) => {
         <option value="" disabled hidden>
           {props.title}
         </option>
-        <option value="asdasd">asd</option>
         {props.object.map((data) => {
           return (
             <option key={data._id} value={data._id}>
