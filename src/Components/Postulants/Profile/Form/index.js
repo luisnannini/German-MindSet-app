@@ -7,6 +7,7 @@ import {
   updatePostulant,
   getPostulants
 } from 'redux/Postulants/thunks';
+import { getProfiles } from 'redux/Profiles/thunks';
 import { closeErrorModal } from 'redux/Postulants/actions';
 import { Form, Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
@@ -30,7 +31,7 @@ function EditForm() {
   const history = useHistory();
   const query = useQuery();
   const [id, setPostulantId] = useState(undefined);
-  const [profiles, setProfiles] = useState([]);
+  const profiles = useSelector((store) => store.profiles.list);
   const [postulantProfile, setPostulantProfile] = useState('');
   const [personalInfo, setPersonalInfo] = useState({
     firstName: '',
@@ -58,6 +59,7 @@ function EditForm() {
   const [workExperience, setWorkExperience] = useState([]);
 
   useEffect(() => {
+    dispatch(getProfiles());
     const postulantId = query.get('_id');
     if (postulantId) {
       dispatch(getPostulantById(postulantId)).then((selectedPostulant) => {
@@ -81,23 +83,6 @@ function EditForm() {
         setWorkExperience(selectedPostulant.workExperience);
       });
     }
-  }, []);
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/profiles`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setProfiles(response.data);
-      })
-      .catch((error) => error);
   }, []);
 
   const parseDate = (string) => {
