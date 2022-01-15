@@ -1,13 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  createPostulant,
-  getPostulantById,
-  updatePostulant,
-  getPostulants
-} from 'redux/Postulants/thunks';
+import { getPostulantById, updatePostulant, getPostulants } from 'redux/Postulants/thunks';
 import { getProfiles } from 'redux/Profiles/thunks';
+import { getPostulantData } from 'redux/Auth/thunks';
 import { closeErrorModal } from 'redux/Postulants/actions';
 import { Form, Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
@@ -122,41 +118,7 @@ function EditForm() {
         })
       ).then((response) => {
         if (response) {
-          history.push('/postulant/profile');
-          dispatch(getPostulants);
-        }
-      });
-    } else {
-      dispatch(
-        createPostulant({
-          firstName: formValues.firstName,
-          lastName: formValues.lastName,
-          email: formValues.email,
-          password: formValues.password,
-          address: formValues.address,
-          phone: formValues.phoneNumber,
-          birthday: formValues.birthday,
-          available: formValues.available,
-          profiles: formValues.profiles,
-          studies: {
-            primaryStudies: {
-              startDate: formValues.startDatePrimaryStudies,
-              endDate: formValues.endDatePrimaryStudies,
-              school: formValues.schoolPrimaryStudies
-            },
-            secondaryStudies: {
-              startDate: formValues.startDateSecondaryStudies,
-              endDate: formValues.endDateSecondaryStudies,
-              school: formValues.schoolSecondaryStudies
-            },
-            tertiaryStudies: formValues.tertiaryStudies,
-            universityStudies: formValues.universityStudies,
-            informalStudies: formValues.informalStudies
-          },
-          workExperience: formValues.workExperience
-        })
-      ).then((response) => {
-        if (response) {
+          dispatch(getPostulantData(formValues.email));
           history.push('/postulant/profile');
           dispatch(getPostulants);
         }
