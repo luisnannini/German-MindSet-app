@@ -57,20 +57,9 @@ function Interviews() {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th>Postulant</th>
-              <th></th>
-              <th>Client</th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-            </tr>
-            <tr>
               <th>First Name</th>
               <th>Last Name</th>
-              <th>Name</th>
+              <th>Client</th>
               <th>ID</th>
               <th>Status</th>
               <th>Date</th>
@@ -85,7 +74,7 @@ function Interviews() {
                   <td>{interview.postulant.firstName}</td>
                   <td>{interview.postulant.lastName}</td>
                   <td>{interview.client.name}</td>
-                  <td>{interview.application.result}</td>
+                  <td>{interview._id}</td>
                   <td>{interview.status}</td>
                   <td>{interview.date.replace('T', ' ')}</td>
                   <td>{interview.notes}</td>
