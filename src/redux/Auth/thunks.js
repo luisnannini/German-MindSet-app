@@ -29,7 +29,7 @@ export const login = (credentials) => {
         return dispatch(loginFulfilled({ role, token, id }));
       })
       .catch((error) => {
-        return dispatch(loginRejected(error.toString()));
+        return dispatch(loginRejected({ show: true, message: error.message, title: error.name }));
       });
   };
 };
