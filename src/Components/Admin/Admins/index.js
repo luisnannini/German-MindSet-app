@@ -46,7 +46,7 @@ function Admins() {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Username</th>
+              <th>Email</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -54,7 +54,7 @@ function Admins() {
             {admins.map((admin) => (
               <tr key={admin._id}>
                 <td>{admin.name}</td>
-                <td>{admin.username}</td>
+                <td>{admin.email}</td>
                 <td>
                   <ButtonUpdate
                     disabled={isLoading}

@@ -171,27 +171,6 @@ function Profile() {
                     })}
                   </div>
                 </div>
-                <div className={styles.available}>
-                  <h2>Contact Range</h2>
-                  <table>
-                    <tbody>
-                      <tr>
-                        <th>Available: {postulant.available === true ? 'Yes' : 'No'}</th>
-                        <th>{postulant.available === true && 'From Monday to Friday'}</th>
-                        {postulant.available === true ? (
-                          <th>From: {postulant.contactRange.from}</th>
-                        ) : (
-                          <th></th>
-                        )}
-                        {postulant.available === true ? (
-                          <th>To: {postulant.contactRange.to}</th>
-                        ) : (
-                          <th></th>
-                        )}
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
                 <div className={styles.button}>
                   <button
                     onClick={() => history.push(`/postulant/profile/form?_id=${postulant._id}`)}

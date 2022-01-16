@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
 import styles from './header.module.css';
+import { useRouteMatch } from 'react-router-dom';
 
 function Header(props) {
+  const { url } = useRouteMatch();
+
   return (
     <header>
       <div className={styles.container}>
@@ -29,7 +32,9 @@ function Header(props) {
       </div>
       <nav className={styles.navbar}>
         <div className={styles.appName}>
-          <span>MindSET</span>
+          <Link to={url} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <span>MindSET</span>
+          </Link>
         </div>
         <ul className={styles.routes}>
           {props.routes.map((route) => (

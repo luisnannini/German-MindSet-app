@@ -4,7 +4,13 @@ import {
   loginRejected,
   registerPending,
   registerFulfilled,
-  registerRejected
+  registerRejected,
+  logoutPending,
+  logoutFulfilled,
+  logoutRejected,
+  getPostulantDataFetching,
+  getPostulantDataFulfilled,
+  getPostulantDataRejected
 } from './actions';
 import firebase from 'helper/firebase';
 
@@ -16,13 +22,14 @@ export const login = (credentials) => {
       .signInWithEmailAndPassword(credentials.email, credentials.password)
       .then(async (response) => {
         const token = await response.user.getIdToken();
+        sessionStorage.setItem('token', token);
         const {
-          claims: { role }
+          claims: { role, id }
         } = await response.user.getIdTokenResult();
-        return dispatch(loginFulfilled({ role, token }));
+        return dispatch(loginFulfilled({ role, token, id }));
       })
       .catch((error) => {
-        return dispatch(loginRejected(error.toString()));
+        return dispatch(loginRejected({ show: true, message: error.message, title: error.name }));
       });
   };
 };
@@ -47,6 +54,47 @@ export const register = (credentials) => {
       })
       .catch(() => {
         dispatch(registerRejected());
+      });
+  };
+};
+
+export const logout = () => {
+  return (dispatch) => {
+    dispatch(logoutPending());
+    return firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        return dispatch(logoutFulfilled());
+      })
+      .catch((error) => {
+        return dispatch(logoutRejected(error.toString()));
+      });
+  };
+};
+
+export const getPostulantData = (email) => {
+  return (dispatch) => {
+    dispatch(getPostulantDataFetching());
+    return fetch(`${process.env.REACT_APP_API}/postulants?email=${email}`, {
+      headers: { token: sessionStorage.getItem('token') }
+    })
+      .then((response) => {
+        if (response.status !== 200) {
+          return response.json().then(({ message }) => {
+            throw new Error(message);
+          });
+        }
+        return response.json();
+      })
+      .then((response) => {
+        dispatch(getPostulantDataFulfilled(response.data[0]));
+        return response.data[0];
+      })
+      .catch((error) => {
+        dispatch(
+          getPostulantDataRejected({ show: true, message: error.message, title: error.status })
+        );
       });
   };
 };
