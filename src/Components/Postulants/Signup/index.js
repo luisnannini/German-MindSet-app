@@ -119,10 +119,6 @@ const Signup = () => {
         phone: formValues.phoneNumber,
         birthday: formValues.birthday,
         available: formValues.available,
-        contactRange: {
-          from: formValues.available ? formValues.from : '00:00',
-          to: formValues.available ? formValues.to : '00:00'
-        },
         profiles: formValues.profiles,
         studies: {
           primaryStudies: {
@@ -143,7 +139,7 @@ const Signup = () => {
       })
     ).then((response) => {
       if (response) {
-        history.push('/postulant/profile');
+        history.push('/postulant');
         dispatch(getPostulants);
       }
     });
