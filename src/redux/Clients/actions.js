@@ -14,7 +14,8 @@ import {
   DELETE_CLIENT_FETCHING,
   DELETE_CLIENT_FULFILLED,
   DELETE_CLIENT_REJECTED,
-  CLOSE_ERROR_MODAL_CLIENTS
+  CLOSE_ERROR_MODAL_CLIENTS,
+  CLEAR_SELECTED_ITEM
 } from '../../constants/actionTypes';
 
 export const getClientsFetching = () => {
@@ -120,5 +121,11 @@ export const deleteClientRejected = (error) => {
 export const closeErrorModal = () => {
   return {
     type: CLOSE_ERROR_MODAL_CLIENTS
+  };
+};
+
+export const clearSelectedItem = () => {
+  return {
+    type: CLEAR_SELECTED_ITEM
   };
 };

@@ -8,7 +8,7 @@ import {
   getPostulants
 } from 'redux/Postulants/thunks';
 import { getProfiles } from 'redux/Profiles/thunks';
-import { closeErrorModal } from 'redux/Postulants/actions';
+import { closeErrorModal, clearSelectedItem } from 'redux/Postulants/actions';
 import { Form, Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import arrayMutators from 'final-form-arrays';
@@ -87,6 +87,8 @@ const PostulantsForm = () => {
         setInformalStudies(selectedPostulant.studies.informalStudies);
         setWorkExperience(selectedPostulant.workExperience);
       });
+    } else {
+      dispatch(clearSelectedItem());
     }
   }, []);
 

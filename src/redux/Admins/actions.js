@@ -14,7 +14,8 @@ import {
   UPDATE_ADMIN_FETCHING,
   UPDATE_ADMIN_FULFILLED,
   UPDATE_ADMIN_REJECTED,
-  ADMIN_CLOSE_ERROR_MODAL
+  ADMIN_CLOSE_ERROR_MODAL,
+  CLEAR_SELECTED_ITEM
 } from '../../constants/actionTypes';
 
 export const getAdminsFetching = () => ({
@@ -78,3 +79,9 @@ export const updateAdminRejected = (payload) => ({
 export const adminCloseErrorModal = () => ({
   type: ADMIN_CLOSE_ERROR_MODAL
 });
+
+export const clearSelectedItem = () => {
+  return {
+    type: CLEAR_SELECTED_ITEM
+  };
+};

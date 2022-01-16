@@ -2,7 +2,7 @@ import { React, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createProfile, getProfileById, updateProfile } from 'redux/Profiles/thunks';
-import { closeErrorModal } from 'redux/Profiles/actions';
+import { closeErrorModal, clearSelectedItem } from 'redux/Profiles/actions';
 import { Form, Field } from 'react-final-form';
 import useQuery from 'Hooks/useQuery';
 import styles from './form.module.css';
@@ -26,6 +26,8 @@ const ProfilesForm = () => {
         setProfileId(profileId);
         setProfileValue(selectedProfile.name);
       });
+    } else {
+      dispatch(clearSelectedItem());
     }
   }, []);
 

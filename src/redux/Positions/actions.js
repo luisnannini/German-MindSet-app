@@ -14,7 +14,8 @@ import {
   DELETE_POSITION_FETCHING,
   DELETE_POSITION_FULFILLED,
   DELETE_POSITION_REJECTED,
-  CLOSE_ERROR_MODAL_POSITIONS
+  CLOSE_ERROR_MODAL_POSITIONS,
+  CLEAR_SELECTED_ITEM
 } from '../../constants/actionTypes';
 
 export const getPositionsFetching = () => {
@@ -120,5 +121,11 @@ export const deletePositionRejected = (error) => {
 export const closeErrorModal = () => {
   return {
     type: CLOSE_ERROR_MODAL_POSITIONS
+  };
+};
+
+export const clearSelectedItem = () => {
+  return {
+    type: CLEAR_SELECTED_ITEM
   };
 };

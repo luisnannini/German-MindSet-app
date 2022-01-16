@@ -9,7 +9,7 @@ import {
 } from 'redux/Positions/thunks';
 import { getClients } from 'redux/Clients/thunks';
 import { getProfiles } from 'redux/Profiles/thunks';
-import { closeErrorModal } from 'redux/Positions/actions';
+import { closeErrorModal, clearSelectedItem } from 'redux/Positions/actions';
 import { Form, Field } from 'react-final-form';
 import useQuery from 'Hooks/useQuery';
 import styles from './form.module.css';
@@ -47,6 +47,8 @@ const positionsForm = () => {
         setVacancyValue(selectedPosition.vacancy);
         setIsOpenValue(selectedPosition.isOpen);
       });
+    } else {
+      dispatch(clearSelectedItem());
     }
   }, []);
 

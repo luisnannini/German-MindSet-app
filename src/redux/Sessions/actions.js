@@ -14,7 +14,8 @@ import {
   DELETE_SESSION_FETCHING,
   DELETE_SESSION_FULFILLED,
   DELETE_SESSION_REJECTED,
-  CLOSE_ERROR_MODAL_SESSIONS
+  CLOSE_ERROR_MODAL_SESSIONS,
+  CLEAR_SELECTED_ITEM
 } from '../../constants/actionTypes';
 
 export const getSessionsFetching = () => {
@@ -120,5 +121,11 @@ export const deleteSessionRejected = (error) => {
 export const closeErrorModal = () => {
   return {
     type: CLOSE_ERROR_MODAL_SESSIONS
+  };
+};
+
+export const clearSelectedItem = () => {
+  return {
+    type: CLEAR_SELECTED_ITEM
   };
 };

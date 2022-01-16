@@ -14,7 +14,8 @@ import {
   DELETE_PSYCHOLOGIST_FETCHING,
   DELETE_PSYCHOLOGIST_FULFILLED,
   DELETE_PSYCHOLOGIST_REJECTED,
-  CLOSE_ERROR_MODAL_PSYCHOLOGISTS
+  CLOSE_ERROR_MODAL_PSYCHOLOGISTS,
+  CLEAR_SELECTED_ITEM
 } from '../../constants/actionTypes';
 
 export const getPsychologistsFetching = () => {
@@ -120,5 +121,11 @@ export const deletePsychologistRejected = (error) => {
 export const closeErrorModal = () => {
   return {
     type: CLOSE_ERROR_MODAL_PSYCHOLOGISTS
+  };
+};
+
+export const clearSelectedItem = () => {
+  return {
+    type: CLEAR_SELECTED_ITEM
   };
 };

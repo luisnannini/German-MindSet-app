@@ -14,7 +14,8 @@ import {
   DELETE_POSTULANT_FETCHING,
   DELETE_POSTULANT_FULFILLED,
   DELETE_POSTULANT_REJECTED,
-  CLOSE_ERROR_MODAL_POSTULANTS
+  CLOSE_ERROR_MODAL_POSTULANTS,
+  CLEAR_SELECTED_ITEM
 } from '../../constants/actionTypes';
 
 export const getPostulantsFetching = () => {
@@ -120,5 +121,11 @@ export const deletePostulantRejected = (error) => {
 export const closeErrorModal = () => {
   return {
     type: CLOSE_ERROR_MODAL_POSTULANTS
+  };
+};
+
+export const clearSelectedItem = () => {
+  return {
+    type: CLEAR_SELECTED_ITEM
   };
 };
