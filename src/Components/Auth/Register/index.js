@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPostulantById, getPostulants } from 'redux/Postulants/thunks';
+import { getPostulants } from 'redux/Postulants/thunks';
+import { getProfiles } from 'redux/Profiles/thunks';
 import { closeErrorModal } from 'redux/Postulants/actions';
 import { Form, Field } from 'react-final-form';
-import arrayMutators from 'final-form-arrays';
-import useQuery from 'Hooks/useQuery';
 import styles from './register.module.css';
 import Input from 'Components/Shared/Input';
 import ButtonCancel from 'Components/Shared/Buttons/ButtonCancel';
@@ -20,81 +19,11 @@ const PostulantsForm = () => {
   const isLoading = useSelector((store) => store.postulants.isLoading);
   const dispatch = useDispatch();
   const history = useHistory();
-  const query = useQuery();
-  const [id, setPostulantId] = useState(undefined);
-  const [profiles, setProfiles] = useState([]);
-  const [postulantProfile, setPostulantProfile] = useState('');
-  const [personalInfo, setPersonalInfo] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    address: '',
-    phone: '',
-    birthday: '',
-    available: false
-  });
-  const [primaryStudies, setPrimaryStudies] = useState({
-    startDate: '',
-    endDate: '',
-    school: ''
-  });
-  const [secondaryStudies, setSecondaryStudies] = useState({
-    startDate: '',
-    endDate: '',
-    school: ''
-  });
-  const [tertiaryStudies, setTertiaryStudies] = useState([]);
-  const [universityStudies, setUniversityStudies] = useState([]);
-  const [informalStudies, setInformalStudies] = useState([]);
-  const [workExperience, setWorkExperience] = useState([]);
+  const profiles = useSelector((store) => store.profiles.list);
 
   useEffect(() => {
-    const postulantId = query.get('_id');
-    if (postulantId) {
-      dispatch(getPostulantById(postulantId)).then((selectedPostulant) => {
-        setPostulantId(postulantId);
-        setPersonalInfo({
-          firstName: selectedPostulant.firstName,
-          lastName: selectedPostulant.lastName,
-          email: selectedPostulant.email,
-          password: selectedPostulant.password,
-          address: selectedPostulant.address,
-          phone: selectedPostulant.phone,
-          birthday: selectedPostulant.birthday,
-          available: selectedPostulant.available
-        });
-        setPostulantProfile(selectedPostulant.profiles);
-        setPrimaryStudies(selectedPostulant.studies.primaryStudies);
-        setSecondaryStudies(selectedPostulant.studies.secondaryStudies);
-        setTertiaryStudies(selectedPostulant.studies.tertiaryStudies);
-        setUniversityStudies(selectedPostulant.studies.universityStudies);
-        setInformalStudies(selectedPostulant.studies.informalStudies);
-        setWorkExperience(selectedPostulant.workExperience);
-      });
-    }
+    dispatch(getProfiles());
   }, []);
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/profiles`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setProfiles(response.data);
-      })
-      .catch((error) => error);
-  }, []);
-
-  const parseDate = (string) => {
-    return string.split('T')[0];
-  };
 
   const submitForm = (formValues) => {
     dispatch(
@@ -209,7 +138,7 @@ const PostulantsForm = () => {
           return (
             <form className={styles.form} onSubmit={handleSubmit}>
               <div className={styles.header}>
-                <h2 className={styles.title}>{id ? 'Update a Postulant' : 'Create a Postulant'}</h2>
+                <h2 className={styles.title}>{'Create an account'}</h2>
               </div>
               <h3>Personal Info</h3>
               <div className={styles.fields}>
@@ -218,7 +147,6 @@ const PostulantsForm = () => {
                     label={'First Name'}
                     name={'firstName'}
                     placeholder={'First Name'}
-                    initialValue={personalInfo.firstName}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -228,7 +156,6 @@ const PostulantsForm = () => {
                     name={'email'}
                     placeholder={'Email'}
                     type={'email'}
-                    initialValue={personalInfo.email}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -237,7 +164,6 @@ const PostulantsForm = () => {
                     label={'Address'}
                     name={'address'}
                     placeholder={'Address'}
-                    initialValue={personalInfo.address}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -246,7 +172,6 @@ const PostulantsForm = () => {
                     label={'Birth Date'}
                     name={'birthday'}
                     type={'date'}
-                    initialValue={parseDate(personalInfo.birthday)}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -255,7 +180,6 @@ const PostulantsForm = () => {
                     name={'available'}
                     label={'Available?'}
                     type={'checkbox'}
-                    initialValue={personalInfo.available}
                     disabled={submitting}
                     component={Checkbox}
                   />
@@ -265,7 +189,6 @@ const PostulantsForm = () => {
                     label={'Last Name'}
                     name={'lastName'}
                     placeholder={'Last Name'}
-                    initialValue={personalInfo.lastName}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -275,7 +198,6 @@ const PostulantsForm = () => {
                     name={'password'}
                     placeholder={'Password'}
                     type={'password'}
-                    initialValue={personalInfo.password}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -285,7 +207,6 @@ const PostulantsForm = () => {
                     name={'phoneNumber'}
                     placeholder={'+54113062939'}
                     type={'tel'}
-                    initialValue={personalInfo.phone}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -295,7 +216,6 @@ const PostulantsForm = () => {
                     title={'Select a profile'}
                     label={'Profiles'}
                     object={profiles}
-                    initialValue={postulantProfile}
                     disabled={submitting}
                     component={Select}
                   />
