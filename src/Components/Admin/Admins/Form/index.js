@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createAdmin, updateAdmin, getAdmin } from 'redux/Admins/thunks';
-import { adminCloseErrorModal, clearSelectedItem } from 'redux/Admins/actions';
+import { adminCloseErrorModal, clearSelectedAdmin } from 'redux/Admins/actions';
 import { Form, Field } from 'react-final-form';
 import styles from './form.module.css';
 import Input from 'Components/Shared/Input';
@@ -26,7 +26,7 @@ const AdminsForm = () => {
     if (adminId) {
       dispatch(getAdmin(adminId, (admin) => setAdmin(admin)));
     } else {
-      dispatch(clearSelectedItem());
+      dispatch(clearSelectedAdmin());
     }
   }, []);
 

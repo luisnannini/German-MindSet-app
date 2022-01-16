@@ -80,7 +80,7 @@ export const adminCloseErrorModal = () => ({
   type: ADMIN_CLOSE_ERROR_MODAL
 });
 
-export const clearSelectedItem = () => {
+export const clearSelectedAdmin = () => {
   return {
     type: CLEAR_SELECTED_ITEM
   };

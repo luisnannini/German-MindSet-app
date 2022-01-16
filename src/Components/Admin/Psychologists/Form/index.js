@@ -6,7 +6,7 @@ import {
   getPsychologistById,
   updatePsychologist
 } from 'redux/Psychologists/thunks';
-import { closeErrorModal, clearSelectedItem } from 'redux/Psychologists/actions';
+import { closeErrorModal, clearSelectedPsychologist } from 'redux/Psychologists/actions';
 import { Form, Field } from 'react-final-form';
 import useQuery from 'Hooks/useQuery';
 import styles from './form.module.css';
@@ -43,7 +43,7 @@ const PsychologistsForm = () => {
         setAddress(selectedPsychologist.address);
       });
     } else {
-      dispatch(clearSelectedItem());
+      dispatch(clearSelectedPsychologist());
     }
   }, []);
 

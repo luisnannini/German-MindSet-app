@@ -124,7 +124,7 @@ export const closeErrorModal = () => {
   };
 };
 
-export const clearSelectedItem = () => {
+export const clearSelectedClient = () => {
   return {
     type: CLEAR_SELECTED_ITEM
   };

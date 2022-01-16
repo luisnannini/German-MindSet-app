@@ -10,7 +10,7 @@ import {
 import { getPostulants } from 'redux/Postulants/thunks';
 import { getClients } from 'redux/Clients/thunks';
 import { getApplications } from 'redux/Applications/thunks';
-import { closeErrorModal, clearSelectedItem } from 'redux/Interviews/actions';
+import { closeErrorModal, clearSelectedInterview } from 'redux/Interviews/actions';
 import { Form, Field } from 'react-final-form';
 import useQuery from 'Hooks/useQuery.js';
 import styles from './form.module.css';
@@ -54,7 +54,7 @@ const InterviewsForm = () => {
         setNotesValue(selectedInterview.notes);
       });
     } else {
-      dispatch(clearSelectedItem());
+      dispatch(clearSelectedInterview());
     }
   }, []);
 
