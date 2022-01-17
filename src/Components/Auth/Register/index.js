@@ -11,7 +11,7 @@ import ButtonConfirm from 'Components/Shared/Buttons/ButtonConfirm';
 import ModalError from 'Components/Shared/Modals/ModalError';
 import Checkbox from 'Components/Shared/Checkbox';
 import Select from 'Components/Shared/Select';
-import { register, getPostulantData } from 'redux/Auth/thunks';
+import { register, getPostulantData, login } from 'redux/Auth/thunks';
 
 const PostulantsForm = () => {
   const error = useSelector((store) => store.postulants.error);
@@ -37,12 +37,12 @@ const PostulantsForm = () => {
         available: formValues.available,
         profiles: formValues.profiles
       })
-    ).then((response) => {
-      if (response) {
+    )
+      .then(() => dispatch(login(formValues)))
+      .then(() => {
         dispatch(getPostulantData(formValues.email));
-        return history.push('/postulant');
-      }
-    });
+        return history.push('/postulant/home');
+      });
   };
 
   const validate = (formValues) => {
