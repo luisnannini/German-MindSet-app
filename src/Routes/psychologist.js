@@ -1,7 +1,7 @@
 import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
 import Home from 'Components/Psychologist/Home';
-import MainPage from 'Components/Home';
 import Layout from 'Components/Layout';
+import Logout from 'Components/Shared/Logout';
 
 const PsychologistRoutes = () => {
   const { url } = useRouteMatch();
@@ -9,7 +9,7 @@ const PsychologistRoutes = () => {
     <Layout routes={[{ name: 'Logout', path: '/logout' }]}>
       <Switch>
         <Route exact path={`${url}/home`} component={Home} />
-        <Route path={`${url}/logout`} component={MainPage} />
+        <Route exact path={`${url}/logout`} component={Logout} />
         <Redirect to={`${url}/home`} />
       </Switch>
     </Layout>
