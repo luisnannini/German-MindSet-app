@@ -83,11 +83,6 @@ const PostulantsForm = () => {
                   <td>{postulant.phone}</td>
                   <td>{postulant.available ? 'Yes' : 'No'}</td>
                   <td>
-                    {postulant.available
-                      ? `From ${postulant.contactRange.from} to ${postulant.contactRange.to}`
-                      : '-'}
-                  </td>
-                  <td>
                     {profiles.map((profile) => {
                       if (profile._id === postulant.profiles) {
                         return profile.name;
