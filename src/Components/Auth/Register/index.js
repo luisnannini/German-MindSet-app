@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPostulants } from 'redux/Postulants/thunks';
 import { getProfiles } from 'redux/Profiles/thunks';
 import { closeErrorModal } from 'redux/Postulants/actions';
 import { Form, Field } from 'react-final-form';
@@ -12,7 +11,7 @@ import ButtonConfirm from 'Components/Shared/Buttons/ButtonConfirm';
 import ModalError from 'Components/Shared/Modals/ModalError';
 import Checkbox from 'Components/Shared/Checkbox';
 import Select from 'Components/Shared/Select';
-import { register } from 'redux/Auth/thunks';
+import { register, getPostulantData } from 'redux/Auth/thunks';
 
 const PostulantsForm = () => {
   const error = useSelector((store) => store.postulants.error);
@@ -36,28 +35,12 @@ const PostulantsForm = () => {
         phone: formValues.phoneNumber,
         birthday: formValues.birthday,
         available: formValues.available,
-        profiles: formValues.profiles,
-        studies: {
-          primaryStudies: {
-            startDate: formValues.startDatePrimaryStudies,
-            endDate: formValues.endDatePrimaryStudies,
-            school: formValues.schoolPrimaryStudies
-          },
-          secondaryStudies: {
-            startDate: formValues.startDateSecondaryStudies,
-            endDate: formValues.endDateSecondaryStudies,
-            school: formValues.schoolSecondaryStudies
-          },
-          tertiaryStudies: formValues.tertiaryStudies,
-          universityStudies: formValues.universityStudies,
-          informalStudies: formValues.informalStudies
-        },
-        workExperience: formValues.workExperience
+        profiles: formValues.profiles
       })
     ).then((response) => {
       if (response) {
-        history.push('/postulant/profile');
-        dispatch(getPostulants);
+        dispatch(getPostulantData(formValues.email));
+        return history.push('/postulant');
       }
     });
   };
@@ -98,30 +81,6 @@ const PostulantsForm = () => {
     }
     if (formValues.phoneNumber?.length < 7 || formValues.phoneNumber?.length > 14) {
       errors.phoneNumber = 'Phone number must be between 7 and 14 numbers';
-    }
-    // contact range
-    if (formValues.available) {
-      if (formValues.from >= formValues.to) {
-        errors.from = '"From" hour must be before "to" hour';
-        errors.to = '"To" hour must be after "from" hour';
-      }
-    }
-    // primary studies
-    if (formValues.startDatePrimaryStudies >= formValues.endDatePrimaryStudies) {
-      errors.startDatePrimaryStudies = '';
-    }
-    if (formValues.schoolPrimary?.length < 5) {
-      errors.schoolPrimary = 'School must contain at least 5 characters';
-    }
-    if (formValues.schoolPrimary?.length > 50) {
-      errors.schoolPrimary = 'School must be less than 50 characters';
-    }
-    // secondary studies
-    if (formValues.schoolSecondary?.length < 5) {
-      errors.schoolSecondary = 'School must contain at least 5 characters';
-    }
-    if (formValues.schoolSecondary?.length > 50) {
-      errors.schoolSecondary = 'School must be less than 50 characters';
     }
     return errors;
   };
@@ -218,6 +177,7 @@ const PostulantsForm = () => {
                     object={profiles}
                     disabled={submitting}
                     component={Select}
+                    validate={required}
                   />
                 </div>
               </div>
