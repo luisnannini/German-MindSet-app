@@ -41,7 +41,7 @@ function Home() {
     setClients(clients.sort((a, b) => a > b));
     setProfiles(profileTypes.sort((a, b) => a > b));
     setFilteredPositions(positions.sort((a, b) => a.client.name > b.client.name));
-    setDisplayedPositions(positions.sort((a, b) => a.client.name > b.client.name));
+    setDisplayedPositions(positions);
   }, [positions]);
   return (
     <section className={styles.container}>
@@ -150,6 +150,7 @@ function Home() {
               className={styles.button}
               onClick={() => {
                 setFilterValues({ client: '', profileType: '', vacancies: '' });
+                setFilteredPositions(positions);
                 setDisplayedPositions(positions);
               }}
             >
