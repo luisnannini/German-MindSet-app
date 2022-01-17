@@ -10,8 +10,10 @@ function Home() {
   const positions = useSelector((store) => store.positions.list);
   const [clients, setClients] = useState([]);
   const [profiles, setProfiles] = useState([]);
-  const [filters, setFilters] = useState({ client: '', profileType: '', vacancies: '' });
   const [filterValues, setFilterValues] = useState({ client: '', profileType: '', vacancies: '' });
+  const [filteredPositions, setFilteredPositions] = useState([]);
+  const [displayedPositions, setDisplayedPositions] = useState([]);
+
   useEffect(() => {
     if (!positions.length) {
       dispatch(getPositions());
@@ -38,6 +40,8 @@ function Home() {
     }
     setClients(clients);
     setProfiles(profileTypes);
+    setFilteredPositions(positions);
+    setDisplayedPositions(positions);
   }, [positions]);
   return (
     <section className={styles.container}>
@@ -54,15 +58,29 @@ function Home() {
                 Company:
                 <select
                   className={styles.select}
-                  onChange={({ target: { value } }) =>
-                    setFilterValues({ ...filterValues, client: value })
-                  }
+                  onChange={({ target: { value } }) => {
+                    setFilterValues({ ...filterValues, client: value });
+                    setFilteredPositions(
+                      positions.filter((p) => {
+                        return (
+                          (!value || p.client.name === value) &&
+                          (!filterValues.profileType ||
+                            p.professionalProfiles.name === filterValues.profileType) &&
+                          (!filterValues.vacancies || p.vacancy === filterValues.vacancies)
+                        );
+                      })
+                    );
+                  }}
                 >
-                  <option value="" selected>
+                  <option value="" selected={!filterValues.client ? true : false}>
                     Company
                   </option>
                   {clients.map((c, index) => (
-                    <option key={index} value={c}>
+                    <option
+                      key={index}
+                      value={c}
+                      selected={!filterValues.profileType === c ? true : false}
+                    >
                       {c}
                     </option>
                   ))}
@@ -72,15 +90,28 @@ function Home() {
                 Profile type:
                 <select
                   className={styles.select}
-                  onChange={({ target: { value } }) =>
-                    setFilterValues({ ...filterValues, profileType: value })
-                  }
+                  onChange={({ target: { value } }) => {
+                    setFilterValues({ ...filterValues, profileType: value });
+                    setFilteredPositions(
+                      positions.filter((p) => {
+                        return (
+                          (!value || p.professionalProfiles.name === value) &&
+                          (!filterValues.client || p.client.name === filterValues.client) &&
+                          (!filterValues.vacancies || p.vacancy === filterValues.vacancies)
+                        );
+                      })
+                    );
+                  }}
                 >
-                  <option value="" disabled selected>
+                  <option value="" selected={!filterValues.profileType ? true : false}>
                     Profile type
                   </option>
                   {profiles.map((p, index) => (
-                    <option key={index} value={p}>
+                    <option
+                      key={index}
+                      value={p}
+                      selected={filterValues.profileType === p ? true : false}
+                    >
                       {p}
                     </option>
                   ))}
@@ -89,21 +120,38 @@ function Home() {
               <label className={styles.label} htmlFor="vacancies">
                 Vacancies:
                 <input
+                  defaultValue={filterValues.vacancies ? filterValues.vacancies : ''}
                   className={styles.select}
                   name="vacancies"
                   placeholder="Write a number..."
-                  onChange={({ target: { value } }) =>
-                    setFilterValues({ ...filterValues, vacancies: value })
-                  }
+                  onChange={({ target: { value } }) => {
+                    setFilterValues({ ...filterValues, vacancies: value });
+                    setFilteredPositions(
+                      positions.filter((p) => {
+                        return (
+                          (!value || p.vacancy == value) &&
+                          (!filterValues.client || p.client.name === filterValues.client) &&
+                          (!filterValues.profileType ||
+                            p.professionalProfiles.name === filterValues.profileType)
+                        );
+                      })
+                    );
+                  }}
                 />
               </label>
             </div>
-            <button className={styles.button} onClick={() => setFilters(filterValues)}>
-              SET FILTER
+            <button
+              className={styles.button}
+              onClick={() => setDisplayedPositions(filteredPositions)}
+            >
+              SEARCH
             </button>
             <button
               className={styles.button}
-              onClick={() => setFilters({ client: '', profileType: '', vacancies: '' })}
+              onClick={() => {
+                setFilterValues({ client: '', profileType: '', vacancies: '' });
+                setDisplayedPositions(positions);
+              }}
             >
               CLEAR FILTER
             </button>
@@ -113,36 +161,18 @@ function Home() {
         )}
       </div>
       <div className={styles.openJobs}>
-        <p>{positions.isOpen === false && 'No open jobs'}</p>
-        {positions
-          .map((p) => ({
-            client: p.client.name,
-            profileType: p.professionalProfiles.name,
-            vacancies: p.vacancy,
-            isOpen: p.isOpen,
-            jobDescription: p.jobDescription
-          }))
-          .map((p) => {
-            if (p.isOpen === true) {
-              for (let element in filters) {
-                if (
-                  Object.prototype.hasOwnProperty.call(filters, element) &&
-                  filters[element] !== '' &&
-                  filters[element] != p[element]
-                ) {
-                  return <></>;
-                }
-              }
-              return (
-                <div className={styles.openJobsDiv}>
-                  <p className={styles.clientName}>{p.client}</p>
-                  <span>{p.profileType}</span>
-                  <span>{p.jobDescription}</span>
-                  <span>Vacancies: {p.vacancies}</span>
-                </div>
-              );
-            }
-          })}
+        {!displayedPositions.length ? (
+          <p>No open jobs</p>
+        ) : (
+          displayedPositions.map((p, index) => (
+            <div className={styles.openJobsDiv} key={index}>
+              <p className={styles.clientName}>{p.client.name}</p>
+              <span>{p.professionalProfiles.name}</span>
+              <span>{p.jobDescription}</span>
+              <span>Vacancies: {p.vacancy}</span>
+            </div>
+          ))
+        )}
       </div>
     </section>
   );
