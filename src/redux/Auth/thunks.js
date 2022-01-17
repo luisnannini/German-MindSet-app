@@ -65,6 +65,7 @@ export const logout = () => {
       .auth()
       .signOut()
       .then(() => {
+        sessionStorage.removeItem('token');
         return dispatch(logoutFulfilled());
       })
       .catch((error) => {

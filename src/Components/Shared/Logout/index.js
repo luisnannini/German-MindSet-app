@@ -1,14 +1,16 @@
 import { useHistory } from 'react-router-dom';
 import styles from './logout.module.css';
-import { logOutUser } from 'helper/firebase';
+import { useDispatch } from 'react-redux';
+import { logout } from 'redux/Auth/thunks';
 
 const Logout = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const logOut = () => {
     sessionStorage.removeItem('token');
-    logOutUser();
-    history.replace('/auth/login');
+    history.replace('/');
+    dispatch(logout());
   };
 
   return (
