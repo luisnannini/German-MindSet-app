@@ -38,10 +38,10 @@ function Home() {
       willAddClient = true;
       willAddProfile = true;
     }
-    setClients(clients);
-    setProfiles(profileTypes);
-    setFilteredPositions(positions);
-    setDisplayedPositions(positions);
+    setClients(clients.sort((a, b) => a > b));
+    setProfiles(profileTypes.sort((a, b) => a > b));
+    setFilteredPositions(positions.sort((a, b) => a.client.name > b.client.name));
+    setDisplayedPositions(positions.sort((a, b) => a.client.name > b.client.name));
   }, [positions]);
   return (
     <section className={styles.container}>
@@ -79,7 +79,7 @@ function Home() {
                     <option
                       key={index}
                       value={c}
-                      selected={!filterValues.profileType === c ? true : false}
+                      selected={filterValues.client === c ? true : false}
                     >
                       {c}
                     </option>
@@ -153,7 +153,7 @@ function Home() {
                 setDisplayedPositions(positions);
               }}
             >
-              CLEAR FILTER
+              CLEAR FILTERS
             </button>
           </>
         ) : (
