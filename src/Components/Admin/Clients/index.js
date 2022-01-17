@@ -92,7 +92,7 @@ function Clients() {
           </tbody>
         </table>
       </div>
-      {isLoading && <div className={styles.loader}></div>}
+      {isLoading && <Loader />}
     </section>
   );
 }
