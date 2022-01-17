@@ -18,7 +18,14 @@ function Session() {
   return (
     <div className={styles.container}>
       <section className={styles.section}>
-        <h1 className={styles.title}>Status of your session with the psychologist:</h1>
+        <h1 className={styles.title}>Status of your session with the psychologist</h1>
+        <div className={styles.sessionDiv}>
+          {sessions.length === 0 && (
+            <p>
+              {postulant.firstName} {postulant.lastName}: You still not have any pending Session.
+            </p>
+          )}
+        </div>
         {sessions.map((session) => {
           if (postulantId === session.postulant._id) {
             return (
@@ -40,14 +47,6 @@ function Session() {
                     {postulant.firstName} {postulant.lastName}: Your session was cancelled.
                   </p>
                 )}
-                {session.status != 'assigned' ||
-                  session.status != 'successful' ||
-                  (session.status != 'cancelled' && (
-                    <p>
-                      {postulant.firstName} {postulant.lastName}: You still not have any pending
-                      Session.
-                    </p>
-                  ))}
               </div>
             );
           }
