@@ -40,6 +40,14 @@ function Session() {
                     {postulant.firstName} {postulant.lastName}: Your session was cancelled.
                   </p>
                 )}
+                {session.status != 'assigned' ||
+                  session.status != 'successful' ||
+                  (session.status != 'cancelled' && (
+                    <p>
+                      {postulant.firstName} {postulant.lastName}: You still not have any pending
+                      Session.
+                    </p>
+                  ))}
               </div>
             );
           }
