@@ -2,6 +2,7 @@ import styles from './home.module.css';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPositions } from 'redux/Positions/thunks';
+import img from 'Images/img-home.jpg';
 
 function Home() {
   const dispatch = useDispatch();
@@ -13,6 +14,10 @@ function Home() {
   }, [positions]);
   return (
     <section className={styles.container}>
+      <img src={img} alt="Img Home"></img>
+      <p className={styles.subtitle}>
+        We are an HR company that helps you find your next work experience
+      </p>
       <h2>Open Jobs</h2>
       <div className={styles.openJobs}>
         <p>{positions.isOpen === false && 'No open jobs'}</p>
