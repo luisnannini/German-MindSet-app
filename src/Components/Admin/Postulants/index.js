@@ -10,6 +10,7 @@ import ButtonDelete from 'Components/Shared/Buttons/ButtonDelete';
 import ButtonUpdate from 'Components/Shared/Buttons/ButtonUpdate';
 import ModalDelete from 'Components/Shared/Modals/ModalDelete';
 import ModalError from 'Components/Shared/Modals/ModalError';
+import Loader from 'Components/Shared/Loader';
 
 const PostulantsForm = () => {
   const dispatch = useDispatch();
@@ -106,7 +107,7 @@ const PostulantsForm = () => {
         </table>
       </div>
 
-      {isLoading && <div className={styles.loader}></div>}
+      {isLoading && <Loader />}
     </section>
   );
 };
