@@ -21,5 +21,11 @@
   background: white;
 }
 .errorSpan {
+  visibility: hidden;
+}
+
+.errorVisible {
+  margin-top: 1px;
+  visibility: visible;
   color: red;
 }

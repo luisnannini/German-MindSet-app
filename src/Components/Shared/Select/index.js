@@ -21,9 +21,11 @@ const Select = (props) => {
           );
         })}
       </select>
-      {props.meta.error && props.meta.touched && (
-        <span className={styles.errorSpan}>{props.meta.error}</span>
-      )}
+      <span
+        className={props.meta.error && props.meta.touched ? styles.errorVisible : styles.errorSpan}
+      >
+        {props.meta.error}
+      </span>
     </div>
   );
 };

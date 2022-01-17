@@ -10,9 +10,11 @@ const Input = (props) => {
         disabled={props.disabled}
         {...props.input}
       ></input>
-      {props.meta.error && props.meta.touched && (
-        <span className={styles.errorSpan}>{props.meta.error}</span>
-      )}
+      <span
+        className={props.meta.error && props.meta.touched ? styles.errorVisible : styles.errorSpan}
+      >
+        {props.meta.error}
+      </span>
     </div>
   );
 };

@@ -20,5 +20,10 @@
   border-radius: 5px;
 }
 .errorSpan {
+  visibility: hidden;
+}
+
+.errorVisible {
+  visibility: visible;
   color: red;
 }
