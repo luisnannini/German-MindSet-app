@@ -6,7 +6,7 @@ import Logout from 'Components/Shared/Logout';
 const PsychologistRoutes = () => {
   const { url } = useRouteMatch();
   return (
-    <Layout routes={[{ name: 'Logout', path: '/logout' }]}>
+    <Layout routes={[{ name: 'Logout', path: '/psychologist/logout' }]}>
       <Switch>
         <Route exact path={`${url}/home`} component={Home} />
         <Route exact path={`${url}/logout`} component={Logout} />
