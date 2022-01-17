@@ -32,4 +32,8 @@ export const tokenListener = () => {
   });
 };
 
+export const logOutUser = () => {
+  firebase.auth().signOut();
+};
+
 export default firebaseApp;
