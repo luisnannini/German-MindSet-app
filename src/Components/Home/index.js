@@ -58,7 +58,7 @@ function Home() {
                     setFilterValues({ ...filterValues, client: value })
                   }
                 >
-                  <option value="" disabled selected>
+                  <option value="" selected>
                     Company
                   </option>
                   {clients.map((c, index) => (
@@ -98,7 +98,15 @@ function Home() {
                 />
               </label>
             </div>
-            <button onClick={() => setFilters(filterValues)}>SET</button>
+            <button className={styles.button} onClick={() => setFilters(filterValues)}>
+              SET FILTER
+            </button>
+            <button
+              className={styles.button}
+              onClick={() => setFilters({ client: '', profileType: '', vacancies: '' })}
+            >
+              CLEAR FILTER
+            </button>
           </>
         ) : (
           <></>
