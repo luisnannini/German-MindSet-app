@@ -19,7 +19,7 @@ function Home() {
     const clients = [];
     const profileTypes = [];
     let willAddClient = true;
-    let willAddprofile = true;
+    let willAddProfile = true;
     for (let index = 0; index < positions.length; index++) {
       for (let index2 = 0; index2 < clients.length; index2++) {
         if (positions[index].client.name === clients[index2]) {
@@ -28,13 +28,13 @@ function Home() {
       }
       for (let index2 = 0; index2 < profileTypes.length; index2++) {
         if (positions[index].professionalProfiles.name === profileTypes[index2]) {
-          willAddprofile = false;
+          willAddProfile = false;
         }
       }
       if (willAddClient) clients.push(positions[index].client.name);
-      if (willAddprofile) profileTypes.push(positions[index].professionalProfiles.name);
+      if (willAddProfile) profileTypes.push(positions[index].professionalProfiles.name);
       willAddClient = true;
-      willAddprofile = true;
+      willAddProfile = true;
     }
     setClients(clients);
     setProfiles(profileTypes);
