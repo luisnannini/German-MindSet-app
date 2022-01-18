@@ -26,28 +26,54 @@ function Profile() {
             </div>
           </div>
           <div className={styles.box}>
-            <div className={styles.internalBox}>
-              <h2>Primary Studies</h2>
-              <p>School: {postulant.studies.primaryStudies.school}</p>
-              <p>
-                Start Date:{' '}
-                {postulant.studies.primaryStudies.startDate.replace('T00:00:00.000Z', '')}
-              </p>
-              <p>
-                End Date: {postulant.studies.primaryStudies.endDate.replace('T00:00:00.000Z', '')}
-              </p>
-            </div>
-            <div className={styles.internalBox}>
-              <h2>Secondary Studies</h2>
-              <p>School: {postulant.studies.secondaryStudies.school}</p>
-              <p>
-                Start Date:{' '}
-                {postulant.studies.secondaryStudies.startDate.replace('T00:00:00.000Z', '')}
-              </p>
-              <p>
-                End Date: {postulant.studies.secondaryStudies.endDate.replace('T00:00:00.000Z', '')}
-              </p>
-            </div>
+            {() => {
+              if (postulant.studies.primary) {
+                return (
+                  <div className={styles.internalBox}>
+                    <h2>Primary Studies</h2>
+                    <p>{postulant.studies.primaryStudies.length === 0 && 'No Information'}</p>
+                    {postulant.studies.primaryStudies.map((primaryStudies) => {
+                      if (postulant.studies.primaryStudies.length > 0) {
+                        return (
+                          <>
+                            <p>School: {primaryStudies.school}</p>
+                            <p>
+                              Start Date: {primaryStudies.startDate.replace('T00:00:00.000Z', '')}
+                            </p>
+                            <p>End Date: {primaryStudies.endDate.replace('T00:00:00.000Z', '')}</p>
+                          </>
+                        );
+                      }
+                    })}
+                  </div>
+                );
+              }
+            }}
+            {() => {
+              if (postulant.studies.secondary) {
+                return (
+                  <div className={styles.internalBox}>
+                    <h2>Secondary Studies</h2>
+                    <p>{postulant.studies.secondaryStudies.length === 0 && 'No Information'}</p>
+                    {postulant.studies.secondaryStudies.map((secondaryStudies) => {
+                      if (postulant.studies.secondaryStudies.length > 0) {
+                        return (
+                          <>
+                            <p>School: {secondaryStudies.school}</p>
+                            <p>
+                              Start Date: {secondaryStudies.startDate.replace('T00:00:00.000Z', '')}
+                            </p>
+                            <p>
+                              End Date: {secondaryStudies.endDate.replace('T00:00:00.000Z', '')}
+                            </p>
+                          </>
+                        );
+                      }
+                    })}
+                  </div>
+                );
+              }
+            }}
           </div>
           <div className={styles.box}>
             <div className={styles.internalBox}>

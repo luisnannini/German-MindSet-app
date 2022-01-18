@@ -306,7 +306,7 @@ function EditForm() {
                     name={'startDatePrimaryStudies'}
                     placeholder={'Start Date'}
                     type={'date'}
-                    initialValue={parseDate(primaryStudies.startDate)}
+                    initialValue={primaryStudies ? parseDate(primaryStudies.startDate) : ''}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -316,7 +316,7 @@ function EditForm() {
                     name={'schoolPrimaryStudies'}
                     placeholder={'School'}
                     type={'text'}
-                    initialValue={primaryStudies.school}
+                    initialValue={primaryStudies ? primaryStudies.school : ''}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -328,7 +328,7 @@ function EditForm() {
                     name={'endDatePrimaryStudies'}
                     placeholder={'Finish Date'}
                     type={'date'}
-                    initialValue={parseDate(primaryStudies.endDate)}
+                    initialValue={primaryStudies ? parseDate(primaryStudies.endDate) : ''}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -343,7 +343,7 @@ function EditForm() {
                     name={'startDateSecondaryStudies'}
                     placeholder={'Start Date'}
                     type={'date'}
-                    initialValue={parseDate(secondaryStudies.startDate)}
+                    initialValue={secondaryStudies ? parseDate(secondaryStudies.startDate) : ''}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -353,7 +353,7 @@ function EditForm() {
                     name={'schoolSecondaryStudies'}
                     placeholder={'School'}
                     type={'text'}
-                    initialValue={secondaryStudies.school}
+                    initialValue={secondaryStudies ? secondaryStudies.school : ''}
                     disabled={submitting}
                     component={Input}
                     validate={required}
@@ -365,7 +365,7 @@ function EditForm() {
                     name={'endDateSecondaryStudies'}
                     placeholder={'Finish Date'}
                     type={'date'}
-                    initialValue={parseDate(secondaryStudies.endDate)}
+                    initialValue={secondaryStudies ? parseDate(secondaryStudies.endDate) : ''}
                     disabled={submitting}
                     component={Input}
                     validate={required}
