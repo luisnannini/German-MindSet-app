@@ -168,7 +168,7 @@ function Home() {
       </div>
       <div className={styles.openJobs}>
         {!displayedPositions.length ? (
-          <p>No open jobs</p>
+          <p className={styles.openJobsP}>There are no open jobs</p>
         ) : (
           displayedPositions.map((p, index) => (
             <div className={styles.openJobsDiv} key={index}>

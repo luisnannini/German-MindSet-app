@@ -23,6 +23,12 @@
   width: 70%;
 }
 
+.openJobsP {
+  text-align: center;
+  margin: 30px auto;
+  font-size: 20px;
+}
+
 .openJobsDiv {
   width: 200px;
   height: 100px;
