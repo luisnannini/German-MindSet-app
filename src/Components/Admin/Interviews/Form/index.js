@@ -10,7 +10,7 @@ import {
 import { getPostulants } from 'redux/Postulants/thunks';
 import { getClients } from 'redux/Clients/thunks';
 import { getApplications } from 'redux/Applications/thunks';
-import { closeErrorModal } from 'redux/Interviews/actions';
+import { closeErrorModal, clearSelectedInterview } from 'redux/Interviews/actions';
 import { Form, Field } from 'react-final-form';
 import useQuery from 'Hooks/useQuery.js';
 import styles from './form.module.css';
@@ -53,6 +53,8 @@ const InterviewsForm = () => {
         setStatusValue(selectedInterview.status);
         setNotesValue(selectedInterview.notes);
       });
+    } else {
+      dispatch(clearSelectedInterview());
     }
   }, []);
 

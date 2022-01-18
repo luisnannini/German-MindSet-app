@@ -14,7 +14,8 @@ import {
   DELETE_INTERVIEW_FETCHING,
   DELETE_INTERVIEW_FULFILLED,
   DELETE_INTERVIEW_REJECTED,
-  CLOSE_ERROR_MODAL_INTERVIEWS
+  CLOSE_ERROR_MODAL_INTERVIEWS,
+  CLEAR_SELECTED_ITEM
 } from '../../constants/actionTypes';
 
 export const getInterviewsFetching = () => {
@@ -120,5 +121,11 @@ export const deleteInterviewRejected = (error) => {
 export const closeErrorModal = () => {
   return {
     type: CLOSE_ERROR_MODAL_INTERVIEWS
+  };
+};
+
+export const clearSelectedInterview = () => {
+  return {
+    type: CLEAR_SELECTED_ITEM
   };
 };

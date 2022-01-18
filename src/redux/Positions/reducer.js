@@ -14,7 +14,8 @@ import {
   DELETE_POSITION_FETCHING,
   DELETE_POSITION_FULFILLED,
   DELETE_POSITION_REJECTED,
-  CLOSE_ERROR_MODAL_POSITIONS
+  CLOSE_ERROR_MODAL_POSITIONS,
+  CLEAR_SELECTED_ITEM
 } from '../../constants/actionTypes';
 
 const initialState = {
@@ -143,6 +144,12 @@ const reducerPositions = (state = initialState, action) => {
         error: {
           show: false
         }
+      };
+    }
+    case CLEAR_SELECTED_ITEM: {
+      return {
+        ...state,
+        selectedItem: initialState.selectedItem
       };
     }
     default: {

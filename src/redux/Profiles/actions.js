@@ -14,7 +14,8 @@ import {
   DELETE_PROFILE_FETCHING,
   DELETE_PROFILE_FULFILLED,
   DELETE_PROFILE_REJECTED,
-  CLOSE_ERROR_MODAL_PROFILES
+  CLOSE_ERROR_MODAL_PROFILES,
+  CLEAR_SELECTED_ITEM
 } from '../../constants/actionTypes';
 
 export const getProfilesFetching = () => {
@@ -120,5 +121,11 @@ export const deleteProfileRejected = (error) => {
 export const closeErrorModal = () => {
   return {
     type: CLOSE_ERROR_MODAL_PROFILES
+  };
+};
+
+export const clearSelectedProfile = () => {
+  return {
+    type: CLEAR_SELECTED_ITEM
   };
 };

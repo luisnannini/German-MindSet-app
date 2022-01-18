@@ -14,7 +14,8 @@ import {
   DELETE_SESSION_FETCHING,
   DELETE_SESSION_FULFILLED,
   DELETE_SESSION_REJECTED,
-  CLOSE_ERROR_MODAL_SESSIONS
+  CLOSE_ERROR_MODAL_SESSIONS,
+  CLEAR_SELECTED_ITEM
 } from '../../constants/actionTypes';
 
 const initialState = {
@@ -143,6 +144,12 @@ const reducerSessions = (state = initialState, action) => {
         error: {
           show: false
         }
+      };
+    }
+    case CLEAR_SELECTED_ITEM: {
+      return {
+        ...state,
+        selectedItem: initialState.selectedItem
       };
     }
     default: {

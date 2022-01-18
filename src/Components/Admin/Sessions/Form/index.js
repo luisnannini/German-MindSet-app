@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createSession, getSessionById, getSessions, updateSession } from 'redux/Sessions/thunks';
 import { getPostulants } from 'redux/Postulants/thunks';
 import { getPsychologists } from 'redux/Psychologists/thunks';
-import { closeErrorModal } from 'redux/Sessions/actions';
+import { closeErrorModal, clearSelectedSession } from 'redux/Sessions/actions';
 import { Form, Field } from 'react-final-form';
 import useQuery from 'Hooks/useQuery.js';
 import styles from './form.module.css';
@@ -45,6 +45,8 @@ const SessionsForm = () => {
         setDateValue(selectedSession.date);
         setNotesValue(selectedSession.notes);
       });
+    } else {
+      dispatch(clearSelectedSession());
     }
   }, []);
 

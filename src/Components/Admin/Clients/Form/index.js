@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createClient, getClientById, updateClient } from 'redux/Clients/thunks';
-import { closeErrorModal } from 'redux/Clients/actions';
+import { closeErrorModal, clearSelectedClient } from 'redux/Clients/actions';
 import { Form, Field } from 'react-final-form';
 import useQuery from 'Hooks/useQuery';
 import styles from './form.module.css';
@@ -40,6 +40,8 @@ function ClientsForm() {
         setLogoValue(selectedClient.logo);
         setDescriptionValue(selectedClient.description);
       });
+    } else {
+      dispatch(clearSelectedClient());
     }
   }, []);
 
