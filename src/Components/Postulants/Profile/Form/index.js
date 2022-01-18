@@ -309,7 +309,6 @@ function EditForm() {
                     initialValue={primaryStudies ? parseDate(primaryStudies.startDate) : ''}
                     disabled={submitting}
                     component={Input}
-                    validate={required}
                   />
                   <Field
                     label={'School'}
@@ -319,7 +318,6 @@ function EditForm() {
                     initialValue={primaryStudies ? primaryStudies.school : ''}
                     disabled={submitting}
                     component={Input}
-                    validate={required}
                   />
                 </div>
                 <div className={styles.columns}>
@@ -331,7 +329,6 @@ function EditForm() {
                     initialValue={primaryStudies ? parseDate(primaryStudies.endDate) : ''}
                     disabled={submitting}
                     component={Input}
-                    validate={required}
                   />
                 </div>
               </div>
@@ -346,7 +343,6 @@ function EditForm() {
                     initialValue={secondaryStudies ? parseDate(secondaryStudies.startDate) : ''}
                     disabled={submitting}
                     component={Input}
-                    validate={required}
                   />
                   <Field
                     label={'School'}
@@ -356,7 +352,6 @@ function EditForm() {
                     initialValue={secondaryStudies ? secondaryStudies.school : ''}
                     disabled={submitting}
                     component={Input}
-                    validate={required}
                   />
                 </div>
                 <div className={styles.columns}>
@@ -368,7 +363,6 @@ function EditForm() {
                     initialValue={secondaryStudies ? parseDate(secondaryStudies.endDate) : ''}
                     disabled={submitting}
                     component={Input}
-                    validate={required}
                   />
                 </div>
               </div>
