@@ -46,6 +46,9 @@ function Home() {
   return (
     <section className={styles.container}>
       <img src={img} alt="Img Home"></img>
+      <p className={styles.subtitle}>
+        We are an HR company that helps you find your next work experience
+      </p>
       <h2>Open Jobs</h2>
       <div className={styles.filterContainer}>
         <div className={styles.filter} onClick={() => setOpenFilter(!openFilter)}>
@@ -140,22 +143,24 @@ function Home() {
                 />
               </label>
             </div>
-            <button
-              className={styles.button}
-              onClick={() => setDisplayedPositions(filteredPositions)}
-            >
-              SEARCH
-            </button>
-            <button
-              className={styles.button}
-              onClick={() => {
-                setFilterValues({ client: '', profileType: '', vacancies: '' });
-                setFilteredPositions(positions);
-                setDisplayedPositions(positions);
-              }}
-            >
-              CLEAR FILTERS
-            </button>
+            <div className={styles.buttonDiv}>
+              <button
+                className={styles.button}
+                onClick={() => setDisplayedPositions(filteredPositions)}
+              >
+                SEARCH
+              </button>
+              <button
+                className={styles.button}
+                onClick={() => {
+                  setFilterValues({ client: '', profileType: '', vacancies: '' });
+                  setFilteredPositions(positions);
+                  setDisplayedPositions(positions);
+                }}
+              >
+                CLEAR FILTERS
+              </button>
+            </div>
           </>
         ) : (
           <></>
@@ -163,7 +168,7 @@ function Home() {
       </div>
       <div className={styles.openJobs}>
         {!displayedPositions.length ? (
-          <p>No open jobs</p>
+          <p className={styles.openJobsP}>There are no open jobs</p>
         ) : (
           displayedPositions.map((p, index) => (
             <div className={styles.openJobsDiv} key={index}>
