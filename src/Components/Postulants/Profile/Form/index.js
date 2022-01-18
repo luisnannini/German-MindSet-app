@@ -82,7 +82,9 @@ function EditForm() {
   }, []);
 
   const parseDate = (string) => {
-    return string.split('T')[0];
+    if (string) {
+      return string.split('T')[0];
+    }
   };
 
   const submitForm = (formValues) => {
@@ -162,23 +164,6 @@ function EditForm() {
     }
     if (formValues.phoneNumber?.length < 7 || formValues.phoneNumber?.length > 14) {
       errors.phoneNumber = 'Phone number must be between 7 and 14 numbers';
-    }
-    // primary studies
-    if (formValues.startDatePrimaryStudies >= formValues.endDatePrimaryStudies) {
-      errors.startDatePrimaryStudies = '';
-    }
-    if (formValues.schoolPrimary?.length < 5) {
-      errors.schoolPrimary = 'School must contain at least 5 characters';
-    }
-    if (formValues.schoolPrimary?.length > 50) {
-      errors.schoolPrimary = 'School must be less than 50 characters';
-    }
-    // secondary studies
-    if (formValues.schoolSecondary?.length < 5) {
-      errors.schoolSecondary = 'School must contain at least 5 characters';
-    }
-    if (formValues.schoolSecondary?.length > 50) {
-      errors.schoolSecondary = 'School must be less than 50 characters';
     }
     return errors;
   };
@@ -306,7 +291,7 @@ function EditForm() {
                     name={'startDatePrimaryStudies'}
                     placeholder={'Start Date'}
                     type={'date'}
-                    initialValue={primaryStudies ? parseDate(primaryStudies.startDate) : ''}
+                    initialValue={parseDate(primaryStudies.startDate)}
                     disabled={submitting}
                     component={Input}
                   />
