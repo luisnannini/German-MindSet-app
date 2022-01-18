@@ -6,6 +6,7 @@ import PrivateRoute from 'Routes/PrivateRoute';
 const AdminRoutes = lazy(() => import('./admin'));
 const PostulantRoutes = lazy(() => import('./postulant'));
 const PsychologistRoutes = lazy(() => import('./psychologist'));
+const PositionRoutes = lazy(() => import('./position'));
 const AuthRoutes = lazy(() => import('./auth'));
 const HomeRoutes = lazy(() => import('./home'));
 
@@ -23,6 +24,7 @@ const Routes = () => {
           <PrivateRoute path="/psychologist" role="PSYCHOLOGIST" component={PsychologistRoutes} />
           <Route path="/auth" component={AuthRoutes} />
           <Route exact path="/home" component={HomeRoutes} />
+          <Route exact path="/position" component={PositionRoutes} />
           <Redirect to="/auth/home" />
         </Switch>
       </Suspense>
