@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import styles from './sessions.module.css';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,7 +23,7 @@ function Session() {
         <div className={styles.sessionDiv}>
           {sessions.length === 0 && (
             <p>
-              {postulant.firstName} {postulant.lastName}: You still not have any pending Session.
+              {postulant.firstName} {postulant.lastName}: You still don't have any pending Session.
             </p>
           )}
         </div>
