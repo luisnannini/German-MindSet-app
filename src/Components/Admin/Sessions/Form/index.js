@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createSession, getSessionById, getSessions, updateSession } from 'redux/Sessions/thunks';
 import { getPostulants } from 'redux/Postulants/thunks';
 import { getPsychologists } from 'redux/Psychologists/thunks';
-import { closeErrorModal } from 'redux/Sessions/actions';
+import { closeErrorModal, clearSelectedSession } from 'redux/Sessions/actions';
 import { Form, Field } from 'react-final-form';
 import useQuery from 'Hooks/useQuery.js';
 import styles from './form.module.css';
@@ -20,8 +20,8 @@ const SessionsForm = () => {
   const dispatch = useDispatch();
   const [sessionId, setSessionId] = useState(undefined);
   const [title, setTitle] = useState('');
-  const [postulants, setPostulants] = useState([]);
-  const [psychologists, setPsychologists] = useState([]);
+  const postulants = useSelector((store) => store.postulants.list);
+  const psychologists = useSelector((store) => store.psychologists.list);
   const [postulantValue, setPostulantValue] = useState('');
   const [psychologistValue, setPsychologistValue] = useState('');
   const [statusValue, setStatusValue] = useState('');
@@ -30,10 +30,10 @@ const SessionsForm = () => {
   const isLoading = useSelector((store) => store.sessions.isLoading);
   const error = useSelector((store) => store.sessions.error);
   const query = useQuery();
-  const psychos = useSelector((store) => store.psychologists.list);
-  const posts = useSelector((store) => store.postulants.list);
 
   useEffect(() => {
+    dispatch(getPostulants());
+    dispatch(getPsychologists());
     const sessionId = query.get('_id');
     sessionId ? setTitle('Update') : setTitle('Create');
     if (sessionId) {
@@ -45,31 +45,9 @@ const SessionsForm = () => {
         setDateValue(selectedSession.date);
         setNotesValue(selectedSession.notes);
       });
+    } else {
+      dispatch(clearSelectedSession());
     }
-
-    dispatch(getPostulants())
-      .then(() => {
-        setPostulants(
-          posts.map((postulant) => ({
-            _id: postulant._id,
-            value: postulant._id,
-            name: `${postulant.firstName} ${postulant.lastName}`
-          }))
-        );
-      })
-      .catch((error) => error);
-
-    dispatch(getPsychologists())
-      .then(() => {
-        setPsychologists(
-          psychos.map((psychologist) => ({
-            _id: psychologist._id,
-            value: psychologist._id,
-            name: `${psychologist.firstName} ${psychologist.lastName}`
-          }))
-        );
-      })
-      .catch((error) => error);
   }, []);
 
   const submitSession = (formValues) => {
@@ -119,7 +97,10 @@ const SessionsForm = () => {
                   label="Postulant:"
                   title="Postulant"
                   initialValue={postulantValue}
-                  object={postulants}
+                  object={postulants.map((p) => ({
+                    _id: p._id,
+                    name: `${p.firstName} ${p.lastName}`
+                  }))}
                   disabled={formProps.submitting}
                   component={Select}
                   validate={required}
@@ -130,7 +111,10 @@ const SessionsForm = () => {
                   label="Psychologist:"
                   title="Psychologist"
                   initialValue={psychologistValue}
-                  object={psychologists}
+                  object={psychologists.map((p) => ({
+                    _id: p._id,
+                    name: `${p.firstName} ${p.lastName}`
+                  }))}
                   disabled={formProps.submitting}
                   component={Select}
                   validate={required}

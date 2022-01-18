@@ -10,6 +10,7 @@ import ButtonDelete from 'Components/Shared/Buttons/ButtonDelete';
 import ButtonUpdate from 'Components/Shared/Buttons/ButtonUpdate';
 import ModalDelete from 'Components/Shared/Modals/ModalDelete';
 import ModalError from 'Components/Shared/Modals/ModalError';
+import Loader from 'Components/Shared/Loader';
 
 const PostulantsForm = () => {
   const dispatch = useDispatch();
@@ -83,11 +84,6 @@ const PostulantsForm = () => {
                   <td>{postulant.phone}</td>
                   <td>{postulant.available ? 'Yes' : 'No'}</td>
                   <td>
-                    {postulant.available
-                      ? `From ${postulant.contactRange.from} to ${postulant.contactRange.to}`
-                      : '-'}
-                  </td>
-                  <td>
                     {profiles.map((profile) => {
                       if (profile._id === postulant.profiles) {
                         return profile.name;
@@ -111,7 +107,7 @@ const PostulantsForm = () => {
         </table>
       </div>
 
-      {isLoading && <div className={styles.loader}></div>}
+      {isLoading && <Loader />}
     </section>
   );
 };

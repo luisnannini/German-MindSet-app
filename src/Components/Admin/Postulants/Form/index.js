@@ -7,7 +7,8 @@ import {
   updatePostulant,
   getPostulants
 } from 'redux/Postulants/thunks';
-import { closeErrorModal } from 'redux/Postulants/actions';
+import { getProfiles } from 'redux/Profiles/thunks';
+import { closeErrorModal, clearSelectedPostulant } from 'redux/Postulants/actions';
 import { Form, Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import arrayMutators from 'final-form-arrays';
@@ -26,11 +27,11 @@ import RemoveButton from 'Components/Shared/Buttons/ButtonRemove';
 const PostulantsForm = () => {
   const error = useSelector((store) => store.postulants.error);
   const isLoading = useSelector((store) => store.postulants.isLoading);
+  const profiles = useSelector((store) => store.profiles.list);
   const dispatch = useDispatch();
   const history = useHistory();
   const query = useQuery();
   const [id, setPostulantId] = useState(undefined);
-  const [profiles, setProfiles] = useState([]);
   const [postulantProfile, setPostulantProfile] = useState('');
   const [personalInfo, setPersonalInfo] = useState({
     firstName: '',
@@ -62,6 +63,7 @@ const PostulantsForm = () => {
   const [workExperience, setWorkExperience] = useState([]);
 
   useEffect(() => {
+    dispatch(getProfiles());
     const postulantId = query.get('_id');
     if (postulantId) {
       dispatch(getPostulantById(postulantId)).then((selectedPostulant) => {
@@ -85,24 +87,9 @@ const PostulantsForm = () => {
         setInformalStudies(selectedPostulant.studies.informalStudies);
         setWorkExperience(selectedPostulant.workExperience);
       });
+    } else {
+      dispatch(clearSelectedPostulant());
     }
-  }, []);
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/profiles`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setProfiles(response.data);
-      })
-      .catch((error) => error);
   }, []);
 
   const parseDate = (string) => {

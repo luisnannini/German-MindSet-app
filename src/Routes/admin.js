@@ -18,6 +18,7 @@ import PsychologistsForm from 'Components/Admin/Psychologists/Form';
 import Sessions from 'Components/Admin/Sessions';
 import SessionsForm from 'Components/Admin/Sessions/Form';
 import Layout from 'Components/Layout';
+import Logout from 'Components/Shared/Logout';
 
 const adminsRoutes = [
   { name: 'Admins', path: '/admin/admins' },
@@ -28,7 +29,8 @@ const adminsRoutes = [
   { name: 'postulants', path: '/admin/postulants' },
   { name: 'profiles', path: '/admin/profiles' },
   { name: 'psychologists', path: '/admin/psychologists' },
-  { name: 'sessions', path: '/admin/sessions' }
+  { name: 'sessions', path: '/admin/sessions' },
+  { name: 'Logout', path: '/admin/logout' }
 ];
 
 const AdminRoutes = () => {
@@ -54,6 +56,7 @@ const AdminRoutes = () => {
         <Route exact path={`${url}/psychologists/form`} component={PsychologistsForm} />
         <Route exact path={`${url}/sessions`} component={Sessions} />
         <Route exact path={`${url}/sessions/form`} component={SessionsForm} />
+        <Route exact path={`${url}/logout`} component={Logout} />
         <Redirect to={`${url}/admins`} />
       </Switch>
     </Layout>
