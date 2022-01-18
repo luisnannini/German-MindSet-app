@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSession, getSessionById, getSessions, updateSession } from 'redux/Sessions/thunks';
+import { getPostulants } from 'redux/Postulants/thunks';
+import { getPsychologists } from 'redux/Psychologists/thunks';
 import { closeErrorModal } from 'redux/Sessions/actions';
 import { Form, Field } from 'react-final-form';
 import useQuery from 'Hooks/useQuery.js';
@@ -18,8 +20,8 @@ const SessionsForm = () => {
   const dispatch = useDispatch();
   const [sessionId, setSessionId] = useState(undefined);
   const [title, setTitle] = useState('');
-  const [postulants, setPostulants] = useState([]);
-  const [psychologists, setPsychologists] = useState([]);
+  const postulants = useSelector((store) => store.postulants.list);
+  const psychologists = useSelector((store) => store.psychologists.list);
   const [postulantValue, setPostulantValue] = useState('');
   const [psychologistValue, setPsychologistValue] = useState('');
   const [statusValue, setStatusValue] = useState('');
@@ -30,6 +32,8 @@ const SessionsForm = () => {
   const query = useQuery();
 
   useEffect(() => {
+    dispatch(getPostulants());
+    dispatch(getPsychologists());
     const sessionId = query.get('_id');
     sessionId ? setTitle('Update') : setTitle('Create');
     if (sessionId) {
@@ -42,50 +46,6 @@ const SessionsForm = () => {
         setNotesValue(selectedSession.notes);
       });
     }
-
-    fetch(`${process.env.REACT_APP_API}/postulants`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setPostulants(
-          response.data.map((postulant) => ({
-            _id: postulant._id,
-            value: postulant._id,
-            name: `${postulant.firstName} ${postulant.lastName}`
-          }))
-        );
-      })
-      .catch((error) => error);
-
-    fetch(`${process.env.REACT_APP_API}/psychologists`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setPsychologists(
-          response.data.map((psychologist) => ({
-            _id: psychologist._id,
-            value: psychologist._id,
-            name: `${psychologist.firstName} ${psychologist.lastName}`
-          }))
-        );
-      })
-      .catch((error) => error);
   }, []);
 
   const submitSession = (formValues) => {
@@ -135,7 +95,10 @@ const SessionsForm = () => {
                   label="Postulant:"
                   title="Postulant"
                   initialValue={postulantValue}
-                  object={postulants}
+                  object={postulants.map((p) => ({
+                    _id: p._id,
+                    name: `${p.firstName} ${p.lastName}`
+                  }))}
                   disabled={formProps.submitting}
                   component={Select}
                   validate={required}
@@ -146,7 +109,10 @@ const SessionsForm = () => {
                   label="Psychologist:"
                   title="Psychologist"
                   initialValue={psychologistValue}
-                  object={psychologists}
+                  object={psychologists.map((p) => ({
+                    _id: p._id,
+                    name: `${p.firstName} ${p.lastName}`
+                  }))}
                   disabled={formProps.submitting}
                   component={Select}
                   validate={required}
