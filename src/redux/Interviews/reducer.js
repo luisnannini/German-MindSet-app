@@ -14,7 +14,8 @@ import {
   DELETE_INTERVIEW_FETCHING,
   DELETE_INTERVIEW_FULFILLED,
   DELETE_INTERVIEW_REJECTED,
-  CLOSE_ERROR_MODAL_INTERVIEWS
+  CLOSE_ERROR_MODAL_INTERVIEWS,
+  CLEAR_SELECTED_ITEM
 } from '../../constants/actionTypes';
 
 const initialState = {
@@ -143,6 +144,12 @@ const reducerInterviews = (state = initialState, action) => {
         error: {
           show: false
         }
+      };
+    }
+    case CLEAR_SELECTED_ITEM: {
+      return {
+        ...state,
+        selectedItem: initialState.selectedItem
       };
     }
     default: {

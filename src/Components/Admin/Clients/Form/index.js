@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createClient, getClientById, updateClient } from 'redux/Clients/thunks';
-import { closeErrorModal } from 'redux/Clients/actions';
+import { closeErrorModal, clearSelectedClient } from 'redux/Clients/actions';
 import { Form, Field } from 'react-final-form';
 import useQuery from 'Hooks/useQuery';
 import styles from './form.module.css';
@@ -40,6 +40,8 @@ function ClientsForm() {
         setLogoValue(selectedClient.logo);
         setDescriptionValue(selectedClient.description);
       });
+    } else {
+      dispatch(clearSelectedClient());
     }
   }, []);
 
@@ -122,7 +124,7 @@ function ClientsForm() {
       errors.city = 'City must be less than 50 characters';
     }
     // State
-    if (!formValues.state?.match(/^[a-zA-Z]+$/)) {
+    if (!formValues.state?.match(/^[a-zA-Z ]+$/)) {
       errors.state = 'State must contain only letters';
     }
     if (formValues.state?.length < 3) {

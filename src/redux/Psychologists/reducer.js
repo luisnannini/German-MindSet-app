@@ -14,7 +14,8 @@ import {
   DELETE_PSYCHOLOGIST_FETCHING,
   DELETE_PSYCHOLOGIST_FULFILLED,
   DELETE_PSYCHOLOGIST_REJECTED,
-  CLOSE_ERROR_MODAL_PSYCHOLOGISTS
+  CLOSE_ERROR_MODAL_PSYCHOLOGISTS,
+  CLEAR_SELECTED_ITEM
 } from '../../constants/actionTypes';
 
 const initialState = {
@@ -143,6 +144,12 @@ const reducerPsychologists = (state = initialState, action) => {
         error: {
           show: false
         }
+      };
+    }
+    case CLEAR_SELECTED_ITEM: {
+      return {
+        ...state,
+        selectedItem: initialState.selectedItem
       };
     }
     default: {

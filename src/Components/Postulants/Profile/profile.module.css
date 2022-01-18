@@ -15,7 +15,7 @@
 
 .title {
   margin: 30px auto;
-  font-size: 20px;
+  font-size: 30px;
 }
 
 .headerDiv {
@@ -25,9 +25,7 @@
 }
 
 .headerDiv img {
-  background-color: black;
-  border-radius: 100%;
-  height: 130px;
+  height: 200px;
   padding: 10px;
   margin: auto;
 }
@@ -39,12 +37,8 @@
   text-align: center;
 }
 
-.headerDiv2 h2 {
-  font-size: 20px;
-}
-
 .headerDiv2 span {
-  font-size: 12px;
+  font-size: 18px;
 }
 
 .headerDiv2 h2, .headerDiv2 span{
@@ -54,13 +48,15 @@
 .box {
   display: flex;
   flex-direction: row;
+  flex: 1;
+  font-size: 18px;
 }
 
 .internalBox {
   display: flex;
   flex-direction: column;
   margin: 20px auto;
-  width: 200px;
+  width: 450px;
 }
 
 .internalBox h2 {
@@ -73,29 +69,6 @@
 
 .internalBox h2, .internalBox p {
   padding: 10px;
-}
-
-.available h2 {
-  text-align: center;
-  border-bottom: 1px solid #bdbdbd;
-  margin: 20px 100px;
-  padding: 10px;
-}
-
-.available table {
-  margin: 10px auto;
-}
-
-.available table tr {
-  color: #FC6225;
-  display: flex;
-  flex-direction: column;
-}
-
-.available table th {
-  margin: auto;
-  padding: 10px;
-  font-size: 15px;
 }
 
 .button {

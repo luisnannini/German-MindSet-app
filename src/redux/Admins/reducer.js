@@ -14,12 +14,14 @@ import {
   UPDATE_ADMIN_FETCHING,
   UPDATE_ADMIN_FULFILLED,
   UPDATE_ADMIN_REJECTED,
-  ADMIN_CLOSE_ERROR_MODAL
+  ADMIN_CLOSE_ERROR_MODAL,
+  CLEAR_SELECTED_ITEM
 } from '../../constants/actionTypes';
 
 const initialState = {
   isLoading: false,
   admins: [],
+  selectedItem: {},
   error: { show: false, message: '' }
 };
 
@@ -130,6 +132,12 @@ const reducerAdmins = (state = initialState, action) => {
       return {
         ...state,
         error: initialState.error
+      };
+    }
+    case CLEAR_SELECTED_ITEM: {
+      return {
+        ...state,
+        selectedItem: initialState.selectedItem
       };
     }
     default: {

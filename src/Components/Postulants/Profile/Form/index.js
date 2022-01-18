@@ -1,12 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  createPostulant,
-  getPostulantById,
-  updatePostulant,
-  getPostulants
-} from 'redux/Postulants/thunks';
+import { getPostulantById, updatePostulant, getPostulants } from 'redux/Postulants/thunks';
+import { getProfiles } from 'redux/Profiles/thunks';
+import { getPostulantData } from 'redux/Auth/thunks';
 import { closeErrorModal } from 'redux/Postulants/actions';
 import { Form, Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
@@ -30,7 +27,7 @@ function EditForm() {
   const history = useHistory();
   const query = useQuery();
   const [id, setPostulantId] = useState(undefined);
-  const [profiles, setProfiles] = useState([]);
+  const profiles = useSelector((store) => store.profiles.list);
   const [postulantProfile, setPostulantProfile] = useState('');
   const [personalInfo, setPersonalInfo] = useState({
     firstName: '',
@@ -58,6 +55,7 @@ function EditForm() {
   const [workExperience, setWorkExperience] = useState([]);
 
   useEffect(() => {
+    dispatch(getProfiles());
     const postulantId = query.get('_id');
     if (postulantId) {
       dispatch(getPostulantById(postulantId)).then((selectedPostulant) => {
@@ -81,23 +79,6 @@ function EditForm() {
         setWorkExperience(selectedPostulant.workExperience);
       });
     }
-  }, []);
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}/profiles`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setProfiles(response.data);
-      })
-      .catch((error) => error);
   }, []);
 
   const parseDate = (string) => {
@@ -137,41 +118,7 @@ function EditForm() {
         })
       ).then((response) => {
         if (response) {
-          history.push('/postulant/profile');
-          dispatch(getPostulants);
-        }
-      });
-    } else {
-      dispatch(
-        createPostulant({
-          firstName: formValues.firstName,
-          lastName: formValues.lastName,
-          email: formValues.email,
-          password: formValues.password,
-          address: formValues.address,
-          phone: formValues.phoneNumber,
-          birthday: formValues.birthday,
-          available: formValues.available,
-          profiles: formValues.profiles,
-          studies: {
-            primaryStudies: {
-              startDate: formValues.startDatePrimaryStudies,
-              endDate: formValues.endDatePrimaryStudies,
-              school: formValues.schoolPrimaryStudies
-            },
-            secondaryStudies: {
-              startDate: formValues.startDateSecondaryStudies,
-              endDate: formValues.endDateSecondaryStudies,
-              school: formValues.schoolSecondaryStudies
-            },
-            tertiaryStudies: formValues.tertiaryStudies,
-            universityStudies: formValues.universityStudies,
-            informalStudies: formValues.informalStudies
-          },
-          workExperience: formValues.workExperience
-        })
-      ).then((response) => {
-        if (response) {
+          dispatch(getPostulantData(formValues.email));
           history.push('/postulant/profile');
           dispatch(getPostulants);
         }

@@ -14,7 +14,8 @@ import {
   DELETE_PROFILE_FETCHING,
   DELETE_PROFILE_FULFILLED,
   DELETE_PROFILE_REJECTED,
-  CLOSE_ERROR_MODAL_PROFILES
+  CLOSE_ERROR_MODAL_PROFILES,
+  CLEAR_SELECTED_ITEM
 } from '../../constants/actionTypes';
 
 const initialState = {
@@ -143,6 +144,12 @@ const reducerProfiles = (state = initialState, action) => {
         error: {
           show: false
         }
+      };
+    }
+    case CLEAR_SELECTED_ITEM: {
+      return {
+        ...state,
+        selectedItem: initialState.selectedItem
       };
     }
     default: {

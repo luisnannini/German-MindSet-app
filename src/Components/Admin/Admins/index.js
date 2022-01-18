@@ -9,6 +9,7 @@ import ButtonDelete from 'Components/Shared/Buttons/ButtonDelete';
 import ButtonUpdate from 'Components/Shared/Buttons/ButtonUpdate';
 import ModalDelete from 'Components/Shared/Modals/ModalDelete';
 import ModalError from 'Components/Shared/Modals/ModalError';
+import Loader from 'Components/Shared/Loader';
 
 function Admins() {
   const history = useHistory();
@@ -46,7 +47,7 @@ function Admins() {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Username</th>
+              <th>Email</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -54,7 +55,7 @@ function Admins() {
             {admins.map((admin) => (
               <tr key={admin._id}>
                 <td>{admin.name}</td>
-                <td>{admin.username}</td>
+                <td>{admin.email}</td>
                 <td>
                   <ButtonUpdate
                     disabled={isLoading}
@@ -74,7 +75,7 @@ function Admins() {
           </tbody>
         </table>
       </div>
-      {isLoading && <div className={styles.loader}></div>}
+      {isLoading && <Loader />}
     </section>
   );
 }

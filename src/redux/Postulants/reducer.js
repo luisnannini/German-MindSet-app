@@ -14,7 +14,8 @@ import {
   DELETE_POSTULANT_FETCHING,
   DELETE_POSTULANT_FULFILLED,
   DELETE_POSTULANT_REJECTED,
-  CLOSE_ERROR_MODAL_POSTULANTS
+  CLOSE_ERROR_MODAL_POSTULANTS,
+  CLEAR_SELECTED_ITEM
 } from '../../constants/actionTypes';
 
 const initialState = {
@@ -143,6 +144,12 @@ const reducerPostulants = (state = initialState, action) => {
         error: {
           show: false
         }
+      };
+    }
+    case CLEAR_SELECTED_ITEM: {
+      return {
+        ...state,
+        selectedItem: initialState.selectedItem
       };
     }
     default: {

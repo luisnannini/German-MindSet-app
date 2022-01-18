@@ -14,7 +14,8 @@ import {
   DELETE_CLIENT_FETCHING,
   DELETE_CLIENT_FULFILLED,
   DELETE_CLIENT_REJECTED,
-  CLOSE_ERROR_MODAL_CLIENTS
+  CLOSE_ERROR_MODAL_CLIENTS,
+  CLEAR_SELECTED_ITEM
 } from '../../constants/actionTypes';
 
 const initialState = {
@@ -143,6 +144,12 @@ const reducerClients = (state = initialState, action) => {
         error: {
           show: false
         }
+      };
+    }
+    case CLEAR_SELECTED_ITEM: {
+      return {
+        ...state,
+        selectedItem: initialState.selectedItem
       };
     }
     default: {

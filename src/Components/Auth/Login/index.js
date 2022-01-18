@@ -8,6 +8,7 @@ import styles from './login.module.css';
 import Input from 'Components/Shared/Input';
 import ModalError from 'Components/Shared/Modals/ModalError';
 import Button from 'Components/Shared/Buttons/ButtonConfirm';
+import { getPostulantData } from 'redux/Auth/thunks';
 
 function LoginForm() {
   const dispatch = useDispatch();
@@ -20,14 +21,30 @@ function LoginForm() {
       if (response) {
         switch (response.payload?.role) {
           case 'POSTULANT':
+            dispatch(getPostulantData(formValues.email));
             return history.push('/postulant');
           case 'ADMIN':
             return history.push('/admin');
+          case 'PSYCHOLOGIST':
+            return history.push('/psychologist');
           default:
             break;
         }
       }
     });
+  };
+
+  const validate = (formValues) => {
+    const errors = {};
+    if (!formValues.email?.match(/^[^@]+@[a-zA-Z]+\.[a-zA-Z]+$/)) {
+      errors.email = 'Insert a valid email format';
+    }
+    if (formValues.password?.search(/[a-zA-Z]/) < 0 || formValues.password?.search(/[0-9]/) < 0) {
+      errors.password = 'Password must contain numbers and letters';
+    } else if (formValues.password?.length < 8) {
+      errors.password = 'Password must be at least 8 characters';
+    }
+    return errors;
   };
 
   const required = (value) => (value ? undefined : 'Required');
@@ -36,6 +53,7 @@ function LoginForm() {
     <>
       <ModalError error={error} onConfirm={() => dispatch(closeErrorModal())} />
       <Form
+        validate={validate}
         onSubmit={onSubmit}
         render={(formProps) => (
           <form onSubmit={formProps.handleSubmit} className={styles.container}>

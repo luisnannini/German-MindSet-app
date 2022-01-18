@@ -7,7 +7,9 @@ import {
   getPositions,
   updatePosition
 } from 'redux/Positions/thunks';
-import { closeErrorModal } from 'redux/Positions/actions';
+import { getClients } from 'redux/Clients/thunks';
+import { getProfiles } from 'redux/Profiles/thunks';
+import { closeErrorModal, clearSelectedPosition } from 'redux/Positions/actions';
 import { Form, Field } from 'react-final-form';
 import useQuery from 'Hooks/useQuery';
 import styles from './form.module.css';
@@ -22,8 +24,8 @@ const positionsForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [positionId, setPositionId] = useState(undefined);
-  const [clients, setClients] = useState([]);
-  const [profiles, setProfiles] = useState([]);
+  const clients = useSelector((store) => store.clients.list);
+  const profiles = useSelector((store) => store.profiles.list);
   const [clientValue, setClientValue] = useState('');
   const [profilesValue, setProfilesValue] = useState('');
   const [jobDescriptionValue, setJobDescriptionValue] = useState('');
@@ -34,35 +36,8 @@ const positionsForm = () => {
 
   useEffect(() => {
     const positionId = query.get('_id');
-    fetch(`${process.env.REACT_APP_API}/clients`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => setClients(response.data))
-      .catch((error) => error);
-
-    fetch(`${process.env.REACT_APP_API}/profiles`)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
-          const status = `${response.status} ${response.statusText}`;
-          return response.json().then(({ message }) => {
-            if (message.message) throw { message: message.message, status };
-            throw { message, status };
-          });
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setProfiles(response.data);
-      })
-      .catch((error) => error);
+    dispatch(getProfiles());
+    dispatch(getClients());
     if (positionId) {
       dispatch(getPositionById(positionId)).then((selectedPosition) => {
         setPositionId(positionId);
@@ -72,6 +47,8 @@ const positionsForm = () => {
         setVacancyValue(selectedPosition.vacancy);
         setIsOpenValue(selectedPosition.isOpen);
       });
+    } else {
+      dispatch(clearSelectedPosition());
     }
   }, []);
 
