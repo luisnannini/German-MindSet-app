@@ -3,8 +3,8 @@
   <img alt="Version" src="https://img.shields.io/badge/version-0.0.88-blue.svg?cacheSeconds=2592000" />
   <img src="https://img.shields.io/badge/node-14.x-blue.svg" />
   <img src="https://img.shields.io/badge/npm-8.x-blue.svg" />
-  <a href="ISC" target="_blank">
-    <img alt="License: ISC" src="https://img.shields.io/badge/License-ISC-yellow.svg" />
+  <a href="MIT" target="_blank">
+    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
 </p>
 
@@ -52,11 +52,9 @@ You will also see any lint errors in the console.
 
 ## Authors
 
-👤 **German Dosko**
+👤  Leaders: **German Dosko, Esteban Frare**
 
-👤 **Esteban Frare**
-
-## 🤝 Contributors
+👤  Team:
 
 |        Name            |              Mail               |                            Github                              |
 | :--------------------: | :-----------------------------: | :------------------------------------------------------------: |
@@ -65,8 +63,8 @@ You will also see any lint errors in the console.
 |  Collareta, Valentina  |  valencollareta2@gmail.com      |  [@ValentinaCollareta](https://github.com/ValentinaCollareta)  |
 |  Glielmi, Guido        |  guidoglielmi@gmail.com         |  [@GuidoGlielmi](https://github.com/GuidoGlielmi)              |
 |  Muñoz, Nicolas        |  nimunoz28@gmail.com            |  [@NicoMunoz909](https://github.com/NicoMunoz909)              |
-|  Nannini, Luis         |  luisnannini97@gmail.com        |  [@luisnannini](https://github.com/luisnannini)              |
-|  Schiaffino, Agustin   |  schiaffinoagustin95@gmail.com  |  [@agustin-schiaffino](https://github.com/agustin-schiaffino)              |
+|  Nannini, Luis         |  luisnannini97@gmail.com        |  [@luisnannini](https://github.com/luisnannini)                |
+|  Schiaffino, Agustin   |  schiaffinoagustin95@gmail.com  |  [@agustin-schiaffino](https://github.com/agustin-schiaffino)  |
 
 ## Show your support
 
@@ -74,4 +72,4 @@ Give a ⭐️ if this project helped you!
 
 ## 📝 License
 
-This project is [ISC](ISC) licensed.
+This project is [MIT](MIT) licensed.
