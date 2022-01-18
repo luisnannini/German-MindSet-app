@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: flex-start;
+  margin: 50px auto;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 30px;
+}
+
+.title {
+  margin: 30px auto;
+  font-size: 30px;
+}
+
+.sessionDiv {
+  margin: 30px auto;
+}
+
+.sessionDiv p {
+  margin: 30px;
+  font-size: 20px;
+}
