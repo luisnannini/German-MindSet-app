@@ -27,7 +27,7 @@ function Profile() {
           </div>
           <div className={styles.box}>
             {() => {
-              if (postulant.studies.primary) {
+              if (postulant.studies.primaryStudies) {
                 return (
                   <div className={styles.internalBox}>
                     <h2>Primary Studies</h2>
@@ -50,7 +50,7 @@ function Profile() {
               }
             }}
             {() => {
-              if (postulant.studies.secondary) {
+              if (postulant.studies.secondaryStudies) {
                 return (
                   <div className={styles.internalBox}>
                     <h2>Secondary Studies</h2>
