@@ -8,6 +8,7 @@ import ButtonCreate from 'Components/Shared/Buttons/ButtonCreate';
 import ButtonDelete from 'Components/Shared/Buttons/ButtonDelete';
 import ModalDelete from 'Components/Shared/Modals/ModalDelete';
 import ModalError from 'Components/Shared/Modals/ModalError';
+import Loader from 'Components/Shared/Loader';
 
 function Applications() {
   const history = useHistory();
@@ -85,7 +86,7 @@ function Applications() {
           </tbody>
         </table>
       </div>
-      {isLoading && <div className={styles.loader}></div>}
+      {isLoading && <Loader />}
     </section>
   );
 }

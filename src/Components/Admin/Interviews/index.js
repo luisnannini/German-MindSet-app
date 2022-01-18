@@ -9,6 +9,7 @@ import ButtonDelete from 'Components/Shared/Buttons/ButtonDelete';
 import ButtonUpdate from 'Components/Shared/Buttons/ButtonUpdate';
 import ModalDelete from 'Components/Shared/Modals/ModalDelete';
 import ModalError from 'Components/Shared/Modals/ModalError';
+import Loader from 'Components/Shared/Loader';
 
 function Interviews() {
   const history = useHistory();
@@ -94,7 +95,7 @@ function Interviews() {
           </tbody>
         </table>
       </div>
-      {isLoading && <div className={styles.loader}></div>}
+      {isLoading && <Loader />}
     </section>
   );
 }
