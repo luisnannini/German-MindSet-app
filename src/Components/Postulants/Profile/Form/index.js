@@ -291,7 +291,7 @@ function EditForm() {
                     name={'startDatePrimaryStudies'}
                     placeholder={'Start Date'}
                     type={'date'}
-                    initialValue={parseDate(primaryStudies.startDate)}
+                    initialValue={primaryStudies ? parseDate(primaryStudies.startDate) : ''}
                     disabled={submitting}
                     component={Input}
                   />
