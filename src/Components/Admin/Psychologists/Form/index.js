@@ -21,7 +21,6 @@ const PsychologistsForm = () => {
   const [psychologistId, setPsychologistId] = useState(0);
   const [firstNameForm, setFirstName] = useState('');
   const [lastNameForm, setLastName] = useState('');
-  const [usernameForm, setUsername] = useState('');
   const [passwordForm, setPassword] = useState('');
   const [emailForm, setEmail] = useState('');
   const [phoneForm, setPhone] = useState('');
@@ -36,7 +35,6 @@ const PsychologistsForm = () => {
         setPsychologistId(psychologistId);
         setFirstName(selectedPsychologist.firstName);
         setLastName(selectedPsychologist.lastName);
-        setUsername(selectedPsychologist.username);
         setEmail(selectedPsychologist.email);
         setPhone(selectedPsychologist.phone);
         setPassword(selectedPsychologist.password);
@@ -54,28 +52,30 @@ const PsychologistsForm = () => {
         updatePsychologist(psychologistId, {
           firstName: formValues.firstName,
           lastName: formValues.lastName,
-          username: formValues.username,
           password: formValues.password,
           email: formValues.email,
           phone: Number(formValues.phone),
           address: formValues.address
         })
       ).then((response) => {
-        if (response) history.push('/admin/psychologists');
+        if (response) {
+          history.push('/admin/psychologists');
+        }
       });
     } else {
       dispatch(
         createPsychologist({
           firstName: formValues.firstName,
           lastName: formValues.lastName,
-          username: formValues.username,
           password: formValues.password,
           email: formValues.email,
           phone: Number(formValues.phone),
           address: formValues.address
         })
       ).then((response) => {
-        if (response) history.push('/admin/psychologists');
+        if (response) {
+          history.push('/admin/psychologists');
+        }
       });
     }
   };
@@ -132,15 +132,6 @@ const PsychologistsForm = () => {
                   name={'lastName'}
                   initialValue={lastNameForm}
                   placeholder={'Last Name'}
-                  validate={required}
-                  disabled={formProps.submitting}
-                  component={Input}
-                />
-                <Field
-                  label={'Username'}
-                  name={'username'}
-                  initialValue={usernameForm}
-                  placeholder={'Username'}
                   validate={required}
                   disabled={formProps.submitting}
                   component={Input}

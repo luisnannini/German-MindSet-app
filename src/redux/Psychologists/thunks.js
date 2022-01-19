@@ -80,7 +80,7 @@ export const createPsychologist = (values) => {
       },
       body: JSON.stringify(values)
     };
-    return fetch(`${process.env.REACT_APP_API}/psychologists`, options)
+    return fetch(`${process.env.REACT_APP_API}/auth/registerPsychologist`, options)
       .then((response) => {
         if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
           const status = `${response.status} ${response.statusText}`;
