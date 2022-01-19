@@ -164,7 +164,7 @@ const PostulantsForm = () => {
                   <Field
                     label={'Phone Number'}
                     name={'phoneNumber'}
-                    placeholder={'+54113062939'}
+                    placeholder={'Phone Number'}
                     type={'tel'}
                     disabled={submitting}
                     component={Input}
