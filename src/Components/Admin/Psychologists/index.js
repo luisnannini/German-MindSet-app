@@ -60,7 +60,6 @@ function Psychologists() {
             <tr>
               <th>First Name</th>
               <th>Last Name</th>
-              <th>Username</th>
               <th>Email</th>
               <th>Phone Number</th>
               <th>Address</th>
@@ -73,7 +72,6 @@ function Psychologists() {
                 <tr key={psychologist._id} className={styles.list}>
                   <td>{psychologist.firstName}</td>
                   <td>{psychologist.lastName}</td>
-                  <td>{psychologist.username}</td>
                   <td>{psychologist.email}</td>
                   <td>{psychologist.phone}</td>
                   <td>{psychologist.address}</td>
