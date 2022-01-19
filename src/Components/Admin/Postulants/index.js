@@ -70,7 +70,6 @@ const PostulantsForm = () => {
               <th>Email</th>
               <th>Phone Number</th>
               <th>Available</th>
-              <th>Contact Range</th>
               <th>Profile</th>
               <th>Actions</th>
             </tr>

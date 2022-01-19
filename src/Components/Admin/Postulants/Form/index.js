@@ -43,10 +43,6 @@ const PostulantsForm = () => {
     birthday: '',
     available: false
   });
-  const [contactRange, setContactRange] = useState({
-    from: '',
-    to: ''
-  });
   const [primaryStudies, setPrimaryStudies] = useState({
     startDate: '',
     endDate: '',
@@ -78,7 +74,6 @@ const PostulantsForm = () => {
           birthday: selectedPostulant.birthday,
           available: selectedPostulant.available
         });
-        setContactRange(selectedPostulant.contactRange);
         setPostulantProfile(selectedPostulant.profiles);
         setPrimaryStudies(selectedPostulant.studies.primaryStudies);
         setSecondaryStudies(selectedPostulant.studies.secondaryStudies);
@@ -93,7 +88,9 @@ const PostulantsForm = () => {
   }, []);
 
   const parseDate = (string) => {
-    return string.split('T')[0];
+    if (string) {
+      return string.split('T')[0];
+    }
   };
 
   const submitForm = (formValues) => {
@@ -109,10 +106,6 @@ const PostulantsForm = () => {
           phone: formValues.phoneNumber,
           birthday: formValues.birthday,
           available: formValues.available,
-          contactRange: {
-            from: formValues.available ? formValues.from : '00:00',
-            to: formValues.available ? formValues.to : '00:00'
-          },
           profiles: formValues.profiles,
           studies: {
             primaryStudies: {
@@ -148,10 +141,6 @@ const PostulantsForm = () => {
           phone: formValues.phoneNumber,
           birthday: formValues.birthday,
           available: formValues.available,
-          contactRange: {
-            from: formValues.available ? formValues.from : '00:00',
-            to: formValues.available ? formValues.to : '00:00'
-          },
           profiles: formValues.profiles,
           studies: {
             primaryStudies: {
@@ -216,30 +205,6 @@ const PostulantsForm = () => {
     if (formValues.phoneNumber?.length < 7 || formValues.phoneNumber?.length > 14) {
       errors.phoneNumber = 'Phone number must be between 7 and 14 numbers';
     }
-    // contact range
-    if (formValues.available) {
-      if (formValues.from >= formValues.to) {
-        errors.from = '"From" hour must be before "to" hour';
-        errors.to = '"To" hour must be after "from" hour';
-      }
-    }
-    // primary studies
-    if (formValues.startDatePrimaryStudies >= formValues.endDatePrimaryStudies) {
-      errors.startDatePrimaryStudies = '';
-    }
-    if (formValues.schoolPrimary?.length < 5) {
-      errors.schoolPrimary = 'School must contain at least 5 characters';
-    }
-    if (formValues.schoolPrimary?.length > 50) {
-      errors.schoolPrimary = 'School must be less than 50 characters';
-    }
-    // secondary studies
-    if (formValues.schoolSecondary?.length < 5) {
-      errors.schoolSecondary = 'School must contain at least 5 characters';
-    }
-    if (formValues.schoolSecondary?.length > 50) {
-      errors.schoolSecondary = 'School must be less than 50 characters';
-    }
     return errors;
   };
 
@@ -260,8 +225,7 @@ const PostulantsForm = () => {
             mutators: { push }
           },
           pristine,
-          submitting,
-          values
+          submitting
         }) => {
           return (
             <form className={styles.form} onSubmit={handleSubmit}>
@@ -359,33 +323,6 @@ const PostulantsForm = () => {
                   />
                 </div>
               </div>
-              <h3>Contact Range</h3>
-              <div className={styles.fields}>
-                <div className={styles.columns}>
-                  <Field
-                    label={'From'}
-                    name={'from'}
-                    placeholder={'From'}
-                    type={'time'}
-                    initialValue={values.available ? contactRange.from : '00:00'}
-                    disabled={values.available ? submitting : !submitting}
-                    component={Input}
-                    validate={required}
-                  />
-                </div>
-                <div className={styles.columns}>
-                  <Field
-                    label={'To'}
-                    name={'to'}
-                    placeholder={'To'}
-                    type={'time'}
-                    initialValue={values.available ? contactRange.to : '00:00'}
-                    disabled={values.available ? submitting : !submitting}
-                    component={Input}
-                    validate={required}
-                  />
-                </div>
-              </div>
               <h3>Primary Studies</h3>
               <div className={styles.fields}>
                 <div className={styles.columns}>
@@ -394,20 +331,18 @@ const PostulantsForm = () => {
                     name={'startDatePrimaryStudies'}
                     placeholder={'Start Date'}
                     type={'date'}
-                    initialValue={parseDate(primaryStudies.startDate)}
+                    initialValue={primaryStudies ? parseDate(primaryStudies.startDate) : ''}
                     disabled={submitting}
                     component={Input}
-                    validate={required}
                   />
                   <Field
                     label={'School'}
                     name={'schoolPrimaryStudies'}
                     placeholder={'School'}
                     type={'text'}
-                    initialValue={primaryStudies.school}
+                    initialValue={primaryStudies ? primaryStudies.school : ''}
                     disabled={submitting}
                     component={Input}
-                    validate={required}
                   />
                 </div>
                 <div className={styles.columns}>
@@ -416,10 +351,9 @@ const PostulantsForm = () => {
                     name={'endDatePrimaryStudies'}
                     placeholder={'Finish Date'}
                     type={'date'}
-                    initialValue={parseDate(primaryStudies.endDate)}
+                    initialValue={primaryStudies ? parseDate(primaryStudies.endDate) : ''}
                     disabled={submitting}
                     component={Input}
-                    validate={required}
                   />
                 </div>
               </div>
@@ -431,20 +365,18 @@ const PostulantsForm = () => {
                     name={'startDateSecondaryStudies'}
                     placeholder={'Start Date'}
                     type={'date'}
-                    initialValue={parseDate(secondaryStudies.startDate)}
+                    initialValue={secondaryStudies ? parseDate(secondaryStudies.startDate) : ''}
                     disabled={submitting}
                     component={Input}
-                    validate={required}
                   />
                   <Field
                     label={'School'}
                     name={'schoolSecondaryStudies'}
                     placeholder={'School'}
                     type={'text'}
-                    initialValue={secondaryStudies.school}
+                    initialValue={secondaryStudies ? secondaryStudies.school : ''}
                     disabled={submitting}
                     component={Input}
-                    validate={required}
                   />
                 </div>
                 <div className={styles.columns}>
@@ -453,10 +385,9 @@ const PostulantsForm = () => {
                     name={'endDateSecondaryStudies'}
                     placeholder={'Finish Date'}
                     type={'date'}
-                    initialValue={parseDate(secondaryStudies.endDate)}
+                    initialValue={secondaryStudies ? parseDate(secondaryStudies.endDate) : ''}
                     disabled={submitting}
                     component={Input}
-                    validate={required}
                   />
                 </div>
               </div>

@@ -82,7 +82,9 @@ function EditForm() {
   }, []);
 
   const parseDate = (string) => {
-    return string.split('T')[0];
+    if (string) {
+      return string.split('T')[0];
+    }
   };
 
   const submitForm = (formValues) => {
@@ -162,23 +164,6 @@ function EditForm() {
     }
     if (formValues.phoneNumber?.length < 7 || formValues.phoneNumber?.length > 14) {
       errors.phoneNumber = 'Phone number must be between 7 and 14 numbers';
-    }
-    // primary studies
-    if (formValues.startDatePrimaryStudies >= formValues.endDatePrimaryStudies) {
-      errors.startDatePrimaryStudies = '';
-    }
-    if (formValues.schoolPrimary?.length < 5) {
-      errors.schoolPrimary = 'School must contain at least 5 characters';
-    }
-    if (formValues.schoolPrimary?.length > 50) {
-      errors.schoolPrimary = 'School must be less than 50 characters';
-    }
-    // secondary studies
-    if (formValues.schoolSecondary?.length < 5) {
-      errors.schoolSecondary = 'School must contain at least 5 characters';
-    }
-    if (formValues.schoolSecondary?.length > 50) {
-      errors.schoolSecondary = 'School must be less than 50 characters';
     }
     return errors;
   };
@@ -309,17 +294,15 @@ function EditForm() {
                     initialValue={parseDate(primaryStudies.startDate)}
                     disabled={submitting}
                     component={Input}
-                    validate={required}
                   />
                   <Field
                     label={'School'}
                     name={'schoolPrimaryStudies'}
                     placeholder={'School'}
                     type={'text'}
-                    initialValue={primaryStudies.school}
+                    initialValue={primaryStudies ? primaryStudies.school : ''}
                     disabled={submitting}
                     component={Input}
-                    validate={required}
                   />
                 </div>
                 <div className={styles.columns}>
@@ -328,10 +311,9 @@ function EditForm() {
                     name={'endDatePrimaryStudies'}
                     placeholder={'Finish Date'}
                     type={'date'}
-                    initialValue={parseDate(primaryStudies.endDate)}
+                    initialValue={primaryStudies ? parseDate(primaryStudies.endDate) : ''}
                     disabled={submitting}
                     component={Input}
-                    validate={required}
                   />
                 </div>
               </div>
@@ -343,20 +325,18 @@ function EditForm() {
                     name={'startDateSecondaryStudies'}
                     placeholder={'Start Date'}
                     type={'date'}
-                    initialValue={parseDate(secondaryStudies.startDate)}
+                    initialValue={secondaryStudies ? parseDate(secondaryStudies.startDate) : ''}
                     disabled={submitting}
                     component={Input}
-                    validate={required}
                   />
                   <Field
                     label={'School'}
                     name={'schoolSecondaryStudies'}
                     placeholder={'School'}
                     type={'text'}
-                    initialValue={secondaryStudies.school}
+                    initialValue={secondaryStudies ? secondaryStudies.school : ''}
                     disabled={submitting}
                     component={Input}
-                    validate={required}
                   />
                 </div>
                 <div className={styles.columns}>
@@ -365,10 +345,9 @@ function EditForm() {
                     name={'endDateSecondaryStudies'}
                     placeholder={'Finish Date'}
                     type={'date'}
-                    initialValue={parseDate(secondaryStudies.endDate)}
+                    initialValue={secondaryStudies ? parseDate(secondaryStudies.endDate) : ''}
                     disabled={submitting}
                     component={Input}
-                    validate={required}
                   />
                 </div>
               </div>

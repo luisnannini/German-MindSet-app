@@ -28,25 +28,41 @@ function Profile() {
           <div className={styles.box}>
             <div className={styles.internalBox}>
               <h2>Primary Studies</h2>
-              <p>School: {postulant.studies.primaryStudies.school}</p>
-              <p>
-                Start Date:{' '}
-                {postulant.studies.primaryStudies.startDate.replace('T00:00:00.000Z', '')}
-              </p>
-              <p>
-                End Date: {postulant.studies.primaryStudies.endDate.replace('T00:00:00.000Z', '')}
-              </p>
+              <p>{!postulant.studies.primaryStudies && 'No Information'}</p>
+              {postulant.studies.primaryStudies ? (
+                <>
+                  <p>School: {postulant.studies.primaryStudies.school}</p>
+                  <p>
+                    Start Date:{' '}
+                    {postulant.studies.primaryStudies.startDate.replace('T00:00:00.000Z', '')}
+                  </p>
+                  <p>
+                    End Date:{' '}
+                    {postulant.studies.primaryStudies.endDate.replace('T00:00:00.000Z', '')}
+                  </p>
+                </>
+              ) : (
+                <></>
+              )}
             </div>
             <div className={styles.internalBox}>
               <h2>Secondary Studies</h2>
-              <p>School: {postulant.studies.secondaryStudies.school}</p>
-              <p>
-                Start Date:{' '}
-                {postulant.studies.secondaryStudies.startDate.replace('T00:00:00.000Z', '')}
-              </p>
-              <p>
-                End Date: {postulant.studies.secondaryStudies.endDate.replace('T00:00:00.000Z', '')}
-              </p>
+              <p>{!postulant.studies.secondaryStudies && 'No Information'}</p>
+              {postulant.studies.secondaryStudies ? (
+                <>
+                  <p>School: {postulant.studies.secondaryStudies.school}</p>
+                  <p>
+                    Start Date:{' '}
+                    {postulant.studies.secondaryStudies.startDate.replace('T00:00:00.000Z', '')}
+                  </p>
+                  <p>
+                    End Date:{' '}
+                    {postulant.studies.secondaryStudies.endDate.replace('T00:00:00.000Z', '')}
+                  </p>
+                </>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
           <div className={styles.box}>
@@ -57,7 +73,7 @@ function Profile() {
                 if (postulant.studies.tertiaryStudies.length > 0) {
                   return (
                     <>
-                      <p>Company: {tertiaryStudies.institute}</p>
+                      <p>School: {tertiaryStudies.institute}</p>
                       <p>Start Date: {tertiaryStudies.startDate.replace('T00:00:00.000Z', '')}</p>
                       <p>End Date: {tertiaryStudies.endDate.replace('T00:00:00.000Z', '')}</p>
                       <p>------</p>
@@ -73,7 +89,7 @@ function Profile() {
                 if (postulant.studies.universityStudies.length > 0) {
                   return (
                     <>
-                      <p>Company: {universityStudies.institute}</p>
+                      <p>School: {universityStudies.institute}</p>
                       <p>Start Date: {universityStudies.startDate.replace('T00:00:00.000Z', '')}</p>
                       <p>End Date: {universityStudies.endDate.replace('T00:00:00.000Z', '')}</p>
                       <p>------</p>
@@ -91,7 +107,7 @@ function Profile() {
                 if (postulant.studies.informalStudies.length >= 0) {
                   return (
                     <>
-                      <p>Company: {informalStudies.institute}</p>
+                      <p>Institute: {informalStudies.institute}</p>
                       <p>Start Date: {informalStudies.startDate.replace('T00:00:00.000Z', '')}</p>
                       <p>End Date: {informalStudies.endDate.replace('T00:00:00.000Z', '')}</p>
                       <p>------</p>
