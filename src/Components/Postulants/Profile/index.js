@@ -28,7 +28,7 @@ function Profile() {
           <div className={styles.box}>
             <div className={styles.internalBox}>
               <h2>Primary Studies</h2>
-              <p>{postulant.studies.primaryStudies ? 'No Information' : ''}</p>
+              <p>{postulant.studies.primaryStudies ? '' : 'No Information'}</p>
               {() => {
                 if (postulant.studies.primaryStudies) {
                   return (
@@ -55,7 +55,7 @@ function Profile() {
             </div>
             <div className={styles.internalBox}>
               <h2>Secondary Studies</h2>
-              <p>{postulant.studies.secondaryStudies && 'No Information'}</p>
+              <p>{postulant.studies.secondaryStudies ? '' : 'No Information'}</p>
               {() => {
                 if (postulant.studies.secondaryStudies) {
                   return (
