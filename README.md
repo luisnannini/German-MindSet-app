@@ -10,7 +10,7 @@
 
 > We are an HR company that helps you find your next work experience
 
-### ✨ [Demo](mindset-luisnannini.vercel.app/)
+### ✨ [Demo](https://mindset-luisnannini.vercel.app)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
