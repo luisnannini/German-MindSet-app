@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to BaSD - Mindset App 🏡</h1>
+<h1 align="center">Welcome to Mindset App 🏡</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-0.0.88-blue.svg?cacheSeconds=2592000" />
   <img src="https://img.shields.io/badge/node-14.x-blue.svg" />
@@ -8,9 +8,12 @@
   </a>
 </p>
 
-MindSet is an HR company that helps workers find their next work experience. The webpage connects Postulants, Companies (Clients) and Psychologists
+MindSet is an HR company that helps workers find their next work experience. It connects Postulants, Companies (Clients) and Psychologists.
 
-# 🏡 [Try Vercel Deployment:](https://mindset-app.vercel.app)
+![MindSet Logo](./public/MindSet-Readme-Img.png)
+
+
+# 🏡 [Try Vercel Deployment](https://mindset-app.vercel.app)
 
 >You can login as Postulant using:
 
@@ -66,7 +69,25 @@ You will also see any lint errors in the console.
 ### Fix Lint errors
     npm run lint:fix
 
+## How the page works:
 
+It helps the users to find their perfect job according their professional profile.
+
+It only takes 3 steps to accomplish.
+
+### - First step:
+
+Make an account by complete all the personal information required.
+
+### - Second step:
+
+The app will Schedule an interview with our psychologist, this will help you to find you professional profile. Once the interview is done, the app will match your professional profile with a company's search.
+
+### - Third step:
+
+¡Be ready for you interview!
+
+The app will schedule interviews with companies that the search match with your professional profile.
 ## Authors
 
 👤  Leaders: **German Dosko, Esteban Frare**
@@ -83,11 +104,10 @@ You will also see any lint errors in the console.
 |  Nannini, Luis         |  luisnannini97@gmail.com        |  [@luisnannini](https://github.com/luisnannini)                |
 |  Schiaffino, Agustin   |  schiaffinoagustin95@gmail.com  |  [@agustin-schiaffino](https://github.com/agustin-schiaffino)  |
 
-## Show your support
-
-Give a ⭐️ if this project helped you!
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 ## 📝 License
 
 This project is [MIT](MIT) licensed.
+
+### You can also explore the back-end repository:
+
+### 🖥 [MindSet-Server](https://github.com/luisnannini/Mindset-server)
