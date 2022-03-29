@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to BaSD - Mindset  👋</h1>
+<h1 align="center">Welcome to BaSD - Mindset App 🏡</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-0.0.88-blue.svg?cacheSeconds=2592000" />
   <img src="https://img.shields.io/badge/node-14.x-blue.svg" />
@@ -8,11 +8,28 @@
   </a>
 </p>
 
-> We are an HR company that helps you find your next work experience
+MindSet is an HR company that helps workers find their next work experience. The webpage connects Postulants, Companies (Clients) and Psychologists
 
-### ✨ [Demo](https://mindset-luisnannini.vercel.app)
+# 🏡 [Try Vercel Deployment:](https://mindset-app.vercel.app)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+>You can login as Postulant using:
+
+- Email: medina@telefe.com
+- Password: medina123
+
+>You can login as Psychologist using:
+
+- Email: donav@gmail.com
+- Password: dona1234
+
+>You can login as Admin using:
+
+- Email: johndoe@mindset.com
+- Password: john1234
+
+Or clone repo for a:
+
+# 🖥 Local Installation
 
 ## Prerequisites
 
@@ -23,18 +40,18 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
     npm install
 
-To see all the dependencies go to this link: https://github.com/luisnannini/German-MindSet-app/network/dependencies
+To see all the dependencies go to this link: https://github.com/luisnannini/MindSet-app/network/dependencies
 
 ## Setup environment file
 Create a file at root called `.env` and add this:
 
-    REACT_APP_API=<server url>
-    REACT_APP_API_KEY=<web api key>
-    REACT_APP_AUTH_DOMAIN=<project auth domain>
-    REACT_APP_PROJECT_ID=<project id>
-    REACT_APP_STORAGE_BUCKET=<storage bucket>
-    REACT_APP_MESSAGING_SENDER_ID=<messaging sender id>
-    REACT_APP_APP_ID=<app id>
+    REACT_APP_API=https://mindset-server.vercel.app/api
+    REACT_APP_API_KEY=AIzaSyApUJ93WsLV2ug4VFu4spc7iKvXnLp27R4
+    REACT_APP_AUTH_DOMAIN=basd-2021-german.firebaseapp.com
+    REACT_APP_PROJECT_ID=basd-2021-german
+    REACT_APP_STORAGE_BUCKET=basd-2021-german.appspot.com
+    REACT_APP_MESSAGING_SENDER_ID=703852366563
+    REACT_APP_APP_ID=1:703852366563:web:9ec8c39da77e006b90d3d6
 
 ## Run App
     npm start
@@ -70,6 +87,7 @@ You will also see any lint errors in the console.
 
 Give a ⭐️ if this project helped you!
 
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 ## 📝 License
 
 This project is [MIT](MIT) licensed.
