@@ -10,7 +10,7 @@
 
 > We are an HR company that helps you find your next work experience
 
-### ✨ [Demo](german-mind-set-app.vercel.app)
+### ✨ [Demo](https://mindset-luisnannini.vercel.app)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -23,7 +23,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
     npm install
 
-To see all the dependencies of this project, go to this link: https://github.com/BaSD-2021/German-MindSet-app/network/dependencies
+To see all the dependencies of this project, go to this link: https://github.com/luisnannini/German-MindSet-app/network/dependencies
 
 ## Setup environment file
 Create a file at root called `.env` and add this:
